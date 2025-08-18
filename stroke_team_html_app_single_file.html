@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stroke Team – Greito įvedimo aplikacija</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --card: #131a2e;
+      --muted: #8ea0c0;
+      --text: #eef2ff;
+      --accent: #4f8cff;
+      --good: #2fbf71;
+      --warn: #ffbf47;
+      --bad: #ff5a5f;
+      --border: #223055;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1200px 600px at 10% -10%, #0e1530 0%, var(--bg) 60%), var(--bg);
+      color: var(--text);
+    }
+    header {
+      position: sticky; top: 0; z-index: 100; backdrop-filter: blur(8px);
+      background: linear-gradient(180deg, rgba(11,16,32,.9), rgba(11,16,32,.55));
+      border-bottom: 1px solid var(--border);
+    }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 16px; }
+    .brand { display:flex; align-items:center; gap:12px; }
+    .brand .logo { width:36px; height:36px; border-radius:8px; background: conic-gradient(from 210deg, #6aa3ff, #8bffce, #6aa3ff); box-shadow: 0 0 0 2px #142046 inset; }
+    .brand h1 { font-size: 18px; margin:0; letter-spacing:.5px; font-weight:700; }
+    .subtle { color: var(--muted); font-size:12px; }
+
+    main.wrap { display:grid; gap:16px; grid-template-columns: 1fr; }
+    @media (min-width: 880px) { main.wrap { grid-template-columns: 1fr 1fr; } }
+
+    .card { background: linear-gradient(180deg, rgba(20,28,54,.9), rgba(16,22,44,.9)); border:1px solid var(--border); border-radius:16px; padding:16px; box-shadow: 0 10px 30px rgba(0,0,0,.25); }
+    .card h2 { font-size:16px; margin:0 0 10px 0; letter-spacing:.4px; }
+    .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .grid-3 { display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; }
+    .row { display:flex; gap:10px; align-items:center; }
+
+    label { font-size:12px; color: var(--muted); display:block; margin-bottom:6px; }
+    input, select, textarea, button { font: inherit; }
+    input[type="text"], input[type="number"], input[type="datetime-local"], select, textarea {
+      width: 100%; padding:10px 12px; border-radius:12px; border:1px solid var(--border); background:#0f162c; color: var(--text);
+      outline: none; transition: border-color .2s ease, box-shadow .2s ease; box-shadow: inset 0 1px 0 rgba(255,255,255,.03);
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79,140,255,.25); }
+
+    button { border:1px solid var(--border); background: #13224a; color: var(--text); padding:10px 14px; border-radius:12px; cursor:pointer; transition: transform .05s ease, background .2s ease, border-color .2s ease; }
+    button:hover { background:#183066; border-color:#35549c; }
+    button:active { transform: translateY(1px); }
+    .btn-accent { background: linear-gradient(180deg, #2d66ff, #234fd8); border-color:#4f8cff; }
+    .btn-plain { background: transparent; }
+
+    .kpi { display:flex; align-items:center; gap:8px; padding:8px 10px; border:1px solid var(--border); border-radius:12px; background: #0e1732; }
+    .kpi .dot { width:10px; height:10px; border-radius:50%; background: var(--muted); box-shadow: 0 0 0 2px #101a36 inset; }
+    .kpi.good .dot { background: var(--good); }
+    .kpi.warn .dot { background: var(--warn); }
+    .kpi.bad  .dot { background: var(--bad); }
+    .kpi .val { font-weight:700; }
+
+    .muted { color: var(--muted); }
+    .mono  { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+
+    .section-actions { display:flex; flex-wrap:wrap; gap:8px; }
+
+    .footer { margin: 16px auto 24px; color: var(--muted); font-size:12px; }
+    .pill { display:inline-block; padding:2px 8px; border-radius:999px; border:1px solid var(--border); background:#0f1833; font-size:11px; color:var(--muted); }
+
+    .summary { min-height: 160px; }
+    .sticky-actions { position: sticky; bottom: 0; display:flex; gap:8px; justify-content:flex-end; background: linear-gradient(180deg, transparent, rgba(11,16,32,.85)); padding-top:8px; }
+
+    details.settings { grid-column: 1 / -1; }
+    details summary { cursor: pointer; list-style: none; }
+    details summary::-webkit-details-marker { display:none; }
+    details .card { margin-top: 8px; }
+
+    .split { display:grid; gap:16px; grid-template-columns: 1fr; }
+    @media (min-width: 880px) { .split { grid-template-columns: 1.2fr .8fr; } }
+
+    .mini { font-size: 11px; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap brand">
+      <div class="logo" aria-hidden="true"></div>
+      <div>
+        <h1>Stroke Team · Greito įvedimo aplikacija</h1>
+        <div class="subtle">Skubi duomenų registracija, laikų sekimas, vaistų skaičiuoklės ir santrauka HIS sistemai</div>
+      </div>
+      <div style="margin-left:auto; display:flex; gap:8px; align-items:center;">
+        <button id="newPatientBtn" title="Naujas pacientas">🆕 Naujas</button>
+        <button id="saveBtn" title="Išsaugoti vietoje (naršyklėje)">💾 Išsaugoti</button>
+        <button id="loadBtn" title="Atkurti paskutinį">📂 Atkurti</button>
+        <button id="exportBtn" title="Eksportuoti JSON">⬇️ Eksportuoti</button>
+        <input id="importFile" type="file" accept="application/json" style="display:none" />
+        <button id="importBtn" title="Importuoti JSON">⬆️ Importuoti</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap split">
+    <main class="wrap" style="padding-left:0; padding-right:0;">
+      <!-- Paciento informacija -->
+      <section class="card">
+        <h2>Paciento informacija</h2>
+        <div class="grid-2">
+          <div>
+            <label>Vardas Pavardė</label>
+            <input id="p_name" type="text" placeholder="Vardenis Pavardenis" />
+          </div>
+          <div>
+            <label>Asmens kodas / ID</label>
+            <input id="p_id" type="text" placeholder="(nebūtina)" />
+          </div>
+          <div>
+            <label>Gimimo data</label>
+            <input id="p_dob" type="date" />
+          </div>
+          <div>
+            <label>Lytis</label>
+            <select id="p_sex">
+              <option value="">—</option>
+              <option>Vyras</option>
+              <option>Moteris</option>
+              <option>Kita / nenurodyta</option>
+            </select>
+          </div>
+          <div>
+            <label>Svoris (kg)</label>
+            <input id="p_weight" type="number" min="1" max="300" step="0.1" placeholder="kg" />
+          </div>
+          <div>
+            <label>AKS atvykus (mmHg)</label>
+            <input id="p_bp" type="text" placeholder="pvz. 178/92" />
+          </div>
+          <div>
+            <label>NIHSS (pradinis)</label>
+            <input id="p_nihss0" type="number" min="0" max="42" />
+          </div>
+          <div>
+            <label>NIHSS (24 h)</label>
+            <input id="p_nihss24" type="number" min="0" max="42" />
+          </div>
+        </div>
+      </section>
+
+      <!-- Laikai -->
+      <section class="card">
+        <h2>Laikai ir tikslai</h2>
+        <div class="grid-2">
+          <div>
+            <label>Paskutinį kartą sveikas (LKW)</label>
+            <div class="row">
+              <input id="t_lkw" type="datetime-local" />
+              <button class="btn-plain" data-now="t_lkw">Dabar</button>
+            </div>
+          </div>
+          <div>
+            <label>Simptomų pradžia</label>
+            <div class="row">
+              <input id="t_onset" type="datetime-local" />
+              <button class="btn-plain" data-now="t_onset">Dabar</button>
+            </div>
+          </div>
+          <div>
+            <label>Atvykimas į SG (Door)</label>
+            <div class="row">
+              <input id="t_door" type="datetime-local" />
+              <button class="btn-plain" data-now="t_door">Dabar</button>
+            </div>
+          </div>
+          <div>
+            <label>KT pradžia</label>
+            <div class="row">
+              <input id="t_ct" type="datetime-local" />
+              <button class="btn-plain" data-now="t_ct">Dabar</button>
+            </div>
+          </div>
+          <div>
+            <label>Trombolizės pradžia (Needle)</label>
+            <div class="row">
+              <input id="t_needle" type="datetime-local" />
+              <button class="btn-plain" data-now="t_needle">Dabar</button>
+            </div>
+          </div>
+          <div>
+            <label>Kateterizacijos pradžia (Groin)</label>
+            <div class="row">
+              <input id="t_groin" type="datetime-local" />
+              <button class="btn-plain" data-now="t_groin">Dabar</button>
+            </div>
+          </div>
+          <div>
+            <label>Reperfuzijos laikas</label>
+            <div class="row">
+              <input id="t_reperf" type="datetime-local" />
+              <button class="btn-plain" data-now="t_reperf">Dabar</button>
+            </div>
+          </div>
+        </div>
+        <div style="height:10px"></div>
+        <div class="grid-3" id="kpiRow">
+          <div class="kpi" id="kpi_d2ct"><div class="dot"></div><div><div class="muted">Door → KT</div><div class="val" data-val>D2CT: —</div></div></div>
+          <div class="kpi" id="kpi_d2n"><div class="dot"></div><div><div class="muted">Door → Needle</div><div class="val" data-val>D2N: —</div></div></div>
+          <div class="kpi" id="kpi_d2g"><div class="dot"></div><div><div class="muted">Door → Groin</div><div class="val" data-val>D2G: —</div></div></div>
+        </div>
+        <div class="mini" style="margin-top:8px;">Tikslai (keičiasi nustatymuose): D2CT ≤ <span id="g_ct_goal">20</span> min · D2N ≤ <span id="g_n_goal">60</span> min · D2G ≤ <span id="g_g_goal">90</span> min</div>
+      </section>
+
+      <!-- Vaistų skaičiuoklės -->
+      <section class="card">
+        <h2>Vaistų skaičiuoklės</h2>
+        <div class="grid-2">
+          <div>
+            <label>Vaistas</label>
+            <select id="drug_type">
+              <option value="tnk">Tenekteplazė (TNK) – 0,25 mg/kg (max 25 mg), bolius</option>
+              <option value="tpa">Alteplazė (tPA) – 0,9 mg/kg (max 90 mg), 10% bolius + 90% per 60 min</option>
+            </select>
+          </div>
+          <div>
+            <label>Koncentracija (mg/ml)</label>
+            <input id="drug_conc" type="number" step="0.01" placeholder="pvz. 5" />
+          </div>
+        </div>
+        <div class="grid-3" style="margin-top:10px;">
+          <div>
+            <label>Svoris (kg)</label>
+            <input id="calc_weight" type="number" min="1" max="300" step="0.1" placeholder="kg" />
+          </div>
+          <div>
+            <label>Bendra dozė (mg)</label>
+            <input id="dose_total" type="number" step="0.1" readonly />
+          </div>
+          <div>
+            <label>Tūris (ml)</label>
+            <input id="dose_volume" type="number" step="0.1" readonly />
+          </div>
+        </div>
+        <div id="tpaBreakdown" style="margin-top:10px; display:none;" class="grid-2">
+          <div>
+            <label>Bolius 10% (mg / ml)</label>
+            <input id="tpa_bolus" type="text" readonly />
+          </div>
+          <div>
+            <label>Infuzija 90% per 60 min (mg / ml / ml/val)</label>
+            <input id="tpa_infusion" type="text" readonly />
+          </div>
+        </div>
+        <div class="section-actions" style="margin-top:10px;">
+          <button id="calcBtn" class="btn-accent">🧮 Skaičiuoti</button>
+          <span class="mini">Pastaba: klinikiniai sprendimai remiasi vietinėmis gairėmis. Ši skaičiuoklė – pagalbinė.</span>
+        </div>
+      </section>
+
+      <!-- Intervencijos ir tyrimai -->
+      <section class="card">
+        <h2>Tyrimai ir intervencijos</h2>
+        <div class="grid-2">
+          <div>
+            <label><input id="i_ct" type="checkbox" /> KT galvos atlikta</label>
+            <label><input id="i_cta" type="checkbox" /> CTA/CTP atlikta</label>
+            <label><input id="i_thrombolysis" type="checkbox" /> IV trombolizė atlikta</label>
+            <label><input id="i_thrombectomy" type="checkbox" /> Mechaninė trombektomija atlikta</label>
+          </div>
+          <div>
+            <label>TICI (po MT)</label>
+            <select id="i_tici">
+              <option value="">—</option>
+              <option>TICI 0</option>
+              <option>TICI 1</option>
+              <option>TICI 2a</option>
+              <option>TICI 2b</option>
+              <option>TICI 2c</option>
+              <option>TICI 3</option>
+            </select>
+            <label style="margin-top:10px;">Sprendimas</label>
+            <select id="i_decision">
+              <option value="">—</option>
+              <option>Hospitalizuotas (insulto skyrius)</option>
+              <option>Perkeltas į intervencinę radiologiją</option>
+              <option>Išleistas namo</option>
+              <option>Pervežtas į aukštesnio lygio ASPĮ</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label>Pastabos</label>
+          <textarea id="notes" rows="4" placeholder="Kiti svarbūs faktai (AKS valdymas, antikoaguliantai, gliukozė, kontraindikacijos ir kt.)"></textarea>
+        </div>
+      </section>
+
+      <!-- Santrauka HIS sistemai -->
+      <section class="card" style="grid-column: 1 / -1;">
+        <h2>Santrauka (kopijavimui į HIS)</h2>
+        <textarea id="summary" class="summary mono" placeholder="Spauskite „Generuoti“"></textarea>
+        <div class="sticky-actions">
+          <button id="genSummaryBtn" class="btn-accent">🧾 Generuoti santrauką</button>
+          <button id="copySummaryBtn">📋 Kopijuoti</button>
+        </div>
+      </section>
+
+      <details class="settings">
+        <summary><span class="pill">⚙️ Nustatymai</span></summary>
+        <div class="card">
+          <div class="grid-3">
+            <div>
+              <label>D2CT tikslas (min)</label>
+              <input id="goal_ct" type="number" min="1" max="180" value="20" />
+            </div>
+            <div>
+              <label>D2N tikslas (min)</label>
+              <input id="goal_n" type="number" min="1" max="240" value="60" />
+            </div>
+            <div>
+              <label>D2G tikslas (min)</label>
+              <input id="goal_g" type="number" min="1" max="240" value="90" />
+            </div>
+          </div>
+          <div class="grid-3" style="margin-top:10px;">
+            <div>
+              <label>TNK numatyta koncentracija (mg/ml)</label>
+              <input id="def_tnk" type="number" step="0.1" value="5" />
+            </div>
+            <div>
+              <label>tPA numatyta koncentracija (mg/ml)</label>
+              <input id="def_tpa" type="number" step="0.1" value="1" />
+            </div>
+            <div>
+              <label>Automatinis išsaugojimas</label>
+              <select id="autosave">
+                <option value="on">Įjungtas</option>
+                <option value="off">Išjungtas</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <div class="footer">
+        ⚠️ Atskaita: ši priemonė yra pagalbinė. Galutiniai klinikiniai sprendimai remiasi gydytojo vertinimu ir galiojančiomis gairėmis. 
+      </div>
+    </main>
+
+    <!-- Šoninis informacinis stulpelis -->
+    <aside class="wrap" style="padding-left:0; padding-right:0;">
+      <section class="card">
+        <h2>Gyvas laikmatis</h2>
+        <div id="liveTimers" class="grid-3">
+          <div class="kpi" title="Nuo Door">
+            <div class="dot" id="t_since_door_dot"></div>
+            <div>
+              <div class="muted">Praėjo nuo Door</div>
+              <div class="val" id="t_since_door">—</div>
+            </div>
+          </div>
+          <div class="kpi" title="Nuo Onset">
+            <div class="dot" id="t_since_onset_dot"></div>
+            <div>
+              <div class="muted">Praėjo nuo Onset</div>
+              <div class="val" id="t_since_onset">—</div>
+            </div>
+          </div>
+          <div class="kpi" title="Lango likutis iki D2N tikslo (jei nepradėta)">
+            <div class="dot" id="t_to_needle_dot"></div>
+            <div>
+              <div class="muted">Iki Needle tikslo</div>
+              <div class="val" id="t_to_needle">—</div>
+            </div>
+          </div>
+        </div>
+        <div class="mini" style="margin-top:8px;">Laikmačiai atsinaujina kas 1 s</div>
+      </section>
+
+      <section class="card">
+        <h2>Greiti veiksmai</h2>
+        <div class="section-actions">
+          <button data-now="t_ct">📸 Pažymėti KT dabar</button>
+          <button data-now="t_needle">💉 Pažymėti Needle dabar</button>
+          <button data-now="t_groin">🕳️ Pažymėti Groin dabar</button>
+          <button id="clearTimes">🧹 Išvalyti laikus</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Naudojimo patarimai</h2>
+        <ol class="mini" style="margin:0 0 0 18px;">
+          <li>Užpildykite bent „Door“ ir „Onset/LKW“ laikus – rodikliai paskaičiuos automatškai.</li>
+          <li>Įveskite svorį ir pasirinkite vaistą – skaičiuoklė pateiks tikslią dozę ir tūrius.</li>
+          <li>Pažymėkite atliktas intervencijas ir spauskite „Generuoti santrauką“ → „Kopijuoti“.</li>
+          <li>„Išsaugoti/Atkurti“ naudoja vietinę naršyklės atmintį (localStorage).</li>
+        </ol>
+      </section>
+    </aside>
+  </div>
+
+  <script>
+    // ------------------------------
+    // Pagalbinės funkcijos
+    // ------------------------------
+    const $ = (sel) => document.querySelector(sel);
+    const $$ = (sel) => Array.from(document.querySelectorAll(sel));
+
+    const state = {
+      goals: { d2ct: 20, d2n: 60, d2g: 90 },
+      defaultConc: { tnk: 5, tpa: 1 },
+      autosave: 'on'
+    };
+
+    const inputs = {
+      name:  $('#p_name'),        id: $('#p_id'),          dob: $('#p_dob'),     sex: $('#p_sex'),
+      weight:$('#p_weight'),      bp: $('#p_bp'),
+      nih0:  $('#p_nihss0'),      nih24: $('#p_nihss24'),
+      lkw:   $('#t_lkw'),         onset: $('#t_onset'),    door: $('#t_door'),   ct: $('#t_ct'),
+      needle:$('#t_needle'),      groin: $('#t_groin'),    reperf: $('#t_reperf'),
+      drugType: $('#drug_type'),  drugConc: $('#drug_conc'),
+      calcWeight: $('#calc_weight'), doseTotal: $('#dose_total'), doseVol: $('#dose_volume'),
+      tpaBolus: $('#tpa_bolus'),  tpaInf: $('#tpa_infusion'),
+      i_ct: $('#i_ct'), i_cta: $('#i_cta'), i_tl: $('#i_thrombolysis'), i_mt: $('#i_thrombectomy'),
+      i_tici: $('#i_tici'), i_decision: $('#i_decision'), notes: $('#notes'),
+      goal_ct: $('#goal_ct'), goal_n: $('#goal_n'), goal_g: $('#goal_g'),
+      def_tnk: $('#def_tnk'), def_tpa: $('#def_tpa'), autosave: $('#autosave'),
+      summary: $('#summary')
+    };
+
+    function toDate(val){ if(!val) return null; const d = new Date(val); return isNaN(d) ? null : d; }
+    function minsBetween(a, b){ if(!a || !b) return null; return Math.round((b - a) / 60000); }
+    function fmtMins(m){ if(m == null) return '—'; const sign = m < 0 ? '-' : ''; m = Math.abs(m); const h = Math.floor(m/60); const r = m%60; return h ? `${sign}${h} h ${r} min` : `${sign}${r} min`; }
+    function setNow(id){ const el = document.getElementById(id); if(!el) return; const now = new Date(); el.value = toLocalInputValue(now); triggerChange(el); }
+    function toLocalInputValue(d){ // format YYYY-MM-DDThh:mm:ss for datetime-local (without seconds is fine)
+      const pad = (n)=> String(n).padStart(2,'0');
+      return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    }
+
+    function classify(value, goal){
+      if(value == null) return '';
+      if(value <= goal) return 'good';
+      if(value <= goal + 15) return 'warn';
+      return 'bad';
+    }
+
+    function readGoals(){
+      state.goals.d2ct = Number(inputs.goal_ct.value||20);
+      state.goals.d2n  = Number(inputs.goal_n.value||60);
+      state.goals.d2g  = Number(inputs.goal_g.value||90);
+      $('#g_ct_goal').textContent = state.goals.d2ct;
+      $('#g_n_goal').textContent  = state.goals.d2n;
+      $('#g_g_goal').textContent  = state.goals.d2g;
+    }
+
+    // ------------------------------
+    // KPI skaičiavimas
+    // ------------------------------
+    function updateKPIs(){
+      readGoals();
+      const tDoor = toDate(inputs.door.value);
+      const tCT   = toDate(inputs.ct.value);
+      const tN    = toDate(inputs.needle.value);
+      const tG    = toDate(inputs.groin.value);
+
+      const d2ct = minsBetween(tDoor, tCT);
+      const d2n  = minsBetween(tDoor, tN);
+      const d2g  = minsBetween(tDoor, tG);
+
+      const kpis = [
+        { id: 'kpi_d2ct', val: d2ct, goal: state.goals.d2ct, label: 'D2CT' },
+        { id: 'kpi_d2n',  val: d2n,  goal: state.goals.d2n,  label: 'D2N' },
+        { id: 'kpi_d2g',  val: d2g,  goal: state.goals.d2g,  label: 'D2G' },
+      ];
+
+      kpis.forEach(k => {
+        const el = document.getElementById(k.id);
+        el.classList.remove('good','warn','bad');
+        const clazz = classify(k.val, k.goal);
+        if(clazz) el.classList.add(clazz);
+        el.querySelector('[data-val]').textContent = `${k.label}: ${fmtMins(k.val)}`;
+      });
+
+      // Live helper tiles
+      updateLiveTiles();
+    }
+
+    function updateLiveTiles(){
+      const now = new Date();
+      const tDoor = toDate(inputs.door.value);
+      const tOnset= toDate(inputs.onset.value) || toDate(inputs.lkw.value);
+      const d2nGoal = state.goals.d2n;
+
+      const sinceDoor = minsBetween(tDoor, now);
+      const sinceOnset= minsBetween(tOnset, now);
+      const toNeedle  = tDoor ? (inputs.needle.value ? null : d2nGoal - minsBetween(tDoor, now)) : null;
+
+      const elSD = $('#t_since_door'); elSD.textContent = fmtMins(sinceDoor);
+      const elSO = $('#t_since_onset'); elSO.textContent = fmtMins(sinceOnset);
+      const elTN = $('#t_to_needle'); elTN.textContent = toNeedle==null ? '—' : (toNeedle>=0? fmtMins(toNeedle) + ' liko' : 'Tikslas viršytas ' + fmtMins(Math.abs(toNeedle)));
+
+      $('#t_since_door_dot').style.background = tDoor ? 'var(--good)' : 'var(--muted)';
+      $('#t_since_onset_dot').style.background= tOnset? 'var(--good)' : 'var(--muted)';
+      $('#t_to_needle_dot').style.background = toNeedle==null? 'var(--muted)' : (toNeedle>=0? 'var(--warn)' : 'var(--bad)');
+    }
+
+    // ------------------------------
+    // Vaistų skaičiuoklė
+    // ------------------------------
+    function updateDrugDefaults(){
+      const type = inputs.drugType.value;
+      const conc = (type==='tnk') ? Number(inputs.def_tnk.value||5) : Number(inputs.def_tpa.value||1);
+      inputs.drugConc.value = String(conc);
+      document.getElementById('tpaBreakdown').style.display = (type==='tpa') ? 'grid' : 'none';
+    }
+
+    function calcDrugs(){
+      const type = inputs.drugType.value;
+      const w = Number((inputs.calcWeight.value || inputs.weight.value || '').replace(',','.'));
+      const conc = Number((inputs.drugConc.value||'').replace(',','.'));
+      if(!w || !conc){ alert('Įveskite svorį ir koncentraciją.'); return; }
+
+      let totalMg = 0;
+      if(type==='tnk'){
+        totalMg = Math.min(25, round1(0.25 * w));
+        inputs.doseTotal.value = totalMg;
+        inputs.doseVol.value = round1(totalMg / conc);
+        inputs.tpaBolus.value = '';
+        inputs.tpaInf.value = '';
+      } else {
+        totalMg = Math.min(90, round1(0.9 * w));
+        const bolusMg = round1(totalMg * 0.10);
+        const infMg   = round1(totalMg - bolusMg);
+        const bolusMl = round1(bolusMg / conc);
+        const infMl   = round1(infMg / conc);
+        const rateMlH = round1(infMl / 1); // per 60 min
+        inputs.doseTotal.value = totalMg;
+        inputs.doseVol.value = round1(totalMg / conc);
+        inputs.tpaBolus.value = `${bolusMg} mg (${bolusMl} ml)`;
+        inputs.tpaInf.value   = `${infMg} mg (${infMl} ml) · ~${rateMlH} ml/val`;
+      }
+    }
+
+    function round1(n){ return Math.round(n*10)/10; }
+
+    // ------------------------------
+    // Santraukos generavimas (LT)
+    // ------------------------------
+    function genSummary(){
+      const get = (el) => (el && el.value ? el.value : null);
+      const name = get(inputs.name) || 'Pacientas';
+      const dob = get(inputs.dob) || '—';
+      const sex = get(inputs.sex) || '—';
+      const id  = get(inputs.id)  || '—';
+      const w   = get(inputs.weight) || '—';
+      const bp  = get(inputs.bp) || '—';
+      const nih0= get(inputs.nih0) || '—';
+      const nih24 = get(inputs.nih24) || '—';
+
+      const tLKW = get(inputs.lkw), tOnset=get(inputs.onset), tDoor=get(inputs.door), tCT=get(inputs.ct), tN=get(inputs.needle), tG=get(inputs.groin), tR=get(inputs.reperf);
+
+      const dLKW = toDate(tLKW), dOnset=toDate(tOnset), dDoor=toDate(tDoor), dCT=toDate(tCT), dN=toDate(tN), dG=toDate(tG), dR=toDate(tR);
+
+      const d2ct = minsBetween(dDoor, dCT);
+      const d2n  = minsBetween(dDoor, dN);
+      const d2g  = minsBetween(dDoor, dG);
+      const o2n  = minsBetween(dOnset || dLKW, dN);
+
+      // Drugs
+      const drugType = inputs.drugType.value === 'tnk' ? 'Tenekteplazė' : 'Alteplazė';
+      const conc = inputs.drugConc.value ? `${inputs.drugConc.value} mg/ml` : '—';
+      const totalDose = inputs.doseTotal.value ? `${inputs.doseTotal.value} mg` : '—';
+      const totalVol  = inputs.doseVol.value ? `${inputs.doseVol.value} ml` : '—';
+      const tpaBolus  = inputs.tpaBolus.value; const tpaInf = inputs.tpaInf.value;
+
+      const parts = [];
+      parts.push(`PACIENTAS: ${name}, ID: ${id}, gim. data: ${dob}, lytis: ${sex}, svoris: ${w} kg, AKS atvykus: ${bp}. NIHSS pradinis: ${nih0}, po 24 h: ${nih24}.`);
+      parts.push(`LAIKAI: LKW: ${tLKW||'—'}, Onset: ${tOnset||'—'}, Door: ${tDoor||'—'}, KT: ${tCT||'—'}, Needle: ${tN||'—'}, Groin: ${tG||'—'}, Reperfuzija: ${tR||'—'}.`);
+      parts.push(`RODIKLIAI: D2CT ${fmtMins(d2ct)}, D2N ${fmtMins(d2n)}, D2G ${fmtMins(d2g)}${o2n!=null?`, O2N ${fmtMins(o2n)}`:''}. Tikslai: D2CT ≤ ${state.goals.d2ct} min, D2N ≤ ${state.goals.d2n} min, D2G ≤ ${state.goals.d2g} min.`);
+
+      if(inputs.i_ct.checked || inputs.i_cta.checked || inputs.i_tl.checked || inputs.i_mt.checked){
+        const ivs = [];
+        if(inputs.i_ct.checked) ivs.push('KT galvos');
+        if(inputs.i_cta.checked) ivs.push('CTA/CTP');
+        if(inputs.i_tl.checked) ivs.push('IV trombolizė');
+        if(inputs.i_mt.checked) ivs.push('Mechaninė trombektomija');
+        parts.push(`TYRIMAI/INTERVENCIJOS: ${ivs.join(', ')}${inputs.i_tici.value?`, TICI: ${inputs.i_tici.value}`:''}.`);
+      }
+
+      parts.push(`VAISTAI: ${drugType}. Koncentracija: ${conc}. Bendra dozė: ${totalDose} (${totalVol}). ${tpaBolus?`Bolius: ${tpaBolus}. `:''}${tpaInf?`Infuzija: ${tpaInf}.`:''}`);
+
+      if(inputs.i_decision.value){ parts.push(`SPRENDIMAS: ${inputs.i_decision.value}.`); }
+      if(inputs.notes.value){ parts.push(`PASTABOS: ${inputs.notes.value}`); }
+
+      inputs.summary.value = parts.join('\n');
+    }
+
+    function copySummary(){
+      inputs.summary.select();
+      document.execCommand('copy');
+    }
+
+    // ------------------------------
+    // Išsaugojimas / atkūrimas
+    // ------------------------------
+    const LS_KEY = 'strokeTeamDraft_v1';
+
+    function getPayload(){
+      return {
+        p_name: inputs.name.value, p_id: inputs.id.value, p_dob: inputs.dob.value, p_sex: inputs.sex.value,
+        p_weight: inputs.weight.value, p_bp: inputs.bp.value, p_nihss0: inputs.nih0.value, p_nihss24: inputs.nih24.value,
+        t_lkw: inputs.lkw.value, t_onset: inputs.onset.value, t_door: inputs.door.value, t_ct: inputs.ct.value,
+        t_needle: inputs.needle.value, t_groin: inputs.groin.value, t_reperf: inputs.reperf.value,
+        drug_type: inputs.drugType.value, drug_conc: inputs.drugConc.value, calc_weight: inputs.calcWeight.value,
+        dose_total: inputs.doseTotal.value, dose_volume: inputs.doseVol.value, tpa_bolus: inputs.tpaBolus.value, tpa_infusion: inputs.tpaInf.value,
+        i_ct: inputs.i_ct.checked, i_cta: inputs.i_cta.checked, i_tl: inputs.i_tl.checked, i_mt: inputs.i_mt.checked,
+        i_tici: inputs.i_tici.value, i_decision: inputs.i_decision.value, notes: inputs.notes.value,
+        goals: state.goals, def_tnk: inputs.def_tnk.value, def_tpa: inputs.def_tpa.value, autosave: inputs.autosave.value
+      };
+    }
+
+    function setPayload(p){
+      if(!p) return;
+      inputs.name.value = p.p_name||''; inputs.id.value=p.p_id||''; inputs.dob.value=p.p_dob||''; inputs.sex.value=p.p_sex||'';
+      inputs.weight.value=p.p_weight||''; inputs.bp.value=p.p_bp||''; inputs.nih0.value=p.p_nihss0||''; inputs.nih24.value=p.p_nihss24||'';
+      inputs.lkw.value=p.t_lkw||''; inputs.onset.value=p.t_onset||''; inputs.door.value=p.t_door||''; inputs.ct.value=p.t_ct||'';
+      inputs.needle.value=p.t_needle||''; inputs.groin.value=p.t_groin||''; inputs.reperf.value=p.t_reperf||'';
+      inputs.drugType.value=p.drug_type||'tnk'; inputs.drugConc.value=p.drug_conc||''; inputs.calcWeight.value=p.calc_weight||'';
+      inputs.doseTotal.value=p.dose_total||''; inputs.doseVol.value=p.dose_volume||''; inputs.tpaBolus.value=p.tpa_bolus||''; inputs.tpaInf.value=p.tpa_infusion||'';
+      inputs.i_ct.checked=!!p.i_ct; inputs.i_cta.checked=!!p.i_cta; inputs.i_tl.checked=!!p.i_tl; inputs.i_mt.checked=!!p.i_mt;
+      inputs.i_tici.value=p.i_tici||''; inputs.i_decision.value=p.i_decision||''; inputs.notes.value=p.notes||'';
+      if(p.goals){ inputs.goal_ct.value=p.goals.d2ct; inputs.goal_n.value=p.goals.d2n; inputs.goal_g.value=p.goals.d2g; }
+      inputs.def_tnk.value=p.def_tnk||5; inputs.def_tpa.value=p.def_tpa||1; inputs.autosave.value=p.autosave||'on';
+      updateDrugDefaults(); updateKPIs();
+    }
+
+    function saveLS(){ localStorage.setItem(LS_KEY, JSON.stringify(getPayload())); }
+    function loadLS(){ const raw = localStorage.getItem(LS_KEY); if(!raw) return null; try{ return JSON.parse(raw); }catch(e){ return null; } }
+
+    function triggerChange(el){ el.dispatchEvent(new Event('input', {bubbles:true})); el.dispatchEvent(new Event('change', {bubbles:true})); }
+
+    // ------------------------------
+    // Įvykiai
+    // ------------------------------
+    function bind(){
+      // Now buttons
+      $$('button[data-now]').forEach(b=> b.addEventListener('click', ()=> setNow(b.getAttribute('data-now'))));
+
+      // KPI update on any time change
+      ['t_lkw','t_onset','t_door','t_ct','t_needle','t_groin','t_reperf'].forEach(id=>{
+        const el = document.getElementById(id);
+        el.addEventListener('input', updateKPIs);
+      });
+
+      // Goals / defaults
+      [inputs.goal_ct, inputs.goal_n, inputs.goal_g].forEach(el=> el.addEventListener('input', updateKPIs));
+      [inputs.def_tnk, inputs.def_tpa].forEach(el=> el.addEventListener('input', updateDrugDefaults));
+      inputs.drugType.addEventListener('change', updateDrugDefaults);
+
+      // Calculators
+      $('#calcBtn').addEventListener('click', calcDrugs);
+
+      // Summary
+      $('#genSummaryBtn').addEventListener('click', genSummary);
+      $('#copySummaryBtn').addEventListener('click', copySummary);
+
+      // Save/Load/Export/Import
+      $('#saveBtn').addEventListener('click', ()=>{ saveLS(); alert('Išsaugota naršyklėje.'); });
+      $('#loadBtn').addEventListener('click', ()=>{ const p = loadLS(); if(p){ setPayload(p); alert('Atkurta iš naršyklės.'); } else alert('Nėra išsaugoto įrašo.'); });
+      $('#exportBtn').addEventListener('click', ()=>{
+        const data = JSON.stringify(getPayload(), null, 2);
+        const blob = new Blob([data], {type:'application/json'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a'); a.href = url; a.download = `stroke_patient_${Date.now()}.json`; a.click(); URL.revokeObjectURL(url);
+      });
+      $('#importBtn').addEventListener('click', ()=> $('#importFile').click());
+      $('#importFile').addEventListener('change', (e)=>{
+        const file = e.target.files[0]; if(!file) return;
+        const reader = new FileReader(); reader.onload = ()=>{
+          try{ const p = JSON.parse(reader.result); setPayload(p); alert('Importuota.'); } catch(err){ alert('Klaida skaitant JSON.'); }
+        }; reader.readAsText(file);
+      });
+
+      // Clear times
+      $('#clearTimes').addEventListener('click', ()=>{
+        ['t_lkw','t_onset','t_door','t_ct','t_needle','t_groin','t_reperf'].forEach(id=>{ const el=document.getElementById(id); el.value=''; }); updateKPIs();
+      });
+
+      // New patient
+      $('#newPatientBtn').addEventListener('click', ()=>{
+        if(confirm('Išvalyti visus laukus naujam pacientui?')){ document.querySelectorAll('input, textarea, select').forEach(el=>{
+          if(el.type==='checkbox') el.checked = false; else if(el.id!=='def_tnk' && el.id!=='def_tpa' && !el.matches('#goal_ct,#goal_n,#goal_g,#autosave')) el.value='';
+        }); updateKPIs(); updateDrugDefaults(); $('#summary').value=''; }
+      });
+
+      // Autosave
+      inputs.autosave.addEventListener('change', ()=>{ state.autosave = inputs.autosave.value; });
+      document.addEventListener('input', ()=>{ if((inputs.autosave.value||'on')==='on') saveLS(); });
+
+      // Initial
+      updateDrugDefaults(); updateKPIs();
+      // Timer: 1s
+      setInterval(()=>{ updateLiveTiles(); }, 1000);
+    }
+
+    // Init when ready
+    document.addEventListener('DOMContentLoaded', bind);
+  </script>
+</body>
+</html>

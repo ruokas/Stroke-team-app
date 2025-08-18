@@ -1,0 +1,11 @@
+{
+  "name": "stroke-team-app",
+  "version": "1.0.0",
+  "devDependencies": {
+    "prettier": "^3.2.5"
+  },
+  "scripts": {
+    "format": "prettier --write js/app.js",
+    "test": "node test/calcDrugs.test.js && node test/updateDrugDefaults.test.js"
+  }
+}

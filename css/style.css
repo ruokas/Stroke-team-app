@@ -52,12 +52,34 @@ header {
   align-items: center;
   gap: 8px;
 }
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.logo {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent);
+  color: var(--bg);
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 18px;
+}
+.logo::before {
+  content: "ST";
+}
 .header-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   justify-content: flex-end;
   text-align: right;
+  margin-left: auto;
+  align-items: center;
 }
 .header-actions .toolbar {
   display: flex;
@@ -863,12 +885,6 @@ details .card {
 .mini {
   font-size: 11px;
   color: var(--muted);
-}
-.header-actions {
-  margin-left: auto;
-  display: flex;
-  gap: 8px;
-  align-items: center;
 }
 .px-0 {
   padding-left: 0;

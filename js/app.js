@@ -11,7 +11,7 @@
       autosave: 'on'
     };
 
-    const inputs = {
+const inputs = {
       name:  $('#p_name'),        id: $('#p_id'),          dob: $('#p_dob'),     sex: $('#p_sex'),
       weight:$('#p_weight'),      bp: $('#p_bp'),
       nih0:  $('#p_nihss0'),      nih24: $('#p_nihss24'),
@@ -24,8 +24,10 @@
       i_tici: $('#i_tici'), i_decision: $('#i_decision'), notes: $('#notes'),
       goal_ct: $('#goal_ct'), goal_n: $('#goal_n'), goal_g: $('#goal_g'),
       def_tnk: $('#def_tnk'), def_tpa: $('#def_tpa'), autosave: $('#autosave'),
-      summary: $('#summary')
-    };
+  summary: $('#summary')
+};
+
+state.autosave = inputs.autosave.value || 'on';
 
     function toDate(val){ if(!val) return null; const d = new Date(val); return isNaN(d) ? null : d; }
     function minsBetween(a, b){ if(!a || !b) return null; return Math.round((b - a) / 60000); }
@@ -221,7 +223,7 @@
         dose_total: inputs.doseTotal.value, dose_volume: inputs.doseVol.value, tpa_bolus: inputs.tpaBolus.value, tpa_infusion: inputs.tpaInf.value,
         i_ct: inputs.i_ct.checked, i_cta: inputs.i_cta.checked, i_tl: inputs.i_tl.checked, i_mt: inputs.i_mt.checked,
         i_tici: inputs.i_tici.value, i_decision: inputs.i_decision.value, notes: inputs.notes.value,
-        goals: state.goals, def_tnk: inputs.def_tnk.value, def_tpa: inputs.def_tpa.value, autosave: inputs.autosave.value
+        goals: state.goals, def_tnk: inputs.def_tnk.value, def_tpa: inputs.def_tpa.value, autosave: state.autosave
       };
     }
 
@@ -237,6 +239,7 @@
       inputs.i_tici.value=p.i_tici||''; inputs.i_decision.value=p.i_decision||''; inputs.notes.value=p.notes||'';
       if(p.goals){ inputs.goal_ct.value=p.goals.d2ct; inputs.goal_n.value=p.goals.d2n; inputs.goal_g.value=p.goals.d2g; }
       inputs.def_tnk.value=p.def_tnk||5; inputs.def_tpa.value=p.def_tpa||1; inputs.autosave.value=p.autosave||'on';
+      state.autosave = inputs.autosave.value || 'on';
       updateDrugDefaults(); updateKPIs();
     }
 
@@ -300,8 +303,8 @@
       });
 
       // Autosave
-      inputs.autosave.addEventListener('change', ()=>{ state.autosave = inputs.autosave.value; });
-      document.addEventListener('input', ()=>{ if((inputs.autosave.value||'on')==='on') saveLS(); });
+      inputs.autosave.addEventListener('change', (e)=>{ state.autosave = e.target.value; });
+      document.addEventListener('input', ()=>{ if(state.autosave === 'on') saveLS(); });
 
       // Initial
       updateDrugDefaults(); updateKPIs();

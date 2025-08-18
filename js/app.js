@@ -448,6 +448,8 @@ function loadLS() {
   try {
     return JSON.parse(raw);
   } catch (e) {
+    console.error(e);
+    localStorage.removeItem(LS_KEY);
     return null;
   }
 }

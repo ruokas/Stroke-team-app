@@ -29,104 +29,108 @@
   <div class="wrap split">
     <main class="wrap px-0">
       <!-- Paciento informacija -->
-      <section class="card">
-        <h2>Paciento informacija</h2>
-        <div class="grid-2">
-          <div>
-            <label>Vardas Pavardė</label>
-            <input id="p_name" type="text" placeholder="Vardenis Pavardenis" />
-          </div>
-          <div>
-            <label>Asmens kodas / ID</label>
-            <input id="p_id" type="text" placeholder="(nebūtina)" />
-          </div>
-          <div>
-            <label>Gimimo data</label>
-            <input id="p_dob" type="date" />
-          </div>
-          <div>
-            <label>Lytis</label>
-            <select id="p_sex">
-              <option value="">—</option>
-              <option>Vyras</option>
-              <option>Moteris</option>
-              <option>Kita / nenurodyta</option>
-            </select>
-          </div>
-          <div>
-            <label>Svoris (kg)</label>
-            <input id="p_weight" type="number" min="1" max="300" step="0.1" placeholder="kg" />
-          </div>
-          <div>
-            <label>AKS atvykus (mmHg)</label>
-            <input id="p_bp" type="text" placeholder="pvz. 178/92" />
-          </div>
-          <div>
-            <label>NIHSS (pradinis)</label>
-            <input id="p_nihss0" type="number" min="0" max="42" />
-          </div>
-          <div>
-            <label>NIHSS (24 h)</label>
-            <input id="p_nihss24" type="number" min="0" max="42" />
-          </div>
-        </div>
-      </section>
+        <section class="card">
+          <h2>Paciento informacija</h2>
+          <form>
+            <fieldset class="grid-2">
+              <div>
+                <label for="p_name">Vardas Pavardė</label>
+                <input id="p_name" type="text" placeholder="Vardenis Pavardenis" />
+              </div>
+              <div>
+                <label for="p_id">Asmens kodas / ID</label>
+                <input id="p_id" type="text" placeholder="(nebūtina)" />
+              </div>
+              <div>
+                <label for="p_dob">Gimimo data</label>
+                <input id="p_dob" type="date" />
+              </div>
+              <div>
+                <label for="p_sex">Lytis</label>
+                <select id="p_sex">
+                  <option value="">—</option>
+                  <option>Vyras</option>
+                  <option>Moteris</option>
+                  <option>Kita / nenurodyta</option>
+                </select>
+              </div>
+              <div>
+                <label for="p_weight">Svoris (kg)</label>
+                <input id="p_weight" type="number" min="1" max="300" step="0.1" placeholder="kg" />
+              </div>
+              <div>
+                <label for="p_bp">AKS atvykus (mmHg)</label>
+                <input id="p_bp" type="text" placeholder="pvz. 178/92" />
+              </div>
+              <div>
+                <label for="p_nihss0">NIHSS (pradinis)</label>
+                <input id="p_nihss0" type="number" min="0" max="42" />
+              </div>
+              <div>
+                <label for="p_nihss24">NIHSS (24 h)</label>
+                <input id="p_nihss24" type="number" min="0" max="42" />
+              </div>
+            </fieldset>
+          </form>
+        </section>
 
       <!-- Laikai -->
-      <section class="card">
-        <h2>Laikai ir tikslai</h2>
-        <div class="grid-2">
-          <div>
-            <label>Paskutinį kartą sveikas (LKW)</label>
-            <div class="row">
-              <input id="t_lkw" type="datetime-local" />
-              <button class="btn-plain" data-now="t_lkw">Dabar</button>
-            </div>
-          </div>
-          <div>
-            <label>Simptomų pradžia</label>
-            <div class="row">
-              <input id="t_onset" type="datetime-local" />
-              <button class="btn-plain" data-now="t_onset">Dabar</button>
-            </div>
-          </div>
-          <div>
-            <label>Atvykimas į SG (Door)</label>
-            <div class="row">
-              <input id="t_door" type="datetime-local" />
-              <button class="btn-plain" data-now="t_door">Dabar</button>
-            </div>
-          </div>
-          <div>
-            <label>KT pradžia</label>
-            <div class="row">
-              <input id="t_ct" type="datetime-local" />
-              <button class="btn-plain" data-now="t_ct">Dabar</button>
-            </div>
-          </div>
-          <div>
-            <label>Trombolizės pradžia (Needle)</label>
-            <div class="row">
-              <input id="t_needle" type="datetime-local" />
-              <button class="btn-plain" data-now="t_needle">Dabar</button>
-            </div>
-          </div>
-          <div>
-            <label>Kateterizacijos pradžia (Groin)</label>
-            <div class="row">
-              <input id="t_groin" type="datetime-local" />
-              <button class="btn-plain" data-now="t_groin">Dabar</button>
-            </div>
-          </div>
-          <div>
-            <label>Reperfuzijos laikas</label>
-            <div class="row">
-              <input id="t_reperf" type="datetime-local" />
-              <button class="btn-plain" data-now="t_reperf">Dabar</button>
-            </div>
-          </div>
-        </div>
-        <div class="h-10"></div>
+        <section class="card">
+          <h2>Laikai ir tikslai</h2>
+          <form>
+            <fieldset class="grid-2">
+              <div>
+                <label for="t_lkw">Paskutinį kartą sveikas (LKW)</label>
+                <div class="row">
+                  <input id="t_lkw" type="datetime-local" />
+                  <button class="btn-plain" data-now="t_lkw">Dabar</button>
+                </div>
+              </div>
+              <div>
+                <label for="t_onset">Simptomų pradžia</label>
+                <div class="row">
+                  <input id="t_onset" type="datetime-local" />
+                  <button class="btn-plain" data-now="t_onset">Dabar</button>
+                </div>
+              </div>
+              <div>
+                <label for="t_door">Atvykimas į SG (Door)</label>
+                <div class="row">
+                  <input id="t_door" type="datetime-local" />
+                  <button class="btn-plain" data-now="t_door">Dabar</button>
+                </div>
+              </div>
+              <div>
+                <label for="t_ct">KT pradžia</label>
+                <div class="row">
+                  <input id="t_ct" type="datetime-local" />
+                  <button class="btn-plain" data-now="t_ct">Dabar</button>
+                </div>
+              </div>
+              <div>
+                <label for="t_needle">Trombolizės pradžia (Needle)</label>
+                <div class="row">
+                  <input id="t_needle" type="datetime-local" />
+                  <button class="btn-plain" data-now="t_needle">Dabar</button>
+                </div>
+              </div>
+              <div>
+                <label for="t_groin">Kateterizacijos pradžia (Groin)</label>
+                <div class="row">
+                  <input id="t_groin" type="datetime-local" />
+                  <button class="btn-plain" data-now="t_groin">Dabar</button>
+                </div>
+              </div>
+              <div>
+                <label for="t_reperf">Reperfuzijos laikas</label>
+                <div class="row">
+                  <input id="t_reperf" type="datetime-local" />
+                  <button class="btn-plain" data-now="t_reperf">Dabar</button>
+                </div>
+              </div>
+            </fieldset>
+          </form>
+          <div class="h-10"></div>
         <div class="grid-3" id="kpiRow">
           <div class="kpi" id="kpi_d2ct"><div class="dot"></div><div><div class="muted">Door → KT</div><div class="val" data-val>D2CT: —</div></div></div>
           <div class="kpi" id="kpi_d2n"><div class="dot"></div><div><div class="muted">Door → Needle</div><div class="val" data-val>D2N: —</div></div></div>

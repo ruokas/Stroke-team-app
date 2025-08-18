@@ -101,9 +101,13 @@ main {
   max-width: 1200px;
   margin: 12px auto;
   padding: 0 16px;
+}
+
+.layout-main {
   display: grid;
-  grid-template-columns: 220px 1fr;
+  grid-template-columns: 1fr 220px;
   gap: 12px;
+  align-items: start;
 }
 nav {
   position: sticky;
@@ -490,7 +494,7 @@ select.invalid {
     display: inline-block;
     margin-bottom: 8px;
   }
-  main {
+  .layout-main {
     grid-template-columns: 1fr;
   }
   nav {

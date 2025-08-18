@@ -33,19 +33,19 @@
         <h2>Paciento informacija</h2>
         <div class="grid-2">
           <div>
-            <label>Vardas Pavardė</label>
+            <label for="p_name">Vardas Pavardė</label>
             <input id="p_name" type="text" placeholder="Vardenis Pavardenis" />
           </div>
           <div>
-            <label>Asmens kodas / ID</label>
+            <label for="p_id">Asmens kodas / ID</label>
             <input id="p_id" type="text" placeholder="(nebūtina)" />
           </div>
           <div>
-            <label>Gimimo data</label>
+            <label for="p_dob">Gimimo data</label>
             <input id="p_dob" type="date" />
           </div>
           <div>
-            <label>Lytis</label>
+            <label for="p_sex">Lytis</label>
             <select id="p_sex">
               <option value="">—</option>
               <option>Vyras</option>
@@ -54,19 +54,19 @@
             </select>
           </div>
           <div>
-            <label>Svoris (kg)</label>
+            <label for="p_weight">Svoris (kg)</label>
             <input id="p_weight" type="number" min="1" max="300" step="0.1" placeholder="kg" />
           </div>
           <div>
-            <label>AKS atvykus (mmHg)</label>
+            <label for="p_bp">AKS atvykus (mmHg)</label>
             <input id="p_bp" type="text" placeholder="pvz. 178/92" />
           </div>
           <div>
-            <label>NIHSS (pradinis)</label>
+            <label for="p_nihss0">NIHSS (pradinis)</label>
             <input id="p_nihss0" type="number" min="0" max="42" />
           </div>
           <div>
-            <label>NIHSS (24 h)</label>
+            <label for="p_nihss24">NIHSS (24 h)</label>
             <input id="p_nihss24" type="number" min="0" max="42" />
           </div>
         </div>
@@ -77,49 +77,49 @@
         <h2>Laikai ir tikslai</h2>
         <div class="grid-2">
           <div>
-            <label>Paskutinį kartą sveikas (LKW)</label>
+            <label for="t_lkw">Paskutinį kartą sveikas (LKW)</label>
             <div class="row">
               <input id="t_lkw" type="datetime-local" />
               <button class="btn-plain" data-now="t_lkw">Dabar</button>
             </div>
           </div>
           <div>
-            <label>Simptomų pradžia</label>
+            <label for="t_onset">Simptomų pradžia</label>
             <div class="row">
               <input id="t_onset" type="datetime-local" />
               <button class="btn-plain" data-now="t_onset">Dabar</button>
             </div>
           </div>
           <div>
-            <label>Atvykimas į SG (Door)</label>
+            <label for="t_door">Atvykimas į SG (Door)</label>
             <div class="row">
               <input id="t_door" type="datetime-local" />
               <button class="btn-plain" data-now="t_door">Dabar</button>
             </div>
           </div>
           <div>
-            <label>KT pradžia</label>
+            <label for="t_ct">KT pradžia</label>
             <div class="row">
               <input id="t_ct" type="datetime-local" />
               <button class="btn-plain" data-now="t_ct">Dabar</button>
             </div>
           </div>
           <div>
-            <label>Trombolizės pradžia (Needle)</label>
+            <label for="t_needle">Trombolizės pradžia (Needle)</label>
             <div class="row">
               <input id="t_needle" type="datetime-local" />
               <button class="btn-plain" data-now="t_needle">Dabar</button>
             </div>
           </div>
           <div>
-            <label>Kateterizacijos pradžia (Groin)</label>
+            <label for="t_groin">Kateterizacijos pradžia (Groin)</label>
             <div class="row">
               <input id="t_groin" type="datetime-local" />
               <button class="btn-plain" data-now="t_groin">Dabar</button>
             </div>
           </div>
           <div>
-            <label>Reperfuzijos laikas</label>
+            <label for="t_reperf">Reperfuzijos laikas</label>
             <div class="row">
               <input id="t_reperf" type="datetime-local" />
               <button class="btn-plain" data-now="t_reperf">Dabar</button>
@@ -140,38 +140,38 @@
         <h2>Vaistų skaičiuoklės</h2>
         <div class="grid-2">
           <div>
-            <label>Vaistas</label>
+            <label for="drug_type">Vaistas</label>
             <select id="drug_type">
               <option value="tnk">Tenekteplazė (TNK) – 0,25 mg/kg (max 25 mg), bolius</option>
               <option value="tpa">Alteplazė (tPA) – 0,9 mg/kg (max 90 mg), 10% bolius + 90% per 60 min</option>
             </select>
           </div>
           <div>
-            <label>Koncentracija (mg/ml)</label>
+            <label for="drug_conc">Koncentracija (mg/ml)</label>
             <input id="drug_conc" type="number" step="0.01" placeholder="pvz. 5" />
           </div>
         </div>
         <div class="grid-3" style="margin-top:10px;">
           <div>
-            <label>Svoris (kg)</label>
+            <label for="calc_weight">Svoris (kg)</label>
             <input id="calc_weight" type="number" min="1" max="300" step="0.1" placeholder="kg" />
           </div>
           <div>
-            <label>Bendra dozė (mg)</label>
+            <label for="dose_total">Bendra dozė (mg)</label>
             <input id="dose_total" type="number" step="0.1" readonly />
           </div>
           <div>
-            <label>Tūris (ml)</label>
+            <label for="dose_volume">Tūris (ml)</label>
             <input id="dose_volume" type="number" step="0.1" readonly />
           </div>
         </div>
         <div id="tpaBreakdown" style="margin-top:10px; display:none;" class="grid-2">
           <div>
-            <label>Bolius 10% (mg / ml)</label>
+            <label for="tpa_bolus">Bolius 10% (mg / ml)</label>
             <input id="tpa_bolus" type="text" readonly />
           </div>
           <div>
-            <label>Infuzija 90% per 60 min (mg / ml / ml/val)</label>
+            <label for="tpa_infusion">Infuzija 90% per 60 min (mg / ml / ml/val)</label>
             <input id="tpa_infusion" type="text" readonly />
           </div>
         </div>
@@ -186,13 +186,13 @@
         <h2>Tyrimai ir intervencijos</h2>
         <div class="grid-2">
           <div>
-            <label><input id="i_ct" type="checkbox" /> KT galvos atlikta</label>
-            <label><input id="i_cta" type="checkbox" /> CTA/CTP atlikta</label>
-            <label><input id="i_thrombolysis" type="checkbox" /> IV trombolizė atlikta</label>
-            <label><input id="i_thrombectomy" type="checkbox" /> Mechaninė trombektomija atlikta</label>
+            <label for="i_ct"><input id="i_ct" type="checkbox" /> KT galvos atlikta</label>
+            <label for="i_cta"><input id="i_cta" type="checkbox" /> CTA/CTP atlikta</label>
+            <label for="i_thrombolysis"><input id="i_thrombolysis" type="checkbox" /> IV trombolizė atlikta</label>
+            <label for="i_thrombectomy"><input id="i_thrombectomy" type="checkbox" /> Mechaninė trombektomija atlikta</label>
           </div>
           <div>
-            <label>TICI (po MT)</label>
+            <label for="i_tici">TICI (po MT)</label>
             <select id="i_tici">
               <option value="">—</option>
               <option>TICI 0</option>
@@ -202,7 +202,7 @@
               <option>TICI 2c</option>
               <option>TICI 3</option>
             </select>
-            <label style="margin-top:10px;">Sprendimas</label>
+            <label for="i_decision" style="margin-top:10px;">Sprendimas</label>
             <select id="i_decision">
               <option value="">—</option>
               <option>Hospitalizuotas (insulto skyrius)</option>
@@ -213,7 +213,7 @@
           </div>
         </div>
         <div>
-          <label>Pastabos</label>
+          <label for="notes">Pastabos</label>
           <textarea id="notes" rows="4" placeholder="Kiti svarbūs faktai (AKS valdymas, antikoaguliantai, gliukozė, kontraindikacijos ir kt.)"></textarea>
         </div>
       </section>
@@ -233,29 +233,29 @@
         <div class="card">
           <div class="grid-3">
             <div>
-              <label>D2CT tikslas (min)</label>
+              <label for="goal_ct">D2CT tikslas (min)</label>
               <input id="goal_ct" type="number" min="1" max="180" value="20" />
             </div>
             <div>
-              <label>D2N tikslas (min)</label>
+              <label for="goal_n">D2N tikslas (min)</label>
               <input id="goal_n" type="number" min="1" max="240" value="60" />
             </div>
             <div>
-              <label>D2G tikslas (min)</label>
+              <label for="goal_g">D2G tikslas (min)</label>
               <input id="goal_g" type="number" min="1" max="240" value="90" />
             </div>
           </div>
           <div class="grid-3" style="margin-top:10px;">
             <div>
-              <label>TNK numatyta koncentracija (mg/ml)</label>
+              <label for="def_tnk">TNK numatyta koncentracija (mg/ml)</label>
               <input id="def_tnk" type="number" step="0.1" value="5" />
             </div>
             <div>
-              <label>tPA numatyta koncentracija (mg/ml)</label>
+              <label for="def_tpa">tPA numatyta koncentracija (mg/ml)</label>
               <input id="def_tpa" type="number" step="0.1" value="1" />
             </div>
             <div>
-              <label>Automatinis išsaugojimas</label>
+              <label for="autosave">Automatinis išsaugojimas</label>
               <select id="autosave">
                 <option value="on">Įjungtas</option>
                 <option value="off">Išjungtas</option>

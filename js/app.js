@@ -6,7 +6,6 @@
 
     const state = {
       goals: { d2ct: 20, d2n: 60, d2g: 90 },
-      defaultConc: { tnk: 5, tpa: 1 },
       autosave: 'on'
     };
 

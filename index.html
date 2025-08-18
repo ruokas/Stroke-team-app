@@ -15,19 +15,19 @@
         <h1>Stroke Team · Greito įvedimo aplikacija</h1>
         <div class="subtle">Skubi duomenų registracija, laikų sekimas, vaistų skaičiuoklės ir santrauka HIS sistemai</div>
       </div>
-      <div style="margin-left:auto; display:flex; gap:8px; align-items:center;">
+      <div class="header-actions">
         <button id="newPatientBtn" title="Naujas pacientas">🆕 Naujas</button>
         <button id="saveBtn" title="Išsaugoti vietoje (naršyklėje)">💾 Išsaugoti</button>
         <button id="loadBtn" title="Atkurti paskutinį">📂 Atkurti</button>
         <button id="exportBtn" title="Eksportuoti JSON">⬇️ Eksportuoti</button>
-        <input id="importFile" type="file" accept="application/json" style="display:none" />
+        <input id="importFile" type="file" accept="application/json" class="hidden" />
         <button id="importBtn" title="Importuoti JSON">⬆️ Importuoti</button>
       </div>
     </div>
   </header>
 
   <div class="wrap split">
-    <main class="wrap" style="padding-left:0; padding-right:0;">
+    <main class="wrap px-0">
       <!-- Paciento informacija -->
       <section class="card">
         <h2>Paciento informacija</h2>
@@ -126,13 +126,13 @@
             </div>
           </div>
         </div>
-        <div style="height:10px"></div>
+        <div class="h-10"></div>
         <div class="grid-3" id="kpiRow">
           <div class="kpi" id="kpi_d2ct"><div class="dot"></div><div><div class="muted">Door → KT</div><div class="val" data-val>D2CT: —</div></div></div>
           <div class="kpi" id="kpi_d2n"><div class="dot"></div><div><div class="muted">Door → Needle</div><div class="val" data-val>D2N: —</div></div></div>
           <div class="kpi" id="kpi_d2g"><div class="dot"></div><div><div class="muted">Door → Groin</div><div class="val" data-val>D2G: —</div></div></div>
         </div>
-        <div class="mini" style="margin-top:8px;">Tikslai (keičiasi nustatymuose): D2CT ≤ <span id="g_ct_goal">20</span> min · D2N ≤ <span id="g_n_goal">60</span> min · D2G ≤ <span id="g_g_goal">90</span> min</div>
+        <div class="mini mt-8">Tikslai (keičiasi nustatymuose): D2CT ≤ <span id="g_ct_goal">20</span> min · D2N ≤ <span id="g_n_goal">60</span> min · D2G ≤ <span id="g_g_goal">90</span> min</div>
       </section>
 
       <!-- Vaistų skaičiuoklės -->
@@ -151,7 +151,7 @@
             <input id="drug_conc" type="number" step="0.01" placeholder="pvz. 5" />
           </div>
         </div>
-        <div class="grid-3" style="margin-top:10px;">
+        <div class="grid-3 mt-10">
           <div>
             <label>Svoris (kg)</label>
             <input id="calc_weight" type="number" min="1" max="300" step="0.1" placeholder="kg" />
@@ -165,7 +165,7 @@
             <input id="dose_volume" type="number" step="0.1" readonly />
           </div>
         </div>
-        <div id="tpaBreakdown" style="margin-top:10px; display:none;" class="grid-2">
+        <div id="tpaBreakdown" class="grid-2 mt-10 hidden">
           <div>
             <label>Bolius 10% (mg / ml)</label>
             <input id="tpa_bolus" type="text" readonly />
@@ -175,7 +175,7 @@
             <input id="tpa_infusion" type="text" readonly />
           </div>
         </div>
-        <div class="section-actions" style="margin-top:10px;">
+        <div class="section-actions mt-10">
           <button id="calcBtn" class="btn-accent">🧮 Skaičiuoti</button>
           <span class="mini">Pastaba: klinikiniai sprendimai remiasi vietinėmis gairėmis. Ši skaičiuoklė – pagalbinė.</span>
         </div>
@@ -202,7 +202,7 @@
               <option>TICI 2c</option>
               <option>TICI 3</option>
             </select>
-            <label style="margin-top:10px;">Sprendimas</label>
+            <label class="mt-10">Sprendimas</label>
             <select id="i_decision">
               <option value="">—</option>
               <option>Hospitalizuotas (insulto skyrius)</option>
@@ -219,7 +219,7 @@
       </section>
 
       <!-- Santrauka HIS sistemai -->
-      <section class="card" style="grid-column: 1 / -1;">
+      <section class="card full-span">
         <h2>Santrauka (kopijavimui į HIS)</h2>
         <textarea id="summary" class="summary mono" placeholder="Spauskite „Generuoti“"></textarea>
         <div class="sticky-actions">
@@ -245,7 +245,7 @@
               <input id="goal_g" type="number" min="1" max="240" value="90" />
             </div>
           </div>
-          <div class="grid-3" style="margin-top:10px;">
+          <div class="grid-3 mt-10">
             <div>
               <label>TNK numatyta koncentracija (mg/ml)</label>
               <input id="def_tnk" type="number" step="0.1" value="5" />
@@ -271,7 +271,7 @@
     </main>
 
     <!-- Šoninis informacinis stulpelis -->
-    <aside class="wrap" style="padding-left:0; padding-right:0;">
+    <aside class="wrap px-0">
       <section class="card">
         <h2>Gyvas laikmatis</h2>
         <div id="liveTimers" class="grid-3">
@@ -297,7 +297,7 @@
             </div>
           </div>
         </div>
-        <div class="mini" style="margin-top:8px;">Laikmačiai atsinaujina kas 1 s</div>
+        <div class="mini mt-8">Laikmačiai atsinaujina kas 1 s</div>
       </section>
 
       <section class="card">
@@ -312,7 +312,7 @@
 
       <section class="card">
         <h2>Naudojimo patarimai</h2>
-        <ol class="mini" style="margin:0 0 0 18px;">
+        <ol class="mini m0 ml-18">
           <li>Užpildykite bent „Door“ ir „Onset/LKW“ laikus – rodikliai paskaičiuos automatškai.</li>
           <li>Įveskite svorį ir pasirinkite vaistą – skaičiuoklė pateiks tikslią dozę ir tūrius.</li>
           <li>Pažymėkite atliktas intervencijas ir spauskite „Generuoti santrauką“ → „Kopijuoti“.</li>

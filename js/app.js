@@ -119,7 +119,28 @@ state.autosave = inputs.autosave.value || 'on';
       const type = inputs.drugType.value;
       const w = Number((inputs.calcWeight.value || inputs.weight.value || '').replace(',','.'));
       const conc = Number((inputs.drugConc.value||'').replace(',','.'));
-      if(!w || !conc){ alert('Įveskite svorį ir koncentraciją.'); return; }
+      const wValid = Number.isFinite(w) && w > 0;
+      const cValid = Number.isFinite(conc) && conc > 0;
+
+      [inputs.calcWeight, inputs.weight, inputs.drugConc].forEach(el => {
+        el.classList.remove('invalid');
+        if(el.setCustomValidity) el.setCustomValidity('');
+      });
+
+      if(!wValid || !cValid){
+        if(!wValid){
+          const target = inputs.calcWeight.value ? inputs.calcWeight : inputs.weight;
+          target.classList.add('invalid');
+          if(target.setCustomValidity) target.setCustomValidity('Įveskite teisingą svorį.');
+          if(target.reportValidity) target.reportValidity();
+        }
+        if(!cValid){
+          inputs.drugConc.classList.add('invalid');
+          if(inputs.drugConc.setCustomValidity) inputs.drugConc.setCustomValidity('Įveskite teisingą koncentraciją.');
+          if(inputs.drugConc.reportValidity) inputs.drugConc.reportValidity();
+        }
+        return;
+      }
 
       let totalMg = 0;
       if(type==='tnk'){

@@ -550,6 +550,8 @@ function bind() {
           !el.matches('#goal_ct,#goal_n,#goal_g,#autosave')
         )
           el.value = '';
+        el.classList.remove('invalid');
+        if (el.setCustomValidity) el.setCustomValidity('');
       });
       updateKPIs();
       updateDrugDefaults();

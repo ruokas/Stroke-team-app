@@ -19,6 +19,7 @@
       drugType: $('#drug_type'),  drugConc: $('#drug_conc'),
       calcWeight: $('#calc_weight'), doseTotal: $('#dose_total'), doseVol: $('#dose_volume'),
       tpaBolus: $('#tpa_bolus'),  tpaInf: $('#tpa_infusion'),
+      calcError: $('#calc_error'),
       i_ct: $('#i_ct'), i_cta: $('#i_cta'), i_tl: $('#i_thrombolysis'), i_mt: $('#i_thrombectomy'),
       i_tici: $('#i_tici'), i_decision: $('#i_decision'), notes: $('#notes'),
       goal_ct: $('#goal_ct'), goal_n: $('#goal_n'), goal_g: $('#goal_g'),
@@ -116,7 +117,13 @@
       const type = inputs.drugType.value;
       const w = Number((inputs.calcWeight.value || inputs.weight.value || '').replace(',','.'));
       const conc = Number((inputs.drugConc.value||'').replace(',','.'));
-      if(!w || !conc){ alert('Įveskite svorį ir koncentraciją.'); return; }
+      if(!Number.isFinite(w) || !Number.isFinite(conc)){
+        inputs.calcError.textContent = 'Įveskite svorį ir koncentraciją.';
+        inputs.calcError.style.display = 'block';
+        return;
+      }
+      inputs.calcError.textContent = '';
+      inputs.calcError.style.display = 'none';
 
       let totalMg = 0;
       if(type==='tnk'){

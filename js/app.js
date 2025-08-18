@@ -525,6 +525,7 @@ function bind() {
       } catch (err) {
         alert('Klaida skaitant JSON.');
       }
+      e.target.value = ''; // reset input to allow re-importing the same file
     };
     reader.readAsText(file);
   });

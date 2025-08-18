@@ -14,6 +14,8 @@ const TIME_FIELDS = [
   't_reperf',
 ];
 
+const INFUSION_MINUTES = 60;
+
 const state = {
   goals: { d2ct: 20, d2n: 60, d2g: 90 },
   autosave: 'on',
@@ -239,7 +241,7 @@ function calcDrugs() {
     const infMg = round1(totalMg - bolusMg);
     const bolusMl = round1(bolusMg / conc);
     const infMl = round1(infMg / conc);
-    const rateMlH = round1(infMl / 1); // per 60 min
+    const rateMlH = round1((infMl / INFUSION_MINUTES) * 60); // ml/h
     inputs.doseTotal.value = totalMg;
     inputs.doseVol.value = round1(totalMg / conc);
     inputs.tpaBolus.value = `${bolusMg} mg (${bolusMl} ml)`;

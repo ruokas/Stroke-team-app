@@ -65,4 +65,45 @@ sandbox.calcDrugs();
 assert(sandbox.inputs.drugConc.classList.contains('invalid'), 'drugConc should be marked invalid');
 assert.strictEqual(sandbox.inputs.doseTotal.value, '', 'doseTotal should remain empty when concentration invalid');
 
-console.log('calcDrugs handles invalid inputs');
+// TNK calculation
+sandbox.inputs.drugConc.classList.remove('invalid');
+sandbox.inputs.calcWeight.value = '70';
+sandbox.inputs.drugConc.value = '5';
+sandbox.inputs.drugType.value = 'tnk';
+
+sandbox.calcDrugs();
+assert.strictEqual(sandbox.inputs.doseTotal.value, 17.5);
+assert.strictEqual(sandbox.inputs.doseVol.value, 3.5);
+assert.strictEqual(sandbox.inputs.tpaBolus.value, '');
+assert.strictEqual(sandbox.inputs.tpaInf.value, '');
+
+// TNK maximum cap
+sandbox.inputs.calcWeight.value = '200';
+sandbox.inputs.drugConc.value = '5';
+
+sandbox.calcDrugs();
+assert.strictEqual(sandbox.inputs.doseTotal.value, 25);
+assert.strictEqual(sandbox.inputs.doseVol.value, 5);
+
+// tPA calculation
+sandbox.inputs.drugType.value = 'tpa';
+sandbox.inputs.calcWeight.value = '70';
+sandbox.inputs.drugConc.value = '1';
+
+sandbox.calcDrugs();
+assert.strictEqual(sandbox.inputs.doseTotal.value, 63);
+assert.strictEqual(sandbox.inputs.doseVol.value, 63);
+assert.strictEqual(sandbox.inputs.tpaBolus.value, '6.3 mg (6.3 ml)');
+assert.strictEqual(sandbox.inputs.tpaInf.value, '56.7 mg (56.7 ml) · ~56.7 ml/val');
+
+// tPA maximum cap
+sandbox.inputs.calcWeight.value = '120';
+sandbox.inputs.drugConc.value = '1';
+
+sandbox.calcDrugs();
+assert.strictEqual(sandbox.inputs.doseTotal.value, 90);
+assert.strictEqual(sandbox.inputs.doseVol.value, 90);
+assert.strictEqual(sandbox.inputs.tpaBolus.value, '9 mg (9 ml)');
+assert.strictEqual(sandbox.inputs.tpaInf.value, '81 mg (81 ml) · ~81 ml/val');
+
+console.log('calcDrugs handles dosing correctly and validates inputs');

@@ -4,6 +4,8 @@
     const $ = (sel) => document.querySelector(sel);
     const $$ = (sel) => Array.from(document.querySelectorAll(sel));
 
+    const TIME_FIELDS = ['t_lkw','t_onset','t_door','t_ct','t_needle','t_groin','t_reperf'];
+
     const state = {
       goals: { d2ct: 20, d2n: 60, d2g: 90 },
       autosave: 'on'
@@ -251,7 +253,7 @@
       $$('button[data-now]').forEach(b=> b.addEventListener('click', ()=> setNow(b.getAttribute('data-now'))));
 
       // KPI update on any time change
-      ['t_lkw','t_onset','t_door','t_ct','t_needle','t_groin','t_reperf'].forEach(id=>{
+      TIME_FIELDS.forEach(id=>{
         const el = document.getElementById(id);
         el.addEventListener('input', updateKPIs);
       });
@@ -287,7 +289,7 @@
 
       // Clear times
       $('#clearTimes').addEventListener('click', ()=>{
-        ['t_lkw','t_onset','t_door','t_ct','t_needle','t_groin','t_reperf'].forEach(id=>{ const el=document.getElementById(id); el.value=''; }); updateKPIs();
+        TIME_FIELDS.forEach(id=>{ const el=document.getElementById(id); el.value=''; }); updateKPIs();
       });
 
       // New patient

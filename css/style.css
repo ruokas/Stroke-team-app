@@ -1,0 +1,79 @@
+    :root {
+      --bg: #0b1020;
+      --card: #131a2e;
+      --muted: #8ea0c0;
+      --text: #eef2ff;
+      --accent: #4f8cff;
+      --good: #2fbf71;
+      --warn: #ffbf47;
+      --bad: #ff5a5f;
+      --border: #223055;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1200px 600px at 10% -10%, #0e1530 0%, var(--bg) 60%), var(--bg);
+      color: var(--text);
+    }
+    header {
+      position: sticky; top: 0; z-index: 100; backdrop-filter: blur(8px);
+      background: linear-gradient(180deg, rgba(11,16,32,.9), rgba(11,16,32,.55));
+      border-bottom: 1px solid var(--border);
+    }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 16px; }
+    .brand { display:flex; align-items:center; gap:12px; }
+    .brand .logo { width:36px; height:36px; border-radius:8px; background: conic-gradient(from 210deg, #6aa3ff, #8bffce, #6aa3ff); box-shadow: 0 0 0 2px #142046 inset; }
+    .brand h1 { font-size: 18px; margin:0; letter-spacing:.5px; font-weight:700; }
+    .subtle { color: var(--muted); font-size:12px; }
+
+    main.wrap { display:grid; gap:16px; grid-template-columns: 1fr; }
+    @media (min-width: 880px) { main.wrap { grid-template-columns: 1fr 1fr; } }
+
+    .card { background: linear-gradient(180deg, rgba(20,28,54,.9), rgba(16,22,44,.9)); border:1px solid var(--border); border-radius:16px; padding:16px; box-shadow: 0 10px 30px rgba(0,0,0,.25); }
+    .card h2 { font-size:16px; margin:0 0 10px 0; letter-spacing:.4px; }
+    .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .grid-3 { display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; }
+    .row { display:flex; gap:10px; align-items:center; }
+
+    label { font-size:12px; color: var(--muted); display:block; margin-bottom:6px; }
+    input, select, textarea, button { font: inherit; }
+    input[type="text"], input[type="number"], input[type="datetime-local"], select, textarea {
+      width: 100%; padding:10px 12px; border-radius:12px; border:1px solid var(--border); background:#0f162c; color: var(--text);
+      outline: none; transition: border-color .2s ease, box-shadow .2s ease; box-shadow: inset 0 1px 0 rgba(255,255,255,.03);
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79,140,255,.25); }
+
+    button { border:1px solid var(--border); background: #13224a; color: var(--text); padding:10px 14px; border-radius:12px; cursor:pointer; transition: transform .05s ease, background .2s ease, border-color .2s ease; }
+    button:hover { background:#183066; border-color:#35549c; }
+    button:active { transform: translateY(1px); }
+    .btn-accent { background: linear-gradient(180deg, #2d66ff, #234fd8); border-color:#4f8cff; }
+    .btn-plain { background: transparent; }
+
+    .kpi { display:flex; align-items:center; gap:8px; padding:8px 10px; border:1px solid var(--border); border-radius:12px; background: #0e1732; }
+    .kpi .dot { width:10px; height:10px; border-radius:50%; background: var(--muted); box-shadow: 0 0 0 2px #101a36 inset; }
+    .kpi.good .dot { background: var(--good); }
+    .kpi.warn .dot { background: var(--warn); }
+    .kpi.bad  .dot { background: var(--bad); }
+    .kpi .val { font-weight:700; }
+
+    .muted { color: var(--muted); }
+    .mono  { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+
+    .section-actions { display:flex; flex-wrap:wrap; gap:8px; }
+
+    .footer { margin: 16px auto 24px; color: var(--muted); font-size:12px; }
+    .pill { display:inline-block; padding:2px 8px; border-radius:999px; border:1px solid var(--border); background:#0f1833; font-size:11px; color:var(--muted); }
+
+    .summary { min-height: 160px; }
+    .sticky-actions { position: sticky; bottom: 0; display:flex; gap:8px; justify-content:flex-end; background: linear-gradient(180deg, transparent, rgba(11,16,32,.85)); padding-top:8px; }
+
+    details.settings { grid-column: 1 / -1; }
+    details summary { cursor: pointer; list-style: none; }
+    details summary::-webkit-details-marker { display:none; }
+    details .card { margin-top: 8px; }
+
+    .split { display:grid; gap:16px; grid-template-columns: 1fr; }
+    @media (min-width: 880px) { .split { grid-template-columns: 1.2fr .8fr; } }
+
+    .mini { font-size: 11px; color: var(--muted); }

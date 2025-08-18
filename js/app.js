@@ -198,9 +198,9 @@ function updateDrugDefaults() {
 function calcDrugs() {
   const type = inputs.drugType.value;
   const w = Number(
-    (inputs.calcWeight.value || inputs.weight.value || '').replace(',', '.'),
+    (inputs.calcWeight.value || inputs.weight.value || '').replace(/,/g, '.'),
   );
-  const conc = Number((inputs.drugConc.value || '').replace(',', '.'));
+  const conc = Number((inputs.drugConc.value || '').replace(/,/g, '.'));
   const wValid = Number.isFinite(w) && w > 0;
   const cValid = Number.isFinite(conc) && conc > 0;
 

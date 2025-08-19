@@ -1,4 +1,5 @@
 import { inputs } from './state.js';
+import { showToast } from './toast.js';
 
 export function genSummary() {
   const get = (el) => (el && el.value ? el.value : null);

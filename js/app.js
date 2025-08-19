@@ -2,6 +2,7 @@ import { $, $$, inputs, state } from './state.js';
 import { setNow } from './time.js';
 import { updateDrugDefaults, calcDrugs } from './drugs.js';
 import { genSummary, copySummary } from './summary.js';
+import { showToast } from './toast.js';
 import { updateAge } from './age.js';
 import {
   saveLS,
@@ -13,20 +14,6 @@ import {
   updateDraftSelect,
   getDrafts,
 } from './storage.js';
-
-function showToast(msg) {
-  const container = document.getElementById('toastContainer');
-  if (!container) return;
-  const el = document.createElement('div');
-  el.className = 'toast';
-  el.textContent = msg;
-  container.appendChild(el);
-  setTimeout(() => {
-    el.classList.add('hide');
-    el.addEventListener('transitionend', () => el.remove());
-  }, 3000);
-}
-window.showToast = showToast;
 
 function initNIHSS() {
   $$('.nihss-calc').forEach((calc) => {

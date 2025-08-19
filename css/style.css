@@ -1,5 +1,6 @@
 ﻿:root {
   color-scheme: dark;
+  --header-height: 68px;
 }
 :root.dark {
   --bg: #0c1218;
@@ -94,11 +95,14 @@ header {
   min-width: 220px;
 }
 .header-actions .btn {
-  flex: 1 1 100px;
-  min-width: 100px;
+  flex: 0 1 auto;
+  min-width: auto;
 }
 #saveStatus {
   width: 100%;
+  color: var(--muted);
+  font-size: 0.8125rem;
+  margin-top: 4px;
 }
 h1 {
   font-size: 1.25rem;
@@ -144,9 +148,9 @@ main {
 nav {
   position: sticky;
   top: 0;
-  margin-top: 68px;
+  margin-top: var(--header-height);
   align-self: start;
-  max-height: calc(100vh - 68px);
+  max-height: calc(100vh - var(--header-height));
   overflow-y: auto;
 }
 #navToggle {
@@ -422,17 +426,6 @@ select.invalid {
   background: var(--yellow);
   display: inline-block;
 }
-#saveStatus {
-  color: var(--muted);
-  font-size: 0.8125rem;
-  margin-top: 4px;
-}
-#saveStatus.offline {
-  color: var(--yellow);
-}
-#saveStatus.offline::before {
-  content: '⚠ ';
-}
 .split {
   display: flex;
   gap: 12px;
@@ -680,6 +673,9 @@ section[data-tab='Intervencijos'] h3 {
   .grid-2,
   .grid-3 {
     grid-template-columns: 1fr;
+  }
+  .header-actions .btn .btn-label {
+    display: none;
   }
 }
 .cols-2 {

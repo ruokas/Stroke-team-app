@@ -41,6 +41,14 @@ function bind() {
   $('#summary').addEventListener('focus', genSummary);
   $('#copySummaryBtn').addEventListener('click', copySummary);
 
+  // Pill checked state
+  document.querySelectorAll('.pill input').forEach((input) => {
+    const pill = input.closest('.pill');
+    const update = () => pill.classList.toggle('checked', input.checked);
+    input.addEventListener('change', update);
+    update();
+  });
+
   // Save/Load/Export/Import
   $('#saveBtn').addEventListener('click', () => {
     const existing = inputs.draftSelect.value;

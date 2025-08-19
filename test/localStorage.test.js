@@ -1,4 +1,5 @@
-import assert from 'assert';
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
 
 const elements = {};
 function createEl() {
@@ -22,12 +23,16 @@ function createEl() {
     querySelector: () => ({ textContent: '' }),
     addEventListener: () => {},
     checked: false,
-    appendChild: function (child) {
+    appendChild(child) {
       (this.children || (this.children = [])).push(child);
     },
+    select: () => {},
   };
 }
-function getEl(key) { if (!elements[key]) elements[key] = createEl(); return elements[key]; }
+function getEl(key) {
+  if (!elements[key]) elements[key] = createEl();
+  return elements[key];
+}
 
 const documentStub = {
   querySelector: (sel) => getEl(sel),
@@ -35,6 +40,7 @@ const documentStub = {
   getElementById: (id) => getEl('#' + id),
   addEventListener: () => {},
   createElement: () => createEl(),
+  execCommand: () => true,
 };
 
 const localStorageStub = {
@@ -57,24 +63,75 @@ global.prompt = () => '';
 global.localStorage = localStorageStub;
 global.URL = { createObjectURL: () => '', revokeObjectURL: () => {} };
 global.Blob = function () {};
-global.FileReader = function () { this.readAsText = () => {}; };
+global.FileReader = function () {
+  this.readAsText = () => {};
+};
 global.setInterval = () => {};
+global.window = { isSecureContext: true };
+global.navigator = {
+  clipboard: {
+    writeText: async (txt) => {
+      global.__copied = txt;
+    },
+  },
+};
 
 const { inputs } = await import('../js/state.js');
-const { saveLS, loadLS, deleteLS } = await import('../js/storage.js');
+const { saveLS, loadLS, deleteLS, setPayload } = await import('../js/storage.js');
+const { copySummary } = await import('../js/summary.js');
 
-inputs.id.value = 'p1';
-const id1 = saveLS();
-inputs.id.value = 'p2';
-const id2 = saveLS();
-assert.notStrictEqual(id1, id2, 'IDs should be unique');
-const rec1 = loadLS(id1);
-const rec2 = loadLS(id2);
-assert.strictEqual(rec1.p_id, 'p1', 'First record should be retrievable');
-assert.strictEqual(rec2.p_id, 'p2', 'Second record should be retrievable');
+function resetInputs() {
+  Object.values(inputs).forEach((el) => {
+    if ('value' in el) el.value = '';
+    if ('checked' in el) el.checked = false;
+  });
+}
 
-deleteLS(id1);
-assert.strictEqual(loadLS(id1), null, 'Deleted record should not load');
-assert.strictEqual(loadLS(id2).p_id, 'p2', 'Other record remains');
+test('localStorage handles multiple records', { concurrency: false }, () => {
+  localStorageStub.store = {};
+  resetInputs();
 
-console.log('localStorage handles multiple records');
+  inputs.id.value = 'p1';
+  saveLS('d1');
+  inputs.id.value = 'p2';
+  saveLS('d2');
+  const rec1 = loadLS('d1');
+  const rec2 = loadLS('d2');
+  assert.strictEqual(rec1.p_id, 'p1');
+  assert.strictEqual(rec2.p_id, 'p2');
+
+  deleteLS('d1');
+  assert.strictEqual(loadLS('d1'), null);
+  assert.strictEqual(loadLS('d2').p_id, 'p2');
+});
+
+test('saveLS/loadLS with copySummary copies generated text', { concurrency: false }, async () => {
+  localStorageStub.store = {};
+  resetInputs();
+
+  inputs.id.value = 'abc';
+  inputs.dob.value = '2000-01-01';
+  inputs.sex.value = 'Vyras';
+  inputs.weight.value = '70';
+  inputs.bp.value = '120/80';
+  inputs.nih0.value = '5';
+  inputs.lkw.value = '2024-01-01T08:00';
+  inputs.door.value = '2024-01-01T08:30';
+  inputs.ct.value = '2024-01-01T08:45';
+  inputs.drugType.value = 'tnk';
+  inputs.drugConc.value = '5';
+  inputs.doseTotal.value = '10';
+  inputs.doseVol.value = '2';
+
+  saveLS('draft1');
+  inputs.id.value = '';
+  inputs.dob.value = '';
+  setPayload(loadLS('draft1'));
+
+  await copySummary();
+
+  assert.ok(global.__copied.includes('PACIENTAS'));
+  assert.ok(global.__copied.includes('abc'));
+  assert.strictEqual(getEl('#summary').value, global.__copied);
+});
+

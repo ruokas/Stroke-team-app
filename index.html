@@ -89,11 +89,8 @@
         <a href="#" data-section="nihss" class="tab"
           ><span class="tab-icon">🧮</span>NIHSS</a
         >
-        <a href="#" data-section="times" class="tab"
-          ><span class="tab-icon">⏱️</span>Laikai ir tikslai</a
-        >
-        <a href="#" data-section="interventions" class="tab"
-          ><span class="tab-icon">🛠️</span>Tyrimai ir intervencijos</a
+        <a href="#" data-section="decision" class="tab"
+          ><span class="tab-icon">☑️</span>Sprendimas</a
         >
         <a href="#" data-section="summarySec" class="tab"
           ><span class="tab-icon">📄</span>Santrauka</a
@@ -882,129 +879,51 @@
           </form>
         </section>
 
-        <!-- Laikai -->
-        <section id="times" class="card hidden">
-          <h2>Laikai ir tikslai</h2>
+        <!-- Sprendimas -->
+        <section id="decision" class="card hidden">
+          <h2>Sprendimas</h2>
           <form>
-            <fieldset class="grid-2">
-              <div>
-                <label for="t_onset">Simptomų pradžia</label>
-                <div class="row">
-                  <input id="t_onset" type="datetime-local" />
-                  <button class="btn ghost" data-now="t_onset">Dabar</button>
-                </div>
+            <fieldset>
+              <legend>Sprendimo laikas</legend>
+              <div class="row">
+                <input id="d_time" type="datetime-local" />
+                <button class="btn ghost" data-now="d_time">Dabar</button>
               </div>
+            </fieldset>
+            <fieldset class="mt-10">
+              <legend>Sprendimas</legend>
               <div>
-                <label for="t_ct">KT pradžia</label>
-                <div class="row">
-                  <input id="t_ct" type="datetime-local" />
-                  <button class="btn ghost" data-now="t_ct">Dabar</button>
-                </div>
-              </div>
-              <div>
-                <label for="t_needle">Trombolizės pradžia</label>
-                <div class="row">
-                  <input id="t_needle" type="datetime-local" />
-                  <button class="btn ghost" data-now="t_needle">Dabar</button>
-                </div>
-              </div>
-              <div>
-                <label for="t_groin">Kateterizacijos pradžia</label>
-                <div class="row">
-                  <input id="t_groin" type="datetime-local" />
-                  <button class="btn ghost" data-now="t_groin">Dabar</button>
-                </div>
-              </div>
-              <div>
-                <label for="t_reperf">Reperfuzijos laikas</label>
-                <div class="row">
-                  <input id="t_reperf" type="datetime-local" />
-                  <button class="btn ghost" data-now="t_reperf">Dabar</button>
-                </div>
+                <label class="pill"
+                  ><input
+                    type="radio"
+                    name="d_decision"
+                    value="Taikoma IVT, indikacijų MTE nenustatyta"
+                  />Taikoma IVT, indikacijų MTE nenustatyta</label
+                >
+                <label class="pill"
+                  ><input
+                    type="radio"
+                    name="d_decision"
+                    value="Taikoma IVT, rengiamasi MTE atlikimui"
+                  />Taikoma IVT, rengiamasi MTE atlikimui</label
+                >
+                <label class="pill"
+                  ><input
+                    type="radio"
+                    name="d_decision"
+                    value="Rengiamasi MTE atlikimui"
+                  />Rengiamasi MTE atlikimui</label
+                >
+                <label class="pill"
+                  ><input
+                    type="radio"
+                    name="d_decision"
+                    value="Reperfuzinis gydymas kontraindikuotinas, taikyti konservatyvią taktika"
+                  />Reperfuzinis gydymas kontraindikuotinas, taikyti konservatyvią taktika</label
+                >
               </div>
             </fieldset>
           </form>
-          <div class="h-10"></div>
-          <div class="grid-3" id="kpiRow">
-            <div class="kpi" id="kpi_d2ct">
-              <div class="dot"></div>
-              <div>
-                <div class="muted">Atvykimas → KT</div>
-                <div class="val" data-val>D2CT: —</div>
-              </div>
-            </div>
-            <div class="kpi" id="kpi_d2n">
-              <div class="dot"></div>
-              <div>
-                <div class="muted">Atvykimas → Trombolizė</div>
-                <div class="val" data-val>D2N: —</div>
-              </div>
-            </div>
-            <div class="kpi" id="kpi_d2g">
-              <div class="dot"></div>
-              <div>
-                <div class="muted">Atvykimas → Kateterizacija</div>
-                <div class="val" data-val>D2G: —</div>
-              </div>
-            </div>
-          </div>
-          <div class="mini mt-8">
-            Tikslai (keičiasi nustatymuose): D2CT ≤
-            <span id="g_ct_goal">20</span> min · D2N ≤
-            <span id="g_n_goal">60</span> min · D2G ≤
-            <span id="g_g_goal">90</span> min
-          </div>
-        </section>
-
-        <!-- Intervencijos ir tyrimai -->
-        <section id="interventions" class="card hidden">
-          <h2>Tyrimai ir intervencijos</h2>
-          <div class="grid-2">
-            <div>
-              <label
-                ><input id="i_ct" type="checkbox" /> KT galvos atlikta</label
-              >
-              <label
-                ><input id="i_cta" type="checkbox" /> CTA/CTP atlikta</label
-              >
-              <label
-                ><input id="i_thrombolysis" type="checkbox" /> IV trombolizė
-                atlikta</label
-              >
-              <label
-                ><input id="i_thrombectomy" type="checkbox" /> Mechaninė
-                trombektomija atlikta</label
-              >
-            </div>
-            <div>
-              <label>TICI (po MT)</label>
-              <select id="i_tici">
-                <option value="">—</option>
-                <option>TICI 0</option>
-                <option>TICI 1</option>
-                <option>TICI 2a</option>
-                <option>TICI 2b</option>
-                <option>TICI 2c</option>
-                <option>TICI 3</option>
-              </select>
-              <label class="mt-10">Sprendimas</label>
-              <select id="i_decision">
-                <option value="">—</option>
-                <option>Hospitalizuotas (insulto skyrius)</option>
-                <option>Perkeltas į intervencinę radiologiją</option>
-                <option>Išleistas namo</option>
-                <option>Pervežtas į aukštesnio lygio ASPĮ</option>
-              </select>
-            </div>
-          </div>
-          <div>
-            <label>Pastabos</label>
-            <textarea
-              id="notes"
-              rows="4"
-              placeholder="Kiti svarbūs faktai (AKS valdymas, antikoaguliantai, gliukozė, kontraindikacijos ir kt.)"
-            ></textarea>
-          </div>
         </section>
 
         <!-- Santrauka HIS sistemai -->
@@ -1022,46 +941,26 @@
 
         <details class="settings">
           <summary><span class="pill">⚙️ Nustatymai</span></summary>
-          <div class="card">
-            <div class="grid-3">
-              <div>
-                <label>D2CT tikslas (min)</label>
-                <input
-                  id="goal_ct"
-                  type="number"
-                  min="1"
-                  max="180"
-                  value="20"
-                />
-              </div>
-              <div>
-                <label>D2N tikslas (min)</label>
-                <input id="goal_n" type="number" min="1" max="240" value="60" />
-              </div>
-              <div>
-                <label>D2G tikslas (min)</label>
-                <input id="goal_g" type="number" min="1" max="240" value="90" />
+            <div class="card">
+              <div class="grid-3">
+                <div>
+                  <label>TNK numatyta koncentracija (mg/ml)</label>
+                  <input id="def_tnk" type="number" step="0.1" value="5" />
+                </div>
+                <div>
+                  <label>tPA numatyta koncentracija (mg/ml)</label>
+                  <input id="def_tpa" type="number" step="0.1" value="1" />
+                </div>
+                <div>
+                  <label>Automatinis išsaugojimas</label>
+                  <select id="autosave">
+                    <option value="on">Įjungtas</option>
+                    <option value="off">Išjungtas</option>
+                  </select>
+                </div>
               </div>
             </div>
-            <div class="grid-3 mt-10">
-              <div>
-                <label>TNK numatyta koncentracija (mg/ml)</label>
-                <input id="def_tnk" type="number" step="0.1" value="5" />
-              </div>
-              <div>
-                <label>tPA numatyta koncentracija (mg/ml)</label>
-                <input id="def_tpa" type="number" step="0.1" value="1" />
-              </div>
-              <div>
-                <label>Automatinis išsaugojimas</label>
-                <select id="autosave">
-                  <option value="on">Įjungtas</option>
-                  <option value="off">Išjungtas</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </details>
+          </details>
 
         <div class="footer">
           ⚠️ Atskaita: ši priemonė yra pagalbinė. Galutiniai klinikiniai
@@ -1069,41 +968,6 @@
         </div>
       </main>
 
-      <!-- Šoninis informacinis stulpelis -->
-      <aside class="container px-0">
-        <section class="card">
-          <h2>Gyvas laikmatis</h2>
-          <div id="liveTimers" class="grid-3">
-            <div class="kpi" title="Nuo atvykimo">
-              <div class="dot" id="t_since_door_dot"></div>
-              <div>
-                <div class="muted">Praėjo nuo atvykimo</div>
-                <div class="val" id="t_since_door">—</div>
-              </div>
-            </div>
-            <div class="kpi" title="Nuo pradžios">
-              <div class="dot" id="t_since_onset_dot"></div>
-              <div>
-                <div class="muted">Praėjo nuo pradžios</div>
-                <div class="val" id="t_since_onset">—</div>
-              </div>
-            </div>
-            <div
-              class="kpi"
-              title="Lango likutis iki D2N tikslo (jei nepradėta)"
-            >
-              <div class="dot" id="t_to_needle_dot"></div>
-              <div>
-                <div class="muted">Iki trombolizės tikslo</div>
-                <div class="val" id="t_to_needle">—</div>
-              </div>
-            </div>
-          </div>
-          <div class="mini mt-8">Laikmačiai atsinaujina kas 1 s</div>
-        </section>
-
-        
-      </aside>
     </div>
 
     <script type="module" src="js/app.js"></script>

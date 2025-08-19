@@ -59,24 +59,16 @@ test('genSummary generates summary text correctly', async () => {
   inputs.nih0.value = '10';
 
   inputs.lkw.value = '2024-01-01T07:00';
-  inputs.onset.value = '2024-01-01T07:30';
   inputs.door.value = '2024-01-01T08:00';
-  inputs.ct.value = '2024-01-01T08:20';
-  inputs.needle.value = '2024-01-01T08:50';
-  inputs.groin.value = '2024-01-01T09:30';
-  inputs.reperf.value = '2024-01-01T10:00';
+  inputs.d_time.value = '2024-01-01T08:40';
+  inputs.d_decision = [
+    { checked: true, value: 'Taikoma IVT, indikacijų MTE nenustatyta' },
+  ];
 
   inputs.drugType.value = 'tnk';
   inputs.drugConc.value = '5';
   inputs.doseTotal.value = '20';
   inputs.doseVol.value = '4';
-
-  inputs.i_ct.checked = true;
-  inputs.i_tl.checked = true;
-  inputs.i_tici.value = '2b';
-
-  inputs.i_decision.value = 'Gydymas tęsti';
-  inputs.notes.value = 'Be pastabų';
 
   genSummary();
 
@@ -88,17 +80,12 @@ test('genSummary generates summary text correctly', async () => {
   );
   assert(
     summary.includes(
-      'RODIKLIAI: D2CT 20 min, D2N 50 min, D2G 1 val 30 min, O2N 1 val 20 min.',
-    ),
-  );
-  assert(
-    summary.includes(
-      'TYRIMAI/INTERVENCIJOS: KT galvos, IV trombolizė, TICI: 2b.',
-    ),
-  );
-  assert(
-    summary.includes(
       'VAISTAI: Tenekteplazė. Koncentracija: 5 mg/ml. Bendra dozė: 20 mg (4 ml).',
+    ),
+  );
+  assert(
+    summary.includes(
+      'SPRENDIMAS: Taikoma IVT, indikacijų MTE nenustatyta.',
     ),
   );
 });

@@ -850,34 +850,6 @@ table.tbl td:first-child {
   color: var(--muted);
   font-size: 12px;
 }
-.kpi {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 10px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: #0e1732;
-}
-.kpi .dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--muted);
-  box-shadow: 0 0 0 2px #101a36 inset;
-}
-.kpi.good .dot {
-  background: var(--green);
-}
-.kpi.warn .dot {
-  background: var(--yellow);
-}
-.kpi.bad .dot {
-  background: var(--red);
-}
-.kpi .val {
-  font-weight: 700;
-}
 .summary {
   min-height: 160px;
 }

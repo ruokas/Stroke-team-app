@@ -123,7 +123,6 @@ test(
     inputs.nih0.value = '5';
     inputs.lkw.value = '2024-01-01T08:00';
     inputs.door.value = '2024-01-01T08:30';
-    inputs.ct.value = '2024-01-01T08:45';
     inputs.drugType.value = 'tnk';
     inputs.drugConc.value = '5';
     inputs.doseTotal.value = '10';

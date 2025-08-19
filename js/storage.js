@@ -173,16 +173,20 @@ export function updateDraftSelect(selectedId) {
   const sel = inputs.draftSelect;
   if (!sel) return;
   sel.innerHTML = '';
+  const filterVal =
+    document.getElementById('draftFilter')?.value.toLowerCase() || '';
   const drafts = getDrafts();
   const opt0 = document.createElement('option');
   opt0.value = '';
   opt0.textContent = '—';
   sel.appendChild(opt0);
-  Object.entries(drafts).forEach(([id, d]) => {
-    const opt = document.createElement('option');
-    opt.value = id;
-    opt.textContent = d.name;
-    sel.appendChild(opt);
-  });
+  Object.entries(drafts)
+    .filter(([, d]) => d.name.toLowerCase().includes(filterVal))
+    .forEach(([id, d]) => {
+      const opt = document.createElement('option');
+      opt.value = id;
+      opt.textContent = d.name;
+      sel.appendChild(opt);
+    });
   if (selectedId) sel.value = selectedId;
 }

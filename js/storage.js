@@ -29,7 +29,7 @@ function getRadioValue(nodes) {
 function setRadioValue(nodes, value) {
   nodes.forEach((n) => {
     n.checked = n.value === value;
-    n.dispatchEvent(new Event('change'));
+    n.dispatchEvent(new Event('change', { bubbles: true }));
   });
 }
 

@@ -3,7 +3,7 @@ import { updateKPIs } from './time.js';
 import { updateDrugDefaults } from './drugs.js';
 import { updateAge } from './age.js';
 
-const LS_KEY = 'strokeTeamDrafts_v1';
+const LS_KEY = 'insultoKomandaDrafts_v1';
 
 export function getDrafts() {
   const raw = localStorage.getItem(LS_KEY);

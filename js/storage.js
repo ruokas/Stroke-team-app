@@ -30,6 +30,7 @@ function getRadioValue(nodes) {
 function setRadioValue(nodes, value) {
   nodes.forEach((n) => {
     n.checked = n.value === value;
+    n.dispatchEvent(new Event('change'));
   });
 }
 
@@ -82,7 +83,8 @@ export function getPayload() {
     a_drug_apixaban: inputs.a_apixaban.checked,
     a_drug_rivaroxaban: inputs.a_rivaroxaban.checked,
     a_drug_dabigatran: inputs.a_dabigatran.checked,
-    a_drug_heparin: inputs.a_heparin.checked,
+    a_drug_edoxaban: inputs.a_edoxaban.checked,
+    a_drug_unknown: inputs.a_unknown.checked,
     a_lkw: getRadioValue(inputs.a_lkw),
     a_glucose: inputs.a_glucose.value,
     a_aks: inputs.a_aks.value,
@@ -124,7 +126,6 @@ export function setPayload(p) {
   setRadioValue(inputs.lkw_type, p.arrival_lkw_type || 'known');
   inputs.arrival_symptoms.value = p.arrival_symptoms || '';
   inputs.arrival_contra.value = p.arrival_contra || '';
-  inputs.lkw_type.forEach((n) => n.dispatchEvent(new Event('change')));
   inputs.a_personal.value = p.a_personal || '';
   inputs.a_name.value = p.a_name || '';
   inputs.a_dob.value = p.a_dob || '';
@@ -138,7 +139,8 @@ export function setPayload(p) {
   inputs.a_apixaban.checked = !!p.a_drug_apixaban;
   inputs.a_rivaroxaban.checked = !!p.a_drug_rivaroxaban;
   inputs.a_dabigatran.checked = !!p.a_drug_dabigatran;
-  inputs.a_heparin.checked = !!p.a_drug_heparin;
+  inputs.a_edoxaban.checked = !!p.a_drug_edoxaban;
+  inputs.a_unknown.checked = !!p.a_drug_unknown;
   setRadioValue(inputs.a_lkw, p.a_lkw || '');
   inputs.a_glucose.value = p.a_glucose || '';
   inputs.a_aks.value = p.a_aks || '';

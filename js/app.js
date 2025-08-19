@@ -75,6 +75,25 @@ function bind() {
   // Age calculation
   inputs.a_dob.addEventListener('input', updateAge);
 
+  // BP correction
+  const bpMedList = $('#bpMedList');
+  const bpEntries = $('#bpEntries');
+  $('#bpCorrBtn')?.addEventListener('click', () => {
+    bpMedList.classList.toggle('hidden');
+  });
+  $$('#bpMedList .bp-med').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const med = btn.dataset.med;
+      const dose = btn.dataset.dose || '';
+      const now = new Date().toISOString().slice(11, 16);
+      const entry = document.createElement('div');
+      entry.className = 'bp-entry mt-10';
+      entry.innerHTML = `<strong>${med}</strong><div class="grid-3 mt-5"><input type="time" value="${now}" /><input type="text" value="${dose}" /><input type="text" placeholder="Pastabos" /></div>`;
+      bpEntries.appendChild(entry);
+      bpMedList.classList.add('hidden');
+    });
+  });
+
   // Pill checked state
   document.querySelectorAll('.pill input').forEach((input) => {
     const pill = input.closest('.pill');

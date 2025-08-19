@@ -12,6 +12,7 @@ export const inputs = {
   sex: $('#p_sex'),
   weight: $('#p_weight'),
   bp: $('#p_bp'),
+  inr: $('#p_inr'),
   nih0: $('#p_nihss0'),
   nih24: $('#p_nihss24'),
   lkw: $('#t_lkw'),

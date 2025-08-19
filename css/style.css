@@ -171,8 +171,8 @@ nav .tab {
     color 0.2s;
 }
 nav .tab:hover {
-  background: color-mix(in srgb, #152231, white 10%);
-  color: color-mix(in srgb, var(--ink), white 10%);
+  background: #2c3846;
+  color: #ebf3fb;
 }
 nav .tab.active {
   background: #1f2e44;
@@ -187,7 +187,7 @@ nav .tab:focus-visible {
 section.card {
   background: rgba(18, 26, 36, 0.6);
   backdrop-filter: blur(10px);
-  border: 1px solid color-mix(in srgb, var(--line), white 20%);
+  border: 1px solid #576272;
   border-radius: 14px;
   padding: 14px;
   color: var(--ink);
@@ -293,11 +293,11 @@ textarea {
   color: #fff;
   font-weight: 700;
 }
-.pill:has(input:checked) {
+.pill.checked {
   background: var(--accent);
   border-color: #2d74b8;
 }
-.pill.red:has(input:checked) {
+.pill.red.checked {
   background: var(--red);
   border-color: #a52623;
 }

@@ -83,6 +83,22 @@ function bind() {
     update();
   });
 
+  // LKW option handling
+  const lkwOptions = inputs.lkw_type;
+  const lkwRow = $('#lkwTimeRow');
+  const updateLKW = () => {
+    const val = lkwOptions.find((o) => o.checked)?.value;
+    if (val === 'unknown') {
+      lkwRow.classList.add('hidden');
+      inputs.lkw.value = '';
+      updateKPIs();
+    } else {
+      lkwRow.classList.remove('hidden');
+    }
+  };
+  lkwOptions.forEach((o) => o.addEventListener('change', updateLKW));
+  updateLKW();
+
   // Save/Load/Export/Import
   const saveStatus = document.getElementById('saveStatus');
   const updateSaveStatus = () => {

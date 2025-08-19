@@ -80,6 +80,9 @@
         <a href="#" data-section="activation" class="tab active"
           ><span class="tab-icon">🚨</span>Aktyvacija</a
         >
+        <a href="#" data-section="arrival" class="tab"
+          ><span class="tab-icon">🚑</span>Paciento atvykimas</a
+        >
         <a href="#" data-section="patient" class="tab"
           ><span class="tab-icon">🧍</span>Paciento informacija</a
         >
@@ -227,6 +230,52 @@
           </form>
         </section>
 
+        <!-- Paciento atvykimas -->
+        <section id="arrival" class="card hidden">
+          <h2>Paciento atvykimas</h2>
+          <form>
+            <fieldset>
+              <legend>Atvykimo laikas</legend>
+              <div class="row">
+                <input id="t_door" type="datetime-local" />
+                <button class="btn ghost" data-now="t_door">Dabar</button>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Paskutinį kartą matytas sveikas</legend>
+              <div class="grid-3">
+                <label class="pill"
+                  ><input type="radio" name="lkw_type" value="known" checked />
+                  Paskutinį kartą matytas sveikas</label
+                >
+                <label class="pill"
+                  ><input type="radio" name="lkw_type" value="unknown" />
+                  Nežinoma</label
+                >
+                <label class="pill"
+                  ><input type="radio" name="lkw_type" value="sleep" /> Miego
+                  vidurio laikas</label
+                >
+              </div>
+              <div id="lkwTimeRow" class="row mt-4">
+                <input id="t_lkw" type="datetime-local" />
+                <button class="btn ghost" data-now="t_lkw">Dabar</button>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Simptomai</legend>
+              <textarea id="arrival_symptoms" rows="3"></textarea>
+            </fieldset>
+
+            <fieldset>
+              <legend>Kontraindikacijos trombolizei</legend>
+              <textarea id="arrival_contra" rows="3"></textarea>
+            </fieldset>
+          </form>
+        </section>
+
         <!-- Paciento informacija -->
         <section id="patient" class="card hidden">
           <h2>Paciento informacija</h2>
@@ -330,24 +379,10 @@
           <form>
             <fieldset class="grid-2">
               <div>
-                <label for="t_lkw">Paskutinį kartą sveikas (LKW)</label>
-                <div class="row">
-                  <input id="t_lkw" type="datetime-local" />
-                  <button class="btn ghost" data-now="t_lkw">Dabar</button>
-                </div>
-              </div>
-              <div>
                 <label for="t_onset">Simptomų pradžia</label>
                 <div class="row">
                   <input id="t_onset" type="datetime-local" />
                   <button class="btn ghost" data-now="t_onset">Dabar</button>
-                </div>
-              </div>
-              <div>
-                <label for="t_door">Atvykimas į SG</label>
-                <div class="row">
-                  <input id="t_door" type="datetime-local" />
-                  <button class="btn ghost" data-now="t_door">Dabar</button>
                 </div>
               </div>
               <div>

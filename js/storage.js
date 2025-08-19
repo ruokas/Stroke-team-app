@@ -62,6 +62,9 @@ export function getPayload() {
     i_tici: inputs.i_tici.value,
     i_decision: inputs.i_decision.value,
     notes: inputs.notes.value,
+    arrival_lkw_type: getRadioValue(inputs.lkw_type),
+    arrival_symptoms: inputs.arrival_symptoms.value,
+    arrival_contra: inputs.arrival_contra.value,
     goals: state.goals,
     def_tnk: inputs.def_tnk.value,
     def_tpa: inputs.def_tpa.value,
@@ -118,6 +121,10 @@ export function setPayload(p) {
   inputs.i_tici.value = p.i_tici || '';
   inputs.i_decision.value = p.i_decision || '';
   inputs.notes.value = p.notes || '';
+  setRadioValue(inputs.lkw_type, p.arrival_lkw_type || 'known');
+  inputs.arrival_symptoms.value = p.arrival_symptoms || '';
+  inputs.arrival_contra.value = p.arrival_contra || '';
+  inputs.lkw_type.forEach((n) => n.dispatchEvent(new Event('change')));
   inputs.a_personal.value = p.a_personal || '';
   inputs.a_name.value = p.a_name || '';
   inputs.a_dob.value = p.a_dob || '';

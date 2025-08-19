@@ -211,6 +211,8 @@ function bind() {
   const showSection = (id) => {
     sections.forEach((s) => s.classList.toggle('hidden', s.id !== id));
     tabs.forEach((t) => t.classList.toggle('active', t.dataset.section === id));
+    if (id === 'summarySec') genSummary();
+    if (id === 'decision' && !inputs.d_time.value) setNow('d_time');
     document.body.classList.remove('nav-open');
   };
   const activateFromHash = () => {
@@ -259,6 +261,7 @@ function bind() {
       saveLS(inputs.draftSelect.value);
       updateSaveStatus();
     }
+    if (!$('#summarySec').classList.contains('hidden')) genSummary();
   });
 
   // Initial

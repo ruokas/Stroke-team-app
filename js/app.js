@@ -81,9 +81,13 @@ function bind() {
         const now = new Date().toISOString().slice(11, 16);
         const entry = document.createElement('div');
         entry.className = 'bp-entry mt-10';
-        entry.innerHTML = `<strong>${med}</strong><div class="grid-3 mt-5"><input type="time" value="${now}" /><input type="text" value="${dose}" /><input type="text" placeholder="Pastabos" /></div>`;
+        const id = `bp_time_${Date.now()}`;
+        entry.innerHTML = `<strong>${med}</strong><div class="grid-3 mt-5"><div class="input-group"><input type="time" id="${id}" class="time-input" step="60" value="${now}" /><button class="btn ghost" data-now="${id}">Dabar</button></div><input type="text" value="${dose}" /><input type="text" placeholder="Pastabos" /></div>`;
         bpEntries.appendChild(entry);
         bpMedList.classList.add('hidden');
+        entry
+          .querySelector(`[data-now="${id}"]`)
+          .addEventListener('click', () => setNow(id));
       });
     });
   }

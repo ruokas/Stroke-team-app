@@ -143,8 +143,11 @@ main {
 }
 nav {
   position: sticky;
-  top: 68px;
+  top: 0;
+  margin-top: 68px;
   align-self: start;
+  max-height: calc(100vh - 68px);
+  overflow-y: auto;
 }
 #navToggle {
   display: none;
@@ -885,6 +888,26 @@ details summary::-webkit-details-marker {
   display: none;
 }
 details .card {
+  margin-top: 8px;
+}
+
+.nihss-grid {
+  display: grid;
+  gap: 8px;
+}
+.nihss-grid label {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+.nihss-grid input[type='number'] {
+  width: 3rem;
+}
+
+.nihss-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-top: 8px;
 }
 .split-grid {

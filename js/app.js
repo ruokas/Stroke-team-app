@@ -13,6 +13,27 @@ import {
   getDrafts,
 } from './storage.js';
 
+function initNIHSS() {
+  $$('.nihss-calc').forEach((calc) => {
+    const target = document.getElementById(calc.dataset.target);
+    const inputs = calc.querySelectorAll('input[data-score]');
+    const totalEl = calc.querySelector('.nihss-total');
+    const update = () => {
+      const sum = Array.from(inputs).reduce(
+        (s, i) => s + (parseInt(i.value, 10) || 0),
+        0,
+      );
+      totalEl.textContent = sum;
+    };
+    inputs.forEach((i) => i.addEventListener('input', update));
+    calc.querySelector('.apply').addEventListener('click', () => {
+      target.value = totalEl.textContent;
+      target.dispatchEvent(new Event('input'));
+      calc.removeAttribute('open');
+    });
+  });
+}
+
 function bind() {
   // Now buttons
   $$('button[data-now]').forEach((b) =>
@@ -169,6 +190,7 @@ function bind() {
   });
 
   // Initial
+  initNIHSS();
   updateDrugDefaults();
   updateKPIs();
   updateDraftSelect();

@@ -212,7 +212,8 @@ function bind() {
     sections.forEach((s) => s.classList.toggle('hidden', s.id !== id));
     tabs.forEach((t) => t.classList.toggle('active', t.dataset.section === id));
     if (id === 'summarySec') genSummary();
-    if (id === 'decision' && !inputs.d_time.value) setNow('d_time');
+    if (id === 'decision' && inputs.d_time && !inputs.d_time.value)
+      setNow('d_time');
     document.body.classList.remove('nav-open');
   };
   const activateFromHash = () => {

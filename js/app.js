@@ -57,6 +57,7 @@ const inputs = {
   def_tpa: $('#def_tpa'),
   autosave: $('#autosave'),
   summary: $('#summary'),
+  draftSelect: $('#draftSelect'),
 };
 
 state.autosave = inputs.autosave.value || 'on';
@@ -358,7 +359,25 @@ function copySummary() {
 // ------------------------------
 // Išsaugojimas / atkūrimas
 // ------------------------------
-const LS_KEY = 'strokeTeamDraft_v1';
+const LS_KEY = 'strokeTeamDrafts_v1';
+
+function getDrafts() {
+  const raw = localStorage.getItem(LS_KEY);
+  if (!raw) return {};
+  try {
+    return JSON.parse(raw);
+  } catch (e) {
+    console.error(e);
+    localStorage.removeItem(LS_KEY);
+    return {};
+  }
+}
+
+function setDrafts(drafts) {
+  const keys = Object.keys(drafts);
+  if (keys.length) localStorage.setItem(LS_KEY, JSON.stringify(drafts));
+  else localStorage.removeItem(LS_KEY);
+}
 
 function getPayload() {
   return {
@@ -440,19 +459,52 @@ function setPayload(p) {
   updateKPIs();
 }
 
-function saveLS() {
-  localStorage.setItem(LS_KEY, JSON.stringify(getPayload()));
+function saveLS(id, name) {
+  const drafts = getDrafts();
+  const draftId = id || Date.now().toString();
+  const draftName =
+    name || drafts[draftId]?.name || inputs.id.value || `Juodraštis ${draftId}`;
+  drafts[draftId] = { name: draftName, data: getPayload() };
+  setDrafts(drafts);
+  updateDraftSelect(draftId);
+  return draftId;
 }
-function loadLS() {
-  const raw = localStorage.getItem(LS_KEY);
-  if (!raw) return null;
-  try {
-    return JSON.parse(raw);
-  } catch (e) {
-    console.error(e);
-    localStorage.removeItem(LS_KEY);
-    return null;
+function loadLS(id) {
+  const drafts = getDrafts();
+  return drafts[id] ? drafts[id].data : null;
+}
+function deleteLS(id) {
+  const drafts = getDrafts();
+  if (drafts[id]) {
+    delete drafts[id];
+    setDrafts(drafts);
+    updateDraftSelect();
   }
+}
+function renameLS(id, newName) {
+  const drafts = getDrafts();
+  if (drafts[id]) {
+    drafts[id].name = newName;
+    setDrafts(drafts);
+    updateDraftSelect(id);
+  }
+}
+function updateDraftSelect(selectedId) {
+  const sel = inputs.draftSelect;
+  if (!sel) return;
+  sel.innerHTML = '';
+  const drafts = getDrafts();
+  const opt0 = document.createElement('option');
+  opt0.value = '';
+  opt0.textContent = '—';
+  sel.appendChild(opt0);
+  Object.entries(drafts).forEach(([id, d]) => {
+    const opt = document.createElement('option');
+    opt.value = id;
+    opt.textContent = d.name;
+    sel.appendChild(opt);
+  });
+  if (selectedId) sel.value = selectedId;
 }
 
 function triggerChange(el) {
@@ -493,15 +545,46 @@ function bind() {
 
   // Save/Load/Export/Import
   $('#saveBtn').addEventListener('click', () => {
-    saveLS();
+    const existing = inputs.draftSelect.value;
+    let name = null;
+    if (!existing)
+      name = prompt('Juodraščio pavadinimas?', inputs.id.value || 'Juodraštis');
+    const id = saveLS(existing || undefined, name);
+    inputs.draftSelect.value = id;
     alert('Išsaugota naršyklėje.');
   });
   $('#loadBtn').addEventListener('click', () => {
-    const p = loadLS();
+    const id = inputs.draftSelect.value;
+    if (!id) {
+      alert('Pasirinkite juodraštį.');
+      return;
+    }
+    const p = loadLS(id);
     if (p) {
       setPayload(p);
       alert('Atkurta iš naršyklės.');
     } else alert('Nėra išsaugoto įrašo.');
+  });
+  $('#renameDraftBtn').addEventListener('click', () => {
+    const id = inputs.draftSelect.value;
+    if (!id) {
+      alert('Pasirinkite juodraštį.');
+      return;
+    }
+    const drafts = getDrafts();
+    const newName = prompt('Naujas pavadinimas', drafts[id]?.name || '');
+    if (newName) renameLS(id, newName);
+  });
+  $('#deleteDraftBtn').addEventListener('click', () => {
+    const id = inputs.draftSelect.value;
+    if (!id) {
+      alert('Pasirinkite juodraštį.');
+      return;
+    }
+    if (confirm('Ištrinti juodraštį?')) {
+      deleteLS(id);
+      inputs.draftSelect.value = '';
+    }
   });
   $('#exportBtn').addEventListener('click', () => {
     const data = JSON.stringify(getPayload(), null, 2);
@@ -565,12 +648,14 @@ function bind() {
     state.autosave = e.target.value;
   });
   document.addEventListener('input', () => {
-    if (state.autosave === 'on') saveLS();
+    if (state.autosave === 'on' && inputs.draftSelect.value)
+      saveLS(inputs.draftSelect.value);
   });
 
   // Initial
   updateDrugDefaults();
   updateKPIs();
+  updateDraftSelect();
   // Timer: 1s
   setInterval(() => {
     updateLiveTiles();

@@ -904,6 +904,10 @@ details .card {
   margin-top: 8px;
 }
 
+.nihss-calc {
+  margin-top: 8px;
+}
+
 .nihss-grid {
   display: grid;
   gap: 8px;

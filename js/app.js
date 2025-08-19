@@ -30,7 +30,6 @@ function initNIHSS() {
     calc.querySelector('.apply').addEventListener('click', () => {
       target.value = totalEl.textContent;
       target.dispatchEvent(new Event('input'));
-      calc.removeAttribute('open');
     });
   });
 }

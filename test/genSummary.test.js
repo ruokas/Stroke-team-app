@@ -54,7 +54,7 @@ test('genSummary generates summary text correctly', async () => {
 
   // populate typical inputs
   inputs.id.value = '123';
-  inputs.dob.value = '1980-01-01';
+  inputs.a_dob.value = '1980-01-01';
   inputs.sex.value = 'Vyras';
   inputs.weight.value = '80';
   inputs.bp.value = '120/80';

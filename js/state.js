@@ -9,7 +9,6 @@ export const state = {
 
 export const inputs = {
   id: $('#p_id'),
-  dob: $('#p_dob'),
   sex: $('#p_sex'),
   weight: $('#p_weight'),
   bp: $('#p_bp'),
@@ -46,6 +45,7 @@ export const inputs = {
   draftSelect: $('#draftSelect'),
   a_personal: $('#a_personal'),
   a_name: $('#a_name'),
+  a_dob: $('#a_dob'),
   a_age: $('#a_age'),
   a_sym_face: $$('input[name="a_face"]'),
   a_sym_arm: $$('input[name="a_arm"]'),

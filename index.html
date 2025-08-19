@@ -101,8 +101,10 @@
                   <input id="a_name" type="text" />
                 </div>
                 <div>
-                  <label for="a_age">Amžius</label>
-                  <input id="a_age" type="number" min="0" />
+                  <label for="a_dob">Gimimo data</label>
+                  <input id="a_dob" type="date" />
+                  <div id="a_age_display" class="subtle"></div>
+                  <input id="a_age" type="hidden" />
                 </div>
               </div>
             </fieldset>
@@ -221,10 +223,6 @@
               <div>
                 <label for="p_id">Ligos istorijos Nr.</label>
                 <input id="p_id" type="text" placeholder="(nebūtina)" />
-              </div>
-              <div>
-                <label for="p_dob">Gimimo data</label>
-                <input id="p_dob" type="date" />
               </div>
               <div>
                 <label for="p_sex">Lytis</label>

@@ -4,6 +4,7 @@ export function calcAge(dob) {
   if (!dob) return '';
   const birth = new Date(dob);
   const today = new Date();
+  if (isNaN(birth.getTime()) || birth > today) return '';
   let age = today.getFullYear() - birth.getFullYear();
   const m = today.getMonth() - birth.getMonth();
   if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--;

@@ -51,5 +51,19 @@ test('calcAge and updateAge compute and display age correctly', async () => {
   assert.strictEqual(inputs.a_age.value, '');
   assert.strictEqual(elements['#a_age_display'].textContent, '');
 
+  // invalid date of birth
+  assert.strictEqual(calcAge('not-a-date'), '');
+  inputs.a_dob.value = 'not-a-date';
+  updateAge();
+  assert.strictEqual(inputs.a_age.value, '');
+  assert.strictEqual(elements['#a_age_display'].textContent, '');
+
+  // future date of birth
+  assert.strictEqual(calcAge('2025-01-01'), '');
+  inputs.a_dob.value = '2025-01-01';
+  updateAge();
+  assert.strictEqual(inputs.a_age.value, '');
+  assert.strictEqual(elements['#a_age_display'].textContent, '');
+
   global.Date = RealDate;
 });

@@ -57,15 +57,7 @@
           <form>
             <fieldset class="grid-2">
               <div>
-                <label for="p_name">Vardas Pavardė</label>
-                <input
-                  id="p_name"
-                  type="text"
-                  placeholder="Vardenis Pavardenis"
-                />
-              </div>
-              <div>
-                <label for="p_id">Asmens kodas / ID</label>
+                <label for="p_id">Ligos istorijos Nr.</label>
                 <input id="p_id" type="text" placeholder="(nebūtina)" />
               </div>
               <div>
@@ -76,9 +68,9 @@
                 <label for="p_sex">Lytis</label>
                 <select id="p_sex">
                   <option value="">—</option>
-                  <option>Vyras</option>
-                  <option>Moteris</option>
-                  <option>Kita / nenurodyta</option>
+                  <option value="Vyras">Vyras</option>
+                  <option value="Moteris">Moteris</option>
+                  <option value="Kita / nenurodyta">Kita / nenurodyta</option>
                 </select>
               </div>
               <div>
@@ -319,12 +311,9 @@
           <textarea
             id="summary"
             class="summary mono"
-            placeholder="Spauskite „Generuoti“"
+            placeholder="Santrauka generuojama automatiškai"
           ></textarea>
           <div class="sticky-actions">
-            <button id="genSummaryBtn" class="btn primary">
-              🧾 Generuoti santrauką
-            </button>
             <button id="copySummaryBtn" class="btn">📋 Kopijuoti</button>
           </div>
         </section>
@@ -437,8 +426,8 @@
               dozę ir tūrius.
             </li>
             <li>
-              Pažymėkite atliktas intervencijas ir spauskite „Generuoti
-              santrauką“ → „Kopijuoti“.
+              Pažymėkite atliktas intervencijas, atverkite santrauką – ji
+              generuojama automatiškai – ir spauskite „Kopijuoti“.
             </li>
             <li>
               „Išsaugoti/Atkurti“ naudoja vietinę naršyklės atmintį

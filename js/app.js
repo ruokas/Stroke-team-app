@@ -17,16 +17,16 @@ import {
 function initNIHSS() {
   $$('.nihss-calc').forEach((calc) => {
     const target = document.getElementById(calc.dataset.target);
-    const inputs = calc.querySelectorAll('input[data-score]');
+    const fields = calc.querySelectorAll('[data-score]');
     const totalEl = calc.querySelector('.nihss-total');
     const update = () => {
-      const sum = Array.from(inputs).reduce(
+      const sum = Array.from(fields).reduce(
         (s, i) => s + (parseInt(i.value, 10) || 0),
         0,
       );
       totalEl.textContent = sum;
     };
-    inputs.forEach((i) => i.addEventListener('input', update));
+    fields.forEach((i) => i.addEventListener('input', update));
     calc.querySelector('.apply').addEventListener('click', () => {
       target.value = totalEl.textContent;
       target.dispatchEvent(new Event('input'));

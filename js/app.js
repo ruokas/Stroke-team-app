@@ -165,14 +165,23 @@ function bind() {
   });
 
   // Navigation
+  const tabs = $$('nav .tab');
+  const sections = $$('main > section');
+  const showSection = (id) => {
+    sections.forEach((s) => s.classList.toggle('hidden', s.id !== id));
+    tabs.forEach((t) => t.classList.toggle('active', t.dataset.section === id));
+    document.body.classList.remove('nav-open');
+  };
   $('#navToggle').addEventListener('click', () => {
     document.body.classList.toggle('nav-open');
   });
-  $$('nav .tab').forEach((tab) =>
-    tab.addEventListener('click', () =>
-      document.body.classList.remove('nav-open'),
-    ),
+  tabs.forEach((tab) =>
+    tab.addEventListener('click', (e) => {
+      e.preventDefault();
+      showSection(tab.dataset.section);
+    }),
   );
+  showSection(tabs[0]?.dataset.section);
 
   // Clear times
   $('#clearTimes').addEventListener('click', () => {

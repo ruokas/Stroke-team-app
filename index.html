@@ -77,12 +77,24 @@
     <div class="wrap layout-main">
       <button id="navToggle" class="btn">☰ Meniu</button>
       <nav>
-        <a href="#activation" class="tab"><span class="tab-icon">🚨</span>Aktyvacija</a>
-        <a href="#patient" class="tab"><span class="tab-icon">🧍</span>Paciento informacija</a>
-        <a href="#times" class="tab"><span class="tab-icon">⏱️</span>Laikai ir tikslai</a>
-        <a href="#drugs" class="tab"><span class="tab-icon">💊</span>Vaistų skaičiuoklės</a>
-        <a href="#interventions" class="tab"><span class="tab-icon">🛠️</span>Tyrimai ir intervencijos</a>
-        <a href="#summarySec" class="tab"><span class="tab-icon">📄</span>Santrauka</a>
+        <a href="#" data-section="activation" class="tab active"
+          ><span class="tab-icon">🚨</span>Aktyvacija</a
+        >
+        <a href="#" data-section="patient" class="tab"
+          ><span class="tab-icon">🧍</span>Paciento informacija</a
+        >
+        <a href="#" data-section="times" class="tab"
+          ><span class="tab-icon">⏱️</span>Laikai ir tikslai</a
+        >
+        <a href="#" data-section="drugs" class="tab"
+          ><span class="tab-icon">💊</span>Vaistų skaičiuoklės</a
+        >
+        <a href="#" data-section="interventions" class="tab"
+          ><span class="tab-icon">🛠️</span>Tyrimai ir intervencijos</a
+        >
+        <a href="#" data-section="summarySec" class="tab"
+          ><span class="tab-icon">📄</span>Santrauka</a
+        >
       </nav>
       <main class="px-0">
         <!-- Aktyvacija -->
@@ -216,7 +228,7 @@
         </section>
 
         <!-- Paciento informacija -->
-        <section id="patient" class="card">
+        <section id="patient" class="card hidden">
           <h2>Paciento informacija</h2>
           <form>
             <fieldset class="grid-2">
@@ -313,7 +325,7 @@
         </section>
 
         <!-- Laikai -->
-        <section id="times" class="card">
+        <section id="times" class="card hidden">
           <h2>Laikai ir tikslai</h2>
           <form>
             <fieldset class="grid-2">
@@ -401,7 +413,7 @@
         </section>
 
         <!-- Vaistų skaičiuoklės -->
-        <section id="drugs" class="card">
+        <section id="drugs" class="card hidden">
           <h2>Vaistų skaičiuoklės</h2>
           <div class="grid-2">
             <div>
@@ -467,7 +479,7 @@
         </section>
 
         <!-- Intervencijos ir tyrimai -->
-        <section id="interventions" class="card">
+        <section id="interventions" class="card hidden">
           <h2>Tyrimai ir intervencijos</h2>
           <div class="grid-2">
             <div>
@@ -518,7 +530,7 @@
         </section>
 
         <!-- Santrauka HIS sistemai -->
-        <section id="summarySec" class="card full-span">
+        <section id="summarySec" class="card full-span hidden">
           <h2>Santrauka (kopijavimui į HIS)</h2>
           <textarea
             id="summary"

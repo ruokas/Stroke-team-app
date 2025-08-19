@@ -209,6 +209,10 @@ function calcDrugs() {
   });
 
   if (!wValid || !cValid) {
+    inputs.doseTotal.value = '';
+    inputs.doseVol.value = '';
+    inputs.tpaBolus.value = '';
+    inputs.tpaInf.value = '';
     if (!wValid) {
       const target = inputs.calcWeight.value
         ? inputs.calcWeight

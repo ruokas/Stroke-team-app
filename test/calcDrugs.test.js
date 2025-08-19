@@ -106,4 +106,37 @@ assert.strictEqual(sandbox.inputs.doseVol.value, 90);
 assert.strictEqual(sandbox.inputs.tpaBolus.value, '9 mg (9 ml)');
 assert.strictEqual(sandbox.inputs.tpaInf.value, '81 mg (81 ml) · ~81 ml/val');
 
-console.log('calcDrugs handles dosing correctly and validates inputs');
+// reset outputs when inputs become invalid after a valid calculation
+sandbox.inputs.calcWeight.value = '70';
+sandbox.inputs.drugConc.value = '1';
+
+sandbox.calcDrugs();
+assert.strictEqual(sandbox.inputs.doseTotal.value, 63);
+assert.notStrictEqual(sandbox.inputs.doseTotal.value, '', 'doseTotal should be populated after valid calc');
+
+// invalidate weight
+sandbox.inputs.calcWeight.value = '0';
+
+sandbox.calcDrugs();
+assert.strictEqual(sandbox.inputs.doseTotal.value, '', 'doseTotal should clear when weight invalid');
+assert.strictEqual(sandbox.inputs.doseVol.value, '', 'doseVol should clear when weight invalid');
+assert.strictEqual(sandbox.inputs.tpaBolus.value, '', 'tpaBolus should clear when weight invalid');
+assert.strictEqual(sandbox.inputs.tpaInf.value, '', 'tpaInf should clear when weight invalid');
+
+// restore valid inputs
+sandbox.inputs.calcWeight.value = '70';
+sandbox.inputs.drugConc.value = '1';
+
+sandbox.calcDrugs();
+assert.strictEqual(sandbox.inputs.doseTotal.value, 63);
+
+// invalidate concentration
+sandbox.inputs.drugConc.value = '0';
+
+sandbox.calcDrugs();
+assert.strictEqual(sandbox.inputs.doseTotal.value, '', 'doseTotal should clear when concentration invalid');
+assert.strictEqual(sandbox.inputs.doseVol.value, '', 'doseVol should clear when concentration invalid');
+assert.strictEqual(sandbox.inputs.tpaBolus.value, '', 'tpaBolus should clear when concentration invalid');
+assert.strictEqual(sandbox.inputs.tpaInf.value, '', 'tpaInf should clear when concentration invalid');
+
+console.log('calcDrugs handles dosing correctly, validates inputs, and resets outputs');

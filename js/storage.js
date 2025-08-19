@@ -40,6 +40,7 @@ export function getPayload() {
     p_sex: inputs.sex.value,
     p_weight: inputs.weight.value,
     p_bp: inputs.bp.value,
+    p_inr: inputs.inr.value,
     p_nihss0: inputs.nih0.value,
     p_nihss24: inputs.nih24.value,
     t_lkw: inputs.lkw.value,
@@ -103,6 +104,7 @@ export function setPayload(p) {
   inputs.sex.value = p.p_sex || '';
   inputs.weight.value = p.p_weight || '';
   inputs.bp.value = p.p_bp || '';
+  inputs.inr.value = p.p_inr || '';
   inputs.nih0.value = p.p_nihss0 || '';
   inputs.nih24.value = p.p_nihss24 || '';
   inputs.lkw.value = p.t_lkw || '';

@@ -14,7 +14,9 @@
   --green: #00c853;
   --ink2: #d7ecff;
 }
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 body {
@@ -76,7 +78,7 @@ header {
   font-size: 18px;
 }
 .logo::before {
-  content: "ST";
+  content: 'ST';
 }
 .header-actions {
   display: flex;
@@ -147,8 +149,7 @@ main {
 }
 nav {
   position: sticky;
-  top: 0;
-  margin-top: var(--header-height);
+  top: var(--header-height);
   align-self: start;
   max-height: calc(100vh - var(--header-height));
   overflow-y: auto;
@@ -176,6 +177,7 @@ nav .tab {
   transition:
     background-color 0.2s,
     color 0.2s;
+  text-decoration: none;
 }
 nav .tab:hover {
   background: #2c3846;

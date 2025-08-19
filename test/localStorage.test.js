@@ -57,7 +57,8 @@ const localStorageStub = {
 };
 
 global.document = documentStub;
-global.showToast = () => {};
+const { toast } = await import('../js/toast.js');
+toast.showToast = () => {};
 global.confirm = () => true;
 global.prompt = () => '';
 global.localStorage = localStorageStub;

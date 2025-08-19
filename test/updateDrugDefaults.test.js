@@ -20,7 +20,8 @@ test('updateDrugDefaults sets default concentrations correctly', async () => {
   };
 
   global.document = documentStub;
-  global.showToast = () => {};
+  const { toast } = await import('../js/toast.js');
+  toast.showToast = () => {};
   global.confirm = () => true;
   global.localStorage = { setItem: () => {}, getItem: () => null };
   global.URL = { createObjectURL: () => '', revokeObjectURL: () => {} };

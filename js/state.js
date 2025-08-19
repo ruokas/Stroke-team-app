@@ -3,7 +3,6 @@ export const $ = (sel) => document.querySelector(sel);
 export const $$ = (sel) => Array.from(document.querySelectorAll(sel));
 
 export const state = {
-  goals: { d2ct: 20, d2n: 60, d2g: 90 },
   autosave: 'on',
 };
 
@@ -13,12 +12,9 @@ export const inputs = {
   inr: $('#p_inr'),
   nih0: $('#p_nihss0'),
   lkw: $('#t_lkw'),
-  onset: $('#t_onset'),
   door: $('#t_door'),
-  ct: $('#t_ct'),
-  needle: $('#t_needle'),
-  groin: $('#t_groin'),
-  reperf: $('#t_reperf'),
+  d_time: $('#d_time'),
+  d_decision: $$('input[name="d_decision"]'),
   lkw_type: $$('input[name="lkw_type"]'),
   arrival_symptoms: $('#arrival_symptoms'),
   arrival_contra: $$('input[name="arrival_contra"]'),
@@ -28,16 +24,6 @@ export const inputs = {
   doseVol: $('#dose_volume'),
   tpaBolus: $('#tpa_bolus'),
   tpaInf: $('#tpa_infusion'),
-  i_ct: $('#i_ct'),
-  i_cta: $('#i_cta'),
-  i_tl: $('#i_thrombolysis'),
-  i_mt: $('#i_thrombectomy'),
-  i_tici: $('#i_tici'),
-  i_decision: $('#i_decision'),
-  notes: $('#notes'),
-  goal_ct: $('#goal_ct'),
-  goal_n: $('#goal_n'),
-  goal_g: $('#goal_g'),
   def_tnk: $('#def_tnk'),
   def_tpa: $('#def_tpa'),
   autosave: $('#autosave'),

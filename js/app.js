@@ -1,5 +1,5 @@
 import { $, $$, inputs, state } from './state.js';
-import { TIME_FIELDS, setNow, updateKPIs, updateLiveTiles } from './time.js';
+import { setNow } from './time.js';
 import { updateDrugDefaults, calcDrugs } from './drugs.js';
 import { genSummary, copySummary } from './summary.js';
 import { updateAge } from './age.js';
@@ -49,16 +49,7 @@ function bind() {
     b.addEventListener('click', () => setNow(b.getAttribute('data-now'))),
   );
 
-  // KPI update on any time change
-  TIME_FIELDS.forEach((id) => {
-    const el = document.getElementById(id);
-    el.addEventListener('input', updateKPIs);
-  });
-
-  // Goals / defaults
-  [inputs.goal_ct, inputs.goal_n, inputs.goal_g].forEach((el) =>
-    el.addEventListener('input', updateKPIs),
-  );
+  // Drug defaults
   [inputs.def_tnk, inputs.def_tpa].forEach((el) =>
     el.addEventListener('input', updateDrugDefaults),
   );
@@ -123,7 +114,6 @@ function bind() {
     if (val === 'unknown') {
       lkwRow.classList.add('hidden');
       inputs.lkw.value = '';
-      updateKPIs();
     } else {
       lkwRow.classList.remove('hidden');
     }
@@ -242,13 +232,12 @@ function bind() {
         else if (
           el.id !== 'def_tnk' &&
           el.id !== 'def_tpa' &&
-          !el.matches('#goal_ct,#goal_n,#goal_g,#autosave')
+          el.id !== 'autosave'
         )
           el.value = '';
         el.classList.remove('invalid');
         if (el.setCustomValidity) el.setCustomValidity('');
       });
-      updateKPIs();
       updateDrugDefaults();
       $('#summary').value = '';
     }
@@ -268,12 +257,8 @@ function bind() {
   // Initial
   initNIHSS();
   updateDrugDefaults();
-  updateKPIs();
   updateAge();
   updateDraftSelect();
-  setInterval(() => {
-    updateLiveTiles();
-  }, 1000);
 }
 
 document.addEventListener('DOMContentLoaded', bind);

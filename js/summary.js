@@ -1,5 +1,4 @@
-import { inputs, state } from './state.js';
-import { toDate, minsBetween, fmtMins } from './time.js';
+import { inputs } from './state.js';
 
 export function genSummary() {
   const get = (el) => (el && el.value ? el.value : null);
@@ -8,26 +7,10 @@ export function genSummary() {
   const bp = get(inputs.bp) || '—';
   const nih0 = get(inputs.nih0) || '—';
 
-  const tLKW = get(inputs.lkw),
-    tOnset = get(inputs.onset),
-    tDoor = get(inputs.door),
-    tCT = get(inputs.ct),
-    tN = get(inputs.needle),
-    tG = get(inputs.groin),
-    tR = get(inputs.reperf);
-
-  const dLKW = toDate(tLKW),
-    dOnset = toDate(tOnset),
-    dDoor = toDate(tDoor),
-    dCT = toDate(tCT),
-    dN = toDate(tN),
-    dG = toDate(tG),
-    dR = toDate(tR);
-
-  const d2ct = minsBetween(dDoor, dCT);
-  const d2n = minsBetween(dDoor, dN);
-  const d2g = minsBetween(dDoor, dG);
-  const o2n = minsBetween(dOnset || dLKW, dN);
+  const tLKW = get(inputs.lkw);
+  const tDoor = get(inputs.door);
+  const tDecision = get(inputs.d_time);
+  const decisionVal = inputs.d_decision.find((n) => n.checked)?.value;
 
   const drugType =
     inputs.drugType.value === 'tnk' ? 'Tenekteplazė' : 'Alteplazė';
@@ -44,37 +27,15 @@ export function genSummary() {
     `PACIENTAS: gim. data: ${dob}, svoris: ${w} kg, AKS atvykus: ${bp}. NIHSS pradinis: ${nih0}.`,
   );
   parts.push(
-    `LAIKAI: LKW: ${tLKW || '—'}, Pradžia: ${tOnset || '—'}, Atvykimas: ${tDoor || '—'}, KT: ${tCT || '—'}, Trombolizė: ${tN || '—'}, Kateterizacija: ${tG || '—'}, Reperfuzija: ${tR || '—'}.`,
+    `LAIKAI: LKW: ${tLKW || '—'}, Atvykimas: ${tDoor || '—'}, Sprendimas: ${tDecision || '—'}.`,
   );
   parts.push(
-    `RODIKLIAI: D2CT ${fmtMins(d2ct)}, D2N ${fmtMins(d2n)}, D2G ${fmtMins(d2g)}${o2n != null ? `, O2N ${fmtMins(o2n)}` : ''}. Tikslai: D2CT ≤ ${state.goals.d2ct} min, D2N ≤ ${state.goals.d2n} min, D2G ≤ ${state.goals.d2g} min.`,
+    `VAISTAI: ${drugType}. Koncentracija: ${conc}. Bendra dozė: ${totalDose} (${totalVol}). ${
+      tpaBolus ? `Bolius: ${tpaBolus}. ` : ''
+    }${tpaInf ? `Infuzija: ${tpaInf}.` : ''}`,
   );
-
-  if (
-    inputs.i_ct.checked ||
-    inputs.i_cta.checked ||
-    inputs.i_tl.checked ||
-    inputs.i_mt.checked
-  ) {
-    const ivs = [];
-    if (inputs.i_ct.checked) ivs.push('KT galvos');
-    if (inputs.i_cta.checked) ivs.push('CTA/CTP');
-    if (inputs.i_tl.checked) ivs.push('IV trombolizė');
-    if (inputs.i_mt.checked) ivs.push('Mechaninė trombektomija');
-    parts.push(
-      `TYRIMAI/INTERVENCIJOS: ${ivs.join(', ')}${inputs.i_tici.value ? `, TICI: ${inputs.i_tici.value}` : ''}.`,
-    );
-  }
-
-  parts.push(
-    `VAISTAI: ${drugType}. Koncentracija: ${conc}. Bendra dozė: ${totalDose} (${totalVol}). ${tpaBolus ? `Bolius: ${tpaBolus}. ` : ''}${tpaInf ? `Infuzija: ${tpaInf}.` : ''}`,
-  );
-
-  if (inputs.i_decision.value) {
-    parts.push(`SPRENDIMAS: ${inputs.i_decision.value}.`);
-  }
-  if (inputs.notes.value) {
-    parts.push(`PASTABOS: ${inputs.notes.value}`);
+  if (decisionVal) {
+    parts.push(`SPRENDIMAS: ${decisionVal}.`);
   }
 
   inputs.summary.value = parts.join('\n');

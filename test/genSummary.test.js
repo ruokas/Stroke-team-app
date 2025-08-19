@@ -1,6 +1,4 @@
-const fs = require('fs');
-const vm = require('vm');
-const assert = require('assert');
+import assert from 'assert';
 
 const elements = {};
 function createEl() {
@@ -25,10 +23,7 @@ function createEl() {
     checked: false,
   };
 }
-function getEl(key) {
-  if (!elements[key]) elements[key] = createEl();
-  return elements[key];
-}
+function getEl(key) { if (!elements[key]) elements[key] = createEl(); return elements[key]; }
 
 const documentStub = {
   querySelector: (sel) => getEl(sel),
@@ -38,56 +33,50 @@ const documentStub = {
   createElement: () => createEl(),
 };
 
-const sandbox = {
-  document: documentStub,
-  alert: () => {},
-  confirm: () => true,
-  localStorage: { setItem: () => {}, getItem: () => null },
-  URL: { createObjectURL: () => '', revokeObjectURL: () => {} },
-  Blob: function () {},
-  FileReader: function () {
-    this.readAsText = () => {};
-  },
-  setInterval: () => {},
-};
+global.document = documentStub;
+global.alert = () => {};
+global.confirm = () => true;
+global.localStorage = { setItem: () => {}, getItem: () => null };
+global.URL = { createObjectURL: () => '', revokeObjectURL: () => {} };
+global.Blob = function () {};
+global.FileReader = function () { this.readAsText = () => {}; };
+global.setInterval = () => {};
 
-vm.createContext(sandbox);
-const code = fs.readFileSync('js/app.js', 'utf8');
-vm.runInContext(code, sandbox);
-vm.runInContext('this.inputs = inputs; this.genSummary = genSummary;', sandbox);
+const { inputs } = await import('../js/state.js');
+const { genSummary } = await import('../js/summary.js');
 
 // populate typical inputs
-sandbox.inputs.id.value = '123';
-sandbox.inputs.dob.value = '1980-01-01';
-sandbox.inputs.sex.value = 'Vyras';
-sandbox.inputs.weight.value = '80';
-sandbox.inputs.bp.value = '120/80';
-sandbox.inputs.nih0.value = '10';
-sandbox.inputs.nih24.value = '5';
+inputs.id.value = '123';
+inputs.dob.value = '1980-01-01';
+inputs.sex.value = 'Vyras';
+inputs.weight.value = '80';
+inputs.bp.value = '120/80';
+inputs.nih0.value = '10';
+inputs.nih24.value = '5';
 
-sandbox.inputs.lkw.value = '2024-01-01T07:00';
-sandbox.inputs.onset.value = '2024-01-01T07:30';
-sandbox.inputs.door.value = '2024-01-01T08:00';
-sandbox.inputs.ct.value = '2024-01-01T08:20';
-sandbox.inputs.needle.value = '2024-01-01T08:50';
-sandbox.inputs.groin.value = '2024-01-01T09:30';
-sandbox.inputs.reperf.value = '2024-01-01T10:00';
+inputs.lkw.value = '2024-01-01T07:00';
+inputs.onset.value = '2024-01-01T07:30';
+inputs.door.value = '2024-01-01T08:00';
+inputs.ct.value = '2024-01-01T08:20';
+inputs.needle.value = '2024-01-01T08:50';
+inputs.groin.value = '2024-01-01T09:30';
+inputs.reperf.value = '2024-01-01T10:00';
 
-sandbox.inputs.drugType.value = 'tnk';
-sandbox.inputs.drugConc.value = '5';
-sandbox.inputs.doseTotal.value = '20';
-sandbox.inputs.doseVol.value = '4';
+inputs.drugType.value = 'tnk';
+inputs.drugConc.value = '5';
+inputs.doseTotal.value = '20';
+inputs.doseVol.value = '4';
 
-sandbox.inputs.i_ct.checked = true;
-sandbox.inputs.i_tl.checked = true;
-sandbox.inputs.i_tici.value = '2b';
+inputs.i_ct.checked = true;
+inputs.i_tl.checked = true;
+inputs.i_tici.value = '2b';
 
-sandbox.inputs.i_decision.value = 'Gydymas tęsti';
-sandbox.inputs.notes.value = 'No issues';
+inputs.i_decision.value = 'Gydymas tęsti';
+inputs.notes.value = 'No issues';
 
-sandbox.genSummary();
+genSummary();
 
-const summary = sandbox.inputs.summary.value;
+const summary = inputs.summary.value;
 assert(
   summary.includes(
     'PACIENTAS: Ligos istorijos Nr. 123, gim. data: 1980-01-01, lytis: Vyras, svoris: 80 kg, AKS atvykus: 120/80. NIHSS pradinis: 10, po 24 h: 5.',

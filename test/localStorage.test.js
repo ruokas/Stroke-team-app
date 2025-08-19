@@ -1,6 +1,4 @@
-const fs = require('fs');
-const vm = require('vm');
-const assert = require('assert');
+import assert from 'assert';
 
 const elements = {};
 function createEl() {
@@ -29,10 +27,7 @@ function createEl() {
     },
   };
 }
-function getEl(key) {
-  if (!elements[key]) elements[key] = createEl();
-  return elements[key];
-}
+function getEl(key) { if (!elements[key]) elements[key] = createEl(); return elements[key]; }
 
 const documentStub = {
   querySelector: (sel) => getEl(sel),
@@ -55,38 +50,31 @@ const localStorageStub = {
   },
 };
 
-const sandbox = {
-  document: documentStub,
-  alert: () => {},
-  confirm: () => true,
-  prompt: () => '',
-  localStorage: localStorageStub,
-  URL: { createObjectURL: () => '', revokeObjectURL: () => {} },
-  Blob: function () {},
-  FileReader: function () { this.readAsText = () => {}; },
-  setInterval: () => {},
-};
+global.document = documentStub;
+global.alert = () => {};
+global.confirm = () => true;
+global.prompt = () => '';
+global.localStorage = localStorageStub;
+global.URL = { createObjectURL: () => '', revokeObjectURL: () => {} };
+global.Blob = function () {};
+global.FileReader = function () { this.readAsText = () => {}; };
+global.setInterval = () => {};
 
-vm.createContext(sandbox);
-const code = fs.readFileSync('js/app.js', 'utf8');
-vm.runInContext(code, sandbox);
-vm.runInContext(
-  'this.inputs = inputs; this.saveLS = saveLS; this.loadLS = loadLS; this.deleteLS = deleteLS;',
-  sandbox,
-);
+const { inputs } = await import('../js/state.js');
+const { saveLS, loadLS, deleteLS } = await import('../js/storage.js');
 
-sandbox.inputs.id.value = 'p1';
-const id1 = sandbox.saveLS();
-sandbox.inputs.id.value = 'p2';
-const id2 = sandbox.saveLS();
+inputs.id.value = 'p1';
+const id1 = saveLS();
+inputs.id.value = 'p2';
+const id2 = saveLS();
 assert.notStrictEqual(id1, id2, 'IDs should be unique');
-const rec1 = sandbox.loadLS(id1);
-const rec2 = sandbox.loadLS(id2);
+const rec1 = loadLS(id1);
+const rec2 = loadLS(id2);
 assert.strictEqual(rec1.p_id, 'p1', 'First record should be retrievable');
 assert.strictEqual(rec2.p_id, 'p2', 'Second record should be retrievable');
 
-sandbox.deleteLS(id1);
-assert.strictEqual(sandbox.loadLS(id1), null, 'Deleted record should not load');
-assert.strictEqual(sandbox.loadLS(id2).p_id, 'p2', 'Other record remains');
+deleteLS(id1);
+assert.strictEqual(loadLS(id1), null, 'Deleted record should not load');
+assert.strictEqual(loadLS(id2).p_id, 'p2', 'Other record remains');
 
 console.log('localStorage handles multiple records');

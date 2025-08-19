@@ -52,18 +52,17 @@ test('calcDrugs handles dosing correctly, validates inputs, and resets outputs',
   const { calcDrugs } = await import('../js/drugs.js');
 
   // invalid weight
-  inputs.calcWeight.value = '0';
-  inputs.weight.value = '';
+  inputs.weight.value = '0';
   inputs.drugConc.value = '5';
   inputs.drugType.value = 'tnk';
 
   calcDrugs();
-  assert(inputs.calcWeight.classList.contains('invalid'));
+  assert(inputs.weight.classList.contains('invalid'));
   assert.strictEqual(inputs.doseTotal.value, '');
 
   // invalid concentration
-  inputs.calcWeight.value = '70';
-  inputs.calcWeight.classList.remove('invalid');
+  inputs.weight.value = '70';
+  inputs.weight.classList.remove('invalid');
   inputs.drugConc.value = '0';
   inputs.drugConc.classList.remove('invalid');
   inputs.doseTotal.value = '';
@@ -74,7 +73,7 @@ test('calcDrugs handles dosing correctly, validates inputs, and resets outputs',
 
   // TNK calculation
   inputs.drugConc.classList.remove('invalid');
-  inputs.calcWeight.value = '70';
+  inputs.weight.value = '70';
   inputs.drugConc.value = '5';
   inputs.drugType.value = 'tnk';
 
@@ -85,7 +84,7 @@ test('calcDrugs handles dosing correctly, validates inputs, and resets outputs',
   assert.strictEqual(inputs.tpaInf.value, '');
 
   // TNK maximum cap
-  inputs.calcWeight.value = '200';
+  inputs.weight.value = '200';
   inputs.drugConc.value = '5';
 
   calcDrugs();
@@ -94,7 +93,7 @@ test('calcDrugs handles dosing correctly, validates inputs, and resets outputs',
 
   // tPA calculation
   inputs.drugType.value = 'tpa';
-  inputs.calcWeight.value = '70';
+  inputs.weight.value = '70';
   inputs.drugConc.value = '1';
 
   calcDrugs();
@@ -107,7 +106,7 @@ test('calcDrugs handles dosing correctly, validates inputs, and resets outputs',
   );
 
   // tPA maximum cap
-  inputs.calcWeight.value = '120';
+  inputs.weight.value = '120';
   inputs.drugConc.value = '1';
 
   calcDrugs();
@@ -120,7 +119,7 @@ test('calcDrugs handles dosing correctly, validates inputs, and resets outputs',
   );
 
   // reset outputs when inputs become invalid after valid calc
-  inputs.calcWeight.value = '70';
+  inputs.weight.value = '70';
   inputs.drugConc.value = '1';
 
   calcDrugs();
@@ -128,7 +127,7 @@ test('calcDrugs handles dosing correctly, validates inputs, and resets outputs',
   assert.notStrictEqual(inputs.doseTotal.value, '');
 
   // invalidate weight
-  inputs.calcWeight.value = '0';
+  inputs.weight.value = '0';
 
   calcDrugs();
   assert.strictEqual(inputs.doseTotal.value, '');
@@ -137,7 +136,7 @@ test('calcDrugs handles dosing correctly, validates inputs, and resets outputs',
   assert.strictEqual(inputs.tpaInf.value, '');
 
   // restore valid inputs
-  inputs.calcWeight.value = '70';
+  inputs.weight.value = '70';
   inputs.drugConc.value = '1';
 
   calcDrugs();

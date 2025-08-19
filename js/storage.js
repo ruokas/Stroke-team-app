@@ -52,7 +52,6 @@ export function getPayload() {
     t_reperf: inputs.reperf.value,
     drug_type: inputs.drugType.value,
     drug_conc: inputs.drugConc.value,
-    calc_weight: inputs.calcWeight.value,
     dose_total: inputs.doseTotal.value,
     dose_volume: inputs.doseVol.value,
     tpa_bolus: inputs.tpaBolus.value,
@@ -116,7 +115,6 @@ export function setPayload(p) {
   inputs.reperf.value = p.t_reperf || '';
   inputs.drugType.value = p.drug_type || 'tnk';
   inputs.drugConc.value = p.drug_conc || '';
-  inputs.calcWeight.value = p.calc_weight || '';
   inputs.doseTotal.value = p.dose_total || '';
   inputs.doseVol.value = p.dose_volume || '';
   inputs.tpaBolus.value = p.tpa_bolus || '';

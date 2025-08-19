@@ -23,7 +23,7 @@ export const inputs = {
   reperf: $('#t_reperf'),
   lkw_type: $$('input[name="lkw_type"]'),
   arrival_symptoms: $('#arrival_symptoms'),
-  arrival_contra: $('#arrival_contra'),
+  arrival_contra: $$('input[name="arrival_contra"]'),
   drugType: $('#drug_type'),
   drugConc: $('#drug_conc'),
   calcWeight: $('#calc_weight'),

@@ -65,7 +65,10 @@ export function getPayload() {
     notes: inputs.notes.value,
     arrival_lkw_type: getRadioValue(inputs.lkw_type),
     arrival_symptoms: inputs.arrival_symptoms.value,
-    arrival_contra: inputs.arrival_contra.value,
+    arrival_contra: inputs.arrival_contra
+      .filter((n) => n.checked)
+      .map((n) => n.value)
+      .join('; '),
     goals: state.goals,
     def_tnk: inputs.def_tnk.value,
     def_tpa: inputs.def_tpa.value,
@@ -125,7 +128,10 @@ export function setPayload(p) {
   inputs.notes.value = p.notes || '';
   setRadioValue(inputs.lkw_type, p.arrival_lkw_type || 'known');
   inputs.arrival_symptoms.value = p.arrival_symptoms || '';
-  inputs.arrival_contra.value = p.arrival_contra || '';
+  const contraVals = (p.arrival_contra || '').split(/;\s*/).filter(Boolean);
+  inputs.arrival_contra.forEach((cb) => {
+    cb.checked = contraVals.includes(cb.value);
+  });
   inputs.a_personal.value = p.a_personal || '';
   inputs.a_name.value = p.a_name || '';
   inputs.a_dob.value = p.a_dob || '';

@@ -205,7 +205,7 @@
                 </div>
               </div>
               <div>
-                <label for="t_door">Atvykimas į SG (Door)</label>
+                <label for="t_door">Atvykimas į SG</label>
                 <div class="row">
                   <input id="t_door" type="datetime-local" />
                   <button class="btn ghost" data-now="t_door">Dabar</button>
@@ -219,14 +219,14 @@
                 </div>
               </div>
               <div>
-                <label for="t_needle">Trombolizės pradžia (Needle)</label>
+                <label for="t_needle">Trombolizės pradžia</label>
                 <div class="row">
                   <input id="t_needle" type="datetime-local" />
                   <button class="btn ghost" data-now="t_needle">Dabar</button>
                 </div>
               </div>
               <div>
-                <label for="t_groin">Kateterizacijos pradžia (Groin)</label>
+                <label for="t_groin">Kateterizacijos pradžia</label>
                 <div class="row">
                   <input id="t_groin" type="datetime-local" />
                   <button class="btn ghost" data-now="t_groin">Dabar</button>
@@ -246,21 +246,21 @@
             <div class="kpi" id="kpi_d2ct">
               <div class="dot"></div>
               <div>
-                <div class="muted">Door → KT</div>
+                <div class="muted">Atvykimas → KT</div>
                 <div class="val" data-val>D2CT: —</div>
               </div>
             </div>
             <div class="kpi" id="kpi_d2n">
               <div class="dot"></div>
               <div>
-                <div class="muted">Door → Needle</div>
+                <div class="muted">Atvykimas → Trombolizė</div>
                 <div class="val" data-val>D2N: —</div>
               </div>
             </div>
             <div class="kpi" id="kpi_d2g">
               <div class="dot"></div>
               <div>
-                <div class="muted">Door → Groin</div>
+                <div class="muted">Atvykimas → Kateterizacija</div>
                 <div class="val" data-val>D2G: —</div>
               </div>
             </div>
@@ -457,17 +457,17 @@
         <section class="card">
           <h2>Gyvas laikmatis</h2>
           <div id="liveTimers" class="grid-3">
-            <div class="kpi" title="Nuo Door">
+            <div class="kpi" title="Nuo atvykimo">
               <div class="dot" id="t_since_door_dot"></div>
               <div>
-                <div class="muted">Praėjo nuo Door</div>
+                <div class="muted">Praėjo nuo atvykimo</div>
                 <div class="val" id="t_since_door">—</div>
               </div>
             </div>
-            <div class="kpi" title="Nuo Onset">
+            <div class="kpi" title="Nuo pradžios">
               <div class="dot" id="t_since_onset_dot"></div>
               <div>
-                <div class="muted">Praėjo nuo Onset</div>
+                <div class="muted">Praėjo nuo pradžios</div>
                 <div class="val" id="t_since_onset">—</div>
               </div>
             </div>
@@ -477,7 +477,7 @@
             >
               <div class="dot" id="t_to_needle_dot"></div>
               <div>
-                <div class="muted">Iki Needle tikslo</div>
+                <div class="muted">Iki trombolizės tikslo</div>
                 <div class="val" id="t_to_needle">—</div>
               </div>
             </div>
@@ -490,10 +490,10 @@
           <div class="section-actions">
             <button data-now="t_ct" class="btn">📸 Pažymėti KT dabar</button>
             <button data-now="t_needle" class="btn">
-              💉 Pažymėti Needle dabar
+              💉 Pažymėti trombolizę dabar
             </button>
             <button data-now="t_groin" class="btn">
-              🕳️ Pažymėti Groin dabar
+              🕳️ Pažymėti kateterizaciją dabar
             </button>
             <button id="clearTimes" class="btn">🧹 Išvalyti laikus</button>
           </div>
@@ -503,7 +503,7 @@
           <h2>Naudojimo patarimai</h2>
           <ol class="mini m0 ml-18">
             <li>
-              Užpildykite bent „Door“ ir „Onset/LKW“ laikus – rodikliai
+              Užpildykite bent „Atvykimo“ ir „Pradžios/LKW“ laikus – rodikliai
               paskaičiuos automatškai.
             </li>
             <li>

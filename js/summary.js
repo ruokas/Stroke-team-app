@@ -44,10 +44,10 @@ export function genSummary() {
 
   const parts = [];
   parts.push(
-    `PACIENTAS: Ligos istorijos Nr. ${id}, gim. data: ${dob}, lytis: ${sex}, svoris: ${w} kg, AKS atvykus: ${bp}. NIHSS pradinis: ${nih0}, po 24 h: ${nih24}.`,
+    `PACIENTAS: Ligos istorijos Nr. ${id}, gim. data: ${dob}, lytis: ${sex}, svoris: ${w} kg, AKS atvykus: ${bp}. NIHSS pradinis: ${nih0}, po 24 val: ${nih24}.`,
   );
   parts.push(
-    `LAIKAI: LKW: ${tLKW || '—'}, Onset: ${tOnset || '—'}, Door: ${tDoor || '—'}, KT: ${tCT || '—'}, Needle: ${tN || '—'}, Groin: ${tG || '—'}, Reperfuzija: ${tR || '—'}.`,
+    `LAIKAI: LKW: ${tLKW || '—'}, Pradžia: ${tOnset || '—'}, Atvykimas: ${tDoor || '—'}, KT: ${tCT || '—'}, Trombolizė: ${tN || '—'}, Kateterizacija: ${tG || '—'}, Reperfuzija: ${tR || '—'}.`,
   );
   parts.push(
     `RODIKLIAI: D2CT ${fmtMins(d2ct)}, D2N ${fmtMins(d2n)}, D2G ${fmtMins(d2g)}${o2n != null ? `, O2N ${fmtMins(o2n)}` : ''}. Tikslai: D2CT ≤ ${state.goals.d2ct} min, D2N ≤ ${state.goals.d2n} min, D2G ≤ ${state.goals.d2g} min.`,

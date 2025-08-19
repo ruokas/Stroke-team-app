@@ -79,19 +79,19 @@ test('genSummary generates summary text correctly', async () => {
   inputs.i_tici.value = '2b';
 
   inputs.i_decision.value = 'Gydymas tęsti';
-  inputs.notes.value = 'No issues';
+  inputs.notes.value = 'Be pastabų';
 
   genSummary();
 
   const summary = inputs.summary.value;
   assert(
     summary.includes(
-      'PACIENTAS: Ligos istorijos Nr. 123, gim. data: 1980-01-01, lytis: Vyras, svoris: 80 kg, AKS atvykus: 120/80. NIHSS pradinis: 10, po 24 h: 5.'
+      'PACIENTAS: Ligos istorijos Nr. 123, gim. data: 1980-01-01, lytis: Vyras, svoris: 80 kg, AKS atvykus: 120/80. NIHSS pradinis: 10, po 24 val: 5.'
     )
   );
   assert(
     summary.includes(
-      'RODIKLIAI: D2CT 20 min, D2N 50 min, D2G 1 h 30 min, O2N 1 h 20 min.'
+      'RODIKLIAI: D2CT 20 min, D2N 50 min, D2G 1 val 30 min, O2N 1 val 20 min.'
     )
   );
   assert(

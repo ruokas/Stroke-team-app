@@ -27,7 +27,7 @@ export function fmtMins(m) {
   m = Math.abs(m);
   const h = Math.floor(m / 60);
   const r = m % 60;
-  return h ? `${sign}${h} h ${r} min` : `${sign}${r} min`;
+  return h ? `${sign}${h} val ${r} min` : `${sign}${r} min`;
 }
 
 export function toLocalInputValue(d) {

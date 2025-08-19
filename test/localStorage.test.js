@@ -68,13 +68,16 @@ global.FileReader = function () {
 };
 global.setInterval = () => {};
 global.window = { isSecureContext: true };
-global.navigator = {
-  clipboard: {
-    writeText: async (txt) => {
-      global.__copied = txt;
+Object.defineProperty(global, 'navigator', {
+  value: {
+    clipboard: {
+      writeText: async (txt) => {
+        global.__copied = txt;
+      },
     },
   },
-};
+  configurable: true,
+});
 
 const { inputs } = await import('../js/state.js');
 const { saveLS, loadLS, deleteLS, setPayload } = await import('../js/storage.js');

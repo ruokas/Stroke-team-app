@@ -45,11 +45,11 @@ export function copySummary() {
   genSummary();
   if (window.isSecureContext && navigator.clipboard) {
     navigator.clipboard.writeText(inputs.summary.value).catch((err) => {
-      alert('Nepavyko nukopijuoti: ' + err);
+      showToast('Nepavyko nukopijuoti: ' + err);
     });
   } else {
     inputs.summary.select();
     const ok = document.execCommand('copy');
-    if (!ok) alert('Nepavyko nukopijuoti');
+    if (!ok) showToast('Nepavyko nukopijuoti');
   }
 }

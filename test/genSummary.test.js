@@ -39,7 +39,7 @@ test('genSummary generates summary text correctly', async () => {
   };
 
   global.document = documentStub;
-  global.alert = () => {};
+  global.showToast = () => {};
   global.confirm = () => true;
   global.localStorage = { setItem: () => {}, getItem: () => null };
   global.URL = { createObjectURL: () => '', revokeObjectURL: () => {} };

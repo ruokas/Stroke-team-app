@@ -14,6 +14,20 @@ import {
   getDrafts,
 } from './storage.js';
 
+function showToast(msg) {
+  const container = document.getElementById('toastContainer');
+  if (!container) return;
+  const el = document.createElement('div');
+  el.className = 'toast';
+  el.textContent = msg;
+  container.appendChild(el);
+  setTimeout(() => {
+    el.classList.add('hide');
+    el.addEventListener('transitionend', () => el.remove());
+  }, 3000);
+}
+window.showToast = showToast;
+
 function initNIHSS() {
   $$('.nihss-calc').forEach((calc) => {
     const target = document.getElementById(calc.dataset.target);
@@ -146,27 +160,27 @@ function bind() {
       );
     const id = saveLS(existing || undefined, name);
     inputs.draftSelect.value = id;
-    alert('Išsaugota naršyklėje.');
+    showToast('Išsaugota naršyklėje.');
     updateSaveStatus();
     dirty = false;
   });
   $('#loadBtn').addEventListener('click', () => {
     const id = inputs.draftSelect.value;
     if (!id) {
-      alert('Pasirinkite juodraštį.');
+      showToast('Pasirinkite juodraštį.');
       return;
     }
     const p = loadLS(id);
     if (p) {
       setPayload(p);
-      alert('Atkurta iš naršyklės.');
+      showToast('Atkurta iš naršyklės.');
       dirty = false;
-    } else alert('Nėra išsaugoto įrašo.');
+    } else showToast('Nėra išsaugoto įrašo.');
   });
   $('#renameDraftBtn').addEventListener('click', () => {
     const id = inputs.draftSelect.value;
     if (!id) {
-      alert('Pasirinkite juodraštį.');
+      showToast('Pasirinkite juodraštį.');
       return;
     }
     const drafts = getDrafts();
@@ -176,7 +190,7 @@ function bind() {
   $('#deleteDraftBtn').addEventListener('click', () => {
     const id = inputs.draftSelect.value;
     if (!id) {
-      alert('Pasirinkite juodraštį.');
+      showToast('Pasirinkite juodraštį.');
       return;
     }
     if (confirm('Ištrinti juodraštį?')) {
@@ -203,9 +217,9 @@ function bind() {
       try {
         const p = JSON.parse(reader.result);
         setPayload(p);
-        alert('Importuota.');
+        showToast('Importuota.');
       } catch (err) {
-        alert('Klaida skaitant JSON.');
+        showToast('Klaida skaitant JSON.');
       }
       e.target.value = '';
     };

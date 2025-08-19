@@ -38,7 +38,7 @@ test('calcDrugs handles dosing correctly, validates inputs, and resets outputs',
   };
 
   global.document = documentStub;
-  global.alert = () => {};
+  global.showToast = () => {};
   global.confirm = () => true;
   global.localStorage = { setItem: () => {}, getItem: () => null };
   global.URL = { createObjectURL: () => '', revokeObjectURL: () => {} };

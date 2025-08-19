@@ -13,7 +13,7 @@
   --green: #00c853;
   --ink2: #d7ecff;
 }
-* {
+*, *::before, *::after {
   box-sizing: border-box;
 }
 body {

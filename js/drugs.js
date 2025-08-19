@@ -15,14 +15,12 @@ export function updateDrugDefaults() {
 
 export function calcDrugs() {
   const type = inputs.drugType.value;
-  const w = Number(
-    (inputs.calcWeight.value || inputs.weight.value || '').replace(/,/g, '.'),
-  );
+  const w = Number((inputs.weight.value || '').replace(/,/g, '.'));
   const conc = Number((inputs.drugConc.value || '').replace(/,/g, '.'));
   const wValid = Number.isFinite(w) && w > 0;
   const cValid = Number.isFinite(conc) && conc > 0;
 
-  [inputs.calcWeight, inputs.weight, inputs.drugConc].forEach((el) => {
+  [inputs.weight, inputs.drugConc].forEach((el) => {
     el.classList.remove('invalid');
     if (el.setCustomValidity) el.setCustomValidity('');
   });
@@ -33,13 +31,10 @@ export function calcDrugs() {
     inputs.tpaBolus.value = '';
     inputs.tpaInf.value = '';
     if (!wValid) {
-      const target = inputs.calcWeight.value
-        ? inputs.calcWeight
-        : inputs.weight;
-      target.classList.add('invalid');
-      if (target.setCustomValidity)
-        target.setCustomValidity('Įveskite teisingą svorį.');
-      if (target.reportValidity) target.reportValidity();
+      inputs.weight.classList.add('invalid');
+      if (inputs.weight.setCustomValidity)
+        inputs.weight.setCustomValidity('Įveskite teisingą svorį.');
+      if (inputs.weight.reportValidity) inputs.weight.reportValidity();
     }
     if (!cValid) {
       inputs.drugConc.classList.add('invalid');

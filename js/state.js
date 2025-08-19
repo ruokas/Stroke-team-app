@@ -27,7 +27,6 @@ export const inputs = {
   arrival_contra: $$('input[name="arrival_contra"]'),
   drugType: $('#drug_type'),
   drugConc: $('#drug_conc'),
-  calcWeight: $('#calc_weight'),
   doseTotal: $('#dose_total'),
   doseVol: $('#dose_volume'),
   tpaBolus: $('#tpa_bolus'),

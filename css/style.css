@@ -678,6 +678,23 @@ section[data-tab='Intervencijos'] h3 {
     display: none;
   }
 }
+
+table.tbl {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table.tbl th,
+table.tbl td {
+  border: 1px solid var(--line);
+  padding: 4px;
+  text-align: center;
+}
+
+table.tbl th:first-child,
+table.tbl td:first-child {
+  text-align: left;
+}
 .cols-2 {
   grid-template-columns: repeat(2, 1fr);
 }

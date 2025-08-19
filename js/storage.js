@@ -22,6 +22,16 @@ function setDrafts(drafts) {
   else localStorage.removeItem(LS_KEY);
 }
 
+function getRadioValue(nodes) {
+  return nodes.find((n) => n.checked)?.value || '';
+}
+
+function setRadioValue(nodes, value) {
+  nodes.forEach((n) => {
+    n.checked = n.value === value;
+  });
+}
+
 export function getPayload() {
   return {
     p_id: inputs.id.value,
@@ -56,6 +66,25 @@ export function getPayload() {
     def_tnk: inputs.def_tnk.value,
     def_tpa: inputs.def_tpa.value,
     autosave: state.autosave,
+    a_personal: inputs.a_personal.value,
+    a_name: inputs.a_name.value,
+    a_age: inputs.a_age.value,
+    a_sym_face: getRadioValue(inputs.a_sym_face),
+    a_sym_arm: getRadioValue(inputs.a_sym_arm),
+    a_sym_speech: getRadioValue(inputs.a_sym_speech),
+    a_sym_balance: getRadioValue(inputs.a_sym_balance),
+    a_sym_conscious: getRadioValue(inputs.a_sym_conscious),
+    a_drug_warfarin: inputs.a_warfarin.checked,
+    a_drug_apixaban: inputs.a_apixaban.checked,
+    a_drug_rivaroxaban: inputs.a_rivaroxaban.checked,
+    a_drug_dabigatran: inputs.a_dabigatran.checked,
+    a_drug_heparin: inputs.a_heparin.checked,
+    a_lkw: getRadioValue(inputs.a_lkw),
+    a_glucose: inputs.a_glucose.value,
+    a_aks: inputs.a_aks.value,
+    a_hr: inputs.a_hr.value,
+    a_spo2: inputs.a_spo2.value,
+    a_temp: inputs.a_temp.value,
   };
 }
 
@@ -89,6 +118,25 @@ export function setPayload(p) {
   inputs.i_tici.value = p.i_tici || '';
   inputs.i_decision.value = p.i_decision || '';
   inputs.notes.value = p.notes || '';
+  inputs.a_personal.value = p.a_personal || '';
+  inputs.a_name.value = p.a_name || '';
+  inputs.a_age.value = p.a_age || '';
+  setRadioValue(inputs.a_sym_face, p.a_sym_face || '');
+  setRadioValue(inputs.a_sym_arm, p.a_sym_arm || '');
+  setRadioValue(inputs.a_sym_speech, p.a_sym_speech || '');
+  setRadioValue(inputs.a_sym_balance, p.a_sym_balance || '');
+  setRadioValue(inputs.a_sym_conscious, p.a_sym_conscious || '');
+  inputs.a_warfarin.checked = !!p.a_drug_warfarin;
+  inputs.a_apixaban.checked = !!p.a_drug_apixaban;
+  inputs.a_rivaroxaban.checked = !!p.a_drug_rivaroxaban;
+  inputs.a_dabigatran.checked = !!p.a_drug_dabigatran;
+  inputs.a_heparin.checked = !!p.a_drug_heparin;
+  setRadioValue(inputs.a_lkw, p.a_lkw || '');
+  inputs.a_glucose.value = p.a_glucose || '';
+  inputs.a_aks.value = p.a_aks || '';
+  inputs.a_hr.value = p.a_hr || '';
+  inputs.a_spo2.value = p.a_spo2 || '';
+  inputs.a_temp.value = p.a_temp || '';
   if (p.goals) {
     inputs.goal_ct.value = p.goals.d2ct;
     inputs.goal_n.value = p.goals.d2n;

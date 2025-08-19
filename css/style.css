@@ -178,9 +178,6 @@ nav .tab.active {
   background: #1f2e44;
   border-color: #2b405c;
 }
-nav .tab:focus {
-  outline: none;
-}
 nav .tab:focus-visible {
   outline: 2px solid var(--accent);
 }
@@ -222,7 +219,16 @@ select {
   background: #0f1620;
   color: var(--ink);
   font-size: 0.875rem;
-  outline: none;
+}
+
+input[type='text']:focus-visible,
+input[type='number']:focus-visible,
+input[type='time']:focus-visible,
+input[type='date']:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 input::placeholder,
 textarea::placeholder {
@@ -314,7 +320,6 @@ select option.red {
   cursor: pointer;
   user-select: none;
   font: inherit;
-  outline: none;
 }
 label.chip input {
   position: absolute;

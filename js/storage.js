@@ -1,6 +1,7 @@
 import { inputs, state } from './state.js';
 import { updateKPIs } from './time.js';
 import { updateDrugDefaults } from './drugs.js';
+import { updateAge } from './age.js';
 
 const LS_KEY = 'strokeTeamDrafts_v1';
 
@@ -35,7 +36,6 @@ function setRadioValue(nodes, value) {
 export function getPayload() {
   return {
     p_id: inputs.id.value,
-    p_dob: inputs.dob.value,
     p_sex: inputs.sex.value,
     p_weight: inputs.weight.value,
     p_bp: inputs.bp.value,
@@ -68,6 +68,7 @@ export function getPayload() {
     autosave: state.autosave,
     a_personal: inputs.a_personal.value,
     a_name: inputs.a_name.value,
+    a_dob: inputs.a_dob.value,
     a_age: inputs.a_age.value,
     a_sym_face: getRadioValue(inputs.a_sym_face),
     a_sym_arm: getRadioValue(inputs.a_sym_arm),
@@ -91,7 +92,6 @@ export function getPayload() {
 export function setPayload(p) {
   if (!p) return;
   inputs.id.value = p.p_id || '';
-  inputs.dob.value = p.p_dob || '';
   inputs.sex.value = p.p_sex || '';
   inputs.weight.value = p.p_weight || '';
   inputs.bp.value = p.p_bp || '';
@@ -120,7 +120,8 @@ export function setPayload(p) {
   inputs.notes.value = p.notes || '';
   inputs.a_personal.value = p.a_personal || '';
   inputs.a_name.value = p.a_name || '';
-  inputs.a_age.value = p.a_age || '';
+  inputs.a_dob.value = p.a_dob || '';
+  updateAge();
   setRadioValue(inputs.a_sym_face, p.a_sym_face || '');
   setRadioValue(inputs.a_sym_arm, p.a_sym_arm || '');
   setRadioValue(inputs.a_sym_speech, p.a_sym_speech || '');

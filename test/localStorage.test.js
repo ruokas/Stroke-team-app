@@ -113,7 +113,7 @@ test('saveLS/loadLS with copySummary copies generated text', { concurrency: fals
   resetInputs();
 
   inputs.id.value = 'abc';
-  inputs.dob.value = '2000-01-01';
+  inputs.a_dob.value = '2000-01-01';
   inputs.sex.value = 'Vyras';
   inputs.weight.value = '70';
   inputs.bp.value = '120/80';
@@ -128,7 +128,7 @@ test('saveLS/loadLS with copySummary copies generated text', { concurrency: fals
 
   saveLS('draft1');
   inputs.id.value = '';
-  inputs.dob.value = '';
+  inputs.a_dob.value = '';
   setPayload(loadLS('draft1'));
 
   await copySummary();

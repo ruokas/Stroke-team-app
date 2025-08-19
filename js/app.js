@@ -2,6 +2,7 @@ import { $, $$, inputs, state } from './state.js';
 import { TIME_FIELDS, setNow, updateKPIs, updateLiveTiles } from './time.js';
 import { updateDrugDefaults, calcDrugs } from './drugs.js';
 import { genSummary, copySummary } from './summary.js';
+import { updateAge } from './age.js';
 import {
   saveLS,
   loadLS,
@@ -70,6 +71,9 @@ function bind() {
   // Summary
   $('#summary').addEventListener('focus', genSummary);
   $('#copySummaryBtn').addEventListener('click', copySummary);
+
+  // Age calculation
+  inputs.a_dob.addEventListener('input', updateAge);
 
   // Pill checked state
   document.querySelectorAll('.pill input').forEach((input) => {
@@ -214,6 +218,7 @@ function bind() {
   initNIHSS();
   updateDrugDefaults();
   updateKPIs();
+  updateAge();
   updateDraftSelect();
   setInterval(() => {
     updateLiveTiles();

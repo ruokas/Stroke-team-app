@@ -3,7 +3,7 @@ import { toDate, minsBetween, fmtMins } from './time.js';
 
 export function genSummary() {
   const get = (el) => (el && el.value ? el.value : null);
-  const dob = get(inputs.dob) || '—';
+  const dob = get(inputs.a_dob) || '—';
   const sex = get(inputs.sex) || '—';
   const id = get(inputs.id) || '—';
   const w = get(inputs.weight) || '—';

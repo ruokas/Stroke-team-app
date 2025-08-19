@@ -57,7 +57,7 @@ const localStorageStub = {
 };
 
 global.document = documentStub;
-global.alert = () => {};
+global.showToast = () => {};
 global.confirm = () => true;
 global.prompt = () => '';
 global.localStorage = localStorageStub;

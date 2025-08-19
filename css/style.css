@@ -132,7 +132,7 @@ main {
 
 .layout-main {
   display: grid;
-  grid-template-columns: 1fr 220px;
+  grid-template-columns: 220px 1fr 220px;
   gap: 12px;
   align-items: start;
 }

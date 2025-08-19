@@ -22,7 +22,6 @@ const state = {
 };
 
 const inputs = {
-  name: $('#p_name'),
   id: $('#p_id'),
   dob: $('#p_dob'),
   sex: $('#p_sex'),
@@ -258,7 +257,6 @@ function round1(n) {
 // ------------------------------
 function genSummary() {
   const get = (el) => (el && el.value ? el.value : null);
-  const name = get(inputs.name) || 'Pacientas';
   const dob = get(inputs.dob) || '—';
   const sex = get(inputs.sex) || '—';
   const id = get(inputs.id) || '—';
@@ -301,7 +299,7 @@ function genSummary() {
 
   const parts = [];
   parts.push(
-    `PACIENTAS: ${name}, ID: ${id}, gim. data: ${dob}, lytis: ${sex}, svoris: ${w} kg, AKS atvykus: ${bp}. NIHSS pradinis: ${nih0}, po 24 h: ${nih24}.`,
+    `PACIENTAS: Ligos istorijos Nr. ${id}, gim. data: ${dob}, lytis: ${sex}, svoris: ${w} kg, AKS atvykus: ${bp}. NIHSS pradinis: ${nih0}, po 24 h: ${nih24}.`,
   );
   parts.push(
     `LAIKAI: LKW: ${tLKW || '—'}, Onset: ${tOnset || '—'}, Door: ${tDoor || '—'}, KT: ${tCT || '—'}, Needle: ${tN || '—'}, Groin: ${tG || '—'}, Reperfuzija: ${tR || '—'}.`,
@@ -341,6 +339,7 @@ function genSummary() {
 }
 
 function copySummary() {
+  genSummary();
   if (window.isSecureContext && navigator.clipboard) {
     navigator.clipboard.writeText(inputs.summary.value).catch((err) => {
       alert('Nepavyko nukopijuoti: ' + err);
@@ -359,7 +358,6 @@ const LS_KEY = 'strokeTeamDraft_v1';
 
 function getPayload() {
   return {
-    p_name: inputs.name.value,
     p_id: inputs.id.value,
     p_dob: inputs.dob.value,
     p_sex: inputs.sex.value,
@@ -397,7 +395,6 @@ function getPayload() {
 
 function setPayload(p) {
   if (!p) return;
-  inputs.name.value = p.p_name || '';
   inputs.id.value = p.p_id || '';
   inputs.dob.value = p.p_dob || '';
   inputs.sex.value = p.p_sex || '';
@@ -487,7 +484,7 @@ function bind() {
   $('#calcBtn').addEventListener('click', calcDrugs);
 
   // Summary
-  $('#genSummaryBtn').addEventListener('click', genSummary);
+  $('#summary').addEventListener('focus', genSummary);
   $('#copySummaryBtn').addEventListener('click', copySummary);
 
   // Save/Load/Export/Import

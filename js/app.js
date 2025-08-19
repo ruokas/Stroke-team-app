@@ -150,6 +150,12 @@ function bind() {
     saveStatus.textContent = `Išsaugota ${t}`;
   };
 
+  const draftFilter = document.getElementById('draftFilter');
+  if (draftFilter)
+    draftFilter.addEventListener('input', () =>
+      updateDraftSelect(inputs.draftSelect.value),
+    );
+
   $('#saveBtn').addEventListener('click', () => {
     const existing = inputs.draftSelect.value;
     let name = null;

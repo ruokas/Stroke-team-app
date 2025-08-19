@@ -677,6 +677,9 @@ section[data-tab='Intervencijos'] h3 {
   .header-actions .btn .btn-label {
     display: none;
   }
+  #liveTimers {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 table.tbl {
@@ -839,11 +842,6 @@ table.tbl td:first-child {
   font-family:
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
     'Courier New', monospace;
-}
-.section-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
 }
 .footer {
   margin: 16px auto 24px;

@@ -53,13 +53,10 @@ test('genSummary generates summary text correctly', async () => {
   const { genSummary } = await import('../js/summary.js');
 
   // populate typical inputs
-  inputs.id.value = '123';
   inputs.a_dob.value = '1980-01-01';
-  inputs.sex.value = 'Vyras';
   inputs.weight.value = '80';
   inputs.bp.value = '120/80';
   inputs.nih0.value = '10';
-  inputs.nih24.value = '5';
 
   inputs.lkw.value = '2024-01-01T07:00';
   inputs.onset.value = '2024-01-01T07:30';
@@ -86,23 +83,22 @@ test('genSummary generates summary text correctly', async () => {
   const summary = inputs.summary.value;
   assert(
     summary.includes(
-      'PACIENTAS: Ligos istorijos Nr. 123, gim. data: 1980-01-01, lytis: Vyras, svoris: 80 kg, AKS atvykus: 120/80. NIHSS pradinis: 10, po 24 val: 5.'
-    )
+      'PACIENTAS: gim. data: 1980-01-01, svoris: 80 kg, AKS atvykus: 120/80. NIHSS pradinis: 10.',
+    ),
   );
   assert(
     summary.includes(
-      'RODIKLIAI: D2CT 20 min, D2N 50 min, D2G 1 val 30 min, O2N 1 val 20 min.'
-    )
+      'RODIKLIAI: D2CT 20 min, D2N 50 min, D2G 1 val 30 min, O2N 1 val 20 min.',
+    ),
   );
   assert(
     summary.includes(
-      'TYRIMAI/INTERVENCIJOS: KT galvos, IV trombolizė, TICI: 2b.'
-    )
+      'TYRIMAI/INTERVENCIJOS: KT galvos, IV trombolizė, TICI: 2b.',
+    ),
   );
   assert(
     summary.includes(
-      'VAISTAI: Tenekteplazė. Koncentracija: 5 mg/ml. Bendra dozė: 20 mg (4 ml).'
-    )
+      'VAISTAI: Tenekteplazė. Koncentracija: 5 mg/ml. Bendra dozė: 20 mg (4 ml).',
+    ),
   );
 });
-

@@ -234,15 +234,6 @@ function bind() {
   );
   showSection(tabs[0]?.dataset.section);
 
-  // Clear times
-  $('#clearTimes').addEventListener('click', () => {
-    TIME_FIELDS.forEach((id) => {
-      const el = document.getElementById(id);
-      el.value = '';
-    });
-    updateKPIs();
-  });
-
   // New patient
   $('#newPatientBtn').addEventListener('click', () => {
     if (confirm('Išvalyti visus laukus naujam pacientui?')) {

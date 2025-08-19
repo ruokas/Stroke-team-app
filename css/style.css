@@ -247,6 +247,38 @@ textarea {
   min-height: 80px;
   resize: vertical;
 }
+
+.input-group {
+  position: relative;
+}
+
+.input-group button {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+input[type='date']::-webkit-calendar-picker-indicator,
+input[type='datetime-local']::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
+}
+
+input[type='date']::-webkit-calendar-picker-indicator:hover,
+input[type='datetime-local']::-webkit-calendar-picker-indicator:hover {
+  filter: invert(1) brightness(1.2);
+}
+
+.time-input {
+  width: 100%;
+  padding: 9px 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #0f1620;
+  color: var(--ink);
+  font-size: 0.875rem;
+}
 .btn {
   border: 1px solid var(--line);
   background: #152231;

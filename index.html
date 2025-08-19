@@ -114,7 +114,7 @@
                 </div>
                 <div>
                   <label for="a_dob">Gimimo data</label>
-                  <input id="a_dob" type="date" />
+                  <input id="a_dob" type="date" placeholder="YYYY-MM-DD" step="60" />
                   <div id="a_age_display" class="subtle"></div>
                   <input id="a_age" type="hidden" />
                 </div>
@@ -320,8 +320,15 @@
             <fieldset>
               <legend>Atvykimo laikas</legend>
               <div class="row">
-                <input id="t_door" type="datetime-local" />
-                <button class="btn ghost" data-now="t_door">Dabar</button>
+                <div class="input-group">
+                  <input
+                    id="t_door"
+                    type="datetime-local"
+                    placeholder="YYYY-MM-DD HH:MM"
+                    step="60"
+                  />
+                  <button class="btn ghost" data-now="t_door">Dabar</button>
+                </div>
               </div>
             </fieldset>
 
@@ -342,8 +349,15 @@
                 >
               </div>
               <div id="lkwTimeRow" class="row mt-4">
-                <input id="t_lkw" type="datetime-local" />
-                <button class="btn ghost" data-now="t_lkw">Dabar</button>
+                <div class="input-group">
+                  <input
+                    id="t_lkw"
+                    type="datetime-local"
+                    placeholder="YYYY-MM-DD HH:MM"
+                    step="60"
+                  />
+                  <button class="btn ghost" data-now="t_lkw">Dabar</button>
+                </div>
               </div>
             </fieldset>
 
@@ -886,8 +900,15 @@
             <fieldset>
               <legend>Sprendimo laikas</legend>
               <div class="row">
-                <input id="d_time" type="datetime-local" />
-                <button class="btn ghost" data-now="d_time">Dabar</button>
+                <div class="input-group">
+                  <input
+                    id="d_time"
+                    type="datetime-local"
+                    placeholder="YYYY-MM-DD HH:MM"
+                    step="60"
+                  />
+                  <button class="btn ghost" data-now="d_time">Dabar</button>
+                </div>
               </div>
             </fieldset>
             <fieldset class="mt-10">

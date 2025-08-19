@@ -213,16 +213,23 @@ function bind() {
     tabs.forEach((t) => t.classList.toggle('active', t.dataset.section === id));
     document.body.classList.remove('nav-open');
   };
+  const activateFromHash = () => {
+    const id = location.hash.slice(1) || tabs[0]?.dataset.section;
+    if (id) showSection(id);
+  };
   $('#navToggle').addEventListener('click', () => {
     document.body.classList.toggle('nav-open');
   });
   tabs.forEach((tab) =>
     tab.addEventListener('click', (e) => {
       e.preventDefault();
-      showSection(tab.dataset.section);
+      const id = tab.dataset.section;
+      showSection(id);
+      if (id) location.hash = id;
     }),
   );
-  showSection(tabs[0]?.dataset.section);
+  window.addEventListener('hashchange', activateFromHash);
+  activateFromHash();
 
   // New patient
   $('#newPatientBtn').addEventListener('click', () => {

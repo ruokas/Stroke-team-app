@@ -47,6 +47,11 @@ header {
   align-items: center;
   justify-content: space-between;
 }
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 14px 16px;
+}
 .header-left {
   display: flex;
   align-items: center;
@@ -130,6 +135,11 @@ main {
   grid-template-columns: 1fr 220px;
   gap: 12px;
   align-items: start;
+}
+.layout-main > aside {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 nav {
   position: sticky;

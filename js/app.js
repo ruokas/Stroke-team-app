@@ -187,7 +187,7 @@ function bind() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `stroke_patient_${Date.now()}.json`;
+    a.download = `insulto_pacientas_${Date.now()}.json`;
     a.click();
     URL.revokeObjectURL(url);
   });

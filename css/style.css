@@ -831,7 +831,7 @@ table.tbl td:first-child {
     display: flex;
   }
 }
-/* Stroke app specific utilities */
+/* Insulto komandos formos specifinės funkcijos */
 .muted {
   color: var(--muted);
 }

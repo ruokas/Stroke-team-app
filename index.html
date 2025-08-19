@@ -57,9 +57,17 @@
     </header>
 
     <div class="wrap layout-main">
+      <button id="navToggle" class="btn">☰ Meniu</button>
+      <nav>
+        <a href="#patient" class="tab"><span class="tab-icon">🧍</span>Paciento informacija</a>
+        <a href="#times" class="tab"><span class="tab-icon">⏱️</span>Laikai ir tikslai</a>
+        <a href="#drugs" class="tab"><span class="tab-icon">💊</span>Vaistų skaičiuoklės</a>
+        <a href="#interventions" class="tab"><span class="tab-icon">🛠️</span>Tyrimai ir intervencijos</a>
+        <a href="#summarySec" class="tab"><span class="tab-icon">📄</span>Santrauka</a>
+      </nav>
       <main class="px-0">
         <!-- Paciento informacija -->
-        <section class="card">
+        <section id="patient" class="card">
           <h2>Paciento informacija</h2>
           <form>
             <fieldset class="grid-2">
@@ -108,7 +116,7 @@
         </section>
 
         <!-- Laikai -->
-        <section class="card">
+        <section id="times" class="card">
           <h2>Laikai ir tikslai</h2>
           <form>
             <fieldset class="grid-2">
@@ -196,7 +204,7 @@
         </section>
 
         <!-- Vaistų skaičiuoklės -->
-        <section class="card">
+        <section id="drugs" class="card">
           <h2>Vaistų skaičiuoklės</h2>
           <div class="grid-2">
             <div>
@@ -262,7 +270,7 @@
         </section>
 
         <!-- Intervencijos ir tyrimai -->
-        <section class="card">
+        <section id="interventions" class="card">
           <h2>Tyrimai ir intervencijos</h2>
           <div class="grid-2">
             <div>
@@ -313,7 +321,7 @@
         </section>
 
         <!-- Santrauka HIS sistemai -->
-        <section class="card full-span">
+        <section id="summarySec" class="card full-span">
           <h2>Santrauka (kopijavimui į HIS)</h2>
           <textarea
             id="summary"

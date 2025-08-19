@@ -112,6 +112,16 @@ function bind() {
     reader.readAsText(file);
   });
 
+  // Navigation
+  $('#navToggle').addEventListener('click', () => {
+    document.body.classList.toggle('nav-open');
+  });
+  $$('nav .tab').forEach((tab) =>
+    tab.addEventListener('click', () =>
+      document.body.classList.remove('nav-open'),
+    ),
+  );
+
   // Clear times
   $('#clearTimes').addEventListener('click', () => {
     TIME_FIELDS.forEach((id) => {

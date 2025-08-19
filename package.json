@@ -7,6 +7,6 @@
   },
   "scripts": {
     "format": "prettier --write js/*.js",
-    "test": "node test/calcDrugs.test.js && node test/updateDrugDefaults.test.js && node test/updateKPIs.test.js && node test/genSummary.test.js && node test/localStorage.test.js"
+    "test": "node --test"
   }
 }

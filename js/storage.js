@@ -36,13 +36,10 @@ function setRadioValue(nodes, value) {
 
 export function getPayload() {
   return {
-    p_id: inputs.id.value,
-    p_sex: inputs.sex.value,
     p_weight: inputs.weight.value,
     p_bp: inputs.bp.value,
     p_inr: inputs.inr.value,
     p_nihss0: inputs.nih0.value,
-    p_nihss24: inputs.nih24.value,
     t_lkw: inputs.lkw.value,
     t_onset: inputs.onset.value,
     t_door: inputs.door.value,
@@ -99,13 +96,10 @@ export function getPayload() {
 
 export function setPayload(p) {
   if (!p) return;
-  inputs.id.value = p.p_id || '';
-  inputs.sex.value = p.p_sex || '';
   inputs.weight.value = p.p_weight || '';
   inputs.bp.value = p.p_bp || '';
   inputs.inr.value = p.p_inr || '';
   inputs.nih0.value = p.p_nihss0 || '';
-  inputs.nih24.value = p.p_nihss24 || '';
   inputs.lkw.value = p.t_lkw || '';
   inputs.onset.value = p.t_onset || '';
   inputs.door.value = p.t_door || '';
@@ -170,7 +164,10 @@ export function saveLS(id, name) {
   const drafts = getDrafts();
   const draftId = id || Date.now().toString();
   const draftName =
-    name || drafts[draftId]?.name || inputs.id.value || `Juodraštis ${draftId}`;
+    name ||
+    drafts[draftId]?.name ||
+    inputs.nih0.value ||
+    `Juodraštis ${draftId}`;
   drafts[draftId] = { name: draftName, data: getPayload() };
   setDrafts(drafts);
   updateDraftSelect(draftId);

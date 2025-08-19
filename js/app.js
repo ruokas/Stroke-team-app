@@ -146,7 +146,10 @@ function bind() {
     const existing = inputs.draftSelect.value;
     let name = null;
     if (!existing)
-      name = prompt('Juodraščio pavadinimas?', inputs.id.value || 'Juodraštis');
+      name = prompt(
+        'Juodraščio pavadinimas?',
+        inputs.nih0.value || 'Juodraštis',
+      );
     const id = saveLS(existing || undefined, name);
     inputs.draftSelect.value = id;
     alert('Išsaugota naršyklėje.');

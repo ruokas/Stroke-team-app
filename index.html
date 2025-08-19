@@ -86,8 +86,8 @@
         <a href="#" data-section="thrombolysis" class="tab"
           ><span class="tab-icon">🩸</span>Pasiruošimas trombolizei</a
         >
-        <a href="#" data-section="patient" class="tab"
-          ><span class="tab-icon">🧍</span>Paciento informacija</a
+        <a href="#" data-section="nihss" class="tab"
+          ><span class="tab-icon">🧮</span>NIHSS</a
         >
         <a href="#" data-section="times" class="tab"
           ><span class="tab-icon">⏱️</span>Laikai ir tikslai</a
@@ -139,12 +139,20 @@
                     <td>Veido paralyžius</td>
                     <td>
                       <label class="pill"
-                        ><input type="radio" name="a_face" value="yes" />Taip</label
+                        ><input
+                          type="radio"
+                          name="a_face"
+                          value="yes"
+                        />Taip</label
                       >
                     </td>
                     <td>
                       <label class="pill"
-                        ><input type="radio" name="a_face" value="no" />Ne</label
+                        ><input
+                          type="radio"
+                          name="a_face"
+                          value="no"
+                        />Ne</label
                       >
                     </td>
                   </tr>
@@ -152,7 +160,11 @@
                     <td>Rankos silpnumas</td>
                     <td>
                       <label class="pill"
-                        ><input type="radio" name="a_arm" value="yes" />Taip</label
+                        ><input
+                          type="radio"
+                          name="a_arm"
+                          value="yes"
+                        />Taip</label
                       >
                     </td>
                     <td>
@@ -165,12 +177,20 @@
                     <td>Kalbos sutrikimas</td>
                     <td>
                       <label class="pill"
-                        ><input type="radio" name="a_speech" value="yes" />Taip</label
+                        ><input
+                          type="radio"
+                          name="a_speech"
+                          value="yes"
+                        />Taip</label
                       >
                     </td>
                     <td>
                       <label class="pill"
-                        ><input type="radio" name="a_speech" value="no" />Ne</label
+                        ><input
+                          type="radio"
+                          name="a_speech"
+                          value="no"
+                        />Ne</label
                       >
                     </td>
                   </tr>
@@ -230,10 +250,16 @@
                   ><input id="a_apixaban" type="checkbox" />Apiksabanas</label
                 >
                 <label class="pill"
-                  ><input id="a_rivaroxaban" type="checkbox" />Rivaroksabanas</label
+                  ><input
+                    id="a_rivaroxaban"
+                    type="checkbox"
+                  />Rivaroksabanas</label
                 >
                 <label class="pill"
-                  ><input id="a_dabigatran" type="checkbox" />Dabigatranas</label
+                  ><input
+                    id="a_dabigatran"
+                    type="checkbox"
+                  />Dabigatranas</label
                 >
                 <label class="pill"
                   ><input id="a_edoxaban" type="checkbox" />Edoksabanas</label
@@ -252,11 +278,12 @@
                   (aktyvuoti insulto komandą)</label
                 >
                 <label class="pill"
-                  ><input type="radio" name="a_lkw" value="4.5-24" /> &gt;4,5 val
-                  bet &lt;24 val (informuoti SPS gyd.)</label
+                  ><input type="radio" name="a_lkw" value="4.5-24" /> &gt;4,5
+                  val bet &lt;24 val (informuoti SPS gyd.)</label
                 >
                 <label class="pill"
-                  ><input type="radio" name="a_lkw" value="unknown" /> Nežinoma</label
+                  ><input type="radio" name="a_lkw" value="unknown" />
+                  Nežinoma</label
                 >
               </div>
             </fieldset>
@@ -338,7 +365,8 @@
                       name="arrival_contra"
                       value="Netiesioginio veikimo antikoaguliantai (INR ≥1,7)"
                     />
-                    Pacientas vartoja netiesioginio veikimo antikoaguliantus (INR ≥1,7)
+                    Pacientas vartoja netiesioginio veikimo antikoaguliantus
+                    (INR ≥1,7)
                   </label>
                 </li>
                 <li>
@@ -348,7 +376,8 @@
                       name="arrival_contra"
                       value="Arterijos punkcija nekompresuojamoje vietoje per 7 d."
                     />
-                    Arterijos punkcija nekompresuojamoje vietoje per pastarąsias 7 d.
+                    Arterijos punkcija nekompresuojamoje vietoje per pastarąsias
+                    7 d.
                   </label>
                 </li>
                 <li>
@@ -468,7 +497,8 @@
                       name="arrival_contra"
                       value="Virškinamojo ar šlapimo takų kraujavimas per 21 d."
                     />
-                    Virškinamojo ar šlapimo takų kraujavimas per pastarąsias 21 d.
+                    Virškinamojo ar šlapimo takų kraujavimas per pastarąsias 21
+                    d.
                   </label>
                 </li>
                 <li>
@@ -518,7 +548,8 @@
                       name="arrival_contra"
                       value="Tiesioginiai trombino ar Xa inhibitoriai su patologiniais tyrimais"
                     />
-                    Tiesioginiai trombino ar Xa inhibitoriai su patologiniais tyrimais
+                    Tiesioginiai trombino ar Xa inhibitoriai su patologiniais
+                    tyrimais
                   </label>
                 </li>
                 <li>
@@ -553,7 +584,14 @@
             <div class="grid-3">
               <div>
                 <label for="p_weight">Svoris (kg)</label>
-                <input id="p_weight" type="number" min="1" max="300" step="0.1" placeholder="kg" />
+                <input
+                  id="p_weight"
+                  type="number"
+                  min="1"
+                  max="300"
+                  step="0.1"
+                  placeholder="kg"
+                />
               </div>
               <div>
                 <label for="p_bp">AKS (mmHg)</label>
@@ -565,13 +603,50 @@
               </div>
             </div>
             <div class="mt-10">
-              <button type="button" id="bpCorrBtn" class="btn">AKS korekcija</button>
+              <button type="button" id="bpCorrBtn" class="btn">
+                AKS korekcija
+              </button>
               <div id="bpMedList" class="hidden mt-10">
-                <button type="button" class="btn bp-med" data-med="Labetololis" data-dose="10 mg">Labetololis</button>
-                <button type="button" class="btn bp-med" data-med="Enalaprilis" data-dose="1.25 mg">Enalaprilis</button>
-                <button type="button" class="btn bp-med" data-med="Metoprololis" data-dose="5 mg">Metoprololis</button>
-                <button type="button" class="btn bp-med" data-med="Natrio nitroprusidas" data-dose="0.3 µg/kg/min">Natrio nitroprusidas</button>
-                <button type="button" class="btn bp-med" data-med="Kita" data-dose="">Kita</button>
+                <button
+                  type="button"
+                  class="btn bp-med"
+                  data-med="Labetololis"
+                  data-dose="10 mg"
+                >
+                  Labetololis
+                </button>
+                <button
+                  type="button"
+                  class="btn bp-med"
+                  data-med="Enalaprilis"
+                  data-dose="1.25 mg"
+                >
+                  Enalaprilis
+                </button>
+                <button
+                  type="button"
+                  class="btn bp-med"
+                  data-med="Metoprololis"
+                  data-dose="5 mg"
+                >
+                  Metoprololis
+                </button>
+                <button
+                  type="button"
+                  class="btn bp-med"
+                  data-med="Natrio nitroprusidas"
+                  data-dose="0.3 µg/kg/min"
+                >
+                  Natrio nitroprusidas
+                </button>
+                <button
+                  type="button"
+                  class="btn bp-med"
+                  data-med="Kita"
+                  data-dose=""
+                >
+                  Kita
+                </button>
               </div>
               <div id="bpEntries" class="mt-10"></div>
             </div>
@@ -580,13 +655,23 @@
               <div>
                 <label>Vaistas</label>
                 <select id="drug_type">
-                  <option value="tnk">Tenekteplazė (TNK) – 0,25 mg/kg (max 25 mg), bolius</option>
-                  <option value="tpa">Alteplazė (tPA) – 0,9 mg/kg (max 90 mg), 10% bolius + 90% per 60 min</option>
+                  <option value="tnk">
+                    Tenekteplazė (TNK) – 0,25 mg/kg (max 25 mg), bolius
+                  </option>
+                  <option value="tpa">
+                    Alteplazė (tPA) – 0,9 mg/kg (max 90 mg), 10% bolius + 90%
+                    per 60 min
+                  </option>
                 </select>
               </div>
               <div>
                 <label>Koncentracija (mg/ml)</label>
-                <input id="drug_conc" type="number" step="0.01" placeholder="pvz. 5" />
+                <input
+                  id="drug_conc"
+                  type="number"
+                  step="0.01"
+                  placeholder="pvz. 5"
+                />
               </div>
             </div>
             <div class="grid-2 mt-10">
@@ -611,32 +696,24 @@
             </div>
             <div class="section-actions mt-10">
               <button id="calcBtn" class="btn primary">🧮 Skaičiuoti</button>
-              <span class="mini">Pastaba: klinikiniai sprendimai remiasi vietinėmis gairėmis. Ši skaičiuoklė – pagalbinė.</span>
+              <span class="mini"
+                >Pastaba: klinikiniai sprendimai remiasi vietinėmis gairėmis. Ši
+                skaičiuoklė – pagalbinė.</span
+              >
             </div>
             <div class="section-actions mt-10">
-              <button type="button" id="startThrombolysis" class="btn">Pradėta trombolizė</button>
+              <button type="button" id="startThrombolysis" class="btn">
+                Pradėta trombolizė
+              </button>
             </div>
           </form>
         </section>
 
-        <!-- Paciento informacija -->
-        <section id="patient" class="card hidden">
-          <h2>Paciento informacija</h2>
+        <!-- NIHSS -->
+        <section id="nihss" class="card hidden">
+          <h2>NIHSS</h2>
           <form>
-            <fieldset class="grid-2">
-              <div>
-                <label for="p_id">Ligos istorijos Nr.</label>
-                <input id="p_id" type="text" placeholder="(nebūtina)" />
-              </div>
-              <div>
-                <label for="p_sex">Lytis</label>
-                <select id="p_sex">
-                  <option value="">—</option>
-                  <option value="Vyras">Vyras</option>
-                  <option value="Moteris">Moteris</option>
-                  <option value="Kita / nenurodyta">Kita / nenurodyta</option>
-                </select>
-              </div>
+            <fieldset>
               <div>
                 <label for="p_nihss0">NIHSS (pradinis)</label>
                 <input id="p_nihss0" type="number" min="0" max="42" />
@@ -644,51 +721,111 @@
                   <summary><span class="pill">🧮 Skaičiuoti</span></summary>
                   <div class="card">
                     <div class="nihss-grid">
-                      <label>1a. Sąmonės lygis<input type="number" min="0" max="3" data-score /></label>
-                      <label>1b. Klausimai<input type="number" min="0" max="2" data-score /></label>
-                      <label>1c. Komandos<input type="number" min="0" max="2" data-score /></label>
-                      <label>2. Žvilgsnis<input type="number" min="0" max="2" data-score /></label>
-                      <label>3. Regėjimas<input type="number" min="0" max="3" data-score /></label>
-                      <label>4. Veido judesiai<input type="number" min="0" max="3" data-score /></label>
-                      <label>5a. Rankos (K)<input type="number" min="0" max="4" data-score /></label>
-                      <label>5b. Rankos (D)<input type="number" min="0" max="4" data-score /></label>
-                      <label>6a. Kojos (K)<input type="number" min="0" max="4" data-score /></label>
-                      <label>6b. Kojos (D)<input type="number" min="0" max="4" data-score /></label>
-                      <label>7. Ataksija<input type="number" min="0" max="2" data-score /></label>
-                      <label>8. Jutimai<input type="number" min="0" max="2" data-score /></label>
-                      <label>9. Kalba<input type="number" min="0" max="3" data-score /></label>
-                      <label>10. Artikuliacija<input type="number" min="0" max="2" data-score /></label>
-                      <label>11. Neglect<input type="number" min="0" max="2" data-score /></label>
-                    </div>
-                    <div class="nihss-actions">
-                      <strong>Viso: <span class="nihss-total">0</span></strong>
-                      <button type="button" class="btn apply">Taikyti</button>
-                    </div>
-                  </div>
-                </details>
-              </div>
-              <div>
-                <label for="p_nihss24">NIHSS (24 h)</label>
-                <input id="p_nihss24" type="number" min="0" max="42" />
-                <details class="nihss-calc" data-target="p_nihss24">
-                  <summary><span class="pill">🧮 Skaičiuoti</span></summary>
-                  <div class="card">
-                    <div class="nihss-grid">
-                      <label>1a. Sąmonės lygis<input type="number" min="0" max="3" data-score /></label>
-                      <label>1b. Klausimai<input type="number" min="0" max="2" data-score /></label>
-                      <label>1c. Komandos<input type="number" min="0" max="2" data-score /></label>
-                      <label>2. Žvilgsnis<input type="number" min="0" max="2" data-score /></label>
-                      <label>3. Regėjimas<input type="number" min="0" max="3" data-score /></label>
-                      <label>4. Veido judesiai<input type="number" min="0" max="3" data-score /></label>
-                      <label>5a. Rankos (K)<input type="number" min="0" max="4" data-score /></label>
-                      <label>5b. Rankos (D)<input type="number" min="0" max="4" data-score /></label>
-                      <label>6a. Kojos (K)<input type="number" min="0" max="4" data-score /></label>
-                      <label>6b. Kojos (D)<input type="number" min="0" max="4" data-score /></label>
-                      <label>7. Ataksija<input type="number" min="0" max="2" data-score /></label>
-                      <label>8. Jutimai<input type="number" min="0" max="2" data-score /></label>
-                      <label>9. Kalba<input type="number" min="0" max="3" data-score /></label>
-                      <label>10. Artikuliacija<input type="number" min="0" max="2" data-score /></label>
-                      <label>11. Neglect<input type="number" min="0" max="2" data-score /></label>
+                      <label
+                        >1a. Sąmonės lygis<input
+                          type="number"
+                          min="0"
+                          max="3"
+                          data-score
+                      /></label>
+                      <label
+                        >1b. Klausimai<input
+                          type="number"
+                          min="0"
+                          max="2"
+                          data-score
+                      /></label>
+                      <label
+                        >1c. Komandos<input
+                          type="number"
+                          min="0"
+                          max="2"
+                          data-score
+                      /></label>
+                      <label
+                        >2. Žvilgsnis<input
+                          type="number"
+                          min="0"
+                          max="2"
+                          data-score
+                      /></label>
+                      <label
+                        >3. Regėjimas<input
+                          type="number"
+                          min="0"
+                          max="3"
+                          data-score
+                      /></label>
+                      <label
+                        >4. Veido judesiai<input
+                          type="number"
+                          min="0"
+                          max="3"
+                          data-score
+                      /></label>
+                      <label
+                        >5a. Rankos (K)<input
+                          type="number"
+                          min="0"
+                          max="4"
+                          data-score
+                      /></label>
+                      <label
+                        >5b. Rankos (D)<input
+                          type="number"
+                          min="0"
+                          max="4"
+                          data-score
+                      /></label>
+                      <label
+                        >6a. Kojos (K)<input
+                          type="number"
+                          min="0"
+                          max="4"
+                          data-score
+                      /></label>
+                      <label
+                        >6b. Kojos (D)<input
+                          type="number"
+                          min="0"
+                          max="4"
+                          data-score
+                      /></label>
+                      <label
+                        >7. Ataksija<input
+                          type="number"
+                          min="0"
+                          max="2"
+                          data-score
+                      /></label>
+                      <label
+                        >8. Jutimai<input
+                          type="number"
+                          min="0"
+                          max="2"
+                          data-score
+                      /></label>
+                      <label
+                        >9. Kalba<input
+                          type="number"
+                          min="0"
+                          max="3"
+                          data-score
+                      /></label>
+                      <label
+                        >10. Artikuliacija<input
+                          type="number"
+                          min="0"
+                          max="2"
+                          data-score
+                      /></label>
+                      <label
+                        >11. Neglect<input
+                          type="number"
+                          min="0"
+                          max="2"
+                          data-score
+                      /></label>
                     </div>
                     <div class="nihss-actions">
                       <strong>Viso: <span class="nihss-total">0</span></strong>

@@ -4,12 +4,9 @@ import { toDate, minsBetween, fmtMins } from './time.js';
 export function genSummary() {
   const get = (el) => (el && el.value ? el.value : null);
   const dob = get(inputs.a_dob) || '—';
-  const sex = get(inputs.sex) || '—';
-  const id = get(inputs.id) || '—';
   const w = get(inputs.weight) || '—';
   const bp = get(inputs.bp) || '—';
   const nih0 = get(inputs.nih0) || '—';
-  const nih24 = get(inputs.nih24) || '—';
 
   const tLKW = get(inputs.lkw),
     tOnset = get(inputs.onset),
@@ -44,7 +41,7 @@ export function genSummary() {
 
   const parts = [];
   parts.push(
-    `PACIENTAS: Ligos istorijos Nr. ${id}, gim. data: ${dob}, lytis: ${sex}, svoris: ${w} kg, AKS atvykus: ${bp}. NIHSS pradinis: ${nih0}, po 24 val: ${nih24}.`,
+    `PACIENTAS: gim. data: ${dob}, svoris: ${w} kg, AKS atvykus: ${bp}. NIHSS pradinis: ${nih0}.`,
   );
   parts.push(
     `LAIKAI: LKW: ${tLKW || '—'}, Pradžia: ${tOnset || '—'}, Atvykimas: ${tDoor || '—'}, KT: ${tCT || '—'}, Trombolizė: ${tN || '—'}, Kateterizacija: ${tG || '—'}, Reperfuzija: ${tR || '—'}.`,

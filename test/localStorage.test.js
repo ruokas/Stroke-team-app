@@ -80,7 +80,9 @@ Object.defineProperty(global, 'navigator', {
 });
 
 const { inputs } = await import('../js/state.js');
-const { saveLS, loadLS, deleteLS, setPayload } = await import('../js/storage.js');
+const { saveLS, loadLS, deleteLS, setPayload } = await import(
+  '../js/storage.js'
+);
 const { copySummary } = await import('../js/summary.js');
 
 function resetInputs() {
@@ -94,47 +96,47 @@ test('localStorage handles multiple records', { concurrency: false }, () => {
   localStorageStub.store = {};
   resetInputs();
 
-  inputs.id.value = 'p1';
+  inputs.nih0.value = '1';
   saveLS('d1');
-  inputs.id.value = 'p2';
+  inputs.nih0.value = '2';
   saveLS('d2');
   const rec1 = loadLS('d1');
   const rec2 = loadLS('d2');
-  assert.strictEqual(rec1.p_id, 'p1');
-  assert.strictEqual(rec2.p_id, 'p2');
+  assert.strictEqual(rec1.p_nihss0, '1');
+  assert.strictEqual(rec2.p_nihss0, '2');
 
   deleteLS('d1');
   assert.strictEqual(loadLS('d1'), null);
-  assert.strictEqual(loadLS('d2').p_id, 'p2');
+  assert.strictEqual(loadLS('d2').p_nihss0, '2');
 });
 
-test('saveLS/loadLS with copySummary copies generated text', { concurrency: false }, async () => {
-  localStorageStub.store = {};
-  resetInputs();
+test(
+  'saveLS/loadLS with copySummary copies generated text',
+  { concurrency: false },
+  async () => {
+    localStorageStub.store = {};
+    resetInputs();
 
-  inputs.id.value = 'abc';
-  inputs.a_dob.value = '2000-01-01';
-  inputs.sex.value = 'Vyras';
-  inputs.weight.value = '70';
-  inputs.bp.value = '120/80';
-  inputs.nih0.value = '5';
-  inputs.lkw.value = '2024-01-01T08:00';
-  inputs.door.value = '2024-01-01T08:30';
-  inputs.ct.value = '2024-01-01T08:45';
-  inputs.drugType.value = 'tnk';
-  inputs.drugConc.value = '5';
-  inputs.doseTotal.value = '10';
-  inputs.doseVol.value = '2';
+    inputs.a_dob.value = '2000-01-01';
+    inputs.weight.value = '70';
+    inputs.bp.value = '120/80';
+    inputs.nih0.value = '5';
+    inputs.lkw.value = '2024-01-01T08:00';
+    inputs.door.value = '2024-01-01T08:30';
+    inputs.ct.value = '2024-01-01T08:45';
+    inputs.drugType.value = 'tnk';
+    inputs.drugConc.value = '5';
+    inputs.doseTotal.value = '10';
+    inputs.doseVol.value = '2';
 
-  saveLS('draft1');
-  inputs.id.value = '';
-  inputs.a_dob.value = '';
-  setPayload(loadLS('draft1'));
+    saveLS('draft1');
+    inputs.a_dob.value = '';
+    setPayload(loadLS('draft1'));
 
-  await copySummary();
+    await copySummary();
 
-  assert.ok(global.__copied.includes('PACIENTAS'));
-  assert.ok(global.__copied.includes('abc'));
-  assert.strictEqual(getEl('#summary').value, global.__copied);
-});
-
+    assert.ok(global.__copied.includes('PACIENTAS'));
+    assert.ok(global.__copied.includes('NIHSS pradinis: 5'));
+    assert.strictEqual(getEl('#summary').value, global.__copied);
+  },
+);

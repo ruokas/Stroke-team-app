@@ -35,6 +35,15 @@ function initNIHSS() {
 }
 
 function bind() {
+  const header = document.querySelector('header');
+  const setHeaderHeight = () =>
+    document.documentElement.style.setProperty(
+      '--header-height',
+      header.offsetHeight + 'px',
+    );
+  setHeaderHeight();
+  window.addEventListener('resize', setHeaderHeight);
+
   // Now buttons
   $$('button[data-now]').forEach((b) =>
     b.addEventListener('click', () => setNow(b.getAttribute('data-now'))),
@@ -71,6 +80,15 @@ function bind() {
   });
 
   // Save/Load/Export/Import
+  const saveStatus = document.getElementById('saveStatus');
+  const updateSaveStatus = () => {
+    const t = new Date().toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+    saveStatus.textContent = `Saved at ${t}`;
+  };
+
   $('#saveBtn').addEventListener('click', () => {
     const existing = inputs.draftSelect.value;
     let name = null;
@@ -79,6 +97,7 @@ function bind() {
     const id = saveLS(existing || undefined, name);
     inputs.draftSelect.value = id;
     alert('Išsaugota naršyklėje.');
+    updateSaveStatus();
   });
   $('#loadBtn').addEventListener('click', () => {
     const id = inputs.draftSelect.value;
@@ -185,8 +204,10 @@ function bind() {
     state.autosave = e.target.value;
   });
   document.addEventListener('input', () => {
-    if (state.autosave === 'on' && inputs.draftSelect.value)
+    if (state.autosave === 'on' && inputs.draftSelect.value) {
       saveLS(inputs.draftSelect.value);
+      updateSaveStatus();
+    }
   });
 
   // Initial

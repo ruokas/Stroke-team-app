@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "type": "module",
   "devDependencies": {
-    "prettier": "^3.2.5"
+    "prettier": "^3.2.5",
+    "husky": "^9.0.11"
   },
   "scripts": {
     "format": "prettier --write js/*.js",
-    "test": "node --test"
+    "test": "node --test",
+    "prepare": "husky install"
   }
 }

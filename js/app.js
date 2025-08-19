@@ -35,6 +35,7 @@ function initNIHSS() {
 }
 
 function bind() {
+  let dirty = false;
   const header = document.querySelector('header');
   const setHeaderHeight = () =>
     document.documentElement.style.setProperty(
@@ -147,6 +148,7 @@ function bind() {
     inputs.draftSelect.value = id;
     alert('Išsaugota naršyklėje.');
     updateSaveStatus();
+    dirty = false;
   });
   $('#loadBtn').addEventListener('click', () => {
     const id = inputs.draftSelect.value;
@@ -158,6 +160,7 @@ function bind() {
     if (p) {
       setPayload(p);
       alert('Atkurta iš naršyklės.');
+      dirty = false;
     } else alert('Nėra išsaugoto įrašo.');
   });
   $('#renameDraftBtn').addEventListener('click', () => {
@@ -262,11 +265,23 @@ function bind() {
     state.autosave = e.target.value;
   });
   document.addEventListener('input', () => {
+    dirty = true;
     if (state.autosave === 'on' && inputs.draftSelect.value) {
       saveLS(inputs.draftSelect.value);
       updateSaveStatus();
+      dirty = false;
     }
     if (!$('#summarySec').classList.contains('hidden')) genSummary();
+  });
+  document.addEventListener('change', () => {
+    dirty = true;
+  });
+
+  window.addEventListener('beforeunload', (e) => {
+    if (dirty) {
+      e.preventDefault();
+      e.returnValue = '';
+    }
   });
 
   // Initial

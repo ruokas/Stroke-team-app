@@ -1,11 +1,12 @@
 {
   "name": "stroke-team-app",
   "version": "1.0.0",
+  "type": "module",
   "devDependencies": {
     "prettier": "^3.2.5"
   },
   "scripts": {
-    "format": "prettier --write js/app.js",
+    "format": "prettier --write js/*.js",
     "test": "node test/calcDrugs.test.js && node test/updateDrugDefaults.test.js && node test/updateKPIs.test.js && node test/genSummary.test.js && node test/localStorage.test.js"
   }
 }

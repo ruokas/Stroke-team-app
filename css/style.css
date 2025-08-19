@@ -910,11 +910,11 @@ details .card {
 }
 .nihss-grid label {
   display: flex;
-  justify-content: space-between;
-  gap: 8px;
+  flex-direction: column;
+  gap: 4px;
 }
-.nihss-grid input[type='number'] {
-  width: 3rem;
+.nihss-grid select {
+  width: 100%;
 }
 
 .nihss-actions {

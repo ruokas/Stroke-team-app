@@ -9,12 +9,11 @@ export function updateDrugDefaults() {
   if (!typeEl || !concEl || !defTnkEl || !defTpaEl) return;
   const type = typeEl.value;
   const conc =
-    type === 'tnk'
-      ? Number(defTnkEl.value || 5)
-      : Number(defTpaEl.value || 1);
+    type === 'tnk' ? Number(defTnkEl.value || 5) : Number(defTpaEl.value || 1);
   concEl.value = String(conc);
   const tpaBreakdown = document.getElementById('tpaBreakdown');
-  if (tpaBreakdown) tpaBreakdown.style.display = type === 'tpa' ? 'grid' : 'none';
+  if (tpaBreakdown)
+    tpaBreakdown.style.display = type === 'tpa' ? 'grid' : 'none';
 }
 
 export function calcDrugs() {

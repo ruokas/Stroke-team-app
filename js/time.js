@@ -12,6 +12,10 @@ export function setNow(id) {
   const el = document.getElementById(id);
   if (!el) return;
   const now = new Date();
-  el.value = toLocalInputValue(now);
+  if (el.type === 'time') {
+    el.value = now.toISOString().slice(11, 16);
+  } else {
+    el.value = toLocalInputValue(now);
+  }
   triggerChange(el);
 }

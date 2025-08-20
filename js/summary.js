@@ -14,6 +14,7 @@ export function collectSummaryData() {
     lkw: get(inputs.lkw),
     door: get(inputs.door),
     decision: get(inputs.d_time),
+    thrombolysis: get(inputs.t_thrombolysis),
   };
   const drugs = {
     type: inputs.drugType?.value || '',
@@ -23,7 +24,8 @@ export function collectSummaryData() {
     bolus: get(inputs.tpaBolus),
     infusion: get(inputs.tpaInf),
   };
-  const decision = (inputs.d_decision || []).find((n) => n.checked)?.value || null;
+  const decision =
+    (inputs.d_decision || []).find((n) => n.checked)?.value || null;
   return { patient, times, drugs, decision };
 }
 
@@ -39,14 +41,14 @@ export function summaryTemplate({ patient, times, drugs, decision }) {
   parts.push(
     `LAIKAI: LKW: ${times.lkw ?? '—'}, Atvykimas: ${times.door ?? '—'}, Sprendimas: ${
       times.decision ?? '—'
-    }.`,
+    }, Trombolizė pradėta: ${times.thrombolysis ?? '—'}.`,
   );
   const drugType = drugs.type === 'tnk' ? 'Tenekteplazė' : 'Alteplazė';
   const drugParts = [`VAISTAI: ${drugType}.`];
   drugParts.push(
     `Koncentracija: ${drugs.conc ? `${drugs.conc} mg/ml` : '—'}. Bendra dozė: ${
       drugs.totalDose ? `${drugs.totalDose} mg` : '—'
-    } (${drugs.totalVol ? `${drugs.totalVol} ml` : '—'}).`
+    } (${drugs.totalVol ? `${drugs.totalVol} ml` : '—'}).`,
   );
   if (drugs.bolus) drugParts.push(`Bolius: ${drugs.bolus}.`);
   if (drugs.infusion) drugParts.push(`Infuzija: ${drugs.infusion}.`);

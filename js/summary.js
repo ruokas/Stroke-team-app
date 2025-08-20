@@ -1,7 +1,8 @@
-import { inputs } from './state.js';
+import * as dom from './state.js';
 import { showToast } from './toast.js';
 
 export function collectSummaryData() {
+  const inputs = dom.getInputs();
   const get = (el) => (el && el.value ? el.value : null);
   const patient = {
     dob: get(inputs.a_dob),
@@ -15,14 +16,14 @@ export function collectSummaryData() {
     decision: get(inputs.d_time),
   };
   const drugs = {
-    type: inputs.drugType.value,
+    type: inputs.drugType?.value || '',
     conc: get(inputs.drugConc),
     totalDose: get(inputs.doseTotal),
     totalVol: get(inputs.doseVol),
     bolus: get(inputs.tpaBolus),
     infusion: get(inputs.tpaInf),
   };
-  const decision = inputs.d_decision.find((n) => n.checked)?.value || null;
+  const decision = (inputs.d_decision || []).find((n) => n.checked)?.value || null;
   return { patient, times, drugs, decision };
 }
 
@@ -55,12 +56,14 @@ export function summaryTemplate({ patient, times, drugs, decision }) {
 }
 
 export function genSummary() {
+  const inputs = dom.getInputs();
   const data = collectSummaryData();
-  inputs.summary.value = summaryTemplate(data);
+  if (inputs.summary) inputs.summary.value = summaryTemplate(data);
   return data;
 }
 
 export function copySummary() {
+  const inputs = dom.getInputs();
   genSummary();
   if (window.isSecureContext && navigator.clipboard) {
     navigator.clipboard.writeText(inputs.summary.value).catch((err) => {

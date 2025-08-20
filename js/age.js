@@ -1,4 +1,4 @@
-import { inputs } from './state.js';
+import * as dom from './state.js';
 
 export function calcAge(dob) {
   if (!dob) return '';
@@ -12,8 +12,10 @@ export function calcAge(dob) {
 }
 
 export function updateAge() {
-  const age = calcAge(inputs.a_dob.value);
-  inputs.a_age.value = age;
+  const dobEl = dom.getADobInput();
+  const ageEl = dom.getAAgeInput();
+  const age = calcAge(dobEl?.value);
+  if (ageEl) ageEl.value = age;
   const disp = document.getElementById('a_age_display');
   if (disp) disp.textContent = age ? `${age} m.` : '';
 }

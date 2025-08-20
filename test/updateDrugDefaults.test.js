@@ -31,7 +31,8 @@ test('updateDrugDefaults sets default concentrations correctly', async () => {
   };
   global.setInterval = () => {};
 
-  const { inputs } = await import('../js/state.js');
+  const { getInputs } = await import('../js/state.js');
+  const inputs = getInputs();
   const { updateDrugDefaults } = await import('../js/drugs.js');
 
   inputs.def_tnk.value = '';

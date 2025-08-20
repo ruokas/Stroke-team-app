@@ -80,13 +80,16 @@ Object.defineProperty(global, 'navigator', {
   configurable: true,
 });
 
-const { inputs } = await import('../js/state.js');
+let inputs = null;
+const { getInputs } = await import('../js/state.js');
 const { saveLS, loadLS, deleteLS, setPayload } = await import(
   '../js/storage.js'
 );
+inputs = getInputs();
 const { copySummary } = await import('../js/summary.js');
 
 function resetInputs() {
+  inputs = getInputs();
   Object.values(inputs).forEach((el) => {
     if ('value' in el) el.value = '';
     if ('checked' in el) el.checked = false;

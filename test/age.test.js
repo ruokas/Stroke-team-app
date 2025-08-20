@@ -35,7 +35,8 @@ test('calcAge and updateAge compute and display age correctly', async () => {
     addEventListener: () => {},
   };
 
-  const { inputs } = await import('../js/state.js');
+  const { getInputs } = await import('../js/state.js');
+  const inputs = getInputs();
   const { calcAge, updateAge } = await import('../js/age.js');
 
   // valid date of birth

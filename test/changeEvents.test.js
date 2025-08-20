@@ -77,14 +77,14 @@ global.setInterval = () => {};
 global.window = { isSecureContext: true };
 
 test('setPayload bubbles change events', async () => {
-  const { inputs } = await import('../js/state.js');
   const { setPayload } = await import('../js/storage.js');
 
   const known = createEl();
   known.value = 'known';
   const unknown = createEl();
   unknown.value = 'unknown';
-  inputs.lkw_type = [known, unknown];
+  document.querySelectorAll = (sel) =>
+    sel === 'input[name="lkw_type"]' ? [known, unknown] : [];
 
   let changeCount = 0;
   document.addEventListener('change', () => {

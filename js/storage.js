@@ -73,6 +73,10 @@ export function getPayload() {
       .filter((n) => n.checked)
       .map((n) => n.value)
       .join('; '),
+    arrival_mt_contra: (inputs.arrival_mt_contra || [])
+      .filter((n) => n.checked)
+      .map((n) => n.value)
+      .join('; '),
     def_tnk: inputs.def_tnk?.value || '',
     def_tpa: inputs.def_tpa?.value || '',
     autosave: state.autosave,
@@ -128,6 +132,12 @@ export function setPayload(p) {
     .filter(Boolean);
   (inputs.arrival_contra || []).forEach((cb) => {
     cb.checked = contraVals.includes(cb.value);
+  });
+  const mtContraVals = (payload.arrival_mt_contra || '')
+    .split(/;\s*/)
+    .filter(Boolean);
+  (inputs.arrival_mt_contra || []).forEach((cb) => {
+    cb.checked = mtContraVals.includes(cb.value);
   });
   if (inputs.a_personal) inputs.a_personal.value = payload.a_personal || '';
   if (inputs.a_name) inputs.a_name.value = payload.a_name || '';

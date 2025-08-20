@@ -275,9 +275,10 @@
               <textarea id="arrival_symptoms" rows="3" aria-label="Simptomai"></textarea>
             </fieldset>
 
-            <fieldset>
-              <legend>Kontraindikacijos trombolizei</legend>
-              <ul class="contra-list">
+            <div class="grid-2 mt-10">
+              <details>
+                <summary>Kontraindikacijos trombolizei</summary>
+                <ul class="contra-list">
                 <li>
                   <label>
                     <input
@@ -492,8 +493,167 @@
                     Nekontroliuojama hipertenzija, reikalinga intensyvi terapija
                   </label>
                 </li>
-              </ul>
-            </fieldset>
+                </ul>
+              </details>
+              <details>
+                <summary>Kontraindikacijos trombektomijai</summary>
+                <ul class="contra-list">
+                  <li>
+                    <label>
+                      <input
+                        type="checkbox"
+                        name="arrival_mt_contra"
+                        value="Netiesioginio veikimo antikoaguliantai ir TNS >3"
+                      />
+                      Ligonis vartoja netiesioginio veikimo antikoaguliantus ir
+                      TNS &gt;3 (geriamieji ne vitamino K antagonistai –
+                      tiesioginiai trombino ar Xa inhibitoriai – nelaikomi
+                      netinkamumo kriterijumi)
+                    </label>
+                  </li>
+                  <li>
+                    <label>
+                      <input
+                        type="checkbox"
+                        name="arrival_mt_contra"
+                        value="Nekontroliuojama arterinė hipertenzija (AKS >185/110)"
+                      />
+                      Nekontroliuojama arterinė hipertenzija: sistolinis AKS
+                      &gt;185 mmHg arba diastolinis AKS &gt;110 mmHg iki gydymo
+                      pradžios
+                    </label>
+                  </li>
+                  <li>
+                    <label>
+                      <input
+                        type="checkbox"
+                        name="arrival_mt_contra"
+                        value="Gliukozės koncentracija &lt;2,8 mmol/l"
+                      />
+                      Gliukozės koncentracija kraujyje &lt;2,8 mmol/l
+                    </label>
+                  </li>
+                  <li>
+                    <label>
+                      <input
+                        type="checkbox"
+                        name="arrival_mt_contra"
+                        value="Glikemija &gt;22 mmol/l arba dializė"
+                      />
+                      Glikemija &gt;22 mmol/l arba taikomas gydymas
+                      hemodialize/peritonine dialize
+                    </label>
+                  </li>
+                  <li>
+                    <label>
+                      <input
+                        type="checkbox"
+                        name="arrival_mt_contra"
+                        value="Trombocitopenija &lt;30×10⁹/l"
+                      />
+                      Trombocitopenija &lt;30×10⁹/l
+                    </label>
+                  </li>
+                  <li>
+                    <label>
+                      <input
+                        type="checkbox"
+                        name="arrival_mt_contra"
+                        value="Žinoma kraujavimo diatezė"
+                      />
+                      Žinoma kraujavimo diatezė
+                    </label>
+                  </li>
+                  <li>
+                    <label>
+                      <input
+                        type="checkbox"
+                        name="arrival_mt_contra"
+                        value="Aktyvus vidinis kraujavimas"
+                      />
+                      Aktyvus vidinis kraujavimas
+                    </label>
+                  </li>
+                  <li>
+                    <label>
+                      <input
+                        type="checkbox"
+                        name="arrival_mt_contra"
+                        value="KT rodo intracerebrinę arba subarachnoidinę kraujosruvą"
+                      />
+                      Atlikus galvos smegenų KT, nustatomi intracerebrinės arba
+                      subarachnoidinės kraujosruvos požymiai
+                    </label>
+                  </li>
+                  <li>
+                    <label>
+                      <input
+                        type="checkbox"
+                        name="arrival_mt_contra"
+                        value="Ūminė išemija &gt;1/3 ACM teritorijos ar ryškus masės efektas"
+                      />
+                      Ūminės išemijos zona galvos KT/MRT užima &gt;1/3 vidurinės
+                      smegenų arterijos teritorijos ir/ar ryškus masės efektas
+                      su vidurio linijos poslinkiu
+                    </label>
+                  </li>
+                  <li>
+                    <label>
+                      <input
+                        type="checkbox"
+                        name="arrival_mt_contra"
+                        value="CNS pažeidimas su didele kraujavimo rizika"
+                      />
+                      CNS pažeidimas su didele kraujavimo rizika (tumoras,
+                      abscesas, kraujagyslinė malformacija, aneurizma);
+                      intrakranijinė ar spinalinė chirurgija, galvos trauma ar
+                      insultas kitoje teritorijoje per paskutinius 3 mėn.
+                    </label>
+                  </li>
+                  <li>
+                    <label>
+                      <input
+                        type="checkbox"
+                        name="arrival_mt_contra"
+                        value="Intrasmegeninė kraujosruva anamnezėje"
+                      />
+                      Intrasmegeninė kraujosruva anamnezėje
+                    </label>
+                  </li>
+                  <li>
+                    <label>
+                      <input
+                        type="checkbox"
+                        name="arrival_mt_contra"
+                        value="Poūminis bakterinis endokarditas"
+                      />
+                      Poūminis bakterinis endokarditas
+                    </label>
+                  </li>
+                  <li>
+                    <label>
+                      <input
+                        type="checkbox"
+                        name="arrival_mt_contra"
+                        value="Sunkios gretutinės ligos su bloga prognoze"
+                      />
+                      Sunkios gretutinės ligos su bloga prognoze
+                    </label>
+                  </li>
+                  <li>
+                    <label>
+                      <input
+                        type="checkbox"
+                        name="arrival_mt_contra"
+                        value="Nėštumas – sprendžiama individualiai"
+                      />
+                      Esant nėštumui sprendžiama individualiai dalyvaujant
+                      akušeriui ginekologui
+                    </label>
+                  </li>
+                </ul>
+              </details>
+            </div>
           </form>
         </section>
 

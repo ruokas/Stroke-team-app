@@ -28,6 +28,7 @@ export const getTpaBolusInput = () => $('#tpa_bolus');
 export const getTpaInfInput = () => $('#tpa_infusion');
 export const getDefTnkInput = () => $('#def_tnk');
 export const getDefTpaInput = () => $('#def_tpa');
+export const getThrombolysisStartInput = () => $('#t_thrombolysis');
 export const getAutosaveInput = () => $('#autosave');
 export const getSummaryInput = () => $('#summary');
 export const getDraftSelect = () => $('#draftSelect');
@@ -76,6 +77,7 @@ export function getInputs() {
     tpaInf: getTpaInfInput(),
     def_tnk: getDefTnkInput(),
     def_tpa: getDefTpaInput(),
+    t_thrombolysis: getThrombolysisStartInput(),
     autosave: getAutosaveInput(),
     summary: getSummaryInput(),
     draftSelect: getDraftSelect(),

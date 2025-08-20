@@ -64,6 +64,7 @@ test('copySummary builds data object and copies formatted text', async () => {
   inputs.lkw.value = '2024-01-01T07:00';
   inputs.door.value = '2024-01-01T08:00';
   inputs.d_time.value = '2024-01-01T08:40';
+  inputs.t_thrombolysis.value = '2024-01-01T09:00';
   const decisionOpt = {
     checked: true,
     value: 'Taikoma IVT, indikacijų MTE nenustatyta',
@@ -82,6 +83,7 @@ test('copySummary builds data object and copies formatted text', async () => {
       lkw: '2024-01-01T07:00',
       door: '2024-01-01T08:00',
       decision: '2024-01-01T08:40',
+      thrombolysis: '2024-01-01T09:00',
     },
     drugs: {
       type: 'tnk',

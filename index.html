@@ -776,7 +776,6 @@
               </div>
             </div>
             <div class="section-actions mt-10">
-              <button id="calcBtn" class="btn primary">🧮 Skaičiuoti</button>
               <span class="mini"
                 >Pastaba: klinikiniai sprendimai remiasi vietinėmis gairėmis. Ši
                 skaičiuoklė – pagalbinė.</span
@@ -786,6 +785,20 @@
               <button type="button" id="startThrombolysis" class="btn">
                 Pradėta trombolizė
               </button>
+            </div>
+            <div id="thrombolysisStartRow" class="mt-10 hidden">
+              <label for="t_thrombolysis">Trombolizė pradėta</label>
+              <div class="row">
+  <div class="input-group">
+    <input
+      id="t_thrombolysis"
+      type="datetime-local"
+      placeholder="YYYY-MM-DD HH:MM"
+      step="60"
+    />
+    <button type="button" class="btn ghost" data-now="t_thrombolysis" aria-label="Dabar">🕒</button>
+  </div>
+</div>
             </div>
           </form>
         </section>

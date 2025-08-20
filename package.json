@@ -9,6 +9,7 @@
   "scripts": {
     "format": "prettier --write js/*.js",
     "test": "node --test",
+    "build": "node build.js",
     "prepare": "husky install"
   }
 }

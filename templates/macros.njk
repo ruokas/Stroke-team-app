@@ -1,0 +1,17 @@
+{% macro actionButton(id, title, icon, label, classes='') %}
+<button id="{{ id }}"{% if title %} title="{{ title }}"{% endif %} class="btn{% if classes %} {{ classes }}{% endif %}">{{ icon }} <span class="btn-label">{{ label }}</span></button>
+{% endmacro %}
+
+{% macro timeInput(id, wrapperId='', wrapperClass='row') %}
+<div class="{{ wrapperClass }}"{% if wrapperId %} id="{{ wrapperId }}"{% endif %}>
+  <div class="input-group">
+    <input
+      id="{{ id }}"
+      type="datetime-local"
+      placeholder="YYYY-MM-DD HH:MM"
+      step="60"
+    />
+    <button class="btn ghost" data-now="{{ id }}">Dabar</button>
+  </div>
+</div>
+{% endmacro %}

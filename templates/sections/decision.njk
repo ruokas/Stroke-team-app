@@ -1,0 +1,44 @@
+        <!-- Sprendimas -->
+        <section id="decision" class="card hidden">
+          <h2>Sprendimas</h2>
+          <form>
+            <fieldset>
+              <legend>Sprendimo laikas</legend>
+              {{ macros.timeInput('d_time') }}
+            </fieldset>
+            <fieldset class="mt-10">
+              <legend>Sprendimas</legend>
+              <div>
+                <label class="pill"
+                  ><input
+                    type="radio"
+                    name="d_decision"
+                    value="Taikoma IVT, indikacijų MTE nenustatyta"
+                  />Taikoma IVT, indikacijų MTE nenustatyta</label
+                >
+                <label class="pill"
+                  ><input
+                    type="radio"
+                    name="d_decision"
+                    value="Taikoma IVT, rengiamasi MTE atlikimui"
+                  />Taikoma IVT, rengiamasi MTE atlikimui</label
+                >
+                <label class="pill"
+                  ><input
+                    type="radio"
+                    name="d_decision"
+                    value="Rengiamasi MTE atlikimui"
+                  />Rengiamasi MTE atlikimui</label
+                >
+                <label class="pill"
+                  ><input
+                    type="radio"
+                    name="d_decision"
+                    value="Reperfuzinis gydymas kontraindikuotinas, taikyti konservatyvią taktika"
+                  />Reperfuzinis gydymas kontraindikuotinas, taikyti konservatyvią taktika</label
+                >
+              </div>
+            </fieldset>
+          </form>
+        </section>
+

@@ -1,0 +1,12 @@
+        <!-- Santrauka HIS sistemai -->
+        <section id="summarySec" class="card full-span hidden">
+          <h2>Santrauka (kopijavimui į HIS)</h2>
+          <textarea
+            id="summary"
+            class="summary mono"
+            placeholder="Santrauka generuojama automatiškai"
+          ></textarea>
+          <div class="sticky-actions">
+            {{ macros.actionButton('copySummaryBtn', 'Kopijuoti santrauką', '📋', 'Kopijuoti') }}
+          </div>
+        </section>

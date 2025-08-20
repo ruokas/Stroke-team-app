@@ -1,0 +1,214 @@
+        <section id="activation" class="card">
+          <h2>Komandos aktyvacija</h2>
+          <form>
+            <fieldset>
+              <legend>Paciento duomenys</legend>
+              <div class="grid-2">
+                <div>
+                  <label for="a_personal">Asmens kodas</label>
+                  <input id="a_personal" type="text" />
+                </div>
+                <div>
+                  <label for="a_name">Vardas, Pavardė</label>
+                  <input id="a_name" type="text" />
+                </div>
+                <div>
+                  <label for="a_dob">Gimimo data</label>
+                  <input id="a_dob" type="date" placeholder="YYYY-MM-DD" />
+                  <div id="a_age_display" class="subtle"></div>
+                  <input id="a_age" type="hidden" />
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Simptomai</legend>
+              <table class="tbl">
+                <thead>
+                  <tr>
+                    <th>Sutrikimas</th>
+                    <th>Taip</th>
+                    <th>Ne</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Veido paralyžius</td>
+                    <td>
+                      <label class="pill"
+                        ><input
+                          type="radio"
+                          name="a_face"
+                          value="yes"
+                        />Taip</label
+                      >
+                    </td>
+                    <td>
+                      <label class="pill"
+                        ><input
+                          type="radio"
+                          name="a_face"
+                          value="no"
+                        />Ne</label
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Rankos silpnumas</td>
+                    <td>
+                      <label class="pill"
+                        ><input
+                          type="radio"
+                          name="a_arm"
+                          value="yes"
+                        />Taip</label
+                      >
+                    </td>
+                    <td>
+                      <label class="pill"
+                        ><input type="radio" name="a_arm" value="no" />Ne</label
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Kalbos sutrikimas</td>
+                    <td>
+                      <label class="pill"
+                        ><input
+                          type="radio"
+                          name="a_speech"
+                          value="yes"
+                        />Taip</label
+                      >
+                    </td>
+                    <td>
+                      <label class="pill"
+                        ><input
+                          type="radio"
+                          name="a_speech"
+                          value="no"
+                        />Ne</label
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Pusiausvyros sutrikimas</td>
+                    <td>
+                      <label class="pill"
+                        ><input
+                          type="radio"
+                          name="a_balance"
+                          value="yes"
+                        />Taip</label
+                      >
+                    </td>
+                    <td>
+                      <label class="pill"
+                        ><input
+                          type="radio"
+                          name="a_balance"
+                          value="no"
+                        />Ne</label
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Sąmonės/kvėpavimo sutrikimas</td>
+                    <td>
+                      <label class="pill"
+                        ><input
+                          type="radio"
+                          name="a_conscious"
+                          value="yes"
+                        />Taip</label
+                      >
+                    </td>
+                    <td>
+                      <label class="pill"
+                        ><input
+                          type="radio"
+                          name="a_conscious"
+                          value="no"
+                        />Ne</label
+                      >
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </fieldset>
+
+            <fieldset>
+              <legend>Vartojami vaistai</legend>
+              <div class="grid-2">
+                <label class="pill"
+                  ><input id="a_warfarin" type="checkbox" />Varfarinas</label
+                >
+                <label class="pill"
+                  ><input id="a_apixaban" type="checkbox" />Apiksabanas</label
+                >
+                <label class="pill"
+                  ><input
+                    id="a_rivaroxaban"
+                    type="checkbox"
+                  />Rivaroksabanas</label
+                >
+                <label class="pill"
+                  ><input
+                    id="a_dabigatran"
+                    type="checkbox"
+                  />Dabigatranas</label
+                >
+                <label class="pill"
+                  ><input id="a_edoxaban" type="checkbox" />Edoksabanas</label
+                >
+                <label class="pill"
+                  ><input id="a_unknown" type="checkbox" />Nežinoma</label
+                >
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Paskutinį kartą matytas sveikas</legend>
+              <div class="grid-3">
+                <label class="pill"
+                  ><input type="radio" name="a_lkw" value="<4.5" /> &lt;4,5 val
+                  (aktyvuoti insulto komandą)</label
+                >
+                <label class="pill"
+                  ><input type="radio" name="a_lkw" value="4.5-24" /> &gt;4,5
+                  val bet &lt;24 val (informuoti SPS gyd.)</label
+                >
+                <label class="pill"
+                  ><input type="radio" name="a_lkw" value="unknown" />
+                  Nežinoma</label
+                >
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Parametrai</legend>
+              <div class="grid-2">
+                <div>
+                  <label for="a_glucose">Gliukozė</label>
+                  <input id="a_glucose" type="text" />
+                </div>
+                <div>
+                  <label for="a_aks">AKS</label>
+                  <input id="a_aks" type="text" />
+                </div>
+                <div>
+                  <label for="a_hr">ŠSD</label>
+                  <input id="a_hr" type="text" />
+                </div>
+                <div>
+                  <label for="a_spo2">SpO₂</label>
+                  <input id="a_spo2" type="text" />
+                </div>
+                <div>
+                  <label for="a_temp">Temperatūra</label>
+                  <input id="a_temp" type="text" />
+                </div>
+              </div>
+            </fieldset>
+          </form>
+        </section>

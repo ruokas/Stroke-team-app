@@ -18,6 +18,8 @@ export const getDDecisionInputs = () => $$('input[name="d_decision"]');
 export const getLkwTypeInputs = () => $$('input[name="lkw_type"]');
 export const getArrivalSymptomsInput = () => $('#arrival_symptoms');
 export const getArrivalContraInputs = () => $$('input[name="arrival_contra"]');
+export const getArrivalMtContraInputs = () =>
+  $$('input[name="arrival_mt_contra"]');
 export const getDrugTypeInput = () => $('#drug_type');
 export const getDrugConcInput = () => $('#drug_conc');
 export const getDoseTotalInput = () => $('#dose_total');
@@ -65,6 +67,7 @@ export function getInputs() {
     lkw_type: getLkwTypeInputs(),
     arrival_symptoms: getArrivalSymptomsInput(),
     arrival_contra: getArrivalContraInputs(),
+    arrival_mt_contra: getArrivalMtContraInputs(),
     drugType: getDrugTypeInput(),
     drugConc: getDrugConcInput(),
     doseTotal: getDoseTotalInput(),

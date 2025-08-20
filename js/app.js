@@ -3,6 +3,7 @@ import { setNow } from './time.js';
 import { updateDrugDefaults, calcDrugs } from './drugs.js';
 import { genSummary, copySummary } from './summary.js';
 import { showToast } from './toast.js';
+import { confirmModal, promptModal } from './modal.js';
 import { updateAge } from './age.js';
 import {
   saveLS,
@@ -144,11 +145,11 @@ function bind() {
       updateDraftSelect(inputs.draftSelect.value),
     );
 
-  $('#saveBtn').addEventListener('click', () => {
+  $('#saveBtn').addEventListener('click', async () => {
     const existing = inputs.draftSelect.value;
     let name = null;
     if (!existing)
-      name = prompt(
+      name = await promptModal(
         'Juodraščio pavadinimas?',
         inputs.nih0.value || 'Juodraštis',
       );
@@ -171,23 +172,26 @@ function bind() {
       dirty = false;
     } else showToast('Nėra išsaugoto įrašo.', { type: 'error' });
   });
-  $('#renameDraftBtn').addEventListener('click', () => {
+  $('#renameDraftBtn').addEventListener('click', async () => {
     const id = inputs.draftSelect.value;
     if (!id) {
       showToast('Pasirinkite juodraštį.');
       return;
     }
     const drafts = getDrafts();
-    const newName = prompt('Naujas pavadinimas', drafts[id]?.name || '');
+    const newName = await promptModal(
+      'Naujas pavadinimas',
+      drafts[id]?.name || '',
+    );
     if (newName) renameLS(id, newName);
   });
-  $('#deleteDraftBtn').addEventListener('click', () => {
+  $('#deleteDraftBtn').addEventListener('click', async () => {
     const id = inputs.draftSelect.value;
     if (!id) {
       showToast('Pasirinkite juodraštį.');
       return;
     }
-    if (confirm('Ištrinti juodraštį?')) {
+    if (await confirmModal('Ištrinti juodraštį?')) {
       deleteLS(id);
       inputs.draftSelect.value = '';
     }
@@ -272,8 +276,8 @@ function bind() {
   activateFromHash();
 
   // New patient
-  $('#newPatientBtn').addEventListener('click', () => {
-    if (confirm('Išvalyti visus laukus naujam pacientui?')) {
+  $('#newPatientBtn').addEventListener('click', async () => {
+    if (await confirmModal('Išvalyti visus laukus naujam pacientui?')) {
       document.querySelectorAll('input, textarea, select').forEach((el) => {
         if (el.type === 'checkbox') el.checked = false;
         else if (

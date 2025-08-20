@@ -1,6 +1,5 @@
 import { inputs } from './state.js';
-
-const INFUSION_MINUTES = 60;
+import { computeDose } from './computeDose.js';
 
 export function updateDrugDefaults() {
   const type = inputs.drugType.value;
@@ -45,27 +44,18 @@ export function calcDrugs() {
     return;
   }
 
-  let totalMg = 0;
-  if (type === 'tnk') {
-    totalMg = Math.min(25, round1(0.25 * w));
-    inputs.doseTotal.value = totalMg;
-    inputs.doseVol.value = round1(totalMg / conc);
+  const result = computeDose(w, conc, type);
+  if (!result) return;
+
+  inputs.doseTotal.value = result.doseTotal;
+  inputs.doseVol.value = result.doseVol;
+
+  if (result.bolus) {
+    const { bolus, infusion } = result;
+    inputs.tpaBolus.value = `${bolus.mg} mg (${bolus.ml} ml)`;
+    inputs.tpaInf.value = `${infusion.mg} mg (${infusion.ml} ml) · ~${infusion.rateMlH} ml/val`;
+  } else {
     inputs.tpaBolus.value = '';
     inputs.tpaInf.value = '';
-  } else {
-    totalMg = Math.min(90, round1(0.9 * w));
-    const bolusMg = round1(totalMg * 0.1);
-    const infMg = round1(totalMg - bolusMg);
-    const bolusMl = round1(bolusMg / conc);
-    const infMl = round1(infMg / conc);
-    const rateMlH = round1((infMl / INFUSION_MINUTES) * 60);
-    inputs.doseTotal.value = totalMg;
-    inputs.doseVol.value = round1(totalMg / conc);
-    inputs.tpaBolus.value = `${bolusMg} mg (${bolusMl} ml)`;
-    inputs.tpaInf.value = `${infMg} mg (${infMl} ml) · ~${rateMlH} ml/val`;
   }
-}
-
-function round1(n) {
-  return Math.round(n * 10) / 10;
 }

@@ -1,45 +1,63 @@
 import { inputs } from './state.js';
 import { showToast } from './toast.js';
 
-export function genSummary() {
+export function collectSummaryData() {
   const get = (el) => (el && el.value ? el.value : null);
-  const dob = get(inputs.a_dob) || '—';
-  const w = get(inputs.weight) || '—';
-  const bp = get(inputs.bp) || '—';
-  const nih0 = get(inputs.nih0) || '—';
+  const patient = {
+    dob: get(inputs.a_dob),
+    weight: get(inputs.weight),
+    bp: get(inputs.bp),
+    nih0: get(inputs.nih0),
+  };
+  const times = {
+    lkw: get(inputs.lkw),
+    door: get(inputs.door),
+    decision: get(inputs.d_time),
+  };
+  const drugs = {
+    type: inputs.drugType.value,
+    conc: get(inputs.drugConc),
+    totalDose: get(inputs.doseTotal),
+    totalVol: get(inputs.doseVol),
+    bolus: get(inputs.tpaBolus),
+    infusion: get(inputs.tpaInf),
+  };
+  const decision = inputs.d_decision.find((n) => n.checked)?.value || null;
+  return { patient, times, drugs, decision };
+}
 
-  const tLKW = get(inputs.lkw);
-  const tDoor = get(inputs.door);
-  const tDecision = get(inputs.d_time);
-  const decisionVal = inputs.d_decision.find((n) => n.checked)?.value;
-
-  const drugType =
-    inputs.drugType.value === 'tnk' ? 'Tenekteplazė' : 'Alteplazė';
-  const conc = inputs.drugConc.value ? `${inputs.drugConc.value} mg/ml` : '—';
-  const totalDose = inputs.doseTotal.value
-    ? `${inputs.doseTotal.value} mg`
-    : '—';
-  const totalVol = inputs.doseVol.value ? `${inputs.doseVol.value} ml` : '—';
-  const tpaBolus = inputs.tpaBolus.value;
-  const tpaInf = inputs.tpaInf.value;
-
+export function summaryTemplate({ patient, times, drugs, decision }) {
   const parts = [];
   parts.push(
-    `PACIENTAS: gim. data: ${dob}, svoris: ${w} kg, AKS atvykus: ${bp}. NIHSS pradinis: ${nih0}.`,
+    `PACIENTAS: gim. data: ${patient.dob ?? '—'}, svoris: ${
+      patient.weight ?? '—'
+    } kg, AKS atvykus: ${patient.bp ?? '—'}. NIHSS pradinis: ${
+      patient.nih0 ?? '—'
+    }.`,
   );
   parts.push(
-    `LAIKAI: LKW: ${tLKW || '—'}, Atvykimas: ${tDoor || '—'}, Sprendimas: ${tDecision || '—'}.`,
+    `LAIKAI: LKW: ${times.lkw ?? '—'}, Atvykimas: ${times.door ?? '—'}, Sprendimas: ${
+      times.decision ?? '—'
+    }.`,
   );
-  parts.push(
-    `VAISTAI: ${drugType}. Koncentracija: ${conc}. Bendra dozė: ${totalDose} (${totalVol}). ${
-      tpaBolus ? `Bolius: ${tpaBolus}. ` : ''
-    }${tpaInf ? `Infuzija: ${tpaInf}.` : ''}`,
+  const drugType = drugs.type === 'tnk' ? 'Tenekteplazė' : 'Alteplazė';
+  const drugParts = [`VAISTAI: ${drugType}.`];
+  drugParts.push(
+    `Koncentracija: ${drugs.conc ? `${drugs.conc} mg/ml` : '—'}. Bendra dozė: ${
+      drugs.totalDose ? `${drugs.totalDose} mg` : '—'
+    } (${drugs.totalVol ? `${drugs.totalVol} ml` : '—'}).`
   );
-  if (decisionVal) {
-    parts.push(`SPRENDIMAS: ${decisionVal}.`);
-  }
+  if (drugs.bolus) drugParts.push(`Bolius: ${drugs.bolus}.`);
+  if (drugs.infusion) drugParts.push(`Infuzija: ${drugs.infusion}.`);
+  parts.push(drugParts.join(' '));
+  if (decision) parts.push(`SPRENDIMAS: ${decision}.`);
+  return parts.join('\n');
+}
 
-  inputs.summary.value = parts.join('\n');
+export function genSummary() {
+  const data = collectSummaryData();
+  inputs.summary.value = summaryTemplate(data);
+  return data;
 }
 
 export function copySummary() {

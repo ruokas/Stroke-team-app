@@ -23,118 +23,31 @@
 
             <fieldset>
               <legend>Simptomai</legend>
-              <table class="tbl">
-                <thead>
-                  <tr>
-                    <th>Sutrikimas</th>
-                    <th>Taip</th>
-                    <th>Ne</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Veido paralyžius</td>
-                    <td>
-                      <label class="pill"
-                        ><input
-                          type="radio"
-                          name="a_face"
-                          value="yes"
-                        />Taip</label
-                      >
-                    </td>
-                    <td>
-                      <label class="pill"
-                        ><input
-                          type="radio"
-                          name="a_face"
-                          value="no"
-                        />Ne</label
-                      >
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Rankos silpnumas</td>
-                    <td>
-                      <label class="pill"
-                        ><input
-                          type="radio"
-                          name="a_arm"
-                          value="yes"
-                        />Taip</label
-                      >
-                    </td>
-                    <td>
-                      <label class="pill"
-                        ><input type="radio" name="a_arm" value="no" />Ne</label
-                      >
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Kalbos sutrikimas</td>
-                    <td>
-                      <label class="pill"
-                        ><input
-                          type="radio"
-                          name="a_speech"
-                          value="yes"
-                        />Taip</label
-                      >
-                    </td>
-                    <td>
-                      <label class="pill"
-                        ><input
-                          type="radio"
-                          name="a_speech"
-                          value="no"
-                        />Ne</label
-                      >
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Pusiausvyros sutrikimas</td>
-                    <td>
-                      <label class="pill"
-                        ><input
-                          type="radio"
-                          name="a_balance"
-                          value="yes"
-                        />Taip</label
-                      >
-                    </td>
-                    <td>
-                      <label class="pill"
-                        ><input
-                          type="radio"
-                          name="a_balance"
-                          value="no"
-                        />Ne</label
-                      >
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Sąmonės/kvėpavimo sutrikimas</td>
-                    <td>
-                      <label class="pill"
-                        ><input
-                          type="radio"
-                          name="a_conscious"
-                          value="yes"
-                        />Taip</label
-                      >
-                    </td>
-                    <td>
-                      <label class="pill"
-                        ><input
-                          type="radio"
-                          name="a_conscious"
-                          value="no"
-                        />Ne</label
-                      >
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <div class="symptoms">
+                <label class="pill"
+                  ><input id="a_face" name="a_face" type="checkbox" />Veido
+                  paralyžius</label
+                >
+                <label class="pill"
+                  ><input id="a_arm" name="a_arm" type="checkbox" />Rankos
+                  silpnumas</label
+                >
+                <label class="pill"
+                  ><input id="a_speech" name="a_speech" type="checkbox" />Kalbos
+                  sutrikimas</label
+                >
+                <label class="pill"
+                  ><input id="a_balance" name="a_balance" type="checkbox" />Pusiausvyros
+                  sutrikimas</label
+                >
+                <label class="pill"
+                  ><input
+                    id="a_conscious"
+                    name="a_conscious"
+                    type="checkbox"
+                  />Sąmonės/kvėpavimo sutrikimas</label
+                >
+              </div>
             </fieldset>
 
             <fieldset>

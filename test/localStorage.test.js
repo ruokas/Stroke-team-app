@@ -82,7 +82,7 @@ Object.defineProperty(global, 'navigator', {
 
 let inputs = null;
 const { getInputs } = await import('../js/state.js');
-const { saveLS, loadLS, deleteLS, setPayload } = await import(
+const { saveLS, loadLS, deleteLS, setPayload, getDrafts } = await import(
   '../js/storage.js'
 );
 inputs = getInputs();
@@ -112,6 +112,9 @@ test('localStorage handles multiple records', { concurrency: false }, () => {
   deleteLS('d1');
   assert.strictEqual(loadLS('d1'), null);
   assert.strictEqual(loadLS('d2').p_nihss0, '2');
+  const drafts = getDrafts();
+  assert.strictEqual(drafts.d1.data.version, 1);
+  assert.strictEqual(drafts.d2.data.version, 1);
 });
 
 test(
@@ -143,3 +146,14 @@ test(
     assert.strictEqual(getEl('#summary').value, global.__copied);
   },
 );
+
+test('getDrafts migrates unversioned data', () => {
+  localStorageStub.store = {
+    insultoKomandaDrafts_v1: JSON.stringify({
+      old: { name: 'Old', data: { p_nihss0: '1' } },
+    }),
+  };
+  const drafts = getDrafts();
+  assert.strictEqual(drafts.old.data.version, 0);
+  assert.strictEqual(drafts.old.data.data.p_nihss0, '1');
+});

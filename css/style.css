@@ -952,8 +952,33 @@ details .card {
   margin-top: 8px;
 }
 
+
+.nihss-layout {
+  display: grid;
+  gap: 8px;
+}
+
+.nihss-score {
+  max-width: 150px;
+}
+
 .nihss-calc {
   margin-top: 8px;
+}
+
+.nihss-group {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.nihss-group h3 {
+  margin: 0 0 4px;
+  font-size: 0.875rem;
+  color: var(--muted);
 }
 
 .nihss-grid {

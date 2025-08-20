@@ -6,50 +6,98 @@ export const state = {
   autosave: 'on',
 };
 
-export const inputs = {
-  weight: $('#p_weight'),
-  bp: $('#p_bp'),
-  inr: $('#p_inr'),
-  nih0: $('#p_nihss0'),
-  lkw: $('#t_lkw'),
-  door: $('#t_door'),
-  d_time: $('#d_time'),
-  d_decision: $$('input[name="d_decision"]'),
-  lkw_type: $$('input[name="lkw_type"]'),
-  arrival_symptoms: $('#arrival_symptoms'),
-  arrival_contra: $$('input[name="arrival_contra"]'),
-  drugType: $('#drug_type'),
-  drugConc: $('#drug_conc'),
-  doseTotal: $('#dose_total'),
-  doseVol: $('#dose_volume'),
-  tpaBolus: $('#tpa_bolus'),
-  tpaInf: $('#tpa_infusion'),
-  def_tnk: $('#def_tnk'),
-  def_tpa: $('#def_tpa'),
-  autosave: $('#autosave'),
-  summary: $('#summary'),
-  draftSelect: $('#draftSelect'),
-  a_personal: $('#a_personal'),
-  a_name: $('#a_name'),
-  a_dob: $('#a_dob'),
-  a_age: $('#a_age'),
-  a_sym_face: $$('input[name="a_face"]'),
-  a_sym_arm: $$('input[name="a_arm"]'),
-  a_sym_speech: $$('input[name="a_speech"]'),
-  a_sym_balance: $$('input[name="a_balance"]'),
-  a_sym_conscious: $$('input[name="a_conscious"]'),
-  a_warfarin: $('#a_warfarin'),
-  a_apixaban: $('#a_apixaban'),
-  a_rivaroxaban: $('#a_rivaroxaban'),
-  a_dabigatran: $('#a_dabigatran'),
-  a_edoxaban: $('#a_edoxaban'),
-  a_unknown: $('#a_unknown'),
-  a_lkw: $$('input[name="a_lkw"]'),
-  a_glucose: $('#a_glucose'),
-  a_aks: $('#a_aks'),
-  a_hr: $('#a_hr'),
-  a_spo2: $('#a_spo2'),
-  a_temp: $('#a_temp'),
-};
+// Individual DOM accessors
+export const getWeightInput = () => $('#p_weight');
+export const getBpInput = () => $('#p_bp');
+export const getInrInput = () => $('#p_inr');
+export const getNih0Input = () => $('#p_nihss0');
+export const getLkwInput = () => $('#t_lkw');
+export const getDoorInput = () => $('#t_door');
+export const getDTimeInput = () => $('#d_time');
+export const getDDecisionInputs = () => $$('input[name="d_decision"]');
+export const getLkwTypeInputs = () => $$('input[name="lkw_type"]');
+export const getArrivalSymptomsInput = () => $('#arrival_symptoms');
+export const getArrivalContraInputs = () => $$('input[name="arrival_contra"]');
+export const getDrugTypeInput = () => $('#drug_type');
+export const getDrugConcInput = () => $('#drug_conc');
+export const getDoseTotalInput = () => $('#dose_total');
+export const getDoseVolInput = () => $('#dose_volume');
+export const getTpaBolusInput = () => $('#tpa_bolus');
+export const getTpaInfInput = () => $('#tpa_infusion');
+export const getDefTnkInput = () => $('#def_tnk');
+export const getDefTpaInput = () => $('#def_tpa');
+export const getAutosaveInput = () => $('#autosave');
+export const getSummaryInput = () => $('#summary');
+export const getDraftSelect = () => $('#draftSelect');
+export const getAPersonalInput = () => $('#a_personal');
+export const getANameInput = () => $('#a_name');
+export const getADobInput = () => $('#a_dob');
+export const getAAgeInput = () => $('#a_age');
+export const getASymFaceInputs = () => $$('input[name="a_face"]');
+export const getASymArmInputs = () => $$('input[name="a_arm"]');
+export const getASymSpeechInputs = () => $$('input[name="a_speech"]');
+export const getASymBalanceInputs = () => $$('input[name="a_balance"]');
+export const getASymConsciousInputs = () => $$('input[name="a_conscious"]');
+export const getAWarfarinInput = () => $('#a_warfarin');
+export const getAApixabanInput = () => $('#a_apixaban');
+export const getARivaroxabanInput = () => $('#a_rivaroxaban');
+export const getADabigatranInput = () => $('#a_dabigatran');
+export const getAEdoxabanInput = () => $('#a_edoxaban');
+export const getAUnknownInput = () => $('#a_unknown');
+export const getALkwInputs = () => $$('input[name="a_lkw"]');
+export const getAGlucoseInput = () => $('#a_glucose');
+export const getAAksInput = () => $('#a_aks');
+export const getAHrInput = () => $('#a_hr');
+export const getASpo2Input = () => $('#a_spo2');
+export const getATempInput = () => $('#a_temp');
 
-state.autosave = inputs.autosave.value || 'on';
+// Convenience aggregator for tests
+export function getInputs() {
+  return {
+    weight: getWeightInput(),
+    bp: getBpInput(),
+    inr: getInrInput(),
+    nih0: getNih0Input(),
+    lkw: getLkwInput(),
+    door: getDoorInput(),
+    d_time: getDTimeInput(),
+    d_decision: getDDecisionInputs(),
+    lkw_type: getLkwTypeInputs(),
+    arrival_symptoms: getArrivalSymptomsInput(),
+    arrival_contra: getArrivalContraInputs(),
+    drugType: getDrugTypeInput(),
+    drugConc: getDrugConcInput(),
+    doseTotal: getDoseTotalInput(),
+    doseVol: getDoseVolInput(),
+    tpaBolus: getTpaBolusInput(),
+    tpaInf: getTpaInfInput(),
+    def_tnk: getDefTnkInput(),
+    def_tpa: getDefTpaInput(),
+    autosave: getAutosaveInput(),
+    summary: getSummaryInput(),
+    draftSelect: getDraftSelect(),
+    a_personal: getAPersonalInput(),
+    a_name: getANameInput(),
+    a_dob: getADobInput(),
+    a_age: getAAgeInput(),
+    a_sym_face: getASymFaceInputs(),
+    a_sym_arm: getASymArmInputs(),
+    a_sym_speech: getASymSpeechInputs(),
+    a_sym_balance: getASymBalanceInputs(),
+    a_sym_conscious: getASymConsciousInputs(),
+    a_warfarin: getAWarfarinInput(),
+    a_apixaban: getAApixabanInput(),
+    a_rivaroxaban: getARivaroxabanInput(),
+    a_dabigatran: getADabigatranInput(),
+    a_edoxaban: getAEdoxabanInput(),
+    a_unknown: getAUnknownInput(),
+    a_lkw: getALkwInputs(),
+    a_glucose: getAGlucoseInput(),
+    a_aks: getAAksInput(),
+    a_hr: getAHrInput(),
+    a_spo2: getASpo2Input(),
+    a_temp: getATempInput(),
+  };
+}
+
+state.autosave = getAutosaveInput()?.value || 'on';

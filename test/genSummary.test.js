@@ -50,7 +50,8 @@ test('genSummary generates summary text correctly', async () => {
   };
   global.setInterval = () => {};
 
-  const { inputs } = await import('../js/state.js');
+  const { getInputs } = await import('../js/state.js');
+  const inputs = getInputs();
   const { genSummary } = await import('../js/summary.js');
 
   // populate typical inputs
@@ -62,9 +63,12 @@ test('genSummary generates summary text correctly', async () => {
   inputs.lkw.value = '2024-01-01T07:00';
   inputs.door.value = '2024-01-01T08:00';
   inputs.d_time.value = '2024-01-01T08:40';
-  inputs.d_decision = [
-    { checked: true, value: 'Taikoma IVT, indikacijų MTE nenustatyta' },
-  ];
+  const decisionOpt = {
+    checked: true,
+    value: 'Taikoma IVT, indikacijų MTE nenustatyta',
+  };
+  document.querySelectorAll = (sel) =>
+    sel === 'input[name="d_decision"]' ? [decisionOpt] : [];
 
   inputs.drugType.value = 'tnk';
   inputs.drugConc.value = '5';

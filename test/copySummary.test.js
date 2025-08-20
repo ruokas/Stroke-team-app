@@ -53,7 +53,8 @@ test('copySummary builds data object and copies formatted text', async () => {
   global.FileReader = function () { this.readAsText = () => {}; };
   global.setInterval = () => {};
 
-  const { inputs } = await import('../js/state.js');
+  const { getInputs } = await import('../js/state.js');
+  const inputs = getInputs();
   const { collectSummaryData, summaryTemplate, copySummary } = await import('../js/summary.js');
 
   inputs.a_dob.value = '1980-01-01';
@@ -63,9 +64,12 @@ test('copySummary builds data object and copies formatted text', async () => {
   inputs.lkw.value = '2024-01-01T07:00';
   inputs.door.value = '2024-01-01T08:00';
   inputs.d_time.value = '2024-01-01T08:40';
-  inputs.d_decision = [
-    { checked: true, value: 'Taikoma IVT, indikacijų MTE nenustatyta' },
-  ];
+  const decisionOpt = {
+    checked: true,
+    value: 'Taikoma IVT, indikacijų MTE nenustatyta',
+  };
+  document.querySelectorAll = (sel) =>
+    sel === 'input[name="d_decision"]' ? [decisionOpt] : [];
   inputs.drugType.value = 'tnk';
   inputs.drugConc.value = '5';
   inputs.doseTotal.value = '20';

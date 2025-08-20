@@ -49,7 +49,8 @@ test('calcDrugs handles dosing correctly, validates inputs, and resets outputs',
   };
   global.setInterval = () => {};
 
-  const { inputs } = await import('../js/state.js');
+  const { getInputs } = await import('../js/state.js');
+  const inputs = getInputs();
   const { calcDrugs } = await import('../js/drugs.js');
 
   // invalid weight

@@ -1,4 +1,4 @@
-import { $, $$, inputs, state } from './state.js';
+import { $, $$, state, getInputs } from './state.js';
 import { setNow } from './time.js';
 import { updateDrugDefaults, calcDrugs } from './drugs.js';
 import { genSummary, copySummary } from './summary.js';
@@ -36,6 +36,7 @@ function initNIHSS() {
 }
 
 function bind() {
+  const inputs = getInputs();
   let dirty = false;
   const header = document.querySelector('header');
   const setHeaderHeight = () =>

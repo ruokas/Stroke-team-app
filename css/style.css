@@ -959,6 +959,7 @@ details .card {
 .nihss-grid {
   display: grid;
   gap: 8px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 }
 .nihss-grid label {
   display: flex;

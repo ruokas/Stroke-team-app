@@ -15,7 +15,7 @@ function timeInput(id, wrapperId = '', wrapperClass = 'row') {
       placeholder="YYYY-MM-DD HH:MM"
       step="60"
     />
-    <button class="btn ghost" data-now="${id}">Dabar</button>
+    <button type="button" class="btn ghost" data-now="${id}" aria-label="Dabar">🕒</button>
   </div>
 </div>`;
 }
@@ -29,14 +29,20 @@ function render(template) {
     return render(partial);
   });
   // macros
-  template = template.replace(/\{\{\s*macros\.actionButton\((.*?)\)\s*\}\}/g, (_, args) => {
-    const parsed = eval(`[${args}]`);
-    return macros.actionButton(...parsed);
-  });
-  template = template.replace(/\{\{\s*macros\.timeInput\((.*?)\)\s*\}\}/g, (_, args) => {
-    const parsed = eval(`[${args}]`);
-    return macros.timeInput(...parsed);
-  });
+  template = template.replace(
+    /\{\{\s*macros\.actionButton\((.*?)\)\s*\}\}/g,
+    (_, args) => {
+      const parsed = eval(`[${args}]`);
+      return macros.actionButton(...parsed);
+    },
+  );
+  template = template.replace(
+    /\{\{\s*macros\.timeInput\((.*?)\)\s*\}\}/g,
+    (_, args) => {
+      const parsed = eval(`[${args}]`);
+      return macros.timeInput(...parsed);
+    },
+  );
   return template;
 }
 

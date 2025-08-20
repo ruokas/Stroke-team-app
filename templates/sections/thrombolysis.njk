@@ -74,7 +74,7 @@
             <h3 class="mt-20">Trombolitiko skaičiuoklė</h3>
             <div class="grid-2">
               <div>
-                <label>Vaistas</label>
+                <label for="drug_type">Vaistas</label>
                 <select id="drug_type">
                   <option value="tnk">
                     Tenekteplazė (TNK) – 0,25 mg/kg (max 25 mg), bolius
@@ -97,21 +97,21 @@
             </div>
             <div class="grid-2 mt-10">
               <div>
-                <label>Bendra dozė (mg)</label>
+                <label for="dose_total">Bendra dozė (mg)</label>
                 <input id="dose_total" type="number" step="0.1" readonly />
               </div>
               <div>
-                <label>Tūris (ml)</label>
+                <label for="dose_volume">Tūris (ml)</label>
                 <input id="dose_volume" type="number" step="0.1" readonly />
               </div>
             </div>
             <div id="tpaBreakdown" class="grid-2 mt-10 hidden">
               <div>
-                <label>Bolius 10% (mg / ml)</label>
+                <label for="tpa_bolus">Bolius 10% (mg / ml)</label>
                 <input id="tpa_bolus" type="text" readonly />
               </div>
               <div>
-                <label>Infuzija 90% per 60 min (mg / ml / ml/val)</label>
+                <label for="tpa_infusion">Infuzija 90% per 60 min (mg / ml / ml/val)</label>
                 <input id="tpa_infusion" type="text" readonly />
               </div>
             </div>

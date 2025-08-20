@@ -53,6 +53,14 @@ function bind() {
     b.addEventListener('click', () => setNow(b.getAttribute('data-now'))),
   );
 
+  // Date picker buttons
+  $$('button[data-picker]').forEach((b) =>
+    b.addEventListener('click', () => {
+      const target = document.getElementById(b.getAttribute('data-picker'));
+      target?.showPicker?.();
+    }),
+  );
+
   // Drug defaults
   [inputs.def_tnk, inputs.def_tpa].forEach((el) =>
     el.addEventListener('input', updateDrugDefaults),

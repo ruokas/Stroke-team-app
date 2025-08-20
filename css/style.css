@@ -671,6 +671,7 @@ section[data-tab='Intervencijos'] h3 {
   transition:
     opacity 0.3s,
     transform 0.3s;
+  position: relative;
 }
 .toast.success {
   background: var(--green);
@@ -683,6 +684,17 @@ section[data-tab='Intervencijos'] h3 {
 .toast.hide {
   opacity: 0;
   transform: translateY(10px);
+}
+
+.toast-close {
+  position: absolute;
+  top: 4px;
+  right: 8px;
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 16px;
+  cursor: pointer;
 }
 .arrival-timer {
   font-family: monospace;

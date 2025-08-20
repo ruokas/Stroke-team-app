@@ -1,0 +1,41 @@
+<header>
+  <div class="wrap">
+    <div class="brand">
+      <div class="logo" aria-hidden="true"></div>
+      <div>
+        <h1>Insulto komandos forma · Greito įvedimo aplikacija</h1>
+        <div class="subtle">
+          Skubi duomenų registracija, laikų sekimas, vaistų skaičiuoklės ir
+          santrauka HIS sistemai
+        </div>
+      </div>
+    </div>
+    <div class="header-actions">
+      {{ macros.actionButton('newPatientBtn', 'Naujas pacientas', '🆕', 'Naujas') }}
+      {{ macros.actionButton('saveBtn', 'Išsaugoti vietoje (naršyklėje)', '💾', 'Išsaugoti') }}
+      <details class="more-actions">
+        <summary>⋮</summary>
+        <div class="menu">
+          <input id="draftFilter" placeholder="Filtruoti..." />
+          <select
+            id="draftSelect"
+            title="Išsaugoti juodraščiai"
+            class="btn"
+          ></select>
+          {{ macros.actionButton('loadBtn', 'Atkurti pasirinktą', '📂', 'Atkurti') }}
+          {{ macros.actionButton('renameDraftBtn', 'Pervardyti juodraštį', '✏️', 'Pervardyti') }}
+          {{ macros.actionButton('deleteDraftBtn', 'Ištrinti juodraštį', '🗑️', 'Trinti') }}
+          {{ macros.actionButton('exportBtn', 'Eksportuoti JSON', '⬇️', 'Eksportuoti') }}
+          <input
+            id="importFile"
+            type="file"
+            accept="application/json"
+            class="hidden"
+          />
+          {{ macros.actionButton('importBtn', 'Importuoti JSON', '⬆️', 'Importuoti') }}
+        </div>
+      </details>
+    </div>
+  </div>
+  <div id="saveStatus" aria-live="polite"></div>
+</header>

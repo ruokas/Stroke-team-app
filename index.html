@@ -7,100 +7,78 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
-    <div id="toastContainer" class="toast-container"></div>
-    <header>
-      <div class="wrap">
-        <div class="brand">
-          <div class="logo" aria-hidden="true"></div>
-          <div>
-            <h1>Insulto komandos forma · Greito įvedimo aplikacija</h1>
-            <div class="subtle">
-              Skubi duomenų registracija, laikų sekimas, vaistų skaičiuoklės ir
-              santrauka HIS sistemai
-            </div>
-          </div>
-        </div>
-        <div class="header-actions">
-          <button id="newPatientBtn" title="Naujas pacientas" class="btn">
-            🆕 <span class="btn-label">Naujas</span>
-          </button>
-          <button
-            id="saveBtn"
-            title="Išsaugoti vietoje (naršyklėje)"
-            class="btn"
-          >
-            💾 <span class="btn-label">Išsaugoti</span>
-          </button>
-          <details class="more-actions">
-            <summary>⋮</summary>
-            <div class="menu">
-              <input id="draftFilter" placeholder="Filtruoti..." />
-              <select
-                id="draftSelect"
-                title="Išsaugoti juodraščiai"
-                class="btn"
-              ></select>
-              <button id="loadBtn" title="Atkurti pasirinktą" class="btn">
-                📂 <span class="btn-label">Atkurti</span>
-              </button>
-              <button
-                id="renameDraftBtn"
-                title="Pervardyti juodraštį"
-                class="btn"
-              >
-                ✏️ <span class="btn-label">Pervardyti</span>
-              </button>
-              <button
-                id="deleteDraftBtn"
-                title="Ištrinti juodraštį"
-                class="btn"
-              >
-                🗑️ <span class="btn-label">Trinti</span>
-              </button>
-              <button id="exportBtn" title="Eksportuoti JSON" class="btn">
-                ⬇️ <span class="btn-label">Eksportuoti</span>
-              </button>
-              <input
-                id="importFile"
-                type="file"
-                accept="application/json"
-                class="hidden"
-              />
-              <button id="importBtn" title="Importuoti JSON" class="btn">
-                ⬆️ <span class="btn-label">Importuoti</span>
-              </button>
-            </div>
-          </details>
+    
+
+
+
+  <div id="toastContainer" class="toast-container"></div>
+  <header>
+  <div class="wrap">
+    <div class="brand">
+      <div class="logo" aria-hidden="true"></div>
+      <div>
+        <h1>Insulto komandos forma · Greito įvedimo aplikacija</h1>
+        <div class="subtle">
+          Skubi duomenų registracija, laikų sekimas, vaistų skaičiuoklės ir
+          santrauka HIS sistemai
         </div>
       </div>
-      <div id="saveStatus" aria-live="polite"></div>
-    </header>
+    </div>
+    <div class="header-actions">
+      <button id="newPatientBtn" title="Naujas pacientas" class="btn">🆕 <span class="btn-label">Naujas</span></button>
+      <button id="saveBtn" title="Išsaugoti vietoje (naršyklėje)" class="btn">💾 <span class="btn-label">Išsaugoti</span></button>
+      <details class="more-actions">
+        <summary>⋮</summary>
+        <div class="menu">
+          <input id="draftFilter" placeholder="Filtruoti..." />
+          <select
+            id="draftSelect"
+            title="Išsaugoti juodraščiai"
+            class="btn"
+          ></select>
+          <button id="loadBtn" title="Atkurti pasirinktą" class="btn">📂 <span class="btn-label">Atkurti</span></button>
+          <button id="renameDraftBtn" title="Pervardyti juodraštį" class="btn">✏️ <span class="btn-label">Pervardyti</span></button>
+          <button id="deleteDraftBtn" title="Ištrinti juodraštį" class="btn">🗑️ <span class="btn-label">Trinti</span></button>
+          <button id="exportBtn" title="Eksportuoti JSON" class="btn">⬇️ <span class="btn-label">Eksportuoti</span></button>
+          <input
+            id="importFile"
+            type="file"
+            accept="application/json"
+            class="hidden"
+          />
+          <button id="importBtn" title="Importuoti JSON" class="btn">⬆️ <span class="btn-label">Importuoti</span></button>
+        </div>
+      </details>
+    </div>
+  </div>
+  <div id="saveStatus" aria-live="polite"></div>
+</header>
 
-    <div class="wrap layout-main">
-      <button id="navToggle" class="btn">☰ Meniu</button>
-      <nav>
-        <a href="#activation" data-section="activation" class="tab active"
-          ><span class="tab-icon">🚨</span>Aktyvacija</a
-        >
-        <a href="#arrival" data-section="arrival" class="tab"
-          ><span class="tab-icon">🚑</span>Paciento atvykimas</a
-        >
-        <a href="#thrombolysis" data-section="thrombolysis" class="tab"
-          ><span class="tab-icon">🩸</span>Pasiruošimas trombolizei</a
-        >
-        <a href="#nihss" data-section="nihss" class="tab"
-          ><span class="tab-icon">🧮</span>NIHSS</a
-        >
-        <a href="#decision" data-section="decision" class="tab"
-          ><span class="tab-icon">☑️</span>Sprendimas</a
-        >
-        <a href="#summarySec" data-section="summarySec" class="tab"
-          ><span class="tab-icon">📄</span>Santrauka</a
-        >
-      </nav>
-      <main class="px-0">
-        <!-- Aktyvacija -->
-        <section id="activation" class="card">
+  <div class="wrap layout-main">
+    <button id="navToggle" class="btn">☰ <span class="btn-label">Meniu</span></button>
+    <nav>
+  <a href="#activation" data-section="activation" class="tab active"
+    ><span class="tab-icon">🚨</span>Aktyvacija</a
+  >
+  <a href="#arrival" data-section="arrival" class="tab"
+    ><span class="tab-icon">🚑</span>Paciento atvykimas</a
+  >
+  <a href="#thrombolysis" data-section="thrombolysis" class="tab"
+    ><span class="tab-icon">🩸</span>Pasiruošimas trombolizei</a
+  >
+  <a href="#nihss" data-section="nihss" class="tab"
+    ><span class="tab-icon">🧮</span>NIHSS</a
+  >
+  <a href="#decision" data-section="decision" class="tab"
+    ><span class="tab-icon">☑️</span>Sprendimas</a
+  >
+  <a href="#summarySec" data-section="summarySec" class="tab"
+    ><span class="tab-icon">📄</span>Santrauka</a
+  >
+</nav>
+
+    <main class="px-0">
+              <section id="activation" class="card">
           <h2>Komandos aktyvacija</h2>
           <form>
             <fieldset>
@@ -315,23 +293,23 @@
           </form>
         </section>
 
-        <!-- Paciento atvykimas -->
+              <!-- Paciento atvykimas -->
         <section id="arrival" class="card hidden">
           <h2>Paciento atvykimas</h2>
           <form>
             <fieldset>
               <legend>Atvykimo laikas</legend>
               <div class="row">
-                <div class="input-group">
-                  <input
-                    id="t_door"
-                    type="datetime-local"
-                    placeholder="YYYY-MM-DD HH:MM"
-                    step="60"
-                  />
-                  <button class="btn ghost" data-now="t_door">Dabar</button>
-                </div>
-              </div>
+  <div class="input-group">
+    <input
+      id="t_door"
+      type="datetime-local"
+      placeholder="YYYY-MM-DD HH:MM"
+      step="60"
+    />
+    <button class="btn ghost" data-now="t_door">Dabar</button>
+  </div>
+</div>
             </fieldset>
 
             <fieldset>
@@ -350,17 +328,17 @@
                   vidurio laikas</label
                 >
               </div>
-              <div id="lkwTimeRow" class="row mt-4">
-                <div class="input-group">
-                  <input
-                    id="t_lkw"
-                    type="datetime-local"
-                    placeholder="YYYY-MM-DD HH:MM"
-                    step="60"
-                  />
-                  <button class="btn ghost" data-now="t_lkw">Dabar</button>
-                </div>
-              </div>
+              <div class="row mt-4" id="lkwTimeRow">
+  <div class="input-group">
+    <input
+      id="t_lkw"
+      type="datetime-local"
+      placeholder="YYYY-MM-DD HH:MM"
+      step="60"
+    />
+    <button class="btn ghost" data-now="t_lkw">Dabar</button>
+  </div>
+</div>
             </fieldset>
 
             <fieldset>
@@ -590,7 +568,8 @@
           </form>
         </section>
 
-        <!-- Pasiruošimas trombolizei -->
+
+              <!-- Pasiruošimas trombolizei -->
         <section id="thrombolysis" class="card hidden">
           <h2>Pasiruošimas trombolizei</h2>
           <form>
@@ -722,7 +701,8 @@
           </form>
         </section>
 
-        <!-- NIHSS -->
+
+              <!-- NIHSS -->
         <section id="nihss" class="card hidden">
           <h2>NIHSS</h2>
           <form>
@@ -895,23 +875,24 @@
           </form>
         </section>
 
-        <!-- Sprendimas -->
+
+              <!-- Sprendimas -->
         <section id="decision" class="card hidden">
           <h2>Sprendimas</h2>
           <form>
             <fieldset>
               <legend>Sprendimo laikas</legend>
               <div class="row">
-                <div class="input-group">
-                  <input
-                    id="d_time"
-                    type="datetime-local"
-                    placeholder="YYYY-MM-DD HH:MM"
-                    step="60"
-                  />
-                  <button class="btn ghost" data-now="d_time">Dabar</button>
-                </div>
-              </div>
+  <div class="input-group">
+    <input
+      id="d_time"
+      type="datetime-local"
+      placeholder="YYYY-MM-DD HH:MM"
+      step="60"
+    />
+    <button class="btn ghost" data-now="d_time">Dabar</button>
+  </div>
+</div>
             </fieldset>
             <fieldset class="mt-10">
               <legend>Sprendimas</legend>
@@ -949,7 +930,8 @@
           </form>
         </section>
 
-        <!-- Santrauka HIS sistemai -->
+
+              <!-- Santrauka HIS sistemai -->
         <section id="summarySec" class="card full-span hidden">
           <h2>Santrauka (kopijavimui į HIS)</h2>
           <textarea
@@ -958,11 +940,11 @@
             placeholder="Santrauka generuojama automatiškai"
           ></textarea>
           <div class="sticky-actions">
-            <button id="copySummaryBtn" class="btn">📋 Kopijuoti</button>
+            <button id="copySummaryBtn" title="Kopijuoti santrauką" class="btn">📋 <span class="btn-label">Kopijuoti</span></button>
           </div>
         </section>
 
-        <details class="settings">
+              <details class="settings">
           <summary><span class="pill">⚙️ Nustatymai</span></summary>
             <div class="card">
               <div class="grid-3">
@@ -985,13 +967,14 @@
             </div>
           </details>
 
-        <div class="footer">
+              <div class="footer">
           ⚠️ Atskaita: ši priemonė yra pagalbinė. Galutiniai klinikiniai
           sprendimai remiasi gydytojo vertinimu ir galiojančiomis gairėmis.
         </div>
-      </main>
 
-    </div>
+    </main>
+  </div>
+
 
     <script type="module" src="js/app.js"></script>
   </body>

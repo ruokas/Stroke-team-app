@@ -1,0 +1,21 @@
+{% extends "layout.njk" %}
+{% import "macros.njk" as macros %}
+
+{% block content %}
+  <div id="toastContainer" class="toast-container"></div>
+  {% include "partials/header.njk" %}
+  <div class="wrap layout-main">
+    {{ macros.actionButton('navToggle', '', '☰', 'Meniu') }}
+    {% include "partials/nav.njk" %}
+    <main class="px-0">
+      {% include "sections/activation.njk" %}
+      {% include "sections/arrival.njk" %}
+      {% include "sections/thrombolysis.njk" %}
+      {% include "sections/nihss.njk" %}
+      {% include "sections/decision.njk" %}
+      {% include "sections/summary.njk" %}
+      {% include "partials/settings.njk" %}
+      {% include "partials/footer.njk" %}
+    </main>
+  </div>
+{% endblock %}

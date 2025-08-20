@@ -153,7 +153,7 @@ function bind() {
       );
     const id = saveLS(existing || undefined, name);
     inputs.draftSelect.value = id;
-    showToast('Išsaugota naršyklėje.');
+    showToast('Išsaugota naršyklėje.', { type: 'success' });
     updateSaveStatus();
     dirty = false;
   });
@@ -166,9 +166,9 @@ function bind() {
     const p = loadLS(id);
     if (p) {
       setPayload(p);
-      showToast('Atkurta iš naršyklės.');
+      showToast('Atkurta iš naršyklės.', { type: 'success' });
       dirty = false;
-    } else showToast('Nėra išsaugoto įrašo.');
+    } else showToast('Nėra išsaugoto įrašo.', { type: 'error' });
   });
   $('#renameDraftBtn').addEventListener('click', () => {
     const id = inputs.draftSelect.value;
@@ -210,9 +210,9 @@ function bind() {
       try {
         const p = JSON.parse(reader.result);
         setPayload(p);
-        showToast('Importuota.');
+        showToast('Importuota.', { type: 'success' });
       } catch (err) {
-        showToast('Klaida skaitant JSON.');
+        showToast('Klaida skaitant JSON.', { type: 'error' });
       }
       e.target.value = '';
     };

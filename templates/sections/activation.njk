@@ -14,7 +14,21 @@
                 </div>
                 <div>
                   <label for="a_dob">Gimimo data</label>
-                  <input id="a_dob" type="date" placeholder="YYYY-MM-DD" />
+                  <div class="input-group">
+                    <input
+                      id="a_dob"
+                      type="date"
+                      placeholder="YYYY-MM-DD"
+                    />
+                    <button
+                      type="button"
+                      class="btn ghost"
+                      data-picker="a_dob"
+                      aria-label="Pasirinkti datą"
+                    >
+                      📅
+                    </button>
+                  </div>
                   <div id="a_age_display" class="subtle"></div>
                   <input id="a_age" type="hidden" />
                 </div>

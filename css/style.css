@@ -263,6 +263,8 @@ textarea {
   right: 8px;
   top: 50%;
   transform: translateY(-50%);
+  min-width: 2.5rem;
+  padding: 4px 6px;
 }
 
 input[type='date']::-webkit-calendar-picker-indicator,

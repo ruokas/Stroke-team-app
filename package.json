@@ -4,7 +4,9 @@
   "type": "module",
   "devDependencies": {
     "prettier": "^3.2.5",
-    "husky": "^9.0.11"
+    "husky": "^9.0.11",
+    "axe-core": "^4.8.3",
+    "jsdom": "^24.0.0"
   },
   "scripts": {
     "format": "prettier --write js/*.js",

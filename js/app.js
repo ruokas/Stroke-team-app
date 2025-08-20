@@ -6,6 +6,7 @@ import { showToast } from './toast.js';
 import { confirmModal, promptModal } from './modal.js';
 import { updateAge } from './age.js';
 import { initArrival } from './arrival.js';
+import { autoSetContraDecision } from './decision.js';
 import {
   saveLS,
   loadLS,
@@ -137,6 +138,19 @@ function bind() {
   };
   lkwOptions.forEach((o) => o.addEventListener('change', updateLKW));
   updateLKW();
+
+  // Auto decision when contraindications or unknown onset time
+  const updateDecision = () =>
+    autoSetContraDecision({
+      lkwTypeInputs: inputs.lkw_type,
+      arrivalContraInputs: inputs.arrival_contra || [],
+      decisionInputs: inputs.d_decision || [],
+    });
+  inputs.lkw_type.forEach((o) => o.addEventListener('change', updateDecision));
+  (inputs.arrival_contra || []).forEach((c) =>
+    c.addEventListener('change', updateDecision),
+  );
+  updateDecision();
 
   // Save/Load/Export/Import
   const saveStatus = document.getElementById('saveStatus');

@@ -580,6 +580,8 @@ select.invalid {
   }
   .layout-main {
     grid-template-columns: 1fr;
+    grid-auto-flow: row;
+    grid-auto-columns: 1fr;
   }
   nav {
     position: fixed;

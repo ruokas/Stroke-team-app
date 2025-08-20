@@ -5,6 +5,7 @@ import { genSummary, copySummary } from './summary.js';
 import { showToast } from './toast.js';
 import { confirmModal, promptModal } from './modal.js';
 import { updateAge } from './age.js';
+import { initArrival } from './arrival.js';
 import {
   saveLS,
   loadLS,
@@ -329,6 +330,7 @@ function bind() {
   initNIHSS();
   updateDrugDefaults();
   updateAge();
+  initArrival();
   updateDraftSelect();
   // Apply initial section visibility only after successful setup
   activateFromHash();

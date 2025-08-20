@@ -113,7 +113,7 @@ test('localStorage handles multiple records', { concurrency: false }, () => {
   assert.strictEqual(loadLS('d1'), null);
   assert.strictEqual(loadLS('d2').p_nihss0, '2');
   const drafts = getDrafts();
-  assert.strictEqual(drafts.d1.data.version, 1);
+  assert.ok(!('d1' in drafts));
   assert.strictEqual(drafts.d2.data.version, 1);
 });
 

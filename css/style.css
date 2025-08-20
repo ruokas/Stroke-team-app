@@ -331,6 +331,7 @@ input[type='datetime-local']::-webkit-calendar-picker-indicator:hover {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  margin-bottom: 8px;
   padding: 6px 10px;
   border: 1px solid var(--line);
   border-radius: 999px;

@@ -11,7 +11,7 @@
 
 
 
-  <div id="toastContainer" class="toast-container"></div>
+  <div id="toastContainer" class="toast-container" role="region" aria-live="polite"></div>
   <header>
   <div class="wrap">
     <div class="brand">
@@ -56,29 +56,29 @@
 
   <div class="wrap layout-main">
     <button id="navToggle" class="btn">☰ <span class="btn-label">Meniu</span></button>
-    <nav>
-  <a href="#activation" data-section="activation" class="tab active"
+    <nav role="tablist">
+  <a id="tab-activation" href="#activation" data-section="activation" class="tab active" role="tab" aria-controls="activation" aria-selected="true" tabindex="0"
     ><span class="tab-icon">🚨</span>Aktyvacija</a
   >
-  <a href="#arrival" data-section="arrival" class="tab"
+  <a id="tab-arrival" href="#arrival" data-section="arrival" class="tab" role="tab" aria-controls="arrival" aria-selected="false" tabindex="-1"
     ><span class="tab-icon">🚑</span>Paciento atvykimas</a
   >
-  <a href="#thrombolysis" data-section="thrombolysis" class="tab"
+  <a id="tab-thrombolysis" href="#thrombolysis" data-section="thrombolysis" class="tab" role="tab" aria-controls="thrombolysis" aria-selected="false" tabindex="-1"
     ><span class="tab-icon">🩸</span>Pasiruošimas trombolizei</a
   >
-  <a href="#nihss" data-section="nihss" class="tab"
+  <a id="tab-nihss" href="#nihss" data-section="nihss" class="tab" role="tab" aria-controls="nihss" aria-selected="false" tabindex="-1"
     ><span class="tab-icon">🧮</span>NIHSS</a
   >
-  <a href="#decision" data-section="decision" class="tab"
+  <a id="tab-decision" href="#decision" data-section="decision" class="tab" role="tab" aria-controls="decision" aria-selected="false" tabindex="-1"
     ><span class="tab-icon">☑️</span>Sprendimas</a
   >
-  <a href="#summarySec" data-section="summarySec" class="tab"
+  <a id="tab-summarySec" href="#summarySec" data-section="summarySec" class="tab" role="tab" aria-controls="summarySec" aria-selected="false" tabindex="-1"
     ><span class="tab-icon">📄</span>Santrauka</a
   >
 </nav>
 
     <main class="px-0">
-              <section id="activation" class="card">
+              <section id="activation" class="card" role="tabpanel" aria-labelledby="tab-activation" tabindex="0">
           <h2>Komandos aktyvacija</h2>
           <form>
             <fieldset>
@@ -294,7 +294,7 @@
         </section>
 
               <!-- Paciento atvykimas -->
-        <section id="arrival" class="card hidden">
+        <section id="arrival" class="card hidden" role="tabpanel" aria-labelledby="tab-arrival" tabindex="-1" aria-hidden="true">
           <h2>Paciento atvykimas</h2>
           <form>
             <fieldset>
@@ -570,7 +570,7 @@
 
 
               <!-- Pasiruošimas trombolizei -->
-        <section id="thrombolysis" class="card hidden">
+        <section id="thrombolysis" class="card hidden" role="tabpanel" aria-labelledby="tab-thrombolysis" tabindex="-1" aria-hidden="true">
           <h2>Pasiruošimas trombolizei</h2>
           <form>
             <div class="grid-3">
@@ -703,7 +703,7 @@
 
 
               <!-- NIHSS -->
-        <section id="nihss" class="card hidden">
+        <section id="nihss" class="card hidden" role="tabpanel" aria-labelledby="tab-nihss" tabindex="-1" aria-hidden="true">
           <h2>NIHSS</h2>
           <form>
             <fieldset>
@@ -877,7 +877,7 @@
 
 
               <!-- Sprendimas -->
-        <section id="decision" class="card hidden">
+        <section id="decision" class="card hidden" role="tabpanel" aria-labelledby="tab-decision" tabindex="-1" aria-hidden="true">
           <h2>Sprendimas</h2>
           <form>
             <fieldset>
@@ -932,7 +932,7 @@
 
 
               <!-- Santrauka HIS sistemai -->
-        <section id="summarySec" class="card full-span hidden">
+        <section id="summarySec" class="card full-span hidden" role="tabpanel" aria-labelledby="tab-summarySec" tabindex="-1" aria-hidden="true">
           <h2>Santrauka (kopijavimui į HIS)</h2>
           <textarea
             id="summary"

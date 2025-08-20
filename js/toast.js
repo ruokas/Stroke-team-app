@@ -9,11 +9,14 @@ const toast = {
     const { type, duration = 3000 } = options;
     const el = document.createElement('div');
     el.className = 'toast' + (type ? ` ${type}` : '');
+    el.setAttribute('role', 'alert');
     el.textContent = msg;
 
     const closeBtn = document.createElement('button');
+    closeBtn.type = 'button';
     closeBtn.className = 'toast-close';
     closeBtn.setAttribute('aria-label', 'Close');
+    closeBtn.setAttribute('tabindex', '0');
     closeBtn.innerHTML = '&times;';
     el.appendChild(closeBtn);
 

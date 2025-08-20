@@ -301,8 +301,11 @@ function bind() {
   $('#newPatientBtn').addEventListener('click', async () => {
     if (await confirmModal('Išvalyti visus laukus naujam pacientui?')) {
       document.querySelectorAll('input, textarea, select').forEach((el) => {
-        if (el.type === 'checkbox' || el.type === 'radio') el.checked = false;
-        else if (
+        if (el.type === 'checkbox' || el.type === 'radio') {
+          el.checked = false;
+          el.removeAttribute('checked');
+          el.closest('.pill')?.classList.remove('checked');
+        } else if (
           el.id !== 'def_tnk' &&
           el.id !== 'def_tpa' &&
           el.id !== 'autosave'

@@ -136,6 +136,10 @@ main {
   padding: 0 16px;
 }
 
+main > section {
+  scroll-margin-top: calc(var(--header-height) + 16px);
+}
+
 .layout-main {
   display: grid;
   grid-template-columns: 220px 1fr 220px;

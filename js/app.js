@@ -273,7 +273,6 @@ function bind() {
     });
   });
   window.addEventListener('hashchange', activateFromHash);
-  activateFromHash();
 
   // New patient
   $('#newPatientBtn').addEventListener('click', async () => {
@@ -323,6 +322,8 @@ function bind() {
   updateDrugDefaults();
   updateAge();
   updateDraftSelect();
+  // Apply initial section visibility only after successful setup
+  activateFromHash();
 }
 
 document.addEventListener('DOMContentLoaded', bind);

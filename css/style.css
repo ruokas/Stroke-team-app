@@ -168,7 +168,8 @@ nav .tab {
   align-items: center;
   gap: 8px;
   width: 100%;
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
   padding: 10px 12px;
   border: 1px solid var(--line);
   border-radius: 10px;
@@ -963,7 +964,6 @@ details summary::-webkit-details-marker {
 details .card {
   margin-top: 8px;
 }
-
 
 .nihss-layout {
   display: grid;

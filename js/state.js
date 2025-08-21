@@ -37,10 +37,11 @@ export const getANameInput = () => $('#a_name');
 export const getADobInput = () => $('#a_dob');
 export const getAAgeInput = () => $('#a_age');
 export const getASymFaceInputs = () => $$('input[name="a_face"]');
-export const getASymArmInputs = () => $$('input[name="a_arm"]');
 export const getASymSpeechInputs = () => $$('input[name="a_speech"]');
-export const getASymBalanceInputs = () => $$('input[name="a_balance"]');
-export const getASymConsciousInputs = () => $$('input[name="a_conscious"]');
+export const getASymCommandsInputs = () => $$('input[name="a_commands"]');
+export const getASymArmInputs = () => $$('input[name="a_arm"]');
+export const getASymLegInputs = () => $$('input[name="a_leg"]');
+export const getASymGazeInputs = () => $$('input[name="a_gaze"]');
 export const getAWarfarinInput = () => $('#a_warfarin');
 export const getAApixabanInput = () => $('#a_apixaban');
 export const getARivaroxabanInput = () => $('#a_rivaroxaban');
@@ -86,10 +87,11 @@ export function getInputs() {
     a_dob: getADobInput(),
     a_age: getAAgeInput(),
     a_sym_face: getASymFaceInputs(),
-    a_sym_arm: getASymArmInputs(),
     a_sym_speech: getASymSpeechInputs(),
-    a_sym_balance: getASymBalanceInputs(),
-    a_sym_conscious: getASymConsciousInputs(),
+    a_sym_commands: getASymCommandsInputs(),
+    a_sym_arm: getASymArmInputs(),
+    a_sym_leg: getASymLegInputs(),
+    a_sym_gaze: getASymGazeInputs(),
     a_warfarin: getAWarfarinInput(),
     a_apixaban: getAApixabanInput(),
     a_rivaroxaban: getARivaroxabanInput(),

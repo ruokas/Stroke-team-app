@@ -14,7 +14,10 @@ export function computeArrivalMessage({ lkwType, lkwValue, doorValue }) {
   if (diff <= 9) {
     return 'Reikalinga KT perfuzija.';
   }
-  return 'Trombolizė kontraindikuotina, bet gali būti taikoma trombektomija.';
+  if (diff <= 24) {
+    return 'Trombolizė kontraindikuotina, bet gali būti taikoma trombektomija.';
+  }
+  return 'Reperfuzinis gydymas neindikuotinas.';
 }
 
 export function updateArrivalInfo() {

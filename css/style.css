@@ -42,7 +42,7 @@ header {
   border-bottom: 1px solid var(--line);
 }
 .wrap {
-  max-width: 1200px;
+  width: 1200px;
   margin: 0 auto;
   padding: 14px 16px;
   display: flex;
@@ -51,7 +51,7 @@ header {
   justify-content: space-between;
 }
 .container {
-  max-width: 1200px;
+  width: 1200px;
   margin: 0 auto;
   padding: 14px 16px;
 }
@@ -131,7 +131,7 @@ h1 {
   margin-top: 0;
 }
 main {
-  max-width: 1200px;
+  width: 1200px;
   margin: 12px auto;
   padding: 0 16px;
 }
@@ -547,8 +547,7 @@ select.invalid {
   border-color: #2d74b8;
 }
 #bodySvg {
-  width: 100%;
-  max-width: 300px;
+  width: 300px;
   max-height: 80vh;
   height: auto;
   border: 1px solid var(--line);
@@ -576,35 +575,6 @@ select.invalid {
   fill: #ffd54f;
   stroke: #6b540e;
   stroke-width: 2;
-}
-@media (max-width: 980px) {
-  #navToggle {
-    display: inline-block;
-    margin-bottom: 8px;
-  }
-  .layout-main {
-    grid-template-columns: 1fr;
-    grid-auto-flow: row;
-    grid-auto-columns: 1fr;
-  }
-  nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 220px;
-    background: #0d151f;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-    padding: 14px 16px;
-    overflow: auto;
-    z-index: 20;
-    pointer-events: none;
-  }
-  body.nav-open nav {
-    transform: translateX(0);
-    pointer-events: auto;
-  }
 }
 @media print {
   header,
@@ -663,7 +633,6 @@ section[data-tab='Intervencijos'] h3 {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  max-width: 90%;
   width: 320px;
 }
 .modal p {
@@ -785,18 +754,6 @@ section[data-tab='Intervencijos'] h3 {
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
 }
 
-@media (max-width: 600px) {
-  .grid-2,
-  .grid-3 {
-    grid-template-columns: 1fr;
-  }
-  .header-actions .btn .btn-label {
-    display: none;
-  }
-  #liveTimers {
-    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-  }
-}
 
 .symptoms {
   display: flex;
@@ -913,32 +870,6 @@ section[data-tab='Intervencijos'] h3 {
   display: flex;
   gap: 8px;
 }
-@media (max-width: 768px) {
-  .header-actions .more-actions {
-    position: relative;
-  }
-  .header-actions .more-actions > summary {
-    display: inline-flex;
-    align-items: center;
-    cursor: pointer;
-  }
-  .header-actions .more-actions .menu {
-    display: none;
-    position: absolute;
-    right: 0;
-    top: 100%;
-    flex-direction: column;
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    padding: 8px;
-    min-width: 160px;
-    z-index: 1000;
-  }
-  .header-actions .more-actions[open] .menu {
-    display: flex;
-  }
-}
 /* Insulto komandos formos specifinės funkcijos */
 .muted {
   color: var(--muted);
@@ -997,7 +928,7 @@ details .card {
 }
 
 .nihss-score {
-  max-width: 150px;
+  width: 150px;
 }
 
 .nihss-calc {
@@ -1042,12 +973,7 @@ details .card {
 .split-grid {
   display: grid;
   gap: 16px;
-  grid-template-columns: 1fr;
-}
-@media (min-width: 880px) {
-  .split-grid {
-    grid-template-columns: 1.2fr 0.8fr;
-  }
+  grid-template-columns: 1.2fr 0.8fr;
 }
 .mini {
   font-size: 11px;

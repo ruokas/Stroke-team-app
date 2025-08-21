@@ -6,6 +6,7 @@ import { showToast } from './toast.js';
 import { confirmModal, promptModal } from './modal.js';
 import { updateAge } from './age.js';
 import { initArrival } from './arrival.js';
+import { initActivation } from './activation.js';
 import { autoSetContraDecision } from './decision.js';
 import {
   saveLS,
@@ -396,6 +397,7 @@ function bind() {
   initNIHSS();
   updateDrugDefaults();
   updateAge();
+  initActivation();
   initArrival();
   updateDraftSelect();
   // Apply initial section visibility only after successful setup

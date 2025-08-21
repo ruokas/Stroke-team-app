@@ -57,6 +57,8 @@ test('copySummary builds data object and copies formatted text', async () => {
   const inputs = getInputs();
   const { collectSummaryData, summaryTemplate, copySummary } = await import('../js/summary.js');
 
+  inputs.a_personal.value = '12345678901';
+  inputs.a_name.value = 'Jonas Jonaitis';
   inputs.a_dob.value = '1980-01-01';
   inputs.weight.value = '80';
   inputs.bp.value = '120/80';
@@ -78,7 +80,14 @@ test('copySummary builds data object and copies formatted text', async () => {
 
   const data = collectSummaryData();
   assert.deepEqual(data, {
-    patient: { dob: '1980-01-01', weight: '80', bp: '120/80', nih0: '10' },
+    patient: {
+      personal: '12345678901',
+      name: 'Jonas Jonaitis',
+      dob: '1980-01-01',
+      weight: '80',
+      bp: '120/80',
+      nih0: '10',
+    },
     times: {
       lkw: '2024-01-01T07:00',
       door: '2024-01-01T08:00',

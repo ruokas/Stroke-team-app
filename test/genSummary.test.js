@@ -55,6 +55,8 @@ test('genSummary generates summary text correctly', async () => {
   const { genSummary } = await import('../js/summary.js');
 
   // populate typical inputs
+  inputs.a_personal.value = '12345678901';
+  inputs.a_name.value = 'Jonas Jonaitis';
   inputs.a_dob.value = '1980-01-01';
   inputs.weight.value = '80';
   inputs.bp.value = '120/80';
@@ -80,7 +82,7 @@ test('genSummary generates summary text correctly', async () => {
   const summary = inputs.summary.value;
   assert(
     summary.includes(
-      'PACIENTAS: gim. data: 1980-01-01, svoris: 80 kg, AKS atvykus: 120/80. NIHSS pradinis: 10.',
+      'PACIENTAS: Jonas Jonaitis (12345678901), gim. data: 1980-01-01, svoris: 80 kg, AKS atvykus: 120/80. NIHSS pradinis: 10.',
     ),
   );
   assert(

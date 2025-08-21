@@ -5,6 +5,8 @@ export function collectSummaryData() {
   const inputs = dom.getInputs();
   const get = (el) => (el && el.value ? el.value : null);
   const patient = {
+    personal: get(inputs.a_personal),
+    name: get(inputs.a_name),
     dob: get(inputs.a_dob),
     weight: get(inputs.weight),
     bp: get(inputs.bp),
@@ -32,11 +34,11 @@ export function collectSummaryData() {
 export function summaryTemplate({ patient, times, drugs, decision }) {
   const parts = [];
   parts.push(
-    `PACIENTAS: gim. data: ${patient.dob ?? '—'}, svoris: ${
-      patient.weight ?? '—'
-    } kg, AKS atvykus: ${patient.bp ?? '—'}. NIHSS pradinis: ${
-      patient.nih0 ?? '—'
-    }.`,
+    `PACIENTAS: ${patient.name ?? '—'} (${patient.personal ?? '—'}), gim. data: ${
+      patient.dob ?? '—'
+    }, svoris: ${patient.weight ?? '—'} kg, AKS atvykus: ${
+      patient.bp ?? '—'
+    }. NIHSS pradinis: ${patient.nih0 ?? '—'}.`,
   );
   parts.push(
     `LAIKAI: LKW: ${times.lkw ?? '—'}, Atvykimas: ${times.door ?? '—'}, Sprendimas: ${

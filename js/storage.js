@@ -5,7 +5,6 @@ import { updateAge } from './age.js';
 const { state } = dom;
 
 const LS_KEY = 'insultoKomandaPatients_v1';
-const ACTIVE_PATIENT_KEY = 'insultoKomandaActivePatientId';
 // Current version of the payload schema stored in localStorage
 const SCHEMA_VERSION = 1;
 
@@ -211,8 +210,6 @@ export function savePatient(id, name) {
     data: { version: SCHEMA_VERSION, data: getPayload() },
   };
   setPatients(patients);
-  updatePatientSelect(patientId);
-  setActivePatientId(patientId);
   return patientId;
 }
 
@@ -229,8 +226,6 @@ export function deletePatient(id) {
   if (patients[id]) {
     delete patients[id];
     setPatients(patients);
-    updatePatientSelect();
-    if (getActivePatientId() === id) setActivePatientId('');
   }
 }
 
@@ -239,38 +234,5 @@ export function renamePatient(id, newName) {
   if (patients[id]) {
     patients[id].name = newName;
     setPatients(patients);
-    updatePatientSelect(id);
   }
-}
-
-export function updatePatientSelect(selectedId) {
-  const inputs = dom.getInputs();
-  const sel = inputs.draftSelect;
-  if (!sel) return;
-  sel.innerHTML = '';
-  const filterVal =
-    document.getElementById('draftFilter')?.value.toLowerCase() || '';
-  const patients = getPatients();
-  const opt0 = document.createElement('option');
-  opt0.value = '';
-  opt0.textContent = '—';
-  sel.appendChild(opt0);
-  Object.entries(patients)
-    .filter(([, d]) => d.name.toLowerCase().includes(filterVal))
-    .forEach(([id, d]) => {
-      const opt = document.createElement('option');
-      opt.value = id;
-      opt.textContent = d.name;
-      sel.appendChild(opt);
-    });
-  if (selectedId) sel.value = selectedId;
-}
-
-export function getActivePatientId() {
-  return localStorage.getItem(ACTIVE_PATIENT_KEY);
-}
-
-export function setActivePatientId(id) {
-  if (id) localStorage.setItem(ACTIVE_PATIENT_KEY, id);
-  else localStorage.removeItem(ACTIVE_PATIENT_KEY);
 }

@@ -11,30 +11,16 @@
       </div>
     </div>
     <div class="header-actions">
-      {{ macros.actionButton('newPatientBtn', 'Naujas pacientas', '🆕', 'Naujas') }}
-      {{ macros.actionButton('saveBtn', 'Išsaugoti vietoje (naršyklėje)', '💾', 'Išsaugoti') }}
-      <details class="more-actions">
+      <select id="patientSelect" title="Pacientai" aria-label="Pacientai" class="btn"></select>
+      <details class="patient-menu">
         <summary>⋮</summary>
         <div class="menu">
-          <input id="draftFilter" placeholder="Filtruoti..." />
-          <select
-            id="draftSelect"
-            title="Išsaugoti juodraščiai"
-            class="btn"
-          ></select>
-          {{ macros.actionButton('loadBtn', 'Atkurti pasirinktą', '📂', 'Atkurti') }}
-          {{ macros.actionButton('renameDraftBtn', 'Pervardyti juodraštį', '✏️', 'Pervardyti') }}
-          {{ macros.actionButton('deleteDraftBtn', 'Ištrinti juodraštį', '🗑️', 'Trinti') }}
-          {{ macros.actionButton('exportBtn', 'Eksportuoti JSON', '⬇️', 'Eksportuoti') }}
-          <input
-            id="importFile"
-            type="file"
-            accept="application/json"
-            class="hidden"
-          />
-          {{ macros.actionButton('importBtn', 'Importuoti JSON', '⬆️', 'Importuoti') }}
+          {{ macros.actionButton('renamePatientBtn', 'Pervardyti pacientą', '✏️', 'Pervardyti') }}
+          {{ macros.actionButton('deletePatientBtn', 'Ištrinti pacientą', '🗑️', 'Trinti') }}
         </div>
       </details>
+      {{ macros.actionButton('newPatientBtn', 'Naujas pacientas', '🆕', 'Naujas') }}
+      {{ macros.actionButton('saveBtn', 'Išsaugoti vietoje (naršyklėje)', '💾', 'Išsaugoti') }}
     </div>
   </div>
   <div id="saveStatus" aria-live="polite"></div>

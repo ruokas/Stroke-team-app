@@ -31,7 +31,7 @@ export const getDefTpaInput = () => $('#def_tpa');
 export const getThrombolysisStartInput = () => $('#t_thrombolysis');
 export const getAutosaveInput = () => $('#autosave');
 export const getSummaryInput = () => $('#summary');
-export const getDraftSelect = () => $('#draftSelect');
+export const getPatientSelect = () => $('#patientSelect');
 export const getAPersonalInput = () => $('#a_personal');
 export const getANameInput = () => $('#a_name');
 export const getADobInput = () => $('#a_dob');
@@ -81,7 +81,7 @@ export function getInputs() {
     t_thrombolysis: getThrombolysisStartInput(),
     autosave: getAutosaveInput(),
     summary: getSummaryInput(),
-    draftSelect: getDraftSelect(),
+    patientSelect: getPatientSelect(),
     a_personal: getAPersonalInput(),
     a_name: getANameInput(),
     a_dob: getADobInput(),

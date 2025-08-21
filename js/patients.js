@@ -1,4 +1,8 @@
-import { getPayload, setPayload } from './storage.js';
+import {
+  getPayload,
+  setPayload,
+  deletePatient as deleteStoredPatient,
+} from './storage.js';
 import { getInputs } from './state.js';
 
 const patients = {};
@@ -11,10 +15,17 @@ function generateId() {
 
 export function addPatient() {
   const inputs = getInputs();
-  const current = { ...getPayload(), summary: inputs.summary?.value || '' };
+  const current = {
+    ...getPayload(),
+    summary: inputs.summary?.value || '',
+    name:
+      patients[activeId]?.name ||
+      `Pacientas ${Object.keys(patients).length + 1}`,
+  };
   if (activeId) patients[activeId] = current;
   const id = generateId();
-  patients[id] = { ...current, summary: '' };
+  const name = `Pacientas ${Object.keys(patients).length + 1}`;
+  patients[id] = { ...current, summary: '', name };
   activeId = id;
   setPayload(patients[id]);
   if (inputs.summary) inputs.summary.value = '';
@@ -28,6 +39,7 @@ export function switchPatient(id) {
     patients[activeId] = {
       ...getPayload(),
       summary: inputs.summary?.value || '',
+      name: patients[activeId].name,
     };
   activeId = id;
   setPayload(patients[id]);
@@ -37,6 +49,7 @@ export function switchPatient(id) {
 export function removePatient(id) {
   if (!patients[id]) return;
   delete patients[id];
+  deleteStoredPatient(id);
   if (activeId === id) {
     const nextId = Object.keys(patients)[0];
     activeId = nextId || null;
@@ -48,6 +61,19 @@ export function removePatient(id) {
   }
 }
 
+export function renamePatient(id, newName) {
+  if (!patients[id]) return;
+  patients[id].name = newName;
+}
+
+export function getActivePatientId() {
+  return activeId;
+}
+
+export function getPatients() {
+  return patients;
+}
+
 export function getActivePatient() {
   return patients[activeId];
 }
@@ -56,5 +82,8 @@ export default {
   addPatient,
   switchPatient,
   removePatient,
+  renamePatient,
   getActivePatient,
+  getActivePatientId,
+  getPatients,
 };

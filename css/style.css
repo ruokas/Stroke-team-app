@@ -131,8 +131,8 @@ h1 {
   margin-top: 0;
 }
 main {
-  width: 1200px;
-  margin: 12px auto;
+  width: 100%;
+  margin: 12px 0;
   padding: 0 16px;
 }
 
@@ -753,7 +753,6 @@ section[data-tab='Intervencijos'] h3 {
   gap: 8px;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
 }
-
 
 .symptoms {
   display: flex;

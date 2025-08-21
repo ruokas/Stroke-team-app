@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-test('genSummary generates summary text correctly', async () => {
+test('summaryTemplate generates summary text correctly', async () => {
   const elements = {};
   function createEl() {
     return {
@@ -52,9 +52,9 @@ test('genSummary generates summary text correctly', async () => {
 
   const { getInputs } = await import('../js/state.js');
   const inputs = getInputs();
-  const { genSummary } = await import('../js/summary.js');
+  const { getPayload } = await import('../js/storage.js');
+  const { collectSummaryData, summaryTemplate } = await import('../js/summary.js');
 
-  // populate typical inputs
   inputs.a_personal.value = '12345678901';
   inputs.a_name.value = 'Jonas Jonaitis';
   inputs.a_dob.value = '1980-01-01';
@@ -77,9 +77,9 @@ test('genSummary generates summary text correctly', async () => {
   inputs.doseTotal.value = '20';
   inputs.doseVol.value = '4';
 
-  genSummary();
+  const data = collectSummaryData(getPayload());
+  const summary = summaryTemplate(data);
 
-  const summary = inputs.summary.value;
   assert(
     summary.includes(
       'PACIENTAS: Jonas Jonaitis (12345678901), gim. data: 1980-01-01, svoris: 80 kg, AKS atvykus: 120/80. NIHSS pradinis: 10.',

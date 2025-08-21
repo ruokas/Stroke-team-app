@@ -88,9 +88,10 @@ const {
   deletePatient,
   setPayload,
   getPatients,
+  getPayload,
 } = await import('../js/storage.js');
 inputs = getInputs();
-const { copySummary } = await import('../js/summary.js');
+const { copySummary, collectSummaryData } = await import('../js/summary.js');
 
 function resetInputs() {
   inputs = getInputs();
@@ -146,7 +147,7 @@ test(
     inputs.a_dob.value = '';
     setPayload(loadPatient('draft1'));
 
-    await copySummary();
+    await copySummary(collectSummaryData(getPayload()));
 
     assert.ok(global.__copied.includes('PACIENTAS'));
     assert.ok(global.__copied.includes('NIHSS pradinis: 5'));

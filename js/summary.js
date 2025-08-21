@@ -1,33 +1,31 @@
 import * as dom from './state.js';
 import { showToast } from './toast.js';
 
-export function collectSummaryData() {
-  const inputs = dom.getInputs();
-  const get = (el) => (el && el.value ? el.value : null);
+export function collectSummaryData(payload) {
+  const get = (v) => (v ? v : null);
   const patient = {
-    personal: get(inputs.a_personal),
-    name: get(inputs.a_name),
-    dob: get(inputs.a_dob),
-    weight: get(inputs.weight),
-    bp: get(inputs.bp),
-    nih0: get(inputs.nih0),
+    personal: get(payload.a_personal),
+    name: get(payload.a_name),
+    dob: get(payload.a_dob),
+    weight: get(payload.p_weight),
+    bp: get(payload.p_bp),
+    nih0: get(payload.p_nihss0),
   };
   const times = {
-    lkw: get(inputs.lkw),
-    door: get(inputs.door),
-    decision: get(inputs.d_time),
-    thrombolysis: get(inputs.t_thrombolysis),
+    lkw: get(payload.t_lkw),
+    door: get(payload.t_door),
+    decision: get(payload.d_time),
+    thrombolysis: get(payload.t_thrombolysis),
   };
   const drugs = {
-    type: inputs.drugType?.value || '',
-    conc: get(inputs.drugConc),
-    totalDose: get(inputs.doseTotal),
-    totalVol: get(inputs.doseVol),
-    bolus: get(inputs.tpaBolus),
-    infusion: get(inputs.tpaInf),
+    type: payload.drug_type || '',
+    conc: get(payload.drug_conc),
+    totalDose: get(payload.dose_total),
+    totalVol: get(payload.dose_volume),
+    bolus: get(payload.tpa_bolus),
+    infusion: get(payload.tpa_infusion),
   };
-  const decision =
-    (inputs.d_decision || []).find((n) => n.checked)?.value || null;
+  const decision = payload.d_decision || null;
   return { patient, times, drugs, decision };
 }
 
@@ -59,16 +57,9 @@ export function summaryTemplate({ patient, times, drugs, decision }) {
   return parts.join('\n');
 }
 
-export function genSummary() {
+export function copySummary(data) {
   const inputs = dom.getInputs();
-  const data = collectSummaryData();
   if (inputs.summary) inputs.summary.value = summaryTemplate(data);
-  return data;
-}
-
-export function copySummary() {
-  const inputs = dom.getInputs();
-  genSummary();
   if (window.isSecureContext && navigator.clipboard) {
     navigator.clipboard.writeText(inputs.summary.value).catch((err) => {
       showToast('Nepavyko nukopijuoti: ' + err, { type: 'error' });
@@ -78,4 +69,5 @@ export function copySummary() {
     const ok = document.execCommand('copy');
     if (!ok) showToast('Nepavyko nukopijuoti', { type: 'error' });
   }
+  return inputs.summary.value;
 }

@@ -80,6 +80,7 @@ export function getPayload() {
     dose_volume: inputs.doseVol?.value || '',
     tpa_bolus: inputs.tpaBolus?.value || '',
     tpa_infusion: inputs.tpaInf?.value || '',
+    t_thrombolysis: inputs.t_thrombolysis?.value || '',
     arrival_lkw_type: getRadioValue(inputs.lkw_type || []),
     arrival_symptoms: inputs.arrival_symptoms?.value || '',
     arrival_contra: (inputs.arrival_contra || [])
@@ -137,6 +138,8 @@ export function setPayload(p) {
   if (inputs.doseVol) inputs.doseVol.value = payload.dose_volume || '';
   if (inputs.tpaBolus) inputs.tpaBolus.value = payload.tpa_bolus || '';
   if (inputs.tpaInf) inputs.tpaInf.value = payload.tpa_infusion || '';
+  if (inputs.t_thrombolysis)
+    inputs.t_thrombolysis.value = payload.t_thrombolysis || '';
   if (inputs.lkw_type)
     setRadioValue(inputs.lkw_type, payload.arrival_lkw_type || 'known');
   if (inputs.arrival_symptoms)

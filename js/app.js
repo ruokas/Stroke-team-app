@@ -1,7 +1,7 @@
 import { $, $$, state, getInputs } from './state.js';
 import { setNow } from './time.js';
 import { updateDrugDefaults, calcDrugs } from './drugs.js';
-import { genSummary, copySummary } from './summary.js';
+import { collectSummaryData, summaryTemplate, copySummary } from './summary.js';
 import { showToast } from './toast.js';
 import { confirmModal, promptModal } from './modal.js';
 import { updateAge } from './age.js';
@@ -20,7 +20,7 @@ import {
   getActivePatientId,
   setActivePatientId,
 } from './storage.js';
-import { addPatient, switchPatient } from './patients.js';
+import { addPatient, switchPatient, getActivePatient } from './patients.js';
 
 function initNIHSS() {
   $$('.nihss-calc').forEach((calc) => {
@@ -128,8 +128,21 @@ function bind() {
   });
 
   // Summary
-  $('#summary').addEventListener('focus', genSummary);
-  $('#copySummaryBtn').addEventListener('click', copySummary);
+  $('#summary').addEventListener('focus', () => {
+    const patient = getActivePatient();
+    if (!patient) return;
+    const data = collectSummaryData(patient);
+    const text = summaryTemplate(data);
+    inputs.summary.value = text;
+    patient.summary = text;
+  });
+  $('#copySummaryBtn').addEventListener('click', () => {
+    const patient = getActivePatient();
+    if (!patient) return;
+    const data = collectSummaryData(patient);
+    const text = copySummary(data);
+    patient.summary = text;
+  });
 
   // Age calculation
   inputs.a_dob.addEventListener('input', updateAge);
@@ -341,7 +354,15 @@ function bind() {
       t.setAttribute('aria-selected', selected ? 'true' : 'false');
       t.setAttribute('tabindex', selected ? '0' : '-1');
     });
-    if (id === 'summarySec') genSummary();
+    if (id === 'summarySec') {
+      const patient = getActivePatient();
+      if (patient) {
+        const data = collectSummaryData(patient);
+        const text = summaryTemplate(data);
+        inputs.summary.value = text;
+        patient.summary = text;
+      }
+    }
     if (id === 'decision' && inputs.d_time && !inputs.d_time.value)
       setNow('d_time');
     document.body.classList.remove('nav-open');
@@ -394,7 +415,15 @@ function bind() {
       updateSaveStatus();
       dirty = false;
     }
-    if (!$('#summarySec').classList.contains('hidden')) genSummary();
+    if (!$('#summarySec').classList.contains('hidden')) {
+      const patient = getActivePatient();
+      if (patient) {
+        const data = collectSummaryData(patient);
+        const text = summaryTemplate(data);
+        inputs.summary.value = text;
+        patient.summary = text;
+      }
+    }
   });
   document.addEventListener('change', () => {
     dirty = true;

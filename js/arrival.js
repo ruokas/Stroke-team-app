@@ -5,13 +5,20 @@ export function computeArrivalMessage({ lkwType, lkwValue, doorValue }) {
   if (lkwType === 'unknown') {
     return 'Pacientui reperfuzinis gydymas neindikuotinas.';
   }
-  if (!lkwValue || !doorValue) return '';
-  const diff = (new Date(doorValue) - new Date(lkwValue)) / 36e5;
+  if (!lkwValue) return '';
+  let diff;
+  if (lkwType === 'sleep' && !doorValue) {
+    diff = (Date.now() - new Date(lkwValue).getTime()) / 36e5;
+  } else if (doorValue) {
+    diff = (new Date(doorValue) - new Date(lkwValue)) / 36e5;
+  } else {
+    return '';
+  }
   if (!isFinite(diff) || diff < 0) return '';
   if (diff <= 4.5) {
     return 'Indikuotina trombolizė / trombektomija.';
   }
-  if (diff <= 9) {
+  if (diff < 9) {
     return 'Reikalinga KT perfuzija.';
   }
   if (diff <= 24) {

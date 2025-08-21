@@ -964,6 +964,18 @@ details summary {
 details summary::-webkit-details-marker {
   display: none;
 }
+details summary.btn.toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+details summary.btn.toggle .icon {
+  transition: transform 0.2s;
+  display: inline-block;
+}
+details[open] summary.btn.toggle .icon {
+  transform: rotate(90deg);
+}
 details .card {
   margin-top: 8px;
 }

@@ -263,31 +263,20 @@ textarea {
 }
 
 .input-group {
-  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.input-group input {
+  flex: 1;
+  width: auto;
 }
 
 .input-group button {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
   min-width: 2.5rem;
   padding: 4px 6px;
-}
-
-.input-group button:last-of-type {
-  right: 8px;
-}
-
-.input-group button:nth-last-of-type(2) {
-  right: calc(2.5rem + 16px);
-}
-
-.input-group button:nth-of-type(2) {
-  right: calc(5rem + 24px);
-}
-
-.input-group button:nth-of-type(1) {
-  right: calc(7.5rem + 32px);
 }
 
 input[type='date']::-webkit-calendar-picker-indicator,
@@ -303,9 +292,7 @@ input[type='datetime-local']::-webkit-calendar-picker-indicator:hover {
 }
 
 .time-input {
-  width: 100%;
   padding: 9px 10px;
-  padding-right: calc(10rem + 32px);
   border: 1px solid var(--line);
   border-radius: 10px;
   background: #0f1620;

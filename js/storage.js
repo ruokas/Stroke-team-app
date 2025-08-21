@@ -1,6 +1,7 @@
 import * as dom from './state.js';
 import { updateDrugDefaults } from './drugs.js';
 import { updateAge } from './age.js';
+import { setNow } from './time.js';
 
 const { state } = dom;
 
@@ -64,11 +65,24 @@ function setRadioValue(nodes, value) {
 
 export function getPayload() {
   const inputs = dom.getInputs();
+  const bp_meds = Array.from(
+    document.querySelectorAll('#bpEntries .bp-entry'),
+  ).map((entry) => {
+    const med = entry.querySelector('strong')?.textContent || '';
+    const [timeEl, doseEl, notesEl] = entry.querySelectorAll('input');
+    return {
+      time: timeEl?.value || '',
+      med,
+      dose: doseEl?.value || '',
+      notes: notesEl?.value || '',
+    };
+  });
   return {
     p_weight: inputs.weight?.value || '',
     p_bp: inputs.bp?.value || '',
     p_inr: inputs.inr?.value || '',
     p_nihss0: inputs.nih0?.value || '',
+    nihs_initial: inputs.nih0?.value || '',
     t_lkw: inputs.lkw?.value || '',
     t_door: inputs.door?.value || '',
     d_time: inputs.d_time?.value || '',
@@ -97,12 +111,12 @@ export function getPayload() {
     a_name: inputs.a_name?.value || '',
     a_dob: inputs.a_dob?.value || '',
     a_age: inputs.a_age?.value || '',
-    a_sym_face: getRadioValue(inputs.a_sym_face || []),
-    a_sym_speech: getRadioValue(inputs.a_sym_speech || []),
-    a_sym_commands: getRadioValue(inputs.a_sym_commands || []),
-    a_sym_arm: getRadioValue(inputs.a_sym_arm || []),
-    a_sym_leg: getRadioValue(inputs.a_sym_leg || []),
-    a_sym_gaze: getRadioValue(inputs.a_sym_gaze || []),
+    a_sym_face: inputs.a_sym_face?.some((n) => n.checked) || false,
+    a_sym_speech: inputs.a_sym_speech?.some((n) => n.checked) || false,
+    a_sym_commands: inputs.a_sym_commands?.some((n) => n.checked) || false,
+    a_sym_arm: inputs.a_sym_arm?.some((n) => n.checked) || false,
+    a_sym_leg: inputs.a_sym_leg?.some((n) => n.checked) || false,
+    a_sym_gaze: inputs.a_sym_gaze?.some((n) => n.checked) || false,
     a_drug_warfarin: inputs.a_warfarin?.checked || false,
     a_drug_apixaban: inputs.a_apixaban?.checked || false,
     a_drug_rivaroxaban: inputs.a_rivaroxaban?.checked || false,
@@ -115,6 +129,7 @@ export function getPayload() {
     a_hr: inputs.a_hr?.value || '',
     a_spo2: inputs.a_spo2?.value || '',
     a_temp: inputs.a_temp?.value || '',
+    bp_meds,
   };
 }
 
@@ -125,7 +140,8 @@ export function setPayload(p) {
   if (inputs.weight) inputs.weight.value = payload.p_weight || '';
   if (inputs.bp) inputs.bp.value = payload.p_bp || '';
   if (inputs.inr) inputs.inr.value = payload.p_inr || '';
-  if (inputs.nih0) inputs.nih0.value = payload.p_nihss0 || '';
+  if (inputs.nih0)
+    inputs.nih0.value = payload.p_nihss0 || payload.nihs_initial || '';
   if (inputs.lkw) inputs.lkw.value = payload.t_lkw || '';
   if (inputs.door) inputs.door.value = payload.t_door || '';
   if (inputs.d_time) inputs.d_time.value = payload.d_time || '';
@@ -160,17 +176,35 @@ export function setPayload(p) {
   if (inputs.a_dob) inputs.a_dob.value = payload.a_dob || '';
   updateAge();
   if (inputs.a_sym_face)
-    setRadioValue(inputs.a_sym_face, payload.a_sym_face || '');
+    inputs.a_sym_face.forEach((n) => {
+      n.checked = !!payload.a_sym_face;
+      n.dispatchEvent(new Event('change', { bubbles: true }));
+    });
   if (inputs.a_sym_speech)
-    setRadioValue(inputs.a_sym_speech, payload.a_sym_speech || '');
+    inputs.a_sym_speech.forEach((n) => {
+      n.checked = !!payload.a_sym_speech;
+      n.dispatchEvent(new Event('change', { bubbles: true }));
+    });
   if (inputs.a_sym_commands)
-    setRadioValue(inputs.a_sym_commands, payload.a_sym_commands || '');
+    inputs.a_sym_commands.forEach((n) => {
+      n.checked = !!payload.a_sym_commands;
+      n.dispatchEvent(new Event('change', { bubbles: true }));
+    });
   if (inputs.a_sym_arm)
-    setRadioValue(inputs.a_sym_arm, payload.a_sym_arm || '');
+    inputs.a_sym_arm.forEach((n) => {
+      n.checked = !!payload.a_sym_arm;
+      n.dispatchEvent(new Event('change', { bubbles: true }));
+    });
   if (inputs.a_sym_leg)
-    setRadioValue(inputs.a_sym_leg, payload.a_sym_leg || '');
+    inputs.a_sym_leg.forEach((n) => {
+      n.checked = !!payload.a_sym_leg;
+      n.dispatchEvent(new Event('change', { bubbles: true }));
+    });
   if (inputs.a_sym_gaze)
-    setRadioValue(inputs.a_sym_gaze, payload.a_sym_gaze || '');
+    inputs.a_sym_gaze.forEach((n) => {
+      n.checked = !!payload.a_sym_gaze;
+      n.dispatchEvent(new Event('change', { bubbles: true }));
+    });
   if (inputs.a_warfarin) inputs.a_warfarin.checked = !!payload.a_drug_warfarin;
   if (inputs.a_apixaban) inputs.a_apixaban.checked = !!payload.a_drug_apixaban;
   if (inputs.a_rivaroxaban)
@@ -185,6 +219,45 @@ export function setPayload(p) {
   if (inputs.a_hr) inputs.a_hr.value = payload.a_hr || '';
   if (inputs.a_spo2) inputs.a_spo2.value = payload.a_spo2 || '';
   if (inputs.a_temp) inputs.a_temp.value = payload.a_temp || '';
+  const bpContainer = document.getElementById('bpEntries');
+  if (bpContainer) {
+    bpContainer.innerHTML = '';
+    (payload.bp_meds || []).forEach((m) => {
+      const entry = document.createElement('div');
+      entry.className = 'bp-entry mt-10';
+      const id = `bp_time_${Date.now()}_${Math.random()
+        .toString(36)
+        .slice(2, 7)}`;
+      entry.innerHTML = `<strong>${m.med}</strong><div class="grid-3 mt-5"><div class="input-group"><input type="time" id="${id}" class="time-input" step="60" value="${
+        m.time || ''
+      }" /><button class="btn ghost" data-picker="${id}" aria-label="Pasirinkti laiką">⌚</button><button class="btn ghost" data-now="${id}">Dabar</button><button class="btn ghost" data-stepdown="${id}" aria-label="−5 min">−5</button><button class="btn ghost" data-stepup="${id}" aria-label="+5 min">+5</button></div><input type="text" value="${
+        m.dose || ''
+      }" /><input type="text" placeholder="Pastabos" value="${m.notes || ''}" /></div>`;
+      bpContainer.appendChild(entry);
+      entry
+        .querySelector(`[data-now="${id}"]`)
+        ?.addEventListener('click', () => setNow(id));
+      entry
+        .querySelector(`[data-picker="${id}"]`)
+        ?.addEventListener('click', () =>
+          document.getElementById(id)?.showPicker?.(),
+        );
+      entry
+        .querySelector(`[data-stepup="${id}"]`)
+        ?.addEventListener('click', () => {
+          const target = document.getElementById(id);
+          target?.stepUp(5);
+          target?.dispatchEvent(new Event('input'));
+        });
+      entry
+        .querySelector(`[data-stepdown="${id}"]`)
+        ?.addEventListener('click', () => {
+          const target = document.getElementById(id);
+          target?.stepDown(5);
+          target?.dispatchEvent(new Event('input'));
+        });
+    });
+  }
   if (inputs.def_tnk) inputs.def_tnk.value = payload.def_tnk || 5;
   if (inputs.def_tpa) inputs.def_tpa.value = payload.def_tpa || 1;
   if (inputs.autosave) inputs.autosave.value = payload.autosave || 'on';

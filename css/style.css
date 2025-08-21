@@ -241,6 +241,8 @@ select {
 input[type='date'],
 input[type='datetime-local'] {
   padding-right: calc(10rem + 32px);
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 input[type='text']:focus-visible,
@@ -281,14 +283,7 @@ textarea {
 
 input[type='date']::-webkit-calendar-picker-indicator,
 input[type='datetime-local']::-webkit-calendar-picker-indicator {
-  filter: invert(1);
-  cursor: pointer;
-  transition: filter 0.2s ease;
-}
-
-input[type='date']::-webkit-calendar-picker-indicator:hover,
-input[type='datetime-local']::-webkit-calendar-picker-indicator:hover {
-  filter: invert(1) brightness(1.2);
+  display: none;
 }
 
 .time-input {

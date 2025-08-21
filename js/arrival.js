@@ -8,10 +8,10 @@ export function computeArrivalMessage({ lkwType, lkwValue, doorValue }) {
   if (!lkwValue || !doorValue) return '';
   const diff = (new Date(doorValue) - new Date(lkwValue)) / 36e5;
   if (!isFinite(diff)) return '';
-  if (diff < 4.5) {
+  if (diff <= 4.5) {
     return 'Indikuotina trombolizė / trombektomija.';
   }
-  if (diff < 9) {
+  if (diff <= 9) {
     return 'Reikalinga KT perfuzija.';
   }
   return 'Trombolizė kontraindikuotina, bet gali būti taikoma trombektomija.';

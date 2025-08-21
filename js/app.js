@@ -18,6 +18,7 @@ import {
   updateDraftSelect,
   getDrafts,
 } from './storage.js';
+import { addPatient, switchPatient } from './patients.js';
 
 function initNIHSS() {
   $$('.nihss-calc').forEach((calc) => {
@@ -42,6 +43,28 @@ function initNIHSS() {
 function bind() {
   const inputs = getInputs();
   let dirty = false;
+  const patientSelect = $('#patientSelect');
+  const patientIds = [];
+
+  const updatePatientSelect = (selectedId) => {
+    if (!patientSelect) return;
+    patientSelect.innerHTML = '';
+    patientIds.forEach((id, idx) => {
+      const opt = document.createElement('option');
+      opt.value = id;
+      opt.textContent = `Pacientas ${idx + 1}`;
+      patientSelect.appendChild(opt);
+    });
+    if (selectedId) patientSelect.value = selectedId;
+  };
+
+  patientSelect?.addEventListener('change', () => {
+    switchPatient(patientSelect.value);
+  });
+
+  const firstId = addPatient();
+  patientIds.push(firstId);
+  updatePatientSelect(firstId);
   const header = document.querySelector('header');
   const setHeaderHeight = () =>
     document.documentElement.style.setProperty(
@@ -348,25 +371,10 @@ function bind() {
   window.addEventListener('popstate', activateFromHash);
 
   // New patient
-  $('#newPatientBtn').addEventListener('click', async () => {
-    if (await confirmModal('Išvalyti visus laukus naujam pacientui?')) {
-      document.querySelectorAll('input, textarea, select').forEach((el) => {
-        if (el.type === 'checkbox' || el.type === 'radio') {
-          el.checked = false;
-          el.removeAttribute('checked');
-          el.closest('.pill')?.classList.remove('checked');
-        } else if (
-          el.id !== 'def_tnk' &&
-          el.id !== 'def_tpa' &&
-          el.id !== 'autosave'
-        )
-          el.value = '';
-        el.classList.remove('invalid');
-        if (el.setCustomValidity) el.setCustomValidity('');
-      });
-      updateDrugDefaults();
-      $('#summary').value = '';
-    }
+  $('#newPatientBtn').addEventListener('click', () => {
+    const id = addPatient();
+    patientIds.push(id);
+    updatePatientSelect(id);
   });
 
   // Autosave

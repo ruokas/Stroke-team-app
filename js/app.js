@@ -293,7 +293,7 @@ function bind() {
       e.preventDefault();
       const id = tab.dataset.section;
       showSection(id);
-      if (id) location.hash = id;
+      if (id) history.pushState(null, '', `#${id}`);
     });
     tab.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
@@ -304,11 +304,12 @@ function bind() {
         const id = nextTab.dataset.section;
         nextTab.focus();
         showSection(id);
-        if (id) location.hash = id;
+        if (id) history.pushState(null, '', `#${id}`);
       }
     });
   });
   window.addEventListener('hashchange', activateFromHash);
+  window.addEventListener('popstate', activateFromHash);
 
   // New patient
   $('#newPatientBtn').addEventListener('click', async () => {

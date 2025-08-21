@@ -15,19 +15,17 @@ function generateId() {
 
 export function addPatient() {
   const inputs = getInputs();
-  const current = {
-    ...getPayload(),
-    summary: inputs.summary?.value || '',
-    name:
-      patients[activeId]?.name ||
-      `Pacientas ${Object.keys(patients).length + 1}`,
-  };
-  if (activeId) patients[activeId] = current;
+  if (activeId)
+    patients[activeId] = {
+      ...getPayload(),
+      summary: inputs.summary?.value || '',
+      name: patients[activeId].name,
+    };
   const id = generateId();
   const name = `Pacientas ${Object.keys(patients).length + 1}`;
-  patients[id] = { ...current, summary: '', name };
+  patients[id] = { summary: '', name };
   activeId = id;
-  setPayload(patients[id]);
+  setPayload({});
   if (inputs.summary) inputs.summary.value = '';
   return id;
 }

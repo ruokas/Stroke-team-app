@@ -17,6 +17,8 @@ function timeInput(id, wrapperId = '', wrapperClass = 'row') {
     />
     <button type="button" class="btn ghost" data-picker="${id}" aria-label="Pasirinkti datą ir laiką">📅</button>
     <button type="button" class="btn ghost" data-now="${id}" aria-label="Dabar">🕒</button>
+    <button type="button" class="btn ghost" data-stepdown="${id}" aria-label="−5 min">−5</button>
+    <button type="button" class="btn ghost" data-stepup="${id}" aria-label="+5 min">+5</button>
   </div>
 </div>`;
 }

@@ -63,6 +63,22 @@ function bind() {
     }),
   );
 
+  // Step up/down buttons
+  $$('button[data-stepup]').forEach((b) =>
+    b.addEventListener('click', () => {
+      const target = document.getElementById(b.getAttribute('data-stepup'));
+      target?.stepUp(5);
+      target?.dispatchEvent(new Event('input'));
+    }),
+  );
+  $$('button[data-stepdown]').forEach((b) =>
+    b.addEventListener('click', () => {
+      const target = document.getElementById(b.getAttribute('data-stepdown'));
+      target?.stepDown(5);
+      target?.dispatchEvent(new Event('input'));
+    }),
+  );
+
   // Drug defaults and automatic calculator
   [inputs.def_tnk, inputs.def_tpa].forEach((el) =>
     el.addEventListener('input', () => {
@@ -109,7 +125,7 @@ function bind() {
         const entry = document.createElement('div');
         entry.className = 'bp-entry mt-10';
         const id = `bp_time_${Date.now()}`;
-        entry.innerHTML = `<strong>${med}</strong><div class="grid-3 mt-5"><div class="input-group"><input type="time" id="${id}" class="time-input" step="60" value="${now}" /><button class="btn ghost" data-picker="${id}" aria-label="Pasirinkti laiką">⌚</button><button class="btn ghost" data-now="${id}">Dabar</button></div><input type="text" value="${dose}" /><input type="text" placeholder="Pastabos" /></div>`;
+        entry.innerHTML = `<strong>${med}</strong><div class="grid-3 mt-5"><div class="input-group"><input type="time" id="${id}" class="time-input" step="60" value="${now}" /><button class="btn ghost" data-picker="${id}" aria-label="Pasirinkti laiką">⌚</button><button class="btn ghost" data-now="${id}">Dabar</button><button class="btn ghost" data-stepdown="${id}" aria-label="−5 min">−5</button><button class="btn ghost" data-stepup="${id}" aria-label="+5 min">+5</button></div><input type="text" value="${dose}" /><input type="text" placeholder="Pastabos" /></div>`;
         bpEntries.appendChild(entry);
         bpMedList.classList.add('hidden');
         entry
@@ -118,8 +134,22 @@ function bind() {
         entry
           .querySelector(`[data-picker="${id}"]`)
           .addEventListener('click', () =>
-            document.getElementById(id)?.showPicker(),
+            document.getElementById(id)?.showPicker?.(),
           );
+        entry
+          .querySelector(`[data-stepup="${id}"]`)
+          .addEventListener('click', () => {
+            const target = document.getElementById(id);
+            target?.stepUp(5);
+            target?.dispatchEvent(new Event('input'));
+          });
+        entry
+          .querySelector(`[data-stepdown="${id}"]`)
+          .addEventListener('click', () => {
+            const target = document.getElementById(id);
+            target?.stepDown(5);
+            target?.dispatchEvent(new Event('input'));
+          });
       });
     });
   }

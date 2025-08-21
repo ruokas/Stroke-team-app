@@ -1,0 +1,62 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { setupDom } from './testUtils.js';
+
+const { localStorageStub } = await setupDom();
+const { getInputs } = await import('../js/state.js');
+const {
+  addPatient,
+  switchPatient,
+  removePatient,
+  getPatients: getPatientStore,
+} = await import('../js/patients.js');
+const { savePatient, loadPatient } = await import('../js/storage.js');
+
+let inputs = getInputs();
+function resetInputs() {
+  inputs = getInputs();
+  Object.values(inputs).forEach((el) => {
+    if ('value' in el) el.value = '';
+    if ('checked' in el) el.checked = false;
+  });
+}
+
+test('patients add, switch and delete correctly', { concurrency: false }, () => {
+  localStorageStub.store = {};
+  resetInputs();
+
+  // first patient
+  inputs.nih0.value = '1';
+  const id1 = addPatient();
+  const id2 = addPatient(); // new patient copied from first
+
+  // modify second patient and save
+  inputs.nih0.value = '2';
+  switchPatient(id1); // saves p2 changes
+  savePatient(id1);
+  switchPatient(id2);
+  savePatient(id2);
+
+  // adding two patients stores two distinct payloads
+  const memoryPatients = getPatientStore();
+  assert.strictEqual(memoryPatients[id1].p_nihss0, '1');
+  assert.strictEqual(memoryPatients[id2].p_nihss0, '2');
+  assert.strictEqual(loadPatient(id1).p_nihss0, '1');
+  assert.strictEqual(loadPatient(id2).p_nihss0, '2');
+
+  // switching patients restores their respective data
+  switchPatient(id1);
+  inputs.nih0.value = '3';
+  switchPatient(id2);
+  assert.strictEqual(inputs.nih0.value, '2');
+  switchPatient(id1);
+  assert.strictEqual(inputs.nih0.value, '3');
+
+  // deleting one patient leaves the other intact
+  removePatient(id1);
+  assert.strictEqual(loadPatient(id1), null);
+  assert.strictEqual(loadPatient(id2).p_nihss0, '2');
+  const remaining = getPatientStore();
+  assert.ok(!remaining[id1]);
+  assert.strictEqual(remaining[id2].p_nihss0, '2');
+});

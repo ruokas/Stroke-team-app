@@ -82,9 +82,13 @@ Object.defineProperty(global, 'navigator', {
 
 let inputs = null;
 const { getInputs } = await import('../js/state.js');
-const { saveLS, loadLS, deleteLS, setPayload, getDrafts } = await import(
-  '../js/storage.js'
-);
+const {
+  savePatient,
+  loadPatient,
+  deletePatient,
+  setPayload,
+  getPatients,
+} = await import('../js/storage.js');
 inputs = getInputs();
 const { copySummary } = await import('../js/summary.js');
 
@@ -101,24 +105,27 @@ test('localStorage handles multiple records', { concurrency: false }, () => {
   resetInputs();
 
   inputs.nih0.value = '1';
-  saveLS('d1');
+  savePatient('d1');
   inputs.nih0.value = '2';
-  saveLS('d2');
-  const rec1 = loadLS('d1');
-  const rec2 = loadLS('d2');
+  savePatient('d2');
+  const rec1 = loadPatient('d1');
+  const rec2 = loadPatient('d2');
   assert.strictEqual(rec1.p_nihss0, '1');
   assert.strictEqual(rec2.p_nihss0, '2');
 
-  deleteLS('d1');
-  assert.strictEqual(loadLS('d1'), null);
-  assert.strictEqual(loadLS('d2').p_nihss0, '2');
-  const drafts = getDrafts();
-  assert.ok(!('d1' in drafts));
-  assert.strictEqual(drafts.d2.data.version, 1);
+  deletePatient('d1');
+  assert.strictEqual(loadPatient('d1'), null);
+  assert.strictEqual(loadPatient('d2').p_nihss0, '2');
+  const patients = getPatients();
+  assert.ok(!('d1' in patients));
+  assert.strictEqual(patients.d2.data.version, 1);
+  assert.strictEqual(patients.d2.patientId, 'd2');
+  assert.ok(patients.d2.created);
+  assert.ok(patients.d2.lastUpdated);
 });
 
 test(
-  'saveLS/loadLS with copySummary copies generated text',
+  'savePatient/loadPatient with copySummary copies generated text',
   { concurrency: false },
   async () => {
     localStorageStub.store = {};
@@ -135,9 +142,9 @@ test(
     inputs.doseTotal.value = '10';
     inputs.doseVol.value = '2';
 
-    saveLS('draft1');
+    savePatient('draft1');
     inputs.a_dob.value = '';
-    setPayload(loadLS('draft1'));
+    setPayload(loadPatient('draft1'));
 
     await copySummary();
 
@@ -147,13 +154,16 @@ test(
   },
 );
 
-test('getDrafts migrates unversioned data', () => {
+test('getPatients migrates unversioned data', () => {
   localStorageStub.store = {
-    insultoKomandaDrafts_v1: JSON.stringify({
+    insultoKomandaPatients_v1: JSON.stringify({
       old: { name: 'Old', data: { p_nihss0: '1' } },
     }),
   };
-  const drafts = getDrafts();
-  assert.strictEqual(drafts.old.data.version, 0);
-  assert.strictEqual(drafts.old.data.data.p_nihss0, '1');
+  const patients = getPatients();
+  assert.strictEqual(patients.old.data.version, 0);
+  assert.strictEqual(patients.old.data.data.p_nihss0, '1');
+  assert.strictEqual(patients.old.patientId, 'old');
+  assert.ok(patients.old.created);
+  assert.ok(patients.old.lastUpdated);
 });

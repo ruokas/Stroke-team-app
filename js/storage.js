@@ -4,28 +4,41 @@ import { updateAge } from './age.js';
 
 const { state } = dom;
 
-const LS_KEY = 'insultoKomandaDrafts_v1';
+const LS_KEY = 'insultoKomandaPatients_v1';
+const ACTIVE_PATIENT_KEY = 'insultoKomandaActivePatientId';
 // Current version of the payload schema stored in localStorage
 const SCHEMA_VERSION = 1;
 
-export function getDrafts() {
+export function getPatients() {
   const raw = localStorage.getItem(LS_KEY);
   if (!raw) return {};
   try {
-    const drafts = JSON.parse(raw);
+    const patients = JSON.parse(raw);
     let migrated = false;
-    Object.values(drafts).forEach((d) => {
+    Object.entries(patients).forEach(([id, p]) => {
+      if (!p.patientId) {
+        p.patientId = id;
+        migrated = true;
+      }
+      if (!p.created) {
+        p.created = new Date().toISOString();
+        migrated = true;
+      }
+      if (!p.lastUpdated) {
+        p.lastUpdated = p.created;
+        migrated = true;
+      }
       if (
-        !d.data ||
-        typeof d.data !== 'object' ||
-        d.data.version === undefined
+        !p.data ||
+        typeof p.data !== 'object' ||
+        p.data.version === undefined
       ) {
-        d.data = { version: 0, data: d.data };
+        p.data = { version: 0, data: p.data };
         migrated = true;
       }
     });
-    if (migrated) setDrafts(drafts);
-    return drafts;
+    if (migrated) setPatients(patients);
+    return patients;
   } catch (e) {
     console.error(e);
     localStorage.removeItem(LS_KEY);
@@ -33,9 +46,9 @@ export function getDrafts() {
   }
 }
 
-function setDrafts(drafts) {
-  const keys = Object.keys(drafts);
-  if (keys.length) localStorage.setItem(LS_KEY, JSON.stringify(drafts));
+function setPatients(patients) {
+  const keys = Object.keys(patients);
+  if (keys.length) localStorage.setItem(LS_KEY, JSON.stringify(patients));
   else localStorage.removeItem(LS_KEY);
 }
 
@@ -177,63 +190,69 @@ export function setPayload(p) {
   updateDrugDefaults();
 }
 
-export function saveLS(id, name) {
+export function savePatient(id, name) {
   const inputs = dom.getInputs();
-  const drafts = getDrafts();
-  const draftId = id || Date.now().toString();
-  const draftName =
+  const patients = getPatients();
+  const patientId = id || Date.now().toString();
+  const now = new Date().toISOString();
+  const patientName =
     name ||
-    drafts[draftId]?.name ||
+    patients[patientId]?.name ||
     inputs.nih0?.value ||
-    `Juodraštis ${draftId}`;
-  drafts[draftId] = {
-    name: draftName,
+    `Pacientas ${patientId}`;
+  patients[patientId] = {
+    patientId,
+    name: patientName,
+    created: patients[patientId]?.created || now,
+    lastUpdated: now,
     data: { version: SCHEMA_VERSION, data: getPayload() },
   };
-  setDrafts(drafts);
-  updateDraftSelect(draftId);
-  return draftId;
+  setPatients(patients);
+  updatePatientSelect(patientId);
+  setActivePatientId(patientId);
+  return patientId;
 }
 
-export function loadLS(id) {
-  const drafts = getDrafts();
-  const rec = drafts[id];
+export function loadPatient(id) {
+  const patients = getPatients();
+  const rec = patients[id];
   if (!rec) return null;
   const d = rec.data;
   return d && d.version !== undefined ? d.data : d;
 }
 
-export function deleteLS(id) {
-  const drafts = getDrafts();
-  if (drafts[id]) {
-    delete drafts[id];
-    setDrafts(drafts);
-    updateDraftSelect();
+export function deletePatient(id) {
+  const patients = getPatients();
+  if (patients[id]) {
+    delete patients[id];
+    setPatients(patients);
+    updatePatientSelect();
+    if (getActivePatientId() === id) setActivePatientId('');
   }
 }
 
-export function renameLS(id, newName) {
-  const drafts = getDrafts();
-  if (drafts[id]) {
-    drafts[id].name = newName;
-    setDrafts(drafts);
-    updateDraftSelect(id);
+export function renamePatient(id, newName) {
+  const patients = getPatients();
+  if (patients[id]) {
+    patients[id].name = newName;
+    setPatients(patients);
+    updatePatientSelect(id);
   }
 }
 
-export function updateDraftSelect(selectedId) {
+export function updatePatientSelect(selectedId) {
   const inputs = dom.getInputs();
   const sel = inputs.draftSelect;
   if (!sel) return;
   sel.innerHTML = '';
   const filterVal =
     document.getElementById('draftFilter')?.value.toLowerCase() || '';
-  const drafts = getDrafts();
+  const patients = getPatients();
   const opt0 = document.createElement('option');
   opt0.value = '';
   opt0.textContent = '—';
   sel.appendChild(opt0);
-  Object.entries(drafts)
+  Object.entries(patients)
     .filter(([, d]) => d.name.toLowerCase().includes(filterVal))
     .forEach(([id, d]) => {
       const opt = document.createElement('option');
@@ -242,4 +261,13 @@ export function updateDraftSelect(selectedId) {
       sel.appendChild(opt);
     });
   if (selectedId) sel.value = selectedId;
+}
+
+export function getActivePatientId() {
+  return localStorage.getItem(ACTIVE_PATIENT_KEY);
+}
+
+export function setActivePatientId(id) {
+  if (id) localStorage.setItem(ACTIVE_PATIENT_KEY, id);
+  else localStorage.removeItem(ACTIVE_PATIENT_KEY);
 }

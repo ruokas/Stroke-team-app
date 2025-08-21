@@ -9,14 +9,16 @@ import { initArrival } from './arrival.js';
 import { initActivation } from './activation.js';
 import { autoSetContraDecision } from './decision.js';
 import {
-  saveLS,
-  loadLS,
-  renameLS,
-  deleteLS,
+  savePatient,
+  loadPatient,
+  renamePatient,
+  deletePatient,
   getPayload,
   setPayload,
-  updateDraftSelect,
-  getDrafts,
+  updatePatientSelect,
+  getPatients,
+  getActivePatientId,
+  setActivePatientId,
 } from './storage.js';
 import { addPatient, switchPatient } from './patients.js';
 
@@ -46,7 +48,7 @@ function bind() {
   const patientSelect = $('#patientSelect');
   const patientIds = [];
 
-  const updatePatientSelect = (selectedId) => {
+  const refreshPatientSelect = (selectedId) => {
     if (!patientSelect) return;
     patientSelect.innerHTML = '';
     patientIds.forEach((id, idx) => {
@@ -64,7 +66,7 @@ function bind() {
 
   const firstId = addPatient();
   patientIds.push(firstId);
-  updatePatientSelect(firstId);
+  refreshPatientSelect(firstId);
   const header = document.querySelector('header');
   const setHeaderHeight = () =>
     document.documentElement.style.setProperty(
@@ -237,8 +239,12 @@ function bind() {
   const draftFilter = document.getElementById('draftFilter');
   if (draftFilter)
     draftFilter.addEventListener('input', () =>
-      updateDraftSelect(inputs.draftSelect.value),
+      updatePatientSelect(inputs.draftSelect.value),
     );
+
+  inputs.draftSelect?.addEventListener('change', () => {
+    setActivePatientId(inputs.draftSelect.value);
+  });
 
   $('#saveBtn').addEventListener('click', async () => {
     const existing = inputs.draftSelect.value;
@@ -248,7 +254,7 @@ function bind() {
         'Juodraščio pavadinimas?',
         inputs.nih0.value || 'Juodraštis',
       );
-    const id = saveLS(existing || undefined, name);
+    const id = savePatient(existing || undefined, name);
     inputs.draftSelect.value = id;
     showToast('Išsaugota naršyklėje.', { type: 'success' });
     updateSaveStatus();
@@ -260,7 +266,7 @@ function bind() {
       showToast('Pasirinkite juodraštį.');
       return;
     }
-    const p = loadLS(id);
+    const p = loadPatient(id);
     if (p) {
       setPayload(p);
       showToast('Atkurta iš naršyklės.', { type: 'success' });
@@ -273,12 +279,12 @@ function bind() {
       showToast('Pasirinkite juodraštį.');
       return;
     }
-    const drafts = getDrafts();
+    const patients = getPatients();
     const newName = await promptModal(
       'Naujas pavadinimas',
-      drafts[id]?.name || '',
+      patients[id]?.name || '',
     );
-    if (newName) renameLS(id, newName);
+    if (newName) renamePatient(id, newName);
   });
   $('#deleteDraftBtn').addEventListener('click', async () => {
     const id = inputs.draftSelect.value;
@@ -287,7 +293,7 @@ function bind() {
       return;
     }
     if (await confirmModal('Ištrinti juodraštį?')) {
-      deleteLS(id);
+      deletePatient(id);
       inputs.draftSelect.value = '';
     }
   });
@@ -374,7 +380,7 @@ function bind() {
   $('#newPatientBtn').addEventListener('click', () => {
     const id = addPatient();
     patientIds.push(id);
-    updatePatientSelect(id);
+    refreshPatientSelect(id);
   });
 
   // Autosave
@@ -384,7 +390,7 @@ function bind() {
   document.addEventListener('input', () => {
     dirty = true;
     if (state.autosave === 'on' && inputs.draftSelect.value) {
-      saveLS(inputs.draftSelect.value);
+      savePatient(inputs.draftSelect.value);
       updateSaveStatus();
       dirty = false;
     }
@@ -407,7 +413,7 @@ function bind() {
   updateAge();
   initActivation();
   initArrival();
-  updateDraftSelect();
+  updatePatientSelect(getActivePatientId());
   // Apply initial section visibility only after successful setup
   activateFromHash();
 }

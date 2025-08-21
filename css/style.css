@@ -739,6 +739,17 @@ section[data-tab='Intervencijos'] h3 {
   transform: translateY(10px);
 }
 
+.info-box {
+  background: var(--card);
+  border: 1px solid var(--line);
+  padding: 10px 16px;
+  border-radius: 6px;
+}
+
+.info-box:empty {
+  display: none;
+}
+
 .toast-close {
   position: absolute;
   top: 4px;

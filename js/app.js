@@ -1,4 +1,4 @@
-import { $, $$, state, getInputs } from './state.js';
+import { $, $$, getInputs } from './state.js';
 import { setNow } from './time.js';
 import { updateDrugDefaults, calcDrugs } from './drugs.js';
 import { collectSummaryData, summaryTemplate, copySummary } from './summary.js';
@@ -8,19 +8,16 @@ import { updateAge } from './age.js';
 import { initArrival } from './arrival.js';
 import { initActivation } from './activation.js';
 import { autoSetContraDecision } from './decision.js';
+import { savePatient, getPatients as getSavedPatients } from './storage.js';
 import {
-  savePatient,
-  loadPatient,
+  addPatient,
+  switchPatient,
+  removePatient,
   renamePatient,
-  deletePatient,
-  getPayload,
-  setPayload,
-  updatePatientSelect,
-  getPatients,
+  getActivePatient,
   getActivePatientId,
-  setActivePatientId,
-} from './storage.js';
-import { addPatient, switchPatient, getActivePatient } from './patients.js';
+  getPatients,
+} from './patients.js';
 
 function initNIHSS() {
   $$('.nihss-calc').forEach((calc) => {
@@ -46,15 +43,14 @@ function bind() {
   const inputs = getInputs();
   let dirty = false;
   const patientSelect = $('#patientSelect');
-  const patientIds = [];
-
   const refreshPatientSelect = (selectedId) => {
     if (!patientSelect) return;
     patientSelect.innerHTML = '';
-    patientIds.forEach((id, idx) => {
+    const pats = getPatients();
+    Object.entries(pats).forEach(([id, p], idx) => {
       const opt = document.createElement('option');
       opt.value = id;
-      opt.textContent = `Pacientas ${idx + 1}`;
+      opt.textContent = p.name || `Pacientas ${idx + 1}`;
       patientSelect.appendChild(opt);
     });
     if (selectedId) patientSelect.value = selectedId;
@@ -62,10 +58,11 @@ function bind() {
 
   patientSelect?.addEventListener('change', () => {
     switchPatient(patientSelect.value);
+    refreshPatientSelect(patientSelect.value);
+    updateSaveStatus();
   });
 
   const firstId = addPatient();
-  patientIds.push(firstId);
   refreshPatientSelect(firstId);
   const header = document.querySelector('header');
   const setHeaderHeight = () =>
@@ -242,100 +239,51 @@ function bind() {
   // Save/Load/Export/Import
   const saveStatus = document.getElementById('saveStatus');
   const updateSaveStatus = () => {
-    const t = new Date().toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-    saveStatus.textContent = `Išsaugota ${t}`;
+    const id = getActivePatientId();
+    const rec = getSavedPatients()[id];
+    if (!rec) {
+      saveStatus.textContent = '';
+      return;
+    }
+    const diff = Date.now() - new Date(rec.lastUpdated).getTime();
+    const mins = Math.floor(diff / 60000);
+    const ago = mins < 1 ? 'just now' : `${mins}m ago`;
+    saveStatus.textContent = `${rec.name} saved ${ago}`;
   };
 
-  const draftFilter = document.getElementById('draftFilter');
-  if (draftFilter)
-    draftFilter.addEventListener('input', () =>
-      updatePatientSelect(inputs.draftSelect.value),
-    );
-
-  inputs.draftSelect?.addEventListener('change', () => {
-    setActivePatientId(inputs.draftSelect.value);
-  });
-
-  $('#saveBtn').addEventListener('click', async () => {
-    const existing = inputs.draftSelect.value;
-    let name = null;
-    if (!existing)
-      name = await promptModal(
-        'Juodraščio pavadinimas?',
-        inputs.nih0.value || 'Juodraštis',
-      );
-    const id = savePatient(existing || undefined, name);
-    inputs.draftSelect.value = id;
+  $('#saveBtn').addEventListener('click', () => {
+    const id = getActivePatientId();
+    if (!id) return;
+    savePatient(id);
     showToast('Išsaugota naršyklėje.', { type: 'success' });
     updateSaveStatus();
     dirty = false;
   });
-  $('#loadBtn').addEventListener('click', () => {
-    const id = inputs.draftSelect.value;
-    if (!id) {
-      showToast('Pasirinkite juodraštį.');
-      return;
-    }
-    const p = loadPatient(id);
-    if (p) {
-      setPayload(p);
-      showToast('Atkurta iš naršyklės.', { type: 'success' });
-      dirty = false;
-    } else showToast('Nėra išsaugoto įrašo.', { type: 'error' });
-  });
-  $('#renameDraftBtn').addEventListener('click', async () => {
-    const id = inputs.draftSelect.value;
-    if (!id) {
-      showToast('Pasirinkite juodraštį.');
-      return;
-    }
-    const patients = getPatients();
+
+  $('#renamePatientBtn').addEventListener('click', async () => {
+    const id = getActivePatientId();
+    if (!id) return;
+    const pats = getPatients();
     const newName = await promptModal(
       'Naujas pavadinimas',
-      patients[id]?.name || '',
+      pats[id]?.name || '',
     );
-    if (newName) renamePatient(id, newName);
-  });
-  $('#deleteDraftBtn').addEventListener('click', async () => {
-    const id = inputs.draftSelect.value;
-    if (!id) {
-      showToast('Pasirinkite juodraštį.');
-      return;
-    }
-    if (await confirmModal('Ištrinti juodraštį?')) {
-      deletePatient(id);
-      inputs.draftSelect.value = '';
+    if (newName) {
+      renamePatient(id, newName);
+      refreshPatientSelect(id);
+      savePatient(id, newName);
+      updateSaveStatus();
     }
   });
-  $('#exportBtn').addEventListener('click', () => {
-    const data = JSON.stringify(getPayload(), null, 2);
-    const blob = new Blob([data], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `insulto_pacientas_${Date.now()}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-  });
-  $('#importBtn').addEventListener('click', () => $('#importFile').click());
-  $('#importFile').addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      try {
-        const p = JSON.parse(reader.result);
-        setPayload(p);
-        showToast('Importuota.', { type: 'success' });
-      } catch (err) {
-        showToast('Klaida skaitant JSON.', { type: 'error' });
-      }
-      e.target.value = '';
-    };
-    reader.readAsText(file);
+
+  $('#deletePatientBtn').addEventListener('click', async () => {
+    const id = getActivePatientId();
+    if (!id) return;
+    if (await confirmModal('Ištrinti pacientą?')) {
+      removePatient(id);
+      refreshPatientSelect(getActivePatientId());
+      updateSaveStatus();
+    }
   });
 
   // Navigation
@@ -400,18 +348,15 @@ function bind() {
   // New patient
   $('#newPatientBtn').addEventListener('click', () => {
     const id = addPatient();
-    patientIds.push(id);
     refreshPatientSelect(id);
+    updateSaveStatus();
   });
 
-  // Autosave
-  inputs.autosave.addEventListener('change', (e) => {
-    state.autosave = e.target.value;
-  });
-  document.addEventListener('input', () => {
+  const handleChange = () => {
     dirty = true;
-    if (state.autosave === 'on' && inputs.draftSelect.value) {
-      savePatient(inputs.draftSelect.value);
+    const id = getActivePatientId();
+    if (id) {
+      savePatient(id);
       updateSaveStatus();
       dirty = false;
     }
@@ -424,10 +369,9 @@ function bind() {
         patient.summary = text;
       }
     }
-  });
-  document.addEventListener('change', () => {
-    dirty = true;
-  });
+  };
+  document.addEventListener('input', handleChange);
+  document.addEventListener('change', handleChange);
 
   window.addEventListener('beforeunload', (e) => {
     if (dirty) {
@@ -442,7 +386,7 @@ function bind() {
   updateAge();
   initActivation();
   initArrival();
-  updatePatientSelect(getActivePatientId());
+  updateSaveStatus();
   // Apply initial section visibility only after successful setup
   activateFromHash();
 }

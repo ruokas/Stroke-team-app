@@ -109,12 +109,17 @@ function bind() {
         const entry = document.createElement('div');
         entry.className = 'bp-entry mt-10';
         const id = `bp_time_${Date.now()}`;
-        entry.innerHTML = `<strong>${med}</strong><div class="grid-3 mt-5"><div class="input-group"><input type="time" id="${id}" class="time-input" step="60" value="${now}" /><button class="btn ghost" data-now="${id}">Dabar</button></div><input type="text" value="${dose}" /><input type="text" placeholder="Pastabos" /></div>`;
+        entry.innerHTML = `<strong>${med}</strong><div class="grid-3 mt-5"><div class="input-group"><input type="time" id="${id}" class="time-input" step="60" value="${now}" /><button class="btn ghost" data-picker="${id}" aria-label="Pasirinkti laiką">⌚</button><button class="btn ghost" data-now="${id}">Dabar</button></div><input type="text" value="${dose}" /><input type="text" placeholder="Pastabos" /></div>`;
         bpEntries.appendChild(entry);
         bpMedList.classList.add('hidden');
         entry
           .querySelector(`[data-now="${id}"]`)
           .addEventListener('click', () => setNow(id));
+        entry
+          .querySelector(`[data-picker="${id}"]`)
+          .addEventListener('click', () =>
+            document.getElementById(id)?.showPicker(),
+          );
       });
     });
   }

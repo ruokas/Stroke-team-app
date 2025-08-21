@@ -240,7 +240,7 @@ select {
 
 input[type='date'],
 input[type='datetime-local'] {
-  padding-right: 2.5rem;
+  padding-right: 5rem;
 }
 
 input[type='text']:focus-visible,
@@ -268,11 +268,18 @@ textarea {
 
 .input-group button {
   position: absolute;
-  right: 8px;
   top: 50%;
   transform: translateY(-50%);
   min-width: 2.5rem;
   padding: 4px 6px;
+}
+
+.input-group button:last-of-type {
+  right: 8px;
+}
+
+.input-group button:nth-last-of-type(2) {
+  right: calc(2.5rem + 16px);
 }
 
 input[type='date']::-webkit-calendar-picker-indicator,
@@ -290,6 +297,7 @@ input[type='datetime-local']::-webkit-calendar-picker-indicator:hover {
 .time-input {
   width: 100%;
   padding: 9px 10px;
+  padding-right: 5rem;
   border: 1px solid var(--line);
   border-radius: 10px;
   background: #0f1620;

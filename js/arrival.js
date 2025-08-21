@@ -7,7 +7,7 @@ export function computeArrivalMessage({ lkwType, lkwValue, doorValue }) {
   }
   if (!lkwValue || !doorValue) return '';
   const diff = (new Date(doorValue) - new Date(lkwValue)) / 36e5;
-  if (!isFinite(diff)) return '';
+  if (!isFinite(diff) || diff < 0) return '';
   if (diff <= 4.5) {
     return 'Indikuotina trombolizė / trombektomija.';
   }

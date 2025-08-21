@@ -54,3 +54,12 @@ test('over 9 hours', () => {
     'Trombolizė kontraindikuotina, bet gali būti taikoma trombektomija.',
   );
 });
+
+test('negative diff returns empty message', () => {
+  const msg = computeArrivalMessage({
+    lkwType: 'known',
+    lkwValue: '2024-01-01T10:00',
+    doorValue: '2024-01-01T09:00',
+  });
+  assert.equal(msg, '');
+});

@@ -55,6 +55,15 @@ test('over 9 hours', () => {
   );
 });
 
+test('over 24 hours', () => {
+  const msg = computeArrivalMessage({
+    lkwType: 'known',
+    lkwValue: '2024-01-01T00:00',
+    doorValue: '2024-01-02T01:00',
+  });
+  assert.equal(msg, 'Reperfuzinis gydymas neindikuotinas.');
+});
+
 test('negative diff returns empty message', () => {
   const msg = computeArrivalMessage({
     lkwType: 'known',

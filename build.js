@@ -11,6 +11,7 @@ function timeInput(id, wrapperId = '', wrapperClass = 'row') {
   <div class="input-group">
     <input
       id="${id}"
+      class="time-input"
       type="datetime-local"
       placeholder="YYYY-MM-DD HH:MM"
       step="60"

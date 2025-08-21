@@ -85,10 +85,11 @@ export function getPayload() {
     a_dob: inputs.a_dob?.value || '',
     a_age: inputs.a_age?.value || '',
     a_sym_face: getRadioValue(inputs.a_sym_face || []),
-    a_sym_arm: getRadioValue(inputs.a_sym_arm || []),
     a_sym_speech: getRadioValue(inputs.a_sym_speech || []),
-    a_sym_balance: getRadioValue(inputs.a_sym_balance || []),
-    a_sym_conscious: getRadioValue(inputs.a_sym_conscious || []),
+    a_sym_commands: getRadioValue(inputs.a_sym_commands || []),
+    a_sym_arm: getRadioValue(inputs.a_sym_arm || []),
+    a_sym_leg: getRadioValue(inputs.a_sym_leg || []),
+    a_sym_gaze: getRadioValue(inputs.a_sym_gaze || []),
     a_drug_warfarin: inputs.a_warfarin?.checked || false,
     a_drug_apixaban: inputs.a_apixaban?.checked || false,
     a_drug_rivaroxaban: inputs.a_rivaroxaban?.checked || false,
@@ -145,14 +146,16 @@ export function setPayload(p) {
   updateAge();
   if (inputs.a_sym_face)
     setRadioValue(inputs.a_sym_face, payload.a_sym_face || '');
-  if (inputs.a_sym_arm)
-    setRadioValue(inputs.a_sym_arm, payload.a_sym_arm || '');
   if (inputs.a_sym_speech)
     setRadioValue(inputs.a_sym_speech, payload.a_sym_speech || '');
-  if (inputs.a_sym_balance)
-    setRadioValue(inputs.a_sym_balance, payload.a_sym_balance || '');
-  if (inputs.a_sym_conscious)
-    setRadioValue(inputs.a_sym_conscious, payload.a_sym_conscious || '');
+  if (inputs.a_sym_commands)
+    setRadioValue(inputs.a_sym_commands, payload.a_sym_commands || '');
+  if (inputs.a_sym_arm)
+    setRadioValue(inputs.a_sym_arm, payload.a_sym_arm || '');
+  if (inputs.a_sym_leg)
+    setRadioValue(inputs.a_sym_leg, payload.a_sym_leg || '');
+  if (inputs.a_sym_gaze)
+    setRadioValue(inputs.a_sym_gaze, payload.a_sym_gaze || '');
   if (inputs.a_warfarin) inputs.a_warfarin.checked = !!payload.a_drug_warfarin;
   if (inputs.a_apixaban) inputs.a_apixaban.checked = !!payload.a_drug_apixaban;
   if (inputs.a_rivaroxaban)

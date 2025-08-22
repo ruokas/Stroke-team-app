@@ -1,9 +1,10 @@
 import fs from 'fs';
 import path from 'path';
 
-function actionButton(id, title, icon, label, classes = '') {
+function actionButton(id, title, icon, label, classes = '', attrs = '') {
   const cls = classes ? `btn ${classes}` : 'btn';
-  return `<button id="${id}"${title ? ` title="${title}"` : ''} class="${cls}">${icon} <span class="btn-label">${label}</span></button>`;
+  const attr = attrs ? ` ${attrs}` : '';
+  return `<button id="${id}"${title ? ` title="${title}"` : ''} class="${cls}"${attr}>${icon} <span class="btn-label">${label}</span></button>`;
 }
 
 function timeInput(id, wrapperId = '', wrapperClass = 'row') {

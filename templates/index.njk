@@ -5,7 +5,7 @@
   <div id="toastContainer" class="toast-container"></div>
   {% include "partials/header.njk" %}
   <div class="wrap layout-main">
-    {{ macros.actionButton('navToggle', '', '☰', 'Meniu') }}
+    {{ macros.actionButton('navToggle', '', '☰', 'Meniu', '', 'aria-expanded="false" aria-controls="mainNav"') }}
     {% include "partials/nav.njk" %}
     <main class="px-0">
       {% include "sections/activation.njk" %}

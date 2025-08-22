@@ -289,6 +289,7 @@ function bind() {
   // Navigation
   const tabs = $$('nav .tab');
   const sections = $$('main > section');
+  const navToggle = $('#navToggle');
   const showSection = (id) => {
     sections.forEach((s) => {
       const active = s.id === id;
@@ -314,13 +315,15 @@ function bind() {
     if (id === 'decision' && inputs.d_time && !inputs.d_time.value)
       setNow('d_time');
     document.body.classList.remove('nav-open');
+    navToggle.setAttribute('aria-expanded', 'false');
   };
   const activateFromHash = () => {
     const id = location.hash.slice(1) || tabs[0]?.dataset.section;
     if (id) showSection(id);
   };
-  $('#navToggle').addEventListener('click', () => {
-    document.body.classList.toggle('nav-open');
+  navToggle.addEventListener('click', () => {
+    const open = document.body.classList.toggle('nav-open');
+    navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
   });
   tabs.forEach((tab, index) => {
     tab.addEventListener('click', (e) => {

@@ -1,5 +1,5 @@
-{% macro actionButton(id, title, icon, label, classes='') %}
-<button id="{{ id }}"{% if title %} title="{{ title }}"{% endif %} class="btn{% if classes %} {{ classes }}{% endif %}">{{ icon }} <span class="btn-label">{{ label }}</span></button>
+{% macro actionButton(id, title, icon, label, classes='', attrs='') %}
+<button id="{{ id }}"{% if title %} title="{{ title }}"{% endif %} class="btn{% if classes %} {{ classes }}{% endif %}" {{ attrs|safe }}>{{ icon }} <span class="btn-label">{{ label }}</span></button>
 {% endmacro %}
 
 {% macro timeInput(id, wrapperId='', wrapperClass='row') %}

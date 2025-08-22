@@ -4,7 +4,7 @@
           <form>
             <fieldset>
               <legend>Atvykimo laikas</legend>
-              {{ macros.timeInput('t_door') }}
+              {{ timeInput('t_door') }}
             </fieldset>
 
             <fieldset>
@@ -23,7 +23,7 @@
                   vidurio laikas</label
                 >
               </div>
-              {{ macros.timeInput('t_lkw', 'lkwTimeRow', 'row mt-4') }}
+              {{ timeInput('t_lkw', 'lkwTimeRow', 'row mt-4') }}
             </fieldset>
 
             <div id="arrival_info" class="info-box mt-10"></div>

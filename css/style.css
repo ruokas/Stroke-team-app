@@ -228,6 +228,31 @@ nav .tab:focus-visible {
 .tab-icon {
   width: 1.5rem;
 }
+
+@media (max-width: 768px) {
+  .layout-main {
+    display: block;
+  }
+  #navToggle {
+    display: inline-flex;
+    margin-bottom: 12px;
+  }
+  nav {
+    display: none;
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    right: 0;
+    background: #152231;
+    padding: 12px;
+    z-index: 1000;
+    max-height: calc(100vh - var(--header-height));
+    overflow-y: auto;
+  }
+  body.nav-open nav {
+    display: block;
+  }
+}
 section.card {
   background: rgba(18, 26, 36, 0.6);
   backdrop-filter: blur(10px);

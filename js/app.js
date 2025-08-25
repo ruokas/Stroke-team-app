@@ -17,6 +17,7 @@ import {
   renamePatient,
   getActivePatient,
   getActivePatientId,
+  updateActivePatient,
   getPatients,
 } from './patients.js';
 
@@ -387,12 +388,8 @@ function bind() {
 
   const handleChange = () => {
     dirty = true;
+    updateActivePatient();
     const id = getActivePatientId();
-    if (id) {
-      savePatient(id);
-      updateSaveStatus();
-      dirty = false;
-    }
     if (!$('#summarySec').classList.contains('hidden')) {
       const patient = getActivePatient();
       if (patient) {
@@ -401,6 +398,11 @@ function bind() {
         inputs.summary.value = text;
         patient.summary = text;
       }
+    }
+    if (id) {
+      savePatient(id);
+      updateSaveStatus();
+      dirty = false;
     }
   };
   document.addEventListener('input', handleChange);

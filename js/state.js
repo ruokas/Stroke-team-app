@@ -38,6 +38,7 @@ export const getAPersonalInput = () => $('#a_personal');
 export const getANameInput = () => $('#a_name');
 export const getADobInput = () => $('#a_dob');
 export const getAAgeInput = () => $('#a_age');
+export const getAGmpTimeInput = () => $('#a_gmp_time');
 export const getASymFaceInputs = () => $$('input[name="a_face"]');
 export const getASymSpeechInputs = () => $$('input[name="a_speech"]');
 export const getASymCommandsInputs = () => $$('input[name="a_commands"]');
@@ -91,6 +92,7 @@ export function getInputs() {
     a_name: getANameInput(),
     a_dob: getADobInput(),
     a_age: getAAgeInput(),
+    a_gmp_time: getAGmpTimeInput(),
     a_sym_face: getASymFaceInputs(),
     a_sym_speech: getASymSpeechInputs(),
     a_sym_commands: getASymCommandsInputs(),

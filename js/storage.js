@@ -132,6 +132,7 @@ export function getPayload() {
     a_hr: inputs.a_hr?.value || '',
     a_spo2: inputs.a_spo2?.value || '',
     a_temp: inputs.a_temp?.value || '',
+    a_gmp_time: inputs.a_gmp_time?.value || '',
     bp_meds,
   };
 }
@@ -225,6 +226,7 @@ export function setPayload(p) {
   if (inputs.a_hr) inputs.a_hr.value = payload.a_hr || '';
   if (inputs.a_spo2) inputs.a_spo2.value = payload.a_spo2 || '';
   if (inputs.a_temp) inputs.a_temp.value = payload.a_temp || '';
+  if (inputs.a_gmp_time) inputs.a_gmp_time.value = payload.a_gmp_time || '';
   const bpContainer = document.getElementById('bpEntries');
   if (bpContainer) {
     bpContainer.innerHTML = '';

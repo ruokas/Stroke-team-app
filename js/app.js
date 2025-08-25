@@ -1,5 +1,6 @@
 import { $, $$, getInputs } from './state.js';
 import { setNow, triggerChange, sleepMidpoint } from './time.js';
+import { openTimePicker } from './timePicker.js';
 import { updateDrugDefaults, calcDrugs } from './drugs.js';
 import { collectSummaryData, summaryTemplate, copySummary } from './summary.js';
 import { showToast } from './toast.js';
@@ -79,10 +80,12 @@ function bind() {
   );
 
   // Date picker buttons
-  $$('button[data-picker]').forEach((b) =>
+  $$('button[data-time-picker]').forEach((b) =>
     b.addEventListener('click', () => {
-      const target = document.getElementById(b.getAttribute('data-picker'));
-      target?.showPicker?.();
+      const target = document.getElementById(
+        b.getAttribute('data-time-picker'),
+      );
+      openTimePicker(target);
     }),
   );
 
@@ -161,16 +164,16 @@ function bind() {
         const entry = document.createElement('div');
         entry.className = 'bp-entry mt-10';
         const id = `bp_time_${Date.now()}`;
-        entry.innerHTML = `<strong>${med}</strong><div class="grid-3 mt-5"><div class="input-group"><input type="time" id="${id}" class="time-input" step="60" value="${now}" /><button class="btn ghost" data-picker="${id}" aria-label="Pasirinkti laiką">⌚</button><button class="btn ghost" data-now="${id}">Dabar</button><button class="btn ghost" data-stepdown="${id}" aria-label="−5 min">−5</button><button class="btn ghost" data-stepup="${id}" aria-label="+5 min">+5</button></div><input type="text" value="${dose}" /><input type="text" placeholder="Pastabos" /></div>`;
+        entry.innerHTML = `<strong>${med}</strong><div class="grid-3 mt-5"><div class="input-group"><input type="time" id="${id}" class="time-input" step="60" value="${now}" /><button class="btn ghost" data-time-picker="${id}" aria-label="Pasirinkti laiką">⌚</button><button class="btn ghost" data-now="${id}">Dabar</button><button class="btn ghost" data-stepdown="${id}" aria-label="−5 min">−5</button><button class="btn ghost" data-stepup="${id}" aria-label="+5 min">+5</button></div><input type="text" value="${dose}" /><input type="text" placeholder="Pastabos" /></div>`;
         bpEntries.appendChild(entry);
         bpMedList.classList.add('hidden');
         entry
           .querySelector(`[data-now="${id}"]`)
           .addEventListener('click', () => setNow(id));
         entry
-          .querySelector(`[data-picker="${id}"]`)
+          .querySelector(`[data-time-picker="${id}"]`)
           .addEventListener('click', () =>
-            document.getElementById(id)?.showPicker?.(),
+            openTimePicker(document.getElementById(id)),
           );
         entry
           .querySelector(`[data-stepup="${id}"]`)

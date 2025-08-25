@@ -1,5 +1,5 @@
 import { $, $$, getInputs } from './state.js';
-import { setNow } from './time.js';
+import { setNow, triggerChange, sleepMidpoint } from './time.js';
 import { updateDrugDefaults, calcDrugs } from './drugs.js';
 import { collectSummaryData, summaryTemplate, copySummary } from './summary.js';
 import { showToast } from './toast.js';
@@ -211,13 +211,27 @@ function bind() {
   // LKW option handling
   const lkwOptions = inputs.lkw_type;
   const lkwRow = $('#lkwTimeRow');
+  const sleepRow = $('#sleepTimeRow');
+  const updateSleepMid = () => {
+    const val = sleepMidpoint(inputs.sleep_start.value, inputs.sleep_end.value);
+    inputs.lkw.value = val;
+    if (val) triggerChange(inputs.lkw);
+  };
+  inputs.sleep_start?.addEventListener('input', updateSleepMid);
+  inputs.sleep_end?.addEventListener('input', updateSleepMid);
   const updateLKW = () => {
     const val = lkwOptions.find((o) => o.checked)?.value;
     if (val === 'unknown') {
       lkwRow.classList.add('hidden');
+      sleepRow.classList.add('hidden');
       inputs.lkw.value = '';
+    } else if (val === 'sleep') {
+      lkwRow.classList.add('hidden');
+      sleepRow.classList.remove('hidden');
+      updateSleepMid();
     } else {
       lkwRow.classList.remove('hidden');
+      sleepRow.classList.add('hidden');
     }
   };
   lkwOptions.forEach((o) => o.addEventListener('change', updateLKW));

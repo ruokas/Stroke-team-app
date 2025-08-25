@@ -20,3 +20,13 @@ export function setNow(id) {
   }
   triggerChange(el);
 }
+
+export function sleepMidpoint(start, end) {
+  if (!start || !end) return '';
+  const s = new Date(start);
+  let e = new Date(end);
+  if (isNaN(s) || isNaN(e)) return '';
+  if (e < s) e = new Date(e.getTime() + 864e5);
+  const mid = new Date((s.getTime() + e.getTime()) / 2);
+  return toLocalInputValue(mid);
+}

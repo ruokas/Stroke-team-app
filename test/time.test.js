@@ -36,3 +36,10 @@ test('setNow sets local HH:MM and triggers change', async () => {
 
   global.Date = RealDate;
 });
+
+test('sleepMidpoint computes midpoint across midnight', async () => {
+  const { sleepMidpoint } = await import('../js/time.js');
+  const start = '2024-01-01T22:00';
+  const end = '2024-01-02T06:00';
+  assert.equal(sleepMidpoint(start, end), '2024-01-02T02:00');
+});

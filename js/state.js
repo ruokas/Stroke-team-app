@@ -16,6 +16,8 @@ export const getDoorInput = () => $('#t_door');
 export const getDTimeInput = () => $('#d_time');
 export const getDDecisionInputs = () => $$('input[name="d_decision"]');
 export const getLkwTypeInputs = () => $$('input[name="lkw_type"]');
+export const getSleepStartInput = () => $('#t_sleep_start');
+export const getSleepEndInput = () => $('#t_sleep_end');
 export const getArrivalSymptomsInput = () => $('#arrival_symptoms');
 export const getArrivalContraInputs = () => $$('input[name="arrival_contra"]');
 export const getArrivalMtContraInputs = () =>
@@ -63,6 +65,8 @@ export function getInputs() {
     inr: getInrInput(),
     nih0: getNih0Input(),
     lkw: getLkwInput(),
+    sleep_start: getSleepStartInput(),
+    sleep_end: getSleepEndInput(),
     door: getDoorInput(),
     d_time: getDTimeInput(),
     d_decision: getDDecisionInputs(),

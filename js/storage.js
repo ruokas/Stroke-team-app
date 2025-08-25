@@ -84,6 +84,8 @@ export function getPayload() {
     p_nihss0: inputs.nih0?.value || '',
     nihs_initial: inputs.nih0?.value || '',
     t_lkw: inputs.lkw?.value || '',
+    t_sleep_start: inputs.sleep_start?.value || '',
+    t_sleep_end: inputs.sleep_end?.value || '',
     t_door: inputs.door?.value || '',
     d_time: inputs.d_time?.value || '',
     d_decision: getRadioValue(inputs.d_decision || []),
@@ -143,6 +145,9 @@ export function setPayload(p) {
   if (inputs.nih0)
     inputs.nih0.value = payload.p_nihss0 || payload.nihs_initial || '';
   if (inputs.lkw) inputs.lkw.value = payload.t_lkw || '';
+  if (inputs.sleep_start)
+    inputs.sleep_start.value = payload.t_sleep_start || '';
+  if (inputs.sleep_end) inputs.sleep_end.value = payload.t_sleep_end || '';
   if (inputs.door) inputs.door.value = payload.t_door || '';
   if (inputs.d_time) inputs.d_time.value = payload.d_time || '';
   if (inputs.d_decision)

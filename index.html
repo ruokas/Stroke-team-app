@@ -7,96 +7,70 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
-    <div id="toastContainer" class="toast-container"></div>
-    <header>
-      <div class="wrap">
-        <div class="brand">
-          <div class="logo" aria-hidden="true"></div>
-          <div>
-            <h1>Insulto komandos forma</h1>
-            <div class="subtle">
-              Skubi duomenų registracija, laikų sekimas, vaistų skaičiuoklės ir
-              santrauka HIS sistemai
-            </div>
-          </div>
-        </div>
-        <div class="header-actions">
-          <select
-            id="patientSelect"
-            title="Pacientai"
-            aria-label="Pacientai"
-            class="btn"
-          ></select>
-          <details class="patient-menu">
-            <summary>⋮</summary>
-            <div class="menu">
-              <button
-                id="renamePatientBtn"
-                title="Pervardyti pacientą"
-                class="btn"
-              >
-                ✏️ <span class="btn-label">Pervardyti</span>
-              </button>
-
-              <button
-                id="deletePatientBtn"
-                title="Ištrinti pacientą"
-                class="btn"
-              >
-                🗑️ <span class="btn-label">Trinti</span>
-              </button>
-            </div>
-          </details>
-
-          <button id="newPatientBtn" title="Naujas pacientas" class="btn">
-            🆕 <span class="btn-label">Naujas</span>
-          </button>
-
-          <button
-            id="saveBtn"
-            title="Išsaugoti vietoje (naršyklėje)"
-            class="btn"
-          >
-            💾 <span class="btn-label">Išsaugoti</span>
-          </button>
+    
+  <div id="toastContainer" class="toast-container"></div>
+  <header>
+  <div class="wrap">
+    <div class="brand">
+      <div>
+        <h1>Insulto komandos forma</h1>
+        <div class="subtle">
+          Skubi duomenų registracija, laikų sekimas, vaistų skaičiuoklės ir
+          santrauka HIS sistemai
         </div>
       </div>
-      <div id="saveStatus" aria-live="polite"></div>
-    </header>
+    </div>
+    <div class="header-actions">
+      <select id="patientSelect" title="Pacientai" aria-label="Pacientai" class="btn"></select>
+      <details class="patient-menu">
+        <summary>⋮</summary>
+        <div class="menu">
+          
+<button id="renamePatientBtn" title="Pervardyti pacientą" class="btn" >✏️ <span class="btn-label">Pervardyti</span></button>
 
-    <div class="wrap layout-main">
-      <button
-        id="navToggle"
-        class="btn"
-        aria-expanded="false"
-        aria-controls="mainNav"
-      >
-        ☰ <span class="btn-label">Meniu</span>
-      </button>
+          
+<button id="deletePatientBtn" title="Ištrinti pacientą" class="btn" >🗑️ <span class="btn-label">Trinti</span></button>
 
-      <nav id="mainNav">
-        <a href="#activation" data-section="activation" class="tab active"
-          ><span class="tab-icon">🚨</span>Aktyvacija</a
-        >
-        <a href="#arrival" data-section="arrival" class="tab"
-          ><span class="tab-icon">🚑</span>Paciento atvykimas</a
-        >
-        <a href="#nihss" data-section="nihss" class="tab"
-          ><span class="tab-icon">🧮</span>NIHSS</a
-        >
-        <a href="#thrombolysis" data-section="thrombolysis" class="tab"
-          ><span class="tab-icon">🩸</span>Pasiruošimas trombolizei</a
-        >
-        <a href="#decision" data-section="decision" class="tab"
-          ><span class="tab-icon">☑️</span>Sprendimas</a
-        >
-        <a href="#summarySec" data-section="summarySec" class="tab"
-          ><span class="tab-icon">📄</span>Santrauka</a
-        >
-      </nav>
+        </div>
+      </details>
+      
+<button id="newPatientBtn" title="Naujas pacientas" class="btn" >🆕 <span class="btn-label">Naujas</span></button>
 
-      <main class="px-0">
-        <section id="activation" class="card">
+      
+<button id="saveBtn" title="Išsaugoti vietoje (naršyklėje)" class="btn" >💾 <span class="btn-label">Išsaugoti</span></button>
+
+    </div>
+  </div>
+  <div id="saveStatus" aria-live="polite"></div>
+</header>
+
+  <div class="wrap layout-main">
+    
+<button id="navToggle" class="btn" aria-expanded="false" aria-controls="mainNav">☰ <span class="btn-label">Meniu</span></button>
+
+    <nav id="mainNav">
+  <a href="#activation" data-section="activation" class="tab active"
+    ><span class="tab-icon">🚨</span>Aktyvacija</a
+  >
+  <a href="#arrival" data-section="arrival" class="tab"
+    ><span class="tab-icon">🚑</span>Paciento atvykimas</a
+  >
+  <a href="#nihss" data-section="nihss" class="tab"
+    ><span class="tab-icon">🧮</span>NIHSS</a
+  >
+  <a href="#thrombolysis" data-section="thrombolysis" class="tab"
+    ><span class="tab-icon">🩸</span>Pasiruošimas trombolizei</a
+  >
+  <a href="#decision" data-section="decision" class="tab"
+    ><span class="tab-icon">☑️</span>Sprendimas</a
+  >
+  <a href="#summarySec" data-section="summarySec" class="tab"
+    ><span class="tab-icon">📄</span>Santrauka</a
+  >
+</nav>
+
+    <main class="px-0">
+              <section id="activation" class="card">
           <h2>Komandos aktyvacija</h2>
           <form>
             <fieldset>
@@ -113,7 +87,11 @@
                 <div>
                   <label for="a_dob">Gimimo data</label>
                   <div class="input-group">
-                    <input id="a_dob" type="date" placeholder="YYYY-MM-DD" />
+                    <input
+                      id="a_dob"
+                      type="date"
+                      placeholder="YYYY-MM-DD"
+                    />
                     <button
                       type="button"
                       class="btn ghost"
@@ -141,11 +119,8 @@
                   sutrikimas</label
                 >
                 <label class="pill"
-                  ><input
-                    id="a_commands"
-                    name="a_commands"
-                    type="checkbox"
-                  />Paliepimų nevykdo</label
+                  ><input id="a_commands" name="a_commands" type="checkbox" />Paliepimų
+                  nevykdo</label
                 >
                 <label class="pill"
                   ><input id="a_arm" name="a_arm" type="checkbox" />Rankos
@@ -238,62 +213,59 @@
           </form>
         </section>
 
-        <!-- Paciento atvykimas -->
+              <!-- Paciento atvykimas -->
         <section id="arrival" class="card hidden">
           <h2>Paciento atvykimas</h2>
-          <div class="arrival-timer">
-            Nuo atvykimo: <span id="door_timer"></span>
-          </div>
-          <div class="arrival-timer">
-            Nuo simptomų pradžios: <span id="onset_timer"></span>
-          </div>
+          <div class="arrival-timer">Nuo atvykimo: <span id="door_timer"></span></div>
+          <div class="arrival-timer">Nuo simptomų pradžios: <span id="onset_timer"></span></div>
           <form>
             <fieldset>
               <legend>Atvykimo laikas</legend>
+              
+<div class="row">
+  <div class="input-group">
+    <input
+      id="t_door"
+      class="time-input"
+      type="datetime-local"
+      placeholder="YYYY-MM-DD HH:MM"
+      step="60"
+    />
+    <button
+      type="button"
+      class="btn ghost"
+      data-time-picker="t_door"
+      aria-label="Pasirinkti datą ir laiką"
+    >
+      📅
+    </button>
+    <button
+      type="button"
+      class="btn ghost"
+      data-now="t_door"
+      aria-label="Dabar"
+    >
+      Dabar
+    </button>
+    <button
+      type="button"
+      class="btn ghost"
+      data-stepdown="t_door"
+      aria-label="−5 min"
+    >
+      −5
+    </button>
+    <button
+      type="button"
+      class="btn ghost"
+      data-stepup="t_door"
+      aria-label="+5 min"
+    >
+      +5
+    </button>
+  </div>
+</div>
 
-              <div class="row">
-                <div class="input-group">
-                  <input
-                    id="t_door"
-                    class="time-input"
-                    type="datetime-local"
-                    placeholder="YYYY-MM-DD HH:MM"
-                    step="60"
-                  />
-                  <button
-                    type="button"
-                    class="btn ghost"
-                    data-time-picker="t_door"
-                    aria-label="Pasirinkti datą ir laiką"
-                  >
-                    📅
-                  </button>
-                  <button
-                    type="button"
-                    class="btn ghost"
-                    data-now="t_door"
-                    aria-label="Dabar"
-                  >
-                    Dabar
-                  </button>
-                  <button
-                    type="button"
-                    class="btn ghost"
-                    data-stepdown="t_door"
-                    aria-label="−5 min"
-                  >
-                    −5
-                  </button>
-                  <button
-                    type="button"
-                    class="btn ghost"
-                    data-stepup="t_door"
-                    aria-label="+5 min"
-                  >
-                    +5
-                  </button>
-                </div>
-              </div>
             </fieldset>
 
             <fieldset>
@@ -312,145 +284,147 @@
                   vidurio laikas</label
                 >
               </div>
-
-              <div class="row mt-4" id="lkwTimeRow">
-                <div class="input-group">
-                  <input
-                    id="t_lkw"
-                    class="time-input"
-                    type="datetime-local"
-                    placeholder="YYYY-MM-DD HH:MM"
-                    step="60"
-                  />
-                  <button
-                    type="button"
-                    class="btn ghost"
-                    data-time-picker="t_lkw"
-                    aria-label="Pasirinkti datą ir laiką"
-                  >
-                    📅
-                  </button>
-                  <button
-                    type="button"
-                    class="btn ghost"
-                    data-now="t_lkw"
-                    aria-label="Dabar"
-                  >
-                    Dabar
-                  </button>
-                  <button
-                    type="button"
-                    class="btn ghost"
-                    data-stepdown="t_lkw"
-                    aria-label="−5 min"
-                  >
-                    −5
-                  </button>
-                  <button
-                    type="button"
-                    class="btn ghost"
-                    data-stepup="t_lkw"
-                    aria-label="+5 min"
-                  >
-                    +5
-                  </button>
-                </div>
-              </div>
+              
+<div class="row mt-4" id="lkwTimeRow">
+  <div class="input-group">
+    <input
+      id="t_lkw"
+      class="time-input"
+      type="datetime-local"
+      placeholder="YYYY-MM-DD HH:MM"
+      step="60"
+    />
+    <button
+      type="button"
+      class="btn ghost"
+      data-time-picker="t_lkw"
+      aria-label="Pasirinkti datą ir laiką"
+    >
+      📅
+    </button>
+    <button
+      type="button"
+      class="btn ghost"
+      data-now="t_lkw"
+      aria-label="Dabar"
+    >
+      Dabar
+    </button>
+    <button
+      type="button"
+      class="btn ghost"
+      data-stepdown="t_lkw"
+      aria-label="−5 min"
+    >
+      −5
+    </button>
+    <button
+      type="button"
+      class="btn ghost"
+      data-stepup="t_lkw"
+      aria-label="+5 min"
+    >
+      +5
+    </button>
+  </div>
+</div>
 
               <div id="sleepTimeRow" class="grid-2 mt-4 hidden">
                 <div>
                   <label for="t_sleep_start">Miego pradžia</label>
+                  
+<div class="">
+  <div class="input-group">
+    <input
+      id="t_sleep_start"
+      class="time-input"
+      type="datetime-local"
+      placeholder="YYYY-MM-DD HH:MM"
+      step="60"
+    />
+    <button
+      type="button"
+      class="btn ghost"
+      data-time-picker="t_sleep_start"
+      aria-label="Pasirinkti datą ir laiką"
+    >
+      📅
+    </button>
+    <button
+      type="button"
+      class="btn ghost"
+      data-now="t_sleep_start"
+      aria-label="Dabar"
+    >
+      Dabar
+    </button>
+    <button
+      type="button"
+      class="btn ghost"
+      data-stepdown="t_sleep_start"
+      aria-label="−5 min"
+    >
+      −5
+    </button>
+    <button
+      type="button"
+      class="btn ghost"
+      data-stepup="t_sleep_start"
+      aria-label="+5 min"
+    >
+      +5
+    </button>
+  </div>
+</div>
 
-                  <div class="">
-                    <div class="input-group">
-                      <input
-                        id="t_sleep_start"
-                        class="time-input"
-                        type="datetime-local"
-                        placeholder="YYYY-MM-DD HH:MM"
-                        step="60"
-                      />
-                      <button
-                        type="button"
-                        class="btn ghost"
-                        data-time-picker="t_sleep_start"
-                        aria-label="Pasirinkti datą ir laiką"
-                      >
-                        📅
-                      </button>
-                      <button
-                        type="button"
-                        class="btn ghost"
-                        data-now="t_sleep_start"
-                        aria-label="Dabar"
-                      >
-                        Dabar
-                      </button>
-                      <button
-                        type="button"
-                        class="btn ghost"
-                        data-stepdown="t_sleep_start"
-                        aria-label="−5 min"
-                      >
-                        −5
-                      </button>
-                      <button
-                        type="button"
-                        class="btn ghost"
-                        data-stepup="t_sleep_start"
-                        aria-label="+5 min"
-                      >
-                        +5
-                      </button>
-                    </div>
-                  </div>
                 </div>
                 <div>
                   <label for="t_sleep_end">Miego pabaiga</label>
+                  
+<div class="">
+  <div class="input-group">
+    <input
+      id="t_sleep_end"
+      class="time-input"
+      type="datetime-local"
+      placeholder="YYYY-MM-DD HH:MM"
+      step="60"
+    />
+    <button
+      type="button"
+      class="btn ghost"
+      data-time-picker="t_sleep_end"
+      aria-label="Pasirinkti datą ir laiką"
+    >
+      📅
+    </button>
+    <button
+      type="button"
+      class="btn ghost"
+      data-now="t_sleep_end"
+      aria-label="Dabar"
+    >
+      Dabar
+    </button>
+    <button
+      type="button"
+      class="btn ghost"
+      data-stepdown="t_sleep_end"
+      aria-label="−5 min"
+    >
+      −5
+    </button>
+    <button
+      type="button"
+      class="btn ghost"
+      data-stepup="t_sleep_end"
+      aria-label="+5 min"
+    >
+      +5
+    </button>
+  </div>
+</div>
 
-                  <div class="">
-                    <div class="input-group">
-                      <input
-                        id="t_sleep_end"
-                        class="time-input"
-                        type="datetime-local"
-                        placeholder="YYYY-MM-DD HH:MM"
-                        step="60"
-                      />
-                      <button
-                        type="button"
-                        class="btn ghost"
-                        data-time-picker="t_sleep_end"
-                        aria-label="Pasirinkti datą ir laiką"
-                      >
-                        📅
-                      </button>
-                      <button
-                        type="button"
-                        class="btn ghost"
-                        data-now="t_sleep_end"
-                        aria-label="Dabar"
-                      >
-                        Dabar
-                      </button>
-                      <button
-                        type="button"
-                        class="btn ghost"
-                        data-stepdown="t_sleep_end"
-                        aria-label="−5 min"
-                      >
-                        −5
-                      </button>
-                      <button
-                        type="button"
-                        class="btn ghost"
-                        data-stepup="t_sleep_end"
-                        aria-label="+5 min"
-                      >
-                        +5
-                      </button>
-                    </div>
-                  </div>
                 </div>
               </div>
             </fieldset>
@@ -459,242 +433,231 @@
 
             <fieldset>
               <legend>Simptomai</legend>
-              <textarea
-                id="arrival_symptoms"
-                rows="3"
-                aria-label="Simptomai"
-              ></textarea>
+              <textarea id="arrival_symptoms" rows="3" aria-label="Simptomai"></textarea>
             </fieldset>
 
             <div class="grid-2 mt-10">
               <details>
-                <summary class="btn toggle">
-                  <span class="icon">▶</span>Kontraindikacijos trombolizei
-                </summary>
+                <summary class="btn toggle"><span class="icon">▶</span>Kontraindikacijos trombolizei</summary>
                 <ul class="contra-list">
-                  <li>
-                    <label class="pill">
-                      <input
-                        type="checkbox"
-                        name="arrival_contra"
-                        value="Netiesioginio veikimo antikoaguliantai (INR ≥1,7)"
-                      />
-                      Pacientas vartoja netiesioginio veikimo antikoaguliantus
-                      (INR ≥1,7)
-                    </label>
-                  </li>
-                  <li>
-                    <label class="pill">
-                      <input
-                        type="checkbox"
-                        name="arrival_contra"
-                        value="Arterijos punkcija nekompresuojamoje vietoje per 7 d."
-                      />
-                      Arterijos punkcija nekompresuojamoje vietoje per
-                      pastarąsias 7 d.
-                    </label>
-                  </li>
-                  <li>
-                    <label class="pill">
-                      <input
-                        type="checkbox"
-                        name="arrival_contra"
-                        value="Didelė operacija ar sunkus sužalojimas per 14 d."
-                      />
-                      Didelė operacija ar sunkus sužalojimas per pastarąsias 14
-                      d.
-                    </label>
-                  </li>
-                  <li>
-                    <label class="pill">
-                      <input
-                        type="checkbox"
-                        name="arrival_contra"
-                        value="Sunki galvos trauma ar insultas per 3 mėn."
-                      />
-                      Sunki galvos trauma ar insultas per paskutinius 3 mėn.
-                    </label>
-                  </li>
-                  <li>
-                    <label class="pill">
-                      <input
-                        type="checkbox"
-                        name="arrival_contra"
-                        value="Ankstesnis intrakranijinis kraujavimas"
-                      />
-                      Ankstesnis intrakranijinis kraujavimas
-                    </label>
-                  </li>
-                  <li>
-                    <label class="pill">
-                      <input
-                        type="checkbox"
-                        name="arrival_contra"
-                        value="Intrakranijinis navikas, AVM ar aneurizma"
-                      />
-                      Intrakranijinis navikas, AVM ar aneurizma
-                    </label>
-                  </li>
-                  <li>
-                    <label class="pill">
-                      <input
-                        type="checkbox"
-                        name="arrival_contra"
-                        value="Ītariama subarachnoidinė hemoragija"
-                      />
-                      Ītariama subarachnoidinė hemoragija
-                    </label>
-                  </li>
-                  <li>
-                    <label class="pill">
-                      <input
-                        type="checkbox"
-                        name="arrival_contra"
-                        value="Lumbalinė punkcija per 7 d."
-                      />
-                      Lumbalinė punkcija per pastarąsias 7 d.
-                    </label>
-                  </li>
-                  <li>
-                    <label class="pill">
-                      <input
-                        type="checkbox"
-                        name="arrival_contra"
-                        value="Trombocitų kiekis <100×10⁹/l"
-                      />
-                      Trombocitų kiekis &lt;100×10⁹/l
-                    </label>
-                  </li>
-                  <li>
-                    <label class="pill">
-                      <input
-                        type="checkbox"
-                        name="arrival_contra"
-                        value="AKS ≥185/110 nepaisant gydymo"
-                      />
-                      AKS ≥185/110 mmHg nepaisant gydymo
-                    </label>
-                  </li>
-                  <li>
-                    <label class="pill">
-                      <input
-                        type="checkbox"
-                        name="arrival_contra"
-                        value="Gliukozė <2,8 arba >22 mmol/l"
-                      />
-                      Gliukozė &lt;2,8 arba &gt;22 mmol/l
-                    </label>
-                  </li>
-                  <li>
-                    <label class="pill">
-                      <input
-                        type="checkbox"
-                        name="arrival_contra"
-                        value="Traukuliai insulto pradžioje"
-                      />
-                      Traukuliai insulto pradžioje
-                    </label>
-                  </li>
-                  <li>
-                    <label class="pill">
-                      <input
-                        type="checkbox"
-                        name="arrival_contra"
-                        value="Aktyvus vidinis kraujavimas"
-                      />
-                      Aktyvus vidinis kraujavimas
-                    </label>
-                  </li>
-                  <li>
-                    <label class="pill">
-                      <input
-                        type="checkbox"
-                        name="arrival_contra"
-                        value="Virškinamojo ar šlapimo takų kraujavimas per 21 d."
-                      />
-                      Virškinamojo ar šlapimo takų kraujavimas per pastarąsias
-                      21 d.
-                    </label>
-                  </li>
-                  <li>
-                    <label class="pill">
-                      <input
-                        type="checkbox"
-                        name="arrival_contra"
-                        value="Nėštumas"
-                      />
-                      Nėštumas
-                    </label>
-                  </li>
-                  <li>
-                    <label class="pill">
-                      <input
-                        type="checkbox"
-                        name="arrival_contra"
-                        value="Infekcinis endokarditas"
-                      />
-                      Infekcinis endokarditas
-                    </label>
-                  </li>
-                  <li>
-                    <label class="pill">
-                      <input
-                        type="checkbox"
-                        name="arrival_contra"
-                        value="Miokardo infarktas per 3 mėn."
-                      />
-                      Miokardo infarktas per paskutinius 3 mėn.
-                    </label>
-                  </li>
-                  <li>
-                    <label class="pill">
-                      <input
-                        type="checkbox"
-                        name="arrival_contra"
-                        value="Heparino vartojimas per 48 h su pailgėjusiu aPTT"
-                      />
-                      Heparino vartojimas per pastarąsias 48 h su pailgėjusiu
-                      aPTT
-                    </label>
-                  </li>
-                  <li>
-                    <label class="pill">
-                      <input
-                        type="checkbox"
-                        name="arrival_contra"
-                        value="Tiesioginiai trombino ar Xa inhibitoriai su patologiniais tyrimais"
-                      />
-                      Tiesioginiai trombino ar Xa inhibitoriai su patologiniais
-                      tyrimais
-                    </label>
-                  </li>
-                  <li>
-                    <label class="pill">
-                      <input
-                        type="checkbox"
-                        name="arrival_contra"
-                        value="KT rodo >1/3 ACM teritorijos pažaidą"
-                      />
-                      KT rodo &gt;1/3 ACM teritorijos pažaidą
-                    </label>
-                  </li>
-                  <li>
-                    <label class="pill">
-                      <input
-                        type="checkbox"
-                        name="arrival_contra"
-                        value="Nekontroliuojama hipertenzija, reikalinga intensyvi terapija"
-                      />
-                      Nekontroliuojama hipertenzija, reikalinga intensyvi
-                      terapija
-                    </label>
-                  </li>
+                <li>
+                  <label class="pill">
+                    <input
+                      type="checkbox"
+                      name="arrival_contra"
+                      value="Netiesioginio veikimo antikoaguliantai (INR ≥1,7)"
+                    />
+                    Pacientas vartoja netiesioginio veikimo antikoaguliantus
+                    (INR ≥1,7)
+                  </label>
+                </li>
+                <li>
+                  <label class="pill">
+                    <input
+                      type="checkbox"
+                      name="arrival_contra"
+                      value="Arterijos punkcija nekompresuojamoje vietoje per 7 d."
+                    />
+                    Arterijos punkcija nekompresuojamoje vietoje per pastarąsias
+                    7 d.
+                  </label>
+                </li>
+                <li>
+                  <label class="pill">
+                    <input
+                      type="checkbox"
+                      name="arrival_contra"
+                      value="Didelė operacija ar sunkus sužalojimas per 14 d."
+                    />
+                    Didelė operacija ar sunkus sužalojimas per pastarąsias 14 d.
+                  </label>
+                </li>
+                <li>
+                  <label class="pill">
+                    <input
+                      type="checkbox"
+                      name="arrival_contra"
+                      value="Sunki galvos trauma ar insultas per 3 mėn."
+                    />
+                    Sunki galvos trauma ar insultas per paskutinius 3 mėn.
+                  </label>
+                </li>
+                <li>
+                  <label class="pill">
+                    <input
+                      type="checkbox"
+                      name="arrival_contra"
+                      value="Ankstesnis intrakranijinis kraujavimas"
+                    />
+                    Ankstesnis intrakranijinis kraujavimas
+                  </label>
+                </li>
+                <li>
+                  <label class="pill">
+                    <input
+                      type="checkbox"
+                      name="arrival_contra"
+                      value="Intrakranijinis navikas, AVM ar aneurizma"
+                    />
+                    Intrakranijinis navikas, AVM ar aneurizma
+                  </label>
+                </li>
+                <li>
+                  <label class="pill">
+                    <input
+                      type="checkbox"
+                      name="arrival_contra"
+                      value="Ītariama subarachnoidinė hemoragija"
+                    />
+                    Ītariama subarachnoidinė hemoragija
+                  </label>
+                </li>
+                <li>
+                  <label class="pill">
+                    <input
+                      type="checkbox"
+                      name="arrival_contra"
+                      value="Lumbalinė punkcija per 7 d."
+                    />
+                    Lumbalinė punkcija per pastarąsias 7 d.
+                  </label>
+                </li>
+                <li>
+                  <label class="pill">
+                    <input
+                      type="checkbox"
+                      name="arrival_contra"
+                      value="Trombocitų kiekis <100×10⁹/l"
+                    />
+                    Trombocitų kiekis &lt;100×10⁹/l
+                  </label>
+                </li>
+                <li>
+                  <label class="pill">
+                    <input
+                      type="checkbox"
+                      name="arrival_contra"
+                      value="AKS ≥185/110 nepaisant gydymo"
+                    />
+                    AKS ≥185/110 mmHg nepaisant gydymo
+                  </label>
+                </li>
+                <li>
+                  <label class="pill">
+                    <input
+                      type="checkbox"
+                      name="arrival_contra"
+                      value="Gliukozė <2,8 arba >22 mmol/l"
+                    />
+                    Gliukozė &lt;2,8 arba &gt;22 mmol/l
+                  </label>
+                </li>
+                <li>
+                  <label class="pill">
+                    <input
+                      type="checkbox"
+                      name="arrival_contra"
+                      value="Traukuliai insulto pradžioje"
+                    />
+                    Traukuliai insulto pradžioje
+                  </label>
+                </li>
+                <li>
+                  <label class="pill">
+                    <input
+                      type="checkbox"
+                      name="arrival_contra"
+                      value="Aktyvus vidinis kraujavimas"
+                    />
+                    Aktyvus vidinis kraujavimas
+                  </label>
+                </li>
+                <li>
+                  <label class="pill">
+                    <input
+                      type="checkbox"
+                      name="arrival_contra"
+                      value="Virškinamojo ar šlapimo takų kraujavimas per 21 d."
+                    />
+                    Virškinamojo ar šlapimo takų kraujavimas per pastarąsias 21
+                    d.
+                  </label>
+                </li>
+                <li>
+                  <label class="pill">
+                    <input
+                      type="checkbox"
+                      name="arrival_contra"
+                      value="Nėštumas"
+                    />
+                    Nėštumas
+                  </label>
+                </li>
+                <li>
+                  <label class="pill">
+                    <input
+                      type="checkbox"
+                      name="arrival_contra"
+                      value="Infekcinis endokarditas"
+                    />
+                    Infekcinis endokarditas
+                  </label>
+                </li>
+                <li>
+                  <label class="pill">
+                    <input
+                      type="checkbox"
+                      name="arrival_contra"
+                      value="Miokardo infarktas per 3 mėn."
+                    />
+                    Miokardo infarktas per paskutinius 3 mėn.
+                  </label>
+                </li>
+                <li>
+                  <label class="pill">
+                    <input
+                      type="checkbox"
+                      name="arrival_contra"
+                      value="Heparino vartojimas per 48 h su pailgėjusiu aPTT"
+                    />
+                    Heparino vartojimas per pastarąsias 48 h su pailgėjusiu aPTT
+                  </label>
+                </li>
+                <li>
+                  <label class="pill">
+                    <input
+                      type="checkbox"
+                      name="arrival_contra"
+                      value="Tiesioginiai trombino ar Xa inhibitoriai su patologiniais tyrimais"
+                    />
+                    Tiesioginiai trombino ar Xa inhibitoriai su patologiniais
+                    tyrimais
+                  </label>
+                </li>
+                <li>
+                  <label class="pill">
+                    <input
+                      type="checkbox"
+                      name="arrival_contra"
+                      value="KT rodo >1/3 ACM teritorijos pažaidą"
+                    />
+                    KT rodo &gt;1/3 ACM teritorijos pažaidą
+                  </label>
+                </li>
+                <li>
+                  <label class="pill">
+                    <input
+                      type="checkbox"
+                      name="arrival_contra"
+                      value="Nekontroliuojama hipertenzija, reikalinga intensyvi terapija"
+                    />
+                    Nekontroliuojama hipertenzija, reikalinga intensyvi terapija
+                  </label>
+                </li>
                 </ul>
               </details>
               <details>
-                <summary class="btn toggle">
-                  <span class="icon">▶</span>Kontraindikacijos trombektomijai
-                </summary>
+                <summary class="btn toggle"><span class="icon">▶</span>Kontraindikacijos trombektomijai</summary>
                 <ul class="contra-list">
                   <li>
                     <label class="pill">
@@ -855,7 +818,8 @@
           </form>
         </section>
 
-        <!-- NIHSS -->
+
+              <!-- NIHSS -->
         <section id="nihss" class="card hidden">
           <h2>NIHSS</h2>
           <form>
@@ -919,9 +883,7 @@
                         <option value="0">0 – Nėra deficito</option>
                         <option value="1">1 – Dalinė hemianopsija</option>
                         <option value="2">2 – Pilna hemianopsija</option>
-                        <option value="3">
-                          3 – Dvišalė hemianopsija / aklumas
-                        </option>
+                        <option value="3">3 – Dvišalė hemianopsija / aklumas</option>
                       </select>
                     </label>
                   </div>
@@ -946,9 +908,7 @@
                         <option value=""></option>
                         <option value="0">0 – Nedreifuoja</option>
                         <option value="1">1 – Dreifuoja</option>
-                        <option value="2">
-                          2 – Nedidelis judėjimas prieš gravitaciją
-                        </option>
+                        <option value="2">2 – Nedidelis judėjimas prieš gravitaciją</option>
                         <option value="3">3 – Neįveikia gravitacijos</option>
                         <option value="4">4 – Judesių nėra</option>
                       </select>
@@ -959,9 +919,7 @@
                         <option value=""></option>
                         <option value="0">0 – Nedreifuoja</option>
                         <option value="1">1 – Dreifuoja</option>
-                        <option value="2">
-                          2 – Nedidelis judėjimas prieš gravitaciją
-                        </option>
+                        <option value="2">2 – Nedidelis judėjimas prieš gravitaciją</option>
                         <option value="3">3 – Neįveikia gravitacijos</option>
                         <option value="4">4 – Judesių nėra</option>
                       </select>
@@ -975,9 +933,7 @@
                         <option value=""></option>
                         <option value="0">0 – Nedreifuoja</option>
                         <option value="1">1 – Dreifuoja</option>
-                        <option value="2">
-                          2 – Nedidelis judėjimas prieš gravitaciją
-                        </option>
+                        <option value="2">2 – Nedidelis judėjimas prieš gravitaciją</option>
                         <option value="3">3 – Neįveikia gravitacijos</option>
                         <option value="4">4 – Judesių nėra</option>
                       </select>
@@ -988,9 +944,7 @@
                         <option value=""></option>
                         <option value="0">0 – Nedreifuoja</option>
                         <option value="1">1 – Dreifuoja</option>
-                        <option value="2">
-                          2 – Nedidelis judėjimas prieš gravitaciją
-                        </option>
+                        <option value="2">2 – Nedidelis judėjimas prieš gravitaciją</option>
                         <option value="3">3 – Neįveikia gravitacijos</option>
                         <option value="4">4 – Judesių nėra</option>
                       </select>
@@ -1012,12 +966,8 @@
                       <select data-score>
                         <option value=""></option>
                         <option value="0">0 – Normalūs</option>
-                        <option value="1">
-                          1 – Lengvas ar vidutinis sutrikimas
-                        </option>
-                        <option value="2">
-                          2 – Sunkus ar visiškas sutrikimas
-                        </option>
+                        <option value="1">1 – Lengvas ar vidutinis sutrikimas</option>
+                        <option value="2">2 – Sunkus ar visiškas sutrikimas</option>
                       </select>
                     </label>
                     <label
@@ -1025,9 +975,7 @@
                       <select data-score>
                         <option value=""></option>
                         <option value="0">0 – Nėra afazijos</option>
-                        <option value="1">
-                          1 – Lengva ar vidutinė afazija
-                        </option>
+                        <option value="1">1 – Lengva ar vidutinė afazija</option>
                         <option value="2">2 – Sunki afazija</option>
                         <option value="3">3 – Globali afazija / nekalba</option>
                       </select>
@@ -1037,9 +985,7 @@
                       <select data-score>
                         <option value=""></option>
                         <option value="0">0 – Normali</option>
-                        <option value="1">
-                          1 – Lengva ar vidutinė dizartrija
-                        </option>
+                        <option value="1">1 – Lengva ar vidutinė dizartrija</option>
                         <option value="2">2 – Sunki dizartrija</option>
                       </select>
                     </label>
@@ -1049,9 +995,7 @@
                         <option value=""></option>
                         <option value="0">0 – Nėra</option>
                         <option value="1">1 – Vienos modalės neglektas</option>
-                        <option value="2">
-                          2 – Sunkus/daugiamodalis neglektas
-                        </option>
+                        <option value="2">2 – Sunkus/daugiamodalis neglektas</option>
                       </select>
                     </label>
                   </div>
@@ -1065,7 +1009,8 @@
           </form>
         </section>
 
-        <!-- Pasiruošimas trombolizei -->
+
+              <!-- Pasiruošimas trombolizei -->
         <section id="thrombolysis" class="card hidden">
           <h2>Pasiruošimas trombolizei</h2>
           <form>
@@ -1188,9 +1133,7 @@
                 <input id="tpa_bolus" type="text" readonly />
               </div>
               <div>
-                <label for="tpa_infusion"
-                  >Infuzija 90% per 60 min (mg / ml / ml/val)</label
-                >
+                <label for="tpa_infusion">Infuzija 90% per 60 min (mg / ml / ml/val)</label>
                 <input id="tpa_infusion" type="text" readonly />
               </div>
             </div>
@@ -1207,105 +1150,108 @@
             </div>
             <div id="thrombolysisStartRow" class="mt-10 hidden">
               <label for="t_thrombolysis">Trombolizė pradėta</label>
+              
+<div class="row">
+  <div class="input-group">
+    <input
+      id="t_thrombolysis"
+      class="time-input"
+      type="datetime-local"
+      placeholder="YYYY-MM-DD HH:MM"
+      step="60"
+    />
+    <button
+      type="button"
+      class="btn ghost"
+      data-time-picker="t_thrombolysis"
+      aria-label="Pasirinkti datą ir laiką"
+    >
+      📅
+    </button>
+    <button
+      type="button"
+      class="btn ghost"
+      data-now="t_thrombolysis"
+      aria-label="Dabar"
+    >
+      Dabar
+    </button>
+    <button
+      type="button"
+      class="btn ghost"
+      data-stepdown="t_thrombolysis"
+      aria-label="−5 min"
+    >
+      −5
+    </button>
+    <button
+      type="button"
+      class="btn ghost"
+      data-stepup="t_thrombolysis"
+      aria-label="+5 min"
+    >
+      +5
+    </button>
+  </div>
+</div>
 
-              <div class="row">
-                <div class="input-group">
-                  <input
-                    id="t_thrombolysis"
-                    class="time-input"
-                    type="datetime-local"
-                    placeholder="YYYY-MM-DD HH:MM"
-                    step="60"
-                  />
-                  <button
-                    type="button"
-                    class="btn ghost"
-                    data-time-picker="t_thrombolysis"
-                    aria-label="Pasirinkti datą ir laiką"
-                  >
-                    📅
-                  </button>
-                  <button
-                    type="button"
-                    class="btn ghost"
-                    data-now="t_thrombolysis"
-                    aria-label="Dabar"
-                  >
-                    Dabar
-                  </button>
-                  <button
-                    type="button"
-                    class="btn ghost"
-                    data-stepdown="t_thrombolysis"
-                    aria-label="−5 min"
-                  >
-                    −5
-                  </button>
-                  <button
-                    type="button"
-                    class="btn ghost"
-                    data-stepup="t_thrombolysis"
-                    aria-label="+5 min"
-                  >
-                    +5
-                  </button>
-                </div>
-              </div>
             </div>
           </form>
         </section>
 
-        <!-- Sprendimas -->
+
+              <!-- Sprendimas -->
         <section id="decision" class="card hidden">
           <h2>Sprendimas</h2>
           <form>
             <fieldset>
               <legend>Sprendimo laikas</legend>
               <label for="d_time">Sprendimo laikas</label>
+              
+<div class="row">
+  <div class="input-group">
+    <input
+      id="d_time"
+      class="time-input"
+      type="datetime-local"
+      placeholder="YYYY-MM-DD HH:MM"
+      step="60"
+    />
+    <button
+      type="button"
+      class="btn ghost"
+      data-time-picker="d_time"
+      aria-label="Pasirinkti datą ir laiką"
+    >
+      📅
+    </button>
+    <button
+      type="button"
+      class="btn ghost"
+      data-now="d_time"
+      aria-label="Dabar"
+    >
+      Dabar
+    </button>
+    <button
+      type="button"
+      class="btn ghost"
+      data-stepdown="d_time"
+      aria-label="−5 min"
+    >
+      −5
+    </button>
+    <button
+      type="button"
+      class="btn ghost"
+      data-stepup="d_time"
+      aria-label="+5 min"
+    >
+      +5
+    </button>
+  </div>
+</div>
 
-              <div class="row">
-                <div class="input-group">
-                  <input
-                    id="d_time"
-                    class="time-input"
-                    type="datetime-local"
-                    placeholder="YYYY-MM-DD HH:MM"
-                    step="60"
-                  />
-                  <button
-                    type="button"
-                    class="btn ghost"
-                    data-time-picker="d_time"
-                    aria-label="Pasirinkti datą ir laiką"
-                  >
-                    📅
-                  </button>
-                  <button
-                    type="button"
-                    class="btn ghost"
-                    data-now="d_time"
-                    aria-label="Dabar"
-                  >
-                    Dabar
-                  </button>
-                  <button
-                    type="button"
-                    class="btn ghost"
-                    data-stepdown="d_time"
-                    aria-label="−5 min"
-                  >
-                    −5
-                  </button>
-                  <button
-                    type="button"
-                    class="btn ghost"
-                    data-stepup="d_time"
-                    aria-label="+5 min"
-                  >
-                    +5
-                  </button>
-                </div>
-              </div>
             </fieldset>
             <fieldset class="mt-10">
               <legend>Sprendimas</legend>
@@ -1336,15 +1282,15 @@
                     type="radio"
                     name="d_decision"
                     value="Reperfuzinis gydymas kontraindikuotinas, taikyti konservatyvią taktika"
-                  />Reperfuzinis gydymas kontraindikuotinas, taikyti
-                  konservatyvią taktika</label
+                  />Reperfuzinis gydymas kontraindikuotinas, taikyti konservatyvią taktika</label
                 >
               </div>
             </fieldset>
           </form>
         </section>
 
-        <!-- Santrauka HIS sistemai -->
+
+              <!-- Santrauka HIS sistemai -->
         <section id="summarySec" class="card full-span hidden">
           <h2>Santrauka (kopijavimui į HIS)</h2>
           <textarea
@@ -1353,41 +1299,42 @@
             placeholder="Santrauka generuojama automatiškai"
           ></textarea>
           <div class="sticky-actions">
-            <button id="copySummaryBtn" title="Kopijuoti santrauką" class="btn">
-              📋 <span class="btn-label">Kopijuoti</span>
-            </button>
+            
+<button id="copySummaryBtn" title="Kopijuoti santrauką" class="btn" >📋 <span class="btn-label">Kopijuoti</span></button>
+
           </div>
         </section>
 
-        <details class="settings">
+              <details class="settings">
           <summary><span class="pill">⚙️ Nustatymai</span></summary>
-          <div class="card">
-            <div class="grid-3">
-              <div>
-                <label>TNK numatyta koncentracija (mg/ml)</label>
-                <input id="def_tnk" type="number" step="0.1" value="5" />
-              </div>
-              <div>
-                <label>tPA numatyta koncentracija (mg/ml)</label>
-                <input id="def_tpa" type="number" step="0.1" value="1" />
-              </div>
-              <div>
-                <label>Automatinis išsaugojimas</label>
-                <select id="autosave">
-                  <option value="on">Įjungtas</option>
-                  <option value="off">Išjungtas</option>
-                </select>
+            <div class="card">
+              <div class="grid-3">
+                <div>
+                  <label>TNK numatyta koncentracija (mg/ml)</label>
+                  <input id="def_tnk" type="number" step="0.1" value="5" />
+                </div>
+                <div>
+                  <label>tPA numatyta koncentracija (mg/ml)</label>
+                  <input id="def_tpa" type="number" step="0.1" value="1" />
+                </div>
+                <div>
+                  <label>Automatinis išsaugojimas</label>
+                  <select id="autosave">
+                    <option value="on">Įjungtas</option>
+                    <option value="off">Išjungtas</option>
+                  </select>
+                </div>
               </div>
             </div>
-          </div>
-        </details>
+          </details>
 
-        <div class="footer">
+              <div class="footer">
           ⚠️ Atskaita: ši priemonė yra pagalbinė. Galutiniai klinikiniai
           sprendimai remiasi gydytojo vertinimu ir galiojančiomis gairėmis.
         </div>
-      </main>
-    </div>
+
+    </main>
+  </div>
 
     <script type="module" src="js/app.js"></script>
   </body>

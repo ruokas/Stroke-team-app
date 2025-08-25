@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { computeArrivalMessage } from '../js/arrival.js';
+import { computeArrivalMessage, timeSince } from '../js/arrival.js';
 
 test('unknown last known well', () => {
   const msg = computeArrivalMessage({ lkwType: 'unknown' });
@@ -97,4 +97,13 @@ test('sleep midpoint older than 9h requires different message', () => {
     msg,
     'Trombolizė kontraindikuotina, bet gali būti taikoma trombektomija.',
   );
+});
+
+test('timeSince formats difference', () => {
+  const fakeNow = new Date('2024-01-01T10:00:00').getTime();
+  const origNow = Date.now;
+  Date.now = () => fakeNow;
+  const res = timeSince('2024-01-01T07:05:04');
+  Date.now = origNow;
+  assert.equal(res, '02:54:56');
 });

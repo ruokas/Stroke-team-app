@@ -1,6 +1,32 @@
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => Array.from(document.querySelectorAll(sel));
 
+const pad = (n) => String(n).padStart(2, '0');
+
+export function timeSince(onset) {
+  const start = new Date(onset).getTime();
+  const diff = Date.now() - start;
+  if (!onset || !isFinite(start) || diff < 0) return '';
+  const total = Math.floor(diff / 1000);
+  const h = Math.floor(total / 3600);
+  const m = Math.floor((total % 3600) / 60);
+  const s = total % 60;
+  return `${pad(h)}:${pad(m)}:${pad(s)}`;
+}
+
+let timerId;
+function updateOnsetTimer() {
+  const timerEl = $('#onset_timer');
+  if (!timerEl) return;
+  const lkwType = $$('input[name="lkw_type"]').find((r) => r.checked)?.value;
+  const lkwValue = $('#t_lkw')?.value;
+  if (!lkwValue || lkwType === 'unknown') {
+    timerEl.textContent = '';
+    return;
+  }
+  timerEl.textContent = timeSince(lkwValue);
+}
+
 export function computeArrivalMessage({ lkwType, lkwValue, doorValue }) {
   if (lkwType === 'unknown') {
     return 'Pacientui reperfuzinis gydymas neindikuotinas.';
@@ -41,11 +67,17 @@ export function updateArrivalInfo() {
 }
 
 export function initArrival() {
+  const updateAll = () => {
+    updateArrivalInfo();
+    updateOnsetTimer();
+  };
   ['#t_lkw', '#t_door'].forEach((id) =>
-    $(id)?.addEventListener('input', updateArrivalInfo),
+    $(id)?.addEventListener('input', updateAll),
   );
   $$('input[name="lkw_type"]').forEach((r) =>
-    r.addEventListener('change', updateArrivalInfo),
+    r.addEventListener('change', updateAll),
   );
-  updateArrivalInfo();
+  updateAll();
+  clearInterval(timerId);
+  timerId = setInterval(updateOnsetTimer, 1000);
 }

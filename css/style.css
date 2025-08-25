@@ -891,6 +891,15 @@ section[data-tab='Intervencijos'] h3 {
   font-size: 0.875rem;
   color: var(--muted);
 }
+.section-transition {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease;
+}
+.section-transition.active {
+  opacity: 1;
+  visibility: visible;
+}
 .hidden {
   display: none;
 }

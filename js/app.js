@@ -341,6 +341,14 @@ function bind() {
       s.classList.toggle('hidden', !active);
       s.setAttribute('tabindex', active ? '0' : '-1');
       s.setAttribute('aria-hidden', active ? 'false' : 'true');
+      if (active) {
+        s.classList.add('tab-animate');
+        s.addEventListener(
+          'animationend',
+          () => s.classList.remove('tab-animate'),
+          { once: true },
+        );
+      }
     });
     tabs.forEach((t) => {
       const selected = t.dataset.section === id;

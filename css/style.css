@@ -888,6 +888,27 @@ section[data-tab='Intervencijos'] h3 {
 .hidden {
   display: none;
 }
+
+@keyframes tabFade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+main > section.tab-animate {
+  animation: tabFade 0.3s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  main > section.tab-animate {
+    animation: none;
+  }
+}
 .detail {
   overflow: hidden;
   max-height: 200px;

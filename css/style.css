@@ -223,7 +223,7 @@ nav .tab:focus-visible {
     margin-bottom: 12px;
   }
   nav {
-    display: block;
+    display: none;
     position: fixed;
     top: var(--header-height);
     left: 0;
@@ -233,15 +233,9 @@ nav .tab:focus-visible {
     z-index: 1000;
     max-height: calc(100vh - var(--header-height));
     overflow-y: auto;
-    opacity: 0;
-    transform: translateY(-100%);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    pointer-events: none;
   }
   body.nav-open nav {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
+    display: block;
   }
 }
 section.card {

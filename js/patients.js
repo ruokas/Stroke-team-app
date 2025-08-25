@@ -64,6 +64,12 @@ export function renamePatient(id, newName) {
   patients[id].name = newName;
 }
 
+export function updateActivePatient() {
+  if (!activeId || !patients[activeId]) return;
+  const { name, summary } = patients[activeId];
+  patients[activeId] = { ...getPayload(), name, summary };
+}
+
 export function getActivePatientId() {
   return activeId;
 }
@@ -81,6 +87,7 @@ export default {
   switchPatient,
   removePatient,
   renamePatient,
+  updateActivePatient,
   getActivePatient,
   getActivePatientId,
   getPatients,

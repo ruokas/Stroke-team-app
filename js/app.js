@@ -119,7 +119,7 @@ function bind() {
 
   // Drug defaults and automatic calculator
   [inputs.def_tnk, inputs.def_tpa].forEach((el) =>
-    el.addEventListener('input', () => {
+    el?.addEventListener('input', () => {
       updateDrugDefaults();
       calcDrugs();
     }),

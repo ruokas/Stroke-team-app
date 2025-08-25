@@ -1092,34 +1092,3 @@ details .card {
   gap: 8px;
   margin-top: 12px;
 }
-
-/* Simple fade animations for tab transitions */
-.fade-in {
-  animation: fadeIn 0.2s ease;
-}
-
-.fade-out {
-  animation: fadeOut 0.2s ease forwards;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-}

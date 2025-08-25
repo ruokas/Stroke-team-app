@@ -78,7 +78,12 @@
               <div class="grid-2">
                 <div>
                   <label for="a_personal">Asmens kodas</label>
-                  <input id="a_personal" type="text" />
+                  <div class="input-group">
+                    <input id="a_personal" type="text" />
+                    <button id="copyPersonalBtn" type="button" class="btn ghost">
+                      Kopijuoti
+                    </button>
+                  </div>
                 </div>
                 <div>
                   <label for="a_name">Vardas, Pavardė</label>
@@ -139,7 +144,7 @@
 
             <fieldset>
               <legend>Vartojami vaistai</legend>
-              <div class="grid-2">
+              <div id="a_drugs" class="grid-2">
                 <label class="pill"
                   ><input id="a_warfarin" type="checkbox" />Varfarinas</label
                 >

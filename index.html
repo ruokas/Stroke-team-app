@@ -74,6 +74,54 @@
           <h2>Komandos aktyvacija</h2>
           <form>
             <fieldset>
+              <legend>GMP pranešimo laikas</legend>
+              
+<div class="row">
+  <div class="input-group">
+    <input
+      id="a_gmp_time"
+      class="time-input"
+      type="datetime-local"
+      placeholder="YYYY-MM-DD HH:MM"
+      step="60"
+    />
+    <button
+      type="button"
+      class="btn ghost"
+      data-time-picker="a_gmp_time"
+      aria-label="Pasirinkti datą ir laiką"
+    >
+      📅
+    </button>
+    <button
+      type="button"
+      class="btn ghost"
+      data-now="a_gmp_time"
+      aria-label="Dabar"
+    >
+      Dabar
+    </button>
+    <button
+      type="button"
+      class="btn ghost"
+      data-stepdown="a_gmp_time"
+      aria-label="−5 min"
+    >
+      −5
+    </button>
+    <button
+      type="button"
+      class="btn ghost"
+      data-stepup="a_gmp_time"
+      aria-label="+5 min"
+    >
+      +5
+    </button>
+  </div>
+</div>
+
+            </fieldset>
+            <fieldset>
               <legend>Paciento duomenys</legend>
               <div class="grid-2">
                 <div>
@@ -195,23 +243,56 @@
               <div class="grid-2">
                 <div>
                   <label for="a_glucose">Gliukozė</label>
-                  <input id="a_glucose" type="text" />
+                  <input
+                    id="a_glucose"
+                    type="number"
+                    step="0.1"
+                    min="2.8"
+                    max="22"
+                    placeholder="mmol/l"
+                  />
                 </div>
                 <div>
                   <label for="a_aks">AKS</label>
-                  <input id="a_aks" type="text" />
+                  <input
+                    id="a_aks"
+                    type="text"
+                    inputmode="numeric"
+                    placeholder="120/80"
+                  />
                 </div>
                 <div>
                   <label for="a_hr">ŠSD</label>
-                  <input id="a_hr" type="text" />
+                  <input
+                    id="a_hr"
+                    type="number"
+                    step="1"
+                    min="30"
+                    max="250"
+                    placeholder="bpm"
+                  />
                 </div>
                 <div>
                   <label for="a_spo2">SpO₂</label>
-                  <input id="a_spo2" type="text" />
+                  <input
+                    id="a_spo2"
+                    type="number"
+                    step="1"
+                    min="50"
+                    max="100"
+                    placeholder="%"
+                  />
                 </div>
                 <div>
                   <label for="a_temp">Temperatūra</label>
-                  <input id="a_temp" type="text" />
+                  <input
+                    id="a_temp"
+                    type="number"
+                    step="0.1"
+                    min="30"
+                    max="43"
+                    placeholder="°C"
+                  />
                 </div>
               </div>
             </fieldset>

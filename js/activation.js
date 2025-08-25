@@ -1,4 +1,5 @@
 import * as dom from './state.js';
+import { showToast } from './toast.js';
 
 function setValidity(el, valid, message) {
   if (!el) return valid;
@@ -59,5 +60,31 @@ export function initActivation() {
     const cb = () => fn(el);
     el.addEventListener('input', cb);
     fn(el);
+  });
+
+  const unknown = dom.getAUnknownInput();
+  const drugs = dom.getADrugsInputs().filter((el) => el.id !== 'a_unknown');
+
+  unknown?.addEventListener('change', () => {
+    if (!unknown.checked) return;
+    let cleared = false;
+    drugs.forEach((el) => {
+      if (el.checked) {
+        el.checked = false;
+        cleared = true;
+      }
+    });
+    if (cleared) {
+      showToast('Pašalinti kiti vaistai.', { type: 'info' });
+    }
+  });
+
+  drugs.forEach((el) => {
+    el.addEventListener('change', () => {
+      if (el.checked && unknown?.checked) {
+        unknown.checked = false;
+        showToast('„Nežinoma“ nužymėta.', { type: 'info' });
+      }
+    });
   });
 }

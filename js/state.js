@@ -50,6 +50,7 @@ export const getARivaroxabanInput = () => $('#a_rivaroxaban');
 export const getADabigatranInput = () => $('#a_dabigatran');
 export const getAEdoxabanInput = () => $('#a_edoxaban');
 export const getAUnknownInput = () => $('#a_unknown');
+export const getADrugsInputs = () => $$('#a_drugs input[type="checkbox"]');
 export const getALkwInputs = () => $$('input[name="a_lkw"]');
 export const getAGlucoseInput = () => $('#a_glucose');
 export const getAAksInput = () => $('#a_aks');
@@ -101,6 +102,7 @@ export function getInputs() {
     a_rivaroxaban: getARivaroxabanInput(),
     a_dabigatran: getADabigatranInput(),
     a_edoxaban: getAEdoxabanInput(),
+    a_drugs: getADrugsInputs(),
     a_unknown: getAUnknownInput(),
     a_lkw: getALkwInputs(),
     a_glucose: getAGlucoseInput(),

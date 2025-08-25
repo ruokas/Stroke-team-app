@@ -781,6 +781,9 @@ section[data-tab='Intervencijos'] h3 {
   font-family: monospace;
   pointer-events: none;
   cursor: default;
+  font-size: 2rem;
+  text-align: center;
+  margin-top: 8px;
 }
 .grid-2,
 .grid-3 {

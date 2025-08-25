@@ -2,6 +2,7 @@ import * as dom from './state.js';
 import { updateDrugDefaults } from './drugs.js';
 import { updateAge } from './age.js';
 import { setNow } from './time.js';
+import { openTimePicker } from './timePicker.js';
 
 const { state } = dom;
 
@@ -235,7 +236,7 @@ export function setPayload(p) {
         .slice(2, 7)}`;
       entry.innerHTML = `<strong>${m.med}</strong><div class="grid-3 mt-5"><div class="input-group"><input type="time" id="${id}" class="time-input" step="60" value="${
         m.time || ''
-      }" /><button class="btn ghost" data-picker="${id}" aria-label="Pasirinkti laiką">⌚</button><button class="btn ghost" data-now="${id}">Dabar</button><button class="btn ghost" data-stepdown="${id}" aria-label="−5 min">−5</button><button class="btn ghost" data-stepup="${id}" aria-label="+5 min">+5</button></div><input type="text" value="${
+      }" /><button class="btn ghost" data-time-picker="${id}" aria-label="Pasirinkti laiką">⌚</button><button class="btn ghost" data-now="${id}">Dabar</button><button class="btn ghost" data-stepdown="${id}" aria-label="−5 min">−5</button><button class="btn ghost" data-stepup="${id}" aria-label="+5 min">+5</button></div><input type="text" value="${
         m.dose || ''
       }" /><input type="text" placeholder="Pastabos" value="${m.notes || ''}" /></div>`;
       bpContainer.appendChild(entry);
@@ -243,9 +244,9 @@ export function setPayload(p) {
         .querySelector(`[data-now="${id}"]`)
         ?.addEventListener('click', () => setNow(id));
       entry
-        .querySelector(`[data-picker="${id}"]`)
+        .querySelector(`[data-time-picker="${id}"]`)
         ?.addEventListener('click', () =>
-          document.getElementById(id)?.showPicker?.(),
+          openTimePicker(document.getElementById(id)),
         );
       entry
         .querySelector(`[data-stepup="${id}"]`)

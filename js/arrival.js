@@ -15,16 +15,24 @@ export function timeSince(onset) {
 }
 
 let timerId;
-function updateOnsetTimer() {
-  const timerEl = $('#onset_timer');
-  if (!timerEl) return;
+function updateTimers() {
+  const onsetEl = $('#onset_timer');
+  const doorEl = $('#door_timer');
   const lkwType = $$('input[name="lkw_type"]').find((r) => r.checked)?.value;
   const lkwValue = $('#t_lkw')?.value;
-  if (!lkwValue || lkwType === 'unknown') {
-    timerEl.textContent = '';
-    return;
+  const doorValue = $('#t_door')?.value;
+
+  if (doorEl) {
+    doorEl.textContent = doorValue ? timeSince(doorValue) : '';
   }
-  timerEl.textContent = timeSince(lkwValue);
+
+  if (onsetEl) {
+    if (!lkwValue || lkwType === 'unknown') {
+      onsetEl.textContent = '';
+    } else {
+      onsetEl.textContent = timeSince(lkwValue);
+    }
+  }
 }
 
 export function computeArrivalMessage({ lkwType, lkwValue, doorValue }) {
@@ -69,7 +77,7 @@ export function updateArrivalInfo() {
 export function initArrival() {
   const updateAll = () => {
     updateArrivalInfo();
-    updateOnsetTimer();
+    updateTimers();
   };
   ['#t_lkw', '#t_door'].forEach((id) =>
     $(id)?.addEventListener('input', updateAll),
@@ -79,5 +87,5 @@ export function initArrival() {
   );
   updateAll();
   clearInterval(timerId);
-  timerId = setInterval(updateOnsetTimer, 1000);
+  timerId = setInterval(updateTimers, 1000);
 }

@@ -335,12 +335,39 @@ function bind() {
   const tabs = $$('nav .tab');
   const sections = $$('main > section');
   const navToggle = $('#navToggle');
+  let activeSection = sections[0];
   const showSection = (id) => {
+    const target = [...sections].find((s) => s.id === id);
+    if (!target) return;
     sections.forEach((s) => {
-      const active = s.id === id;
-      s.classList.toggle('hidden', !active);
-      s.setAttribute('tabindex', active ? '0' : '-1');
-      s.setAttribute('aria-hidden', active ? 'false' : 'true');
+      const isTarget = s === target;
+      if (isTarget) {
+        s.classList.remove('hidden');
+        s.setAttribute('tabindex', '0');
+        s.setAttribute('aria-hidden', 'false');
+        if (s !== activeSection) {
+          s.classList.add('fade-in');
+          s.addEventListener(
+            'animationend',
+            () => s.classList.remove('fade-in'),
+            { once: true },
+          );
+        }
+      } else {
+        s.setAttribute('tabindex', '-1');
+        s.setAttribute('aria-hidden', 'true');
+        if (!s.classList.contains('hidden')) {
+          s.classList.add('fade-out');
+          s.addEventListener(
+            'animationend',
+            () => {
+              s.classList.add('hidden');
+              s.classList.remove('fade-out');
+            },
+            { once: true },
+          );
+        }
+      }
     });
     tabs.forEach((t) => {
       const selected = t.dataset.section === id;
@@ -361,6 +388,7 @@ function bind() {
       setNow('d_time');
     document.body.classList.remove('nav-open');
     navToggle.setAttribute('aria-expanded', 'false');
+    activeSection = target;
   };
   const activateFromHash = () => {
     const id = location.hash.slice(1) || tabs[0]?.dataset.section;

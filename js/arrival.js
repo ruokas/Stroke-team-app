@@ -37,28 +37,41 @@ function updateTimers() {
 
 export function computeArrivalMessage({ lkwType, lkwValue, doorValue }) {
   if (lkwType === 'unknown') {
-    return 'Pacientui reperfuzinis gydymas neindikuotinas.';
+    return {
+      message: 'Pacientui reperfuzinis gydymas neindikuotinas.',
+      type: 'error',
+    };
   }
-  if (!lkwValue) return '';
+  if (!lkwValue) return { message: '', type: '' };
   let diff;
   if (lkwType === 'sleep' && !doorValue) {
     diff = (Date.now() - new Date(lkwValue).getTime()) / 36e5;
   } else if (doorValue) {
     diff = (new Date(doorValue) - new Date(lkwValue)) / 36e5;
   } else {
-    return '';
+    return { message: '', type: '' };
   }
-  if (!isFinite(diff) || diff < 0) return '';
+  if (!isFinite(diff) || diff < 0) return { message: '', type: '' };
   if (diff <= 4.5) {
-    return 'Indikuotina trombolizė / trombektomija.';
+    return {
+      message: 'Indikuotina trombolizė / trombektomija.',
+      type: 'success',
+    };
   }
   if (diff < 9) {
-    return 'Reikalinga KT perfuzija.';
+    return { message: 'Reikalinga KT perfuzija.', type: 'warning' };
   }
   if (diff <= 24) {
-    return 'Trombolizė kontraindikuotina, bet gali būti taikoma trombektomija.';
+    return {
+      message:
+        'Trombolizė kontraindikuotina, bet gali būti taikoma trombektomija.',
+      type: 'warning',
+    };
   }
-  return 'Reperfuzinis gydymas neindikuotinas.';
+  return {
+    message: 'Reperfuzinis gydymas neindikuotinas.',
+    type: 'error',
+  };
 }
 
 export function updateArrivalInfo() {
@@ -67,11 +80,17 @@ export function updateArrivalInfo() {
   const lkwType = $$('input[name="lkw_type"]').find((r) => r.checked)?.value;
   const lkwValue = $('#t_lkw')?.value;
   const doorValue = $('#t_door')?.value;
-  infoEl.textContent = computeArrivalMessage({
+  const { message, type } = computeArrivalMessage({
     lkwType,
     lkwValue,
     doorValue,
   });
+  infoEl.textContent = '';
+  infoEl.classList.remove('success', 'warning', 'error');
+  if (message) {
+    infoEl.textContent = message;
+    if (type) infoEl.classList.add(type);
+  }
 }
 
 export function initArrival() {

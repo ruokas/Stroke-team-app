@@ -7,8 +7,10 @@ const toast = {
     if (!item) return;
     const { msg, options, container } = item;
     const { type, duration = 3000 } = options;
+    const validTypes = ['success', 'error', 'warning', 'info'];
+    const classType = validTypes.includes(type) ? ` ${type}` : '';
     const el = document.createElement('div');
-    el.className = 'toast' + (type ? ` ${type}` : '');
+    el.className = 'toast' + classType;
     el.setAttribute('role', 'alert');
     el.textContent = msg;
 

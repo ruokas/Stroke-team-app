@@ -751,6 +751,14 @@ section[data-tab='Intervencijos'] h3 {
   background: var(--red);
   color: #fff;
 }
+.toast.warning {
+  background: var(--yellow);
+  color: var(--bg);
+}
+.toast.info {
+  background: var(--accent);
+  color: var(--bg);
+}
 .toast.hide {
   opacity: 0;
   transform: translateY(10px);

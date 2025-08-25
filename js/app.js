@@ -301,6 +301,7 @@ function bind() {
       refreshPatientSelect(id);
       savePatient(id, newName);
       updateSaveStatus();
+      showToast('Pacientas pervadintas.', { type: 'info' });
     }
   });
 
@@ -311,6 +312,7 @@ function bind() {
       removePatient(id);
       refreshPatientSelect(getActivePatientId());
       updateSaveStatus();
+      showToast('Pacientas ištrintas.', { type: 'warning' });
     }
   });
 

@@ -84,3 +84,14 @@ test('validateTemp checks 30-43°C', async () => {
   assert(!el.classList.contains('invalid'));
 });
 
+test('validatePersonalCode requires 11 digits', async () => {
+  const { validatePersonalCode } = await loadModule();
+  const el = createEl();
+  el.value = '123';
+  validatePersonalCode(el);
+  assert(el.classList.contains('invalid'));
+  el.value = '12345678901';
+  validatePersonalCode(el);
+  assert(!el.classList.contains('invalid'));
+});
+

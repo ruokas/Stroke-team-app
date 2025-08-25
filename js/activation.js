@@ -17,6 +17,12 @@ function parseLocaleFloat(str) {
   return parseFloat(str.replace(',', '.'));
 }
 
+export function validatePersonalCode(el) {
+  const val = (el.value || '').trim();
+  const ok = !val || /^\d{11}$/.test(val);
+  return setValidity(el, ok, 'Asmens kodas turi būti 11 skaitmenų.');
+}
+
 export function validateGlucose(el) {
   const v = parseLocaleFloat(el.value || '');
   const ok = !el.value || (Number.isFinite(v) && v >= 2.8 && v <= 22);
@@ -49,6 +55,7 @@ export function validateTemp(el) {
 
 export function initActivation() {
   const handlers = [
+    [dom.getAPersonalInput(), validatePersonalCode],
     [dom.getAGlucoseInput(), validateGlucose],
     [dom.getAAksInput(), validateAks],
     [dom.getAHrInput(), validateHr],

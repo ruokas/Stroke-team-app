@@ -13,12 +13,8 @@ function setValidity(el, valid, message) {
   return valid;
 }
 
-function parseLocaleFloat(str) {
-  return parseFloat(str.replace(',', '.'));
-}
-
 export function validateGlucose(el) {
-  const v = parseLocaleFloat(el.value || '');
+  const v = parseFloat(el.value);
   const ok = !el.value || (Number.isFinite(v) && v >= 2.8 && v <= 22);
   return setValidity(el, ok, 'Gliukozė turi būti 2.8–22 mmol/l.');
 }
@@ -42,7 +38,7 @@ export function validateSpo2(el) {
 }
 
 export function validateTemp(el) {
-  const v = parseLocaleFloat(el.value || '');
+  const v = parseFloat(el.value);
   const ok = !el.value || (Number.isFinite(v) && v >= 30 && v <= 43);
   return setValidity(el, ok, 'Temperatūra turi būti 30–43 °C.');
 }

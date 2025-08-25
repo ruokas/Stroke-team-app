@@ -105,6 +105,17 @@ function bind() {
     }),
   );
 
+  // Fast value buttons
+  $$('button[data-set]').forEach((b) =>
+    b.addEventListener('click', () => {
+      const target = document.getElementById(b.dataset.set);
+      if (target) {
+        target.value = b.dataset.val ?? '';
+        target.dispatchEvent(new Event('input'));
+      }
+    }),
+  );
+
   // Drug defaults and automatic calculator
   [inputs.def_tnk, inputs.def_tpa].forEach((el) =>
     el.addEventListener('input', () => {

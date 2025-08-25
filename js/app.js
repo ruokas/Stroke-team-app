@@ -334,11 +334,27 @@ function bind() {
   // Navigation
   const tabs = $$('nav .tab');
   const sections = $$('main > section');
+  sections.forEach((s) => s.classList.add('section-transition'));
   const navToggle = $('#navToggle');
   const showSection = (id) => {
     sections.forEach((s) => {
+      const wasActive = s.classList.contains('active');
       const active = s.id === id;
-      s.classList.toggle('hidden', !active);
+      if (!active && wasActive) {
+        s.style.visibility = 'visible';
+        s.style.pointerEvents = 'none';
+        s.addEventListener(
+          'transitionend',
+          () => {
+            if (!s.classList.contains('active')) {
+              s.style.visibility = '';
+              s.style.pointerEvents = '';
+            }
+          },
+          { once: true },
+        );
+      }
+      s.classList.toggle('active', active);
       s.setAttribute('tabindex', active ? '0' : '-1');
       s.setAttribute('aria-hidden', active ? 'false' : 'true');
     });
@@ -404,7 +420,7 @@ function bind() {
     dirty = true;
     updateActivePatient();
     const id = getActivePatientId();
-    if (!$('#summarySec').classList.contains('hidden')) {
+    if ($('#summarySec').classList.contains('active')) {
       const patient = getActivePatient();
       if (patient) {
         const data = collectSummaryData(patient);

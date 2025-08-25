@@ -3,100 +3,121 @@ import assert from 'node:assert/strict';
 import { computeArrivalMessage, timeSince } from '../js/arrival.js';
 
 test('unknown last known well', () => {
-  const msg = computeArrivalMessage({ lkwType: 'unknown' });
-  assert.equal(msg, 'Pacientui reperfuzinis gydymas neindikuotinas.');
+  const res = computeArrivalMessage({ lkwType: 'unknown' });
+  assert.deepEqual(res, {
+    message: 'Pacientui reperfuzinis gydymas neindikuotinas.',
+    type: 'error',
+  });
 });
 
 test('within 4.5 hours', () => {
-  const msg = computeArrivalMessage({
+  const res = computeArrivalMessage({
     lkwType: 'known',
     lkwValue: '2024-01-01T07:00',
     doorValue: '2024-01-01T10:00',
   });
-  assert.equal(msg, 'Indikuotina trombolizė / trombektomija.');
+  assert.deepEqual(res, {
+    message: 'Indikuotina trombolizė / trombektomija.',
+    type: 'success',
+  });
 });
 
 test('exactly 4.5 hours', () => {
-  const msg = computeArrivalMessage({
+  const res = computeArrivalMessage({
     lkwType: 'known',
     lkwValue: '2024-01-01T07:00',
     doorValue: '2024-01-01T11:30',
   });
-  assert.equal(msg, 'Indikuotina trombolizė / trombektomija.');
+  assert.deepEqual(res, {
+    message: 'Indikuotina trombolizė / trombektomija.',
+    type: 'success',
+  });
 });
 
 test('between 4.5 and 9 hours', () => {
-  const msg = computeArrivalMessage({
+  const res = computeArrivalMessage({
     lkwType: 'known',
     lkwValue: '2024-01-01T06:00',
     doorValue: '2024-01-01T12:00',
   });
-  assert.equal(msg, 'Reikalinga KT perfuzija.');
+  assert.deepEqual(res, {
+    message: 'Reikalinga KT perfuzija.',
+    type: 'warning',
+  });
 });
 
 test('exactly 9 hours', () => {
-  const msg = computeArrivalMessage({
+  const res = computeArrivalMessage({
     lkwType: 'known',
     lkwValue: '2024-01-01T07:00',
     doorValue: '2024-01-01T16:00',
   });
-  assert.equal(
-    msg,
-    'Trombolizė kontraindikuotina, bet gali būti taikoma trombektomija.',
-  );
+  assert.deepEqual(res, {
+    message:
+      'Trombolizė kontraindikuotina, bet gali būti taikoma trombektomija.',
+    type: 'warning',
+  });
 });
 
 test('over 9 hours', () => {
-  const msg = computeArrivalMessage({
+  const res = computeArrivalMessage({
     lkwType: 'known',
     lkwValue: '2024-01-01T00:00',
     doorValue: '2024-01-01T10:00',
   });
-  assert.equal(
-    msg,
-    'Trombolizė kontraindikuotina, bet gali būti taikoma trombektomija.',
-  );
+  assert.deepEqual(res, {
+    message:
+      'Trombolizė kontraindikuotina, bet gali būti taikoma trombektomija.',
+    type: 'warning',
+  });
 });
 
 test('over 24 hours', () => {
-  const msg = computeArrivalMessage({
+  const res = computeArrivalMessage({
     lkwType: 'known',
     lkwValue: '2024-01-01T00:00',
     doorValue: '2024-01-02T01:00',
   });
-  assert.equal(msg, 'Reperfuzinis gydymas neindikuotinas.');
+  assert.deepEqual(res, {
+    message: 'Reperfuzinis gydymas neindikuotinas.',
+    type: 'error',
+  });
 });
 
 test('negative diff returns empty message', () => {
-  const msg = computeArrivalMessage({
+  const res = computeArrivalMessage({
     lkwType: 'known',
     lkwValue: '2024-01-01T10:00',
     doorValue: '2024-01-01T09:00',
   });
-  assert.equal(msg, '');
+  assert.deepEqual(res, { message: '', type: '' });
 });
 
 test('sleep midpoint without door time uses current time', () => {
   const eightHoursAgo = new Date(Date.now() - 8 * 36e5).toISOString();
-  const msg = computeArrivalMessage({
+  const res = computeArrivalMessage({
     lkwType: 'sleep',
     lkwValue: eightHoursAgo,
     doorValue: '',
   });
-  assert.equal(msg, 'Reikalinga KT perfuzija.');
+  assert.deepEqual(res, {
+    message: 'Reikalinga KT perfuzija.',
+    type: 'warning',
+  });
 });
 
 test('sleep midpoint older than 9h requires different message', () => {
   const tenHoursAgo = new Date(Date.now() - 10 * 36e5).toISOString();
-  const msg = computeArrivalMessage({
+  const res = computeArrivalMessage({
     lkwType: 'sleep',
     lkwValue: tenHoursAgo,
     doorValue: '',
   });
-  assert.equal(
-    msg,
-    'Trombolizė kontraindikuotina, bet gali būti taikoma trombektomija.',
-  );
+  assert.deepEqual(res, {
+    message:
+      'Trombolizė kontraindikuotina, bet gali būti taikoma trombektomija.',
+    type: 'warning',
+  });
 });
 
 test('timeSince formats difference', () => {

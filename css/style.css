@@ -763,6 +763,21 @@ section[data-tab='Intervencijos'] h3 {
   border-radius: 6px;
 }
 
+.info-box.success {
+  border-color: var(--green);
+  color: var(--green);
+}
+
+.info-box.warning {
+  border-color: var(--yellow);
+  color: var(--yellow);
+}
+
+.info-box.error {
+  border-color: var(--red);
+  color: var(--red);
+}
+
 .info-box:empty {
   display: none;
 }

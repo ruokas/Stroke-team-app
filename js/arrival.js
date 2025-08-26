@@ -1,6 +1,11 @@
 import { $, $$ } from './state.js';
 import { pad } from './time.js';
 
+const MS_PER_HOUR = 36e5;
+const IVT_WINDOW_HOURS = 4.5;
+const PERFUSION_WINDOW_HOURS = 9;
+const MTE_WINDOW_HOURS = 24;
+
 export function timeSince(onset) {
   const start = new Date(onset).getTime();
   const diff = Date.now() - start;
@@ -43,9 +48,9 @@ export function computeArrivalMessage({ lkwType, lkwValue, doorValue }) {
   if (!lkwValue) return { message: '', type: '' };
   let diff;
   if (lkwType === 'sleep' && !doorValue) {
-    diff = (Date.now() - new Date(lkwValue).getTime()) / 36e5;
+    diff = (Date.now() - new Date(lkwValue).getTime()) / MS_PER_HOUR;
   } else if (doorValue) {
-    diff = (new Date(doorValue) - new Date(lkwValue)) / 36e5;
+    diff = (new Date(doorValue) - new Date(lkwValue)) / MS_PER_HOUR;
   } else {
     return { message: '', type: '' };
   }
@@ -53,16 +58,16 @@ export function computeArrivalMessage({ lkwType, lkwValue, doorValue }) {
   if (diff < 0) {
     return { message: 'Nenuoseklus laiko įrašas.', type: 'error' };
   }
-  if (diff <= 4.5) {
+  if (diff <= IVT_WINDOW_HOURS) {
     return {
       message: 'Indikuotina trombolizė / trombektomija.',
       type: 'success',
     };
   }
-  if (diff < 9) {
+  if (diff < PERFUSION_WINDOW_HOURS) {
     return { message: 'Reikalinga KT perfuzija.', type: 'warning' };
   }
-  if (diff <= 24) {
+  if (diff <= MTE_WINDOW_HOURS) {
     return {
       message:
         'Trombolizė kontraindikuotina, bet gali būti taikoma trombektomija.',

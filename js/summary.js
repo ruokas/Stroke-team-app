@@ -123,7 +123,7 @@ export function summaryTemplate({
 
   lines.push('LAIKAI:');
   if (times.gmp) lines.push(`- GMP iškvietimas: ${times.gmp}`);
-  lines.push(`- LKW: ${times.lkw ?? '—'}`);
+  lines.push(`- Paskutinį kartą matytas sveikas: ${times.lkw ?? '—'}`);
   lines.push(`- Atvykimas: ${times.door ?? '—'}`);
   lines.push(`- Sprendimas: ${times.decision ?? '—'}`);
   lines.push(`- Trombolizė pradėta: ${times.thrombolysis ?? '—'}`);

@@ -4,6 +4,7 @@
   "type": "module",
   "devDependencies": {
     "axe-core": "^4.8.3",
+    "eslint": "^9.34.0",
     "husky": "^9.0.11",
     "jsdom": "^24.0.0",
     "prettier": "^3.2.5"
@@ -12,7 +13,8 @@
     "format": "prettier --write js/*.js",
     "test": "node --test",
     "build": "node build.js",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lint": "ESLINT_USE_FLAT_CONFIG=false eslint js test"
   },
   "dependencies": {
     "nunjucks": "^3.2.4"

@@ -42,7 +42,7 @@ export function showModal({ title = '', message = '', input, buttons = [] }) {
       resolve(val);
     };
 
-    buttons.forEach((btn, idx) => {
+    buttons.forEach((btn) => {
       const b = document.createElement('button');
       b.type = 'button';
       b.textContent = btn.label;

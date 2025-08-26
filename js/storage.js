@@ -50,7 +50,7 @@ export function getPatients() {
           p.data = migrateSchema(p.data);
           if (p.data.version !== SCHEMA_VERSION) throw new Error('');
           migrated = true;
-        } catch (e) {
+        } catch {
           console.warn(
             `Discarding patient ${id} due to incompatible schema version ${p.data.version}`,
           );

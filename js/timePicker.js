@@ -121,7 +121,7 @@ export function openTimePicker(target) {
 
   try {
     dialog.showModal();
-  } catch (e) {
+  } catch {
     dialog.remove();
     target.showPicker?.();
   }

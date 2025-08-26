@@ -39,11 +39,7 @@ test('summaryTemplate generates summary text correctly', async () => {
       sel === 'strong' ? { textContent: 'Kaptoprilis' } : null,
     querySelectorAll: (sel) =>
       sel === 'input'
-        ? [
-            { value: '10:00' },
-            { value: '25 mg' },
-            { value: 'požymai' },
-          ]
+        ? [{ value: '10:00' }, { value: '25 mg' }, { value: 'požymai' }]
         : [],
   };
   const documentStub = {
@@ -76,7 +72,9 @@ test('summaryTemplate generates summary text correctly', async () => {
   const { getInputs } = await import('../js/state.js');
   const inputs = getInputs();
   const { getPayload } = await import('../js/storage.js');
-  const { collectSummaryData, summaryTemplate } = await import('../js/summary.js');
+  const { collectSummaryData, summaryTemplate } = await import(
+    '../js/summary.js'
+  );
 
   inputs.a_personal.value = '12345678901';
   inputs.a_name.value = 'Jonas Jonaitis';
@@ -105,35 +103,25 @@ test('summaryTemplate generates summary text correctly', async () => {
   const data = collectSummaryData(getPayload());
   const summary = summaryTemplate(data);
 
+  assert(summary.includes('PACIENTAS:\n- Vardas: Jonas Jonaitis'));
+  assert(summary.includes('- Asmens kodas: 12345678901'));
+  assert(summary.includes('- Svoris: 80 kg'));
+  assert(summary.includes('- AKS atvykus: 120/80'));
+  assert(summary.includes('- NIHSS pradinis: 0'));
+  assert(summary.includes('VAISTAI:\n- Tipas: Tenekteplazė'));
+  assert(summary.includes('- Koncentracija: 5 mg/ml'));
+  assert(summary.includes('- Bendra dozė: 20 mg (4 ml)'));
   assert(
-    summary.includes(
-      'PACIENTAS: Jonas Jonaitis (12345678901), gim. data: 1980-01-01, svoris: 80 kg, AKS atvykus: 120/80.',
-    ),
+    summary.includes('AKS KOREKCIJA:\n- Kaptoprilis 10:00 25 mg (požymai)'),
   );
+  assert(summary.includes('AKTYVACIJOS KRITERIJAI:\n- <4.5'));
+  assert(summary.includes('- Varfarinas'));
   assert(
-    summary.includes(
-      'VAISTAI: Tenekteplazė. Koncentracija: 5 mg/ml. Bendra dozė: 20 mg (4 ml).',
-    ),
+    summary.includes('- Gliukozė: 5, AKS: 140/90, ŠSD: 80, SpO₂: 98, Temp: 37'),
   );
+  assert(summary.includes('SIMPTOMAI:\n- Veido paralyžius, Kalbos sutrikimas'));
+  assert(summary.includes('- Dešinės rankos silpnumas'));
   assert(
-    summary.includes(
-      'AKS korekcija: Kaptoprilis 10:00 25 mg (požymai).',
-    ),
-  );
-  assert(
-    summary.includes(
-      'Aktyvacijos kriterijai: <4.5, Varfarinas, Gliukozė: 5, AKS: 140/90, ŠSD: 80, SpO₂: 98, Temp: 37.',
-    ),
-  );
-  assert(
-    summary.includes(
-      'Simptomai: Veido paralyžius, Kalbos sutrikimas; Dešinės rankos silpnumas.',
-    ),
-  );
-  assert(summary.includes('NIHSS pradinis: 0.'));
-  assert(
-    summary.includes(
-      'SPRENDIMAS: Taikoma IVT, indikacijų MTE nenustatyta.',
-    ),
+    summary.includes('SPRENDIMAS:\n- Taikoma IVT, indikacijų MTE nenustatyta'),
   );
 });

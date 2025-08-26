@@ -7,8 +7,10 @@ export function collectSummaryData(payload) {
     personal: get(payload.a_personal),
     name: get(payload.a_name),
     dob: get(payload.a_dob),
+    age: get(payload.a_age),
     weight: get(payload.p_weight),
     bp: get(payload.p_bp),
+    inr: get(payload.p_inr),
     nih0: get(payload.p_nihss0 ?? payload.nihs_initial),
   };
   const times = {
@@ -16,6 +18,7 @@ export function collectSummaryData(payload) {
     door: get(payload.t_door),
     decision: get(payload.d_time),
     thrombolysis: get(payload.t_thrombolysis),
+    gmp: get(payload.a_gmp_time),
   };
   const drugs = {
     type: payload.drug_type || '',
@@ -53,6 +56,8 @@ export function collectSummaryData(payload) {
     ].filter(Boolean),
   };
   const arrivalSymptoms = get(payload.arrival_symptoms);
+  const arrivalContra = get(payload.arrival_contra);
+  const arrivalMtContra = get(payload.arrival_mt_contra);
   const decision = payload.d_decision || null;
   return {
     patient,
@@ -62,6 +67,8 @@ export function collectSummaryData(payload) {
     bpMeds,
     activation,
     arrivalSymptoms,
+    arrivalContra,
+    arrivalMtContra,
   };
 }
 
@@ -73,63 +80,93 @@ export function summaryTemplate({
   bpMeds,
   activation,
   arrivalSymptoms,
+  arrivalContra,
+  arrivalMtContra,
 }) {
-  const parts = [];
-  parts.push(
-    `PACIENTAS: ${patient.name ?? '—'} (${patient.personal ?? '—'}), gim. data: ${
-      patient.dob ?? '—'
-    }, svoris: ${patient.weight ?? '—'} kg, AKS atvykus: ${patient.bp ?? '—'}.`,
-  );
-  parts.push(
-    `LAIKAI: LKW: ${times.lkw ?? '—'}, Atvykimas: ${times.door ?? '—'}, Sprendimas: ${
-      times.decision ?? '—'
-    }, Trombolizė pradėta: ${times.thrombolysis ?? '—'}.`,
-  );
+  const lines = [];
+  lines.push('PACIENTAS:');
+  lines.push(`- Vardas: ${patient.name ?? '—'}`);
+  lines.push(`- Asmens kodas: ${patient.personal ?? '—'}`);
+  lines.push(`- Gim. data: ${patient.dob ?? '—'}`);
+  if (patient.age) lines.push(`- Amžius: ${patient.age}`);
+  lines.push(`- Svoris: ${patient.weight ?? '—'} kg`);
+  lines.push(`- AKS atvykus: ${patient.bp ?? '—'}`);
+  if (patient.inr) lines.push(`- INR: ${patient.inr}`);
+  lines.push(`- NIHSS pradinis: ${patient.nih0 ?? '—'}`);
+
+  lines.push('LAIKAI:');
+  if (times.gmp) lines.push(`- GMP iškvietimas: ${times.gmp}`);
+  lines.push(`- LKW: ${times.lkw ?? '—'}`);
+  lines.push(`- Atvykimas: ${times.door ?? '—'}`);
+  lines.push(`- Sprendimas: ${times.decision ?? '—'}`);
+  lines.push(`- Trombolizė pradėta: ${times.thrombolysis ?? '—'}`);
+
+  lines.push('VAISTAI:');
   const drugType = drugs.type === 'tnk' ? 'Tenekteplazė' : 'Alteplazė';
-  const drugParts = [`VAISTAI: ${drugType}.`];
-  drugParts.push(
-    `Koncentracija: ${drugs.conc ? `${drugs.conc} mg/ml` : '—'}. Bendra dozė: ${
+  lines.push(`- Tipas: ${drugType}`);
+  lines.push(`- Koncentracija: ${drugs.conc ? `${drugs.conc} mg/ml` : '—'}`);
+  lines.push(
+    `- Bendra dozė: ${
       drugs.totalDose ? `${drugs.totalDose} mg` : '—'
-    } (${drugs.totalVol ? `${drugs.totalVol} ml` : '—'}).`,
+    } (${drugs.totalVol ? `${drugs.totalVol} ml` : '—'})`,
   );
-  if (drugs.bolus) drugParts.push(`Bolius: ${drugs.bolus}.`);
-  if (drugs.infusion) drugParts.push(`Infuzija: ${drugs.infusion}.`);
-  parts.push(drugParts.join(' '));
+  if (drugs.bolus) lines.push(`- Bolius: ${drugs.bolus}`);
+  if (drugs.infusion) lines.push(`- Infuzija: ${drugs.infusion}`);
 
   if (bpMeds.length) {
-    const bpLines = bpMeds.map((m) =>
-      `${m.med} ${m.time || '—'} ${m.dose || ''}${
-        m.notes ? ` (${m.notes})` : ''
-      }`.trim(),
+    lines.push('AKS KOREKCIJA:');
+    bpMeds.forEach((m) =>
+      lines.push(
+        `- ${m.med} ${m.time || '—'} ${m.dose || ''}${
+          m.notes ? ` (${m.notes})` : ''
+        }`.trim(),
+      ),
     );
-    parts.push(`AKS korekcija: ${bpLines.join('; ')}.`);
   }
 
-  const actParts = [];
-  if (activation.lkw) actParts.push(activation.lkw);
-  if (activation.drugs.length) actParts.push(activation.drugs.join(', '));
-  const paramParts = [];
-  if (activation.params.glucose)
-    paramParts.push(`Gliukozė: ${activation.params.glucose}`);
-  if (activation.params.aks) paramParts.push(`AKS: ${activation.params.aks}`);
-  if (activation.params.hr) paramParts.push(`ŠSD: ${activation.params.hr}`);
-  if (activation.params.spo2)
-    paramParts.push(`SpO₂: ${activation.params.spo2}`);
-  if (activation.params.temp)
-    paramParts.push(`Temp: ${activation.params.temp}`);
-  if (paramParts.length) actParts.push(paramParts.join(', '));
-  if (actParts.length)
-    parts.push(`Aktyvacijos kriterijai: ${actParts.join(', ')}.`);
+  if (
+    activation.lkw ||
+    activation.drugs.length ||
+    activation.params.glucose ||
+    activation.params.aks ||
+    activation.params.hr ||
+    activation.params.spo2 ||
+    activation.params.temp
+  ) {
+    lines.push('AKTYVACIJOS KRITERIJAI:');
+    if (activation.lkw) lines.push(`- ${activation.lkw}`);
+    if (activation.drugs.length) lines.push(`- ${activation.drugs.join(', ')}`);
+    const paramParts = [];
+    if (activation.params.glucose)
+      paramParts.push(`Gliukozė: ${activation.params.glucose}`);
+    if (activation.params.aks) paramParts.push(`AKS: ${activation.params.aks}`);
+    if (activation.params.hr) paramParts.push(`ŠSD: ${activation.params.hr}`);
+    if (activation.params.spo2)
+      paramParts.push(`SpO₂: ${activation.params.spo2}`);
+    if (activation.params.temp)
+      paramParts.push(`Temp: ${activation.params.temp}`);
+    if (paramParts.length) lines.push(`- ${paramParts.join(', ')}`);
+  }
 
-  const symptomParts = [];
-  if (activation.symptoms.length)
-    symptomParts.push(activation.symptoms.join(', '));
-  if (arrivalSymptoms) symptomParts.push(arrivalSymptoms);
-  if (symptomParts.length) parts.push(`Simptomai: ${symptomParts.join('; ')}.`);
+  if (activation.symptoms.length || arrivalSymptoms) {
+    lines.push('SIMPTOMAI:');
+    if (activation.symptoms.length)
+      lines.push(`- ${activation.symptoms.join(', ')}`);
+    if (arrivalSymptoms) lines.push(`- ${arrivalSymptoms}`);
+  }
 
-  parts.push(`NIHSS pradinis: ${patient.nih0 ?? '—'}.`);
-  if (decision) parts.push(`SPRENDIMAS: ${decision}.`);
-  return parts.join('\n');
+  if (arrivalContra) {
+    lines.push('KONTRAINDIKACIJOS IVT:');
+    lines.push(`- ${arrivalContra}`);
+  }
+  if (arrivalMtContra) {
+    lines.push('KONTRAINDIKACIJOS MTE:');
+    lines.push(`- ${arrivalMtContra}`);
+  }
+
+  lines.push('SPRENDIMAS:');
+  lines.push(`- ${decision ?? '—'}`);
+  return lines.join('\n');
 }
 
 export function copySummary(data) {

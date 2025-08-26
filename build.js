@@ -3,5 +3,10 @@ import nunjucks from 'nunjucks';
 
 nunjucks.configure('templates', { autoescape: false });
 
-const html = nunjucks.render('index.njk');
-fs.writeFileSync('index.html', html);
+try {
+  const html = nunjucks.render('index.njk');
+  await fs.promises.writeFile('index.html', html);
+} catch (error) {
+  console.error('Failed to build index.html:', error);
+  process.exit(1);
+}

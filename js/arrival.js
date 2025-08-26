@@ -97,20 +97,55 @@ export function initSymptomButtons() {
   const textarea = $('#arrival_symptoms');
   if (!textarea) return;
   const boxes = $$('input[name="arrival_symptom"]');
+  const sideRadios = $$('input[name="arrival_symptom_side"]');
+  const sideSymptoms = [
+    'Veido asimetrija',
+    'Rankos silpnumas',
+    'Kojos silpnumas',
+  ];
+  const sideLabels = { left: 'Kairės', right: 'Dešinės' };
+  const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+
   const updateFromBoxes = () => {
-    const values = boxes.filter((i) => i.checked).map((i) => i.value);
+    const side = sideRadios.find((r) => r.checked)?.value;
+    const values = boxes
+      .filter((i) => i.checked)
+      .map((i) => i.value)
+      .map((v) =>
+        side && sideSymptoms.includes(v)
+          ? `${sideLabels[side]} ${v.toLowerCase()}`
+          : v,
+      );
     textarea.value = values.join(', ');
   };
   const updateFromText = () => {
+    const leftPrefix = `${sideLabels.left} `;
+    const rightPrefix = `${sideLabels.right} `;
+    let detectedSide;
     const values = textarea.value
       .split(',')
       .map((v) => v.trim())
-      .filter(Boolean);
+      .filter(Boolean)
+      .map((v) => {
+        if (v.toLowerCase().startsWith(leftPrefix.toLowerCase())) {
+          detectedSide = 'left';
+          return capitalize(v.slice(leftPrefix.length).trim());
+        }
+        if (v.toLowerCase().startsWith(rightPrefix.toLowerCase())) {
+          detectedSide = 'right';
+          return capitalize(v.slice(rightPrefix.length).trim());
+        }
+        return capitalize(v);
+      });
     boxes.forEach((b) => {
       b.checked = values.includes(b.value);
     });
+    sideRadios.forEach((r) => {
+      r.checked = r.value === detectedSide;
+    });
   };
   boxes.forEach((i) => i.addEventListener('change', updateFromBoxes));
+  sideRadios.forEach((r) => r.addEventListener('change', updateFromBoxes));
   textarea.addEventListener('input', updateFromText);
   updateFromText();
 }

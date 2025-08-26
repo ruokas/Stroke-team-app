@@ -1,12 +1,26 @@
-import fs from 'fs';
+import fs from 'fs/promises';
 import nunjucks from 'nunjucks';
+import postcss from 'postcss';
+import cssnano from 'cssnano';
 
 nunjucks.configure('templates', { autoescape: false });
 
-try {
+async function buildHtml() {
   const html = nunjucks.render('index.njk');
-  await fs.promises.writeFile('index.html', html);
+  await fs.writeFile('index.html', html);
+}
+
+async function buildCss() {
+  const files = ['css/layout.css', 'css/components.css', 'css/forms.css'];
+  const contents = await Promise.all(files.map(f => fs.readFile(f, 'utf8')));
+  const result = await postcss([cssnano]).process(contents.join('\n'), { from: undefined });
+  await fs.writeFile('css/style.css', result.css);
+}
+
+try {
+  await buildHtml();
+  await buildCss();
 } catch (error) {
-  console.error('Failed to build index.html:', error);
+  console.error('Build failed:', error);
   process.exit(1);
 }

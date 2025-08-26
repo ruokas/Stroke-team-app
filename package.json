@@ -2,6 +2,9 @@
   "name": "insulto-komandos-forma",
   "version": "1.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
   "devDependencies": {
     "axe-core": "^4.8.3",
     "cssnano": "^7.1.1",

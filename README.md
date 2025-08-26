@@ -7,6 +7,8 @@ and stores drafts locally so it can be used offline.
 
 ## Getting started
 
+Requires Node.js 20 or later.
+
 Install dependencies and run the tests:
 
 ```sh

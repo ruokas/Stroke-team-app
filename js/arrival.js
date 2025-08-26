@@ -1,6 +1,5 @@
 import { $, $$ } from './state.js';
-
-const pad = (n) => String(n).padStart(2, '0');
+import { pad } from './time.js';
 
 export function timeSince(onset) {
   const start = new Date(onset).getTime();

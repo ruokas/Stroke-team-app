@@ -43,3 +43,8 @@ test('sleepMidpoint computes midpoint across midnight', async () => {
   const end = '2024-01-02T06:00';
   assert.equal(sleepMidpoint(start, end), '2024-01-02T02:00');
 });
+
+test('diffMinutes returns minutes between times', async () => {
+  const { diffMinutes } = await import('../js/time.js');
+  assert.equal(diffMinutes('2024-01-01T23:00', '2024-01-02T01:00'), 120);
+});

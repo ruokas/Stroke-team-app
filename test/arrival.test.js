@@ -84,13 +84,16 @@ test('over 24 hours', () => {
   });
 });
 
-test('negative diff returns empty message', () => {
+test('negative diff returns error message', () => {
   const res = computeArrivalMessage({
     lkwType: 'known',
     lkwValue: '2024-01-01T10:00',
     doorValue: '2024-01-01T09:00',
   });
-  assert.deepEqual(res, { message: '', type: '' });
+  assert.deepEqual(res, {
+    message: 'Nenuoseklus laiko įrašas.',
+    type: 'error',
+  });
 });
 
 test('sleep midpoint without door time uses current time', () => {

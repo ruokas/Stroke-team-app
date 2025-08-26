@@ -13,7 +13,9 @@ test('copySummary builds data object and copies formatted text', async () => {
         classes: new Set(),
         add() {},
         remove() {},
-        contains() { return false; },
+        contains() {
+          return false;
+        },
       },
       querySelector: () => ({ textContent: '' }),
       addEventListener: () => {},
@@ -35,11 +37,7 @@ test('copySummary builds data object and copies formatted text', async () => {
       sel === 'strong' ? { textContent: 'Kaptoprilis' } : null,
     querySelectorAll: (sel) =>
       sel === 'input'
-        ? [
-            { value: '10:00' },
-            { value: '25 mg' },
-            { value: 'požymai' },
-          ]
+        ? [{ value: '10:00' }, { value: '25 mg' }, { value: 'požymai' }]
         : [],
   };
   global.document = {
@@ -74,14 +72,16 @@ test('copySummary builds data object and copies formatted text', async () => {
   global.localStorage = { setItem: () => {}, getItem: () => null };
   global.URL = { createObjectURL: () => '', revokeObjectURL: () => {} };
   global.Blob = function () {};
-  global.FileReader = function () { this.readAsText = () => {}; };
+  global.FileReader = function () {
+    this.readAsText = () => {};
+  };
   global.setInterval = () => {};
 
   const { getInputs } = await import('../js/state.js');
   const inputs = getInputs();
   const { getPayload } = await import('../js/storage.js');
   const { collectSummaryData, summaryTemplate, copySummary } = await import(
-    '../js/summary.js',
+    '../js/summary.js'
   );
 
   inputs.a_personal.value = '12345678901';
@@ -112,8 +112,10 @@ test('copySummary builds data object and copies formatted text', async () => {
       personal: '12345678901',
       name: 'Jonas Jonaitis',
       dob: '1980-01-01',
+      age: null,
       weight: '80',
       bp: '120/80',
+      inr: null,
       nih0: '0',
     },
     times: {
@@ -121,6 +123,7 @@ test('copySummary builds data object and copies formatted text', async () => {
       door: '2024-01-01T08:00',
       decision: '2024-01-01T08:40',
       thrombolysis: '2024-01-01T09:00',
+      gmp: null,
     },
     drugs: {
       type: 'tnk',
@@ -146,6 +149,8 @@ test('copySummary builds data object and copies formatted text', async () => {
       symptoms: ['Veido paralyžius', 'Kalbos sutrikimas'],
     },
     arrivalSymptoms: 'Dešinės rankos silpnumas',
+    arrivalContra: null,
+    arrivalMtContra: null,
     decision: 'Taikoma IVT, indikacijų MTE nenustatyta',
   });
 

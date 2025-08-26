@@ -12,9 +12,12 @@ import {
   updateActivePatient,
   getPatients,
 } from './patients.js';
-import { savePatient, getPatients as getSavedPatients } from './storage.js';
+import { getPatients as getSavedPatients } from './storage.js';
 
-export function setupAutosave(inputs) {
+export function setupAutosave(
+  inputs,
+  { scheduleSave: sched, flushSave: flush },
+) {
   let dirty = false;
   const patientSelect = $('#patientSelect');
 
@@ -57,10 +60,11 @@ export function setupAutosave(inputs) {
   $('#saveBtn').addEventListener('click', () => {
     const id = getActivePatientId();
     if (!id) return;
-    savePatient(id);
-    showToast('Išsaugota naršyklėje.', { type: 'success' });
-    updateSaveStatus();
-    dirty = false;
+    flush(id, undefined, () => {
+      showToast('Išsaugota naršyklėje.', { type: 'success' });
+      updateSaveStatus();
+      dirty = false;
+    });
   });
 
   $('#renamePatientBtn').addEventListener('click', async () => {
@@ -74,9 +78,10 @@ export function setupAutosave(inputs) {
     if (newName) {
       renamePatient(id, newName);
       refreshPatientSelect(id);
-      savePatient(id, newName);
-      updateSaveStatus();
-      showToast('Pacientas pervadintas.', { type: 'info' });
+      flush(id, newName, () => {
+        updateSaveStatus();
+        showToast('Pacientas pervadintas.', { type: 'info' });
+      });
     }
   });
 
@@ -111,9 +116,10 @@ export function setupAutosave(inputs) {
       }
     }
     if (id) {
-      savePatient(id);
-      updateSaveStatus();
-      dirty = false;
+      sched(id, undefined, () => {
+        updateSaveStatus();
+        dirty = false;
+      });
     }
   };
   document.addEventListener('input', handleChange);

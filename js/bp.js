@@ -14,9 +14,12 @@ export function setupBpEntry() {
         const med = btn.dataset.med;
         const dose = btn.dataset.dose || '';
         const now = new Date().toISOString().slice(11, 16);
+        const ts = Date.now();
+        const entryId = `bp_entry_${ts}`;
+        const timeId = `bp_time_${ts}`;
         const entry = document.createElement('div');
         entry.className = 'bp-entry mt-10';
-        const id = `bp_time_${Date.now()}`;
+        entry.id = entryId;
 
         const strong = document.createElement('strong');
         strong.textContent = med;
@@ -32,7 +35,7 @@ export function setupBpEntry() {
 
         const timeInput = document.createElement('input');
         timeInput.setAttribute('type', 'time');
-        timeInput.id = id;
+        timeInput.id = timeId;
         timeInput.className = 'time-input';
         timeInput.step = '60';
         timeInput.value = now;
@@ -40,27 +43,27 @@ export function setupBpEntry() {
 
         const timePickerBtn = document.createElement('button');
         timePickerBtn.className = 'btn ghost';
-        timePickerBtn.setAttribute('data-time-picker', id);
+        timePickerBtn.setAttribute('data-time-picker', timeId);
         timePickerBtn.setAttribute('aria-label', 'Pasirinkti laiką');
         timePickerBtn.textContent = '⌚';
         group.appendChild(timePickerBtn);
 
         const nowBtn = document.createElement('button');
         nowBtn.className = 'btn ghost';
-        nowBtn.setAttribute('data-now', id);
+        nowBtn.setAttribute('data-now', timeId);
         nowBtn.textContent = 'Dabar';
         group.appendChild(nowBtn);
 
         const stepDownBtn = document.createElement('button');
         stepDownBtn.className = 'btn ghost';
-        stepDownBtn.setAttribute('data-stepdown', id);
+        stepDownBtn.setAttribute('data-stepdown', timeId);
         stepDownBtn.setAttribute('aria-label', '−5 min');
         stepDownBtn.textContent = '−5';
         group.appendChild(stepDownBtn);
 
         const stepUpBtn = document.createElement('button');
         stepUpBtn.className = 'btn ghost';
-        stepUpBtn.setAttribute('data-stepup', id);
+        stepUpBtn.setAttribute('data-stepup', timeId);
         stepUpBtn.setAttribute('aria-label', '+5 min');
         stepUpBtn.textContent = '+5';
         group.appendChild(stepUpBtn);
@@ -74,6 +77,12 @@ export function setupBpEntry() {
         notesInput.setAttribute('type', 'text');
         notesInput.setAttribute('placeholder', 'Pastabos');
         grid.appendChild(notesInput);
+
+        const removeBtn = document.createElement('button');
+        removeBtn.className = 'btn ghost';
+        removeBtn.setAttribute('data-remove-bp', entryId);
+        removeBtn.textContent = '❌';
+        entry.appendChild(removeBtn);
 
         bpEntries.appendChild(entry);
         bpMedList.classList.add('hidden');

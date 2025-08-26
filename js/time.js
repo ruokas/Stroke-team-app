@@ -30,3 +30,12 @@ export function sleepMidpoint(start, end) {
   const mid = new Date((s.getTime() + e.getTime()) / 2);
   return toLocalInputValue(mid);
 }
+
+export function diffMinutes(start, end) {
+  if (!start || !end) return NaN;
+  const s = new Date(start);
+  let e = new Date(end);
+  if (isNaN(s) || isNaN(e)) return NaN;
+  if (e < s) e = new Date(e.getTime() + 864e5);
+  return Math.round((e.getTime() - s.getTime()) / 60000);
+}

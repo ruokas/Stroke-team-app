@@ -114,10 +114,16 @@ test('summaryTemplate generates summary text correctly', async () => {
   assert(
     summary.includes('AKS KOREKCIJA:\n- Kaptoprilis 10:00 25 mg (požymai)'),
   );
-  assert(summary.includes('AKTYVACIJOS KRITERIJAI:\n- <4.5'));
-  assert(summary.includes('- Varfarinas'));
   assert(
-    summary.includes('- Gliukozė: 5, AKS: 140/90, ŠSD: 80, SpO₂: 98, Temp: 37'),
+    summary.includes(
+      'AKTYVACIJA:\n- Preliminarus susirgimo laikas: <4.5',
+    ),
+  );
+  assert(summary.includes('- Vartojami vaistai: Varfarinas'));
+  assert(
+    summary.includes(
+      '- GMP parametrai: Gliukozė: 5, AKS: 140/90, ŠSD: 80, SpO₂: 98, Temp: 37',
+    ),
   );
   assert(summary.includes('SIMPTOMAI:\n- Veido paralyžius, Kalbos sutrikimas'));
   assert(summary.includes('- Dešinės rankos silpnumas'));

@@ -83,4 +83,13 @@ export function initActivation() {
       }
     });
   });
+
+  const lkwInputs = dom.getALkwInputs();
+  lkwInputs.forEach((el) => {
+    el.addEventListener('change', () => {
+      if (el.value === '<4.5') {
+        showToast('Aktyvuokite insulto komandą', { type: 'info' });
+      }
+    });
+  });
 }

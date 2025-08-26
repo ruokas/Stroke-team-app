@@ -610,7 +610,7 @@ section[data-tab='Intervencijos'] h3 {
   font-size: 12px;
 }
 .summary {
-  min-height: 160px;
+  min-height: 300px;
 }
 .sticky-actions {
   position: sticky;

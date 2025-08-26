@@ -1,8 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { setupDom } from './testUtils.js';
-
-const { getEl, localStorageStub } = await setupDom();
+import './jsdomSetup.js';
 
 let inputs = null;
 const { getInputs } = await import('../js/state.js');
@@ -26,7 +24,7 @@ function resetInputs() {
 }
 
 test('localStorage handles multiple records', { concurrency: false }, () => {
-  localStorageStub.store = {};
+  localStorage.clear();
   resetInputs();
 
   inputs.nih0.value = '1';
@@ -53,7 +51,7 @@ test(
   'savePatient/loadPatient with copySummary copies generated text',
   { concurrency: false },
   async () => {
-    localStorageStub.store = {};
+    localStorage.clear();
     resetInputs();
 
     inputs.a_dob.value = '2000-01-01';
@@ -75,16 +73,16 @@ test(
 
     assert.ok(global.__copied.includes('PACIENTAS'));
     assert.ok(global.__copied.includes('NIHSS pradinis: 5'));
-    assert.strictEqual(getEl('#summary').value, global.__copied);
+    assert.strictEqual(document.getElementById('summary').value, global.__copied);
   },
 );
 
 test('getPatients migrates unversioned data', () => {
-  localStorageStub.store = {
-    insultoKomandaPatients_v1: JSON.stringify({
-      old: { name: 'Old', data: { p_nihss0: '1' } },
-    }),
-  };
+  localStorage.clear();
+  localStorage.setItem(
+    'insultoKomandaPatients_v1',
+    JSON.stringify({ old: { name: 'Old', data: { p_nihss0: '1' } } }),
+  );
   const patients = getPatients();
   assert.strictEqual(patients.old.data.version, 1);
   assert.strictEqual(patients.old.data.data.p_nihss0, '1');
@@ -94,11 +92,13 @@ test('getPatients migrates unversioned data', () => {
 });
 
 test('getPatients discards unknown schema versions', () => {
-  localStorageStub.store = {
-    insultoKomandaPatients_v1: JSON.stringify({
+  localStorage.clear();
+  localStorage.setItem(
+    'insultoKomandaPatients_v1',
+    JSON.stringify({
       future: { name: 'Future', data: { version: 999, data: {} } },
     }),
-  };
+  );
   let warned = false;
   const origWarn = console.warn;
   console.warn = () => {

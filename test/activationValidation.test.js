@@ -1,38 +1,15 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
-
-function createEl() {
-  return {
-    value: '',
-    classList: {
-      classes: new Set(),
-      add(c) {
-        this.classes.add(c);
-      },
-      remove(c) {
-        this.classes.delete(c);
-      },
-      contains(c) {
-        return this.classes.has(c);
-      },
-    },
-    setCustomValidity: () => {},
-  };
-}
+import './jsdomSetup.js';
 
 async function loadModule() {
-  global.document = {
-    querySelector: () => null,
-    querySelectorAll: () => [],
-    getElementById: () => null,
-  };
   return import('../js/activation.js');
 }
 
 test('validateGlucose enforces 2.8-22 range', async () => {
   const { validateGlucose } = await loadModule();
-  const el = createEl();
+  const el = document.createElement('input');
   el.value = '1';
   validateGlucose(el);
   assert(el.classList.contains('invalid'));
@@ -46,7 +23,7 @@ test('validateGlucose enforces 2.8-22 range', async () => {
 
 test('validateAks requires systolic/diastolic format', async () => {
   const { validateAks } = await loadModule();
-  const el = createEl();
+  const el = document.createElement('input');
   el.value = '120';
   validateAks(el);
   assert(el.classList.contains('invalid'));
@@ -57,7 +34,7 @@ test('validateAks requires systolic/diastolic format', async () => {
 
 test('validateHr checks 30-250 bpm', async () => {
   const { validateHr } = await loadModule();
-  const el = createEl();
+  const el = document.createElement('input');
   el.value = '10';
   validateHr(el);
   assert(el.classList.contains('invalid'));
@@ -71,7 +48,7 @@ test('validateHr checks 30-250 bpm', async () => {
 
 test('validateSpo2 checks 50-100%', async () => {
   const { validateSpo2 } = await loadModule();
-  const el = createEl();
+  const el = document.createElement('input');
   el.value = '30';
   validateSpo2(el);
   assert(el.classList.contains('invalid'));
@@ -85,7 +62,7 @@ test('validateSpo2 checks 50-100%', async () => {
 
 test('validateTemp checks 30-43°C', async () => {
   const { validateTemp } = await loadModule();
-  const el = createEl();
+  const el = document.createElement('input');
   el.value = '25';
   validateTemp(el);
   assert(el.classList.contains('invalid'));
@@ -139,4 +116,3 @@ test('activation parameter inputs have numeric attributes', async () => {
   assert.match(input, /inputmode="numeric"/);
   assert.match(input, /placeholder="120\/80"/);
 });
-

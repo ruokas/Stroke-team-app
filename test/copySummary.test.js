@@ -1,88 +1,20 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import './jsdomSetup.js';
 
 test('copySummary builds data object and copies formatted text', async () => {
-  const elements = {};
-  function createEl() {
-    return {
-      value: '',
-      textContent: '',
-      innerHTML: '',
-      style: {},
-      classList: {
-        classes: new Set(),
-        add() {},
-        remove() {},
-        contains() {
-          return false;
-        },
-      },
-      querySelector: () => ({ textContent: '' }),
-      addEventListener: () => {},
-      checked: false,
-      select: () => {},
-    };
-  }
-  function getEl(key) {
-    if (!elements[key]) elements[key] = createEl();
-    return elements[key];
-  }
-  const decisionOpt = {
-    checked: true,
-    value: 'Taikoma IVT, indikacijų MTE nenustatyta',
-  };
-  const aLkwOpt = { checked: true, value: '<4.5' };
-  const bpEntry = {
-    querySelector: (sel) =>
-      sel === 'strong' ? { textContent: 'Kaptoprilis' } : null,
-    querySelectorAll: (sel) =>
-      sel === 'input'
-        ? [{ value: '10:00' }, { value: '25 mg' }, { value: 'požymai' }]
-        : [],
-  };
-  global.document = {
-    querySelector: (sel) => getEl(sel),
-    querySelectorAll: (sel) => {
-      if (sel === 'input[name="a_lkw"]') return [aLkwOpt];
-      if (sel === 'input[name="d_decision"]') return [decisionOpt];
-      if (sel === '#bpEntries .bp-entry') return [bpEntry];
-      if (sel === 'input[name="a_face"]') return [{ checked: true }];
-      if (sel === 'input[name="a_speech"]') return [{ checked: true }];
-      return [];
-    },
-    getElementById: (id) => getEl('#' + id),
-    addEventListener: () => {},
-    execCommand: () => true,
-    createElement: () => createEl(),
-  };
-  global.window = { isSecureContext: true };
-  Object.defineProperty(global, 'navigator', {
-    value: {
-      clipboard: {
-        writeText: async (txt) => {
-          global.__copied = txt;
-        },
-      },
-    },
-    configurable: true,
-  });
-  const { toast } = await import('../js/toast.js');
-  toast.showToast = () => {};
-  global.confirm = () => true;
-  global.localStorage = { setItem: () => {}, getItem: () => null };
-  global.URL = { createObjectURL: () => '', revokeObjectURL: () => {} };
-  global.Blob = function () {};
-  global.FileReader = function () {
-    this.readAsText = () => {};
-  };
-  global.setInterval = () => {};
-
   const { getInputs } = await import('../js/state.js');
   const inputs = getInputs();
   const { getPayload } = await import('../js/storage.js');
-  const { collectSummaryData, summaryTemplate, copySummary } = await import(
-    '../js/summary.js'
-  );
+  const { collectSummaryData, summaryTemplate, copySummary } = await import('../js/summary.js');
+
+  document.querySelector('input[name="d_decision"][value="Taikoma IVT, indikacijų MTE nenustatyta"]').checked = true;
+  document.querySelector('input[name="a_lkw"][value="<4.5"]').checked = true;
+  document.querySelector('input[name="a_face"]').checked = true;
+  document.querySelector('input[name="a_speech"]').checked = true;
+
+  const bpEntries = document.getElementById('bpEntries');
+  bpEntries.innerHTML = `<div class="bp-entry"><strong>Kaptoprilis</strong><input value="10:00" /><input value="25 mg" /><input value="požymai" /></div>`;
 
   inputs.a_personal.value = '12345678901';
   inputs.a_name.value = 'Jonas Jonaitis';

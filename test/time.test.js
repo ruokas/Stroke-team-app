@@ -1,18 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-
-const el = {
-  type: 'time',
-  value: '',
-  dispatched: [],
-  dispatchEvent(evt) {
-    this.dispatched.push(evt.type);
-  },
-};
-
-global.document = {
-  getElementById: () => el,
-};
+import './jsdomSetup.js';
 
 test('setNow sets local HH:MM and triggers change', async () => {
   const RealDate = Date;
@@ -27,12 +15,20 @@ test('setNow sets local HH:MM and triggers change', async () => {
     }
   };
 
+  const input = document.createElement('input');
+  input.type = 'time';
+  input.id = 'time-input';
+  const dispatched = [];
+  input.addEventListener('input', (e) => dispatched.push(e.type));
+  input.addEventListener('change', (e) => dispatched.push(e.type));
+  document.body.appendChild(input);
+
   const { setNow } = await import('../js/time.js');
 
   setNow('time-input');
 
-  assert.equal(el.value, '03:04');
-  assert.deepEqual(el.dispatched, ['input', 'change']);
+  assert.equal(input.value, '03:04');
+  assert.deepEqual(dispatched, ['input', 'change']);
 
   global.Date = RealDate;
 });

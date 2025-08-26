@@ -34,37 +34,72 @@ export function openTimePicker(target) {
     }
   }
 
-  const hourOpts = Array.from({ length: 24 })
-    .map((_, i) => `<option value="${pad(i)}">${pad(i)}</option>`)
-    .join('');
-  const minuteOpts = Array.from({ length: 60 })
-    .map((_, i) => `<option value="${pad(i)}">${pad(i)}</option>`)
-    .join('');
+  const form = document.createElement('form');
+  form.method = 'dialog';
+  form.className = 'tp-form';
 
-  dialog.innerHTML = `
-    <form method="dialog" class="tp-form">
-      ${
-        target.type === 'time'
-          ? ''
-          : `<input type="date" class="tp-date" value="${datePart}" />`
-      }
-      <div class="tp-time">
-        <select class="tp-hour">${hourOpts}</select>
-        <span>:</span>
-        <select class="tp-minute">${minuteOpts}</select>
-      </div>
-      <div class="tp-actions">
-        <button value="cancel" type="button">Atšaukti</button>
-        <button value="ok" type="submit">Gerai</button>
-      </div>
-    </form>`;
+  let dateInput;
+  if (target.type !== 'time') {
+    dateInput = document.createElement('input');
+    dateInput.type = 'date';
+    dateInput.className = 'tp-date';
+    dateInput.value = datePart;
+    form.appendChild(dateInput);
+  }
+
+  const timeWrap = document.createElement('div');
+  timeWrap.className = 'tp-time';
+
+  const hourSel = document.createElement('select');
+  hourSel.className = 'tp-hour';
+  for (let i = 0; i < 24; i++) {
+    const opt = document.createElement('option');
+    const val = pad(i);
+    opt.value = val;
+    opt.textContent = val;
+    hourSel.appendChild(opt);
+  }
+  timeWrap.appendChild(hourSel);
+
+  const sep = document.createElement('span');
+  sep.textContent = ':';
+  timeWrap.appendChild(sep);
+
+  const minuteSel = document.createElement('select');
+  minuteSel.className = 'tp-minute';
+  for (let i = 0; i < 60; i++) {
+    const opt = document.createElement('option');
+    const val = pad(i);
+    opt.value = val;
+    opt.textContent = val;
+    minuteSel.appendChild(opt);
+  }
+  timeWrap.appendChild(minuteSel);
+
+  form.appendChild(timeWrap);
+
+  const actions = document.createElement('div');
+  actions.className = 'tp-actions';
+
+  const cancelBtn = document.createElement('button');
+  cancelBtn.value = 'cancel';
+  cancelBtn.type = 'button';
+  cancelBtn.textContent = 'Atšaukti';
+  actions.appendChild(cancelBtn);
+
+  const okBtn = document.createElement('button');
+  okBtn.value = 'ok';
+  okBtn.type = 'submit';
+  okBtn.textContent = 'Gerai';
+  actions.appendChild(okBtn);
+
+  form.appendChild(actions);
+
+  dialog.appendChild(form);
 
   document.body.appendChild(dialog);
-  const hourSel = dialog.querySelector('.tp-hour');
-  const minuteSel = dialog.querySelector('.tp-minute');
   hourSel.value = hour;
   minuteSel.value = minute;
-  const dateInput = dialog.querySelector('.tp-date');
 
   dialog.addEventListener('close', () => {
     if (dialog.returnValue === 'ok') {

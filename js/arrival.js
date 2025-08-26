@@ -49,7 +49,10 @@ export function computeArrivalMessage({ lkwType, lkwValue, doorValue }) {
   } else {
     return { message: '', type: '' };
   }
-  if (!isFinite(diff) || diff < 0) return { message: '', type: '' };
+  if (!isFinite(diff)) return { message: '', type: '' };
+  if (diff < 0) {
+    return { message: 'Nenuoseklus laiko įrašas.', type: 'error' };
+  }
   if (diff <= 4.5) {
     return {
       message: 'Indikuotina trombolizė / trombektomija.',

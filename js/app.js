@@ -12,6 +12,22 @@ import { getActivePatient } from './patients.js';
 import { setupNavigation } from './navigation.js';
 import { setupAutosave } from './autosave.js';
 import { setupBpEntry } from './bp.js';
+import { savePatient } from './storage.js';
+
+const SAVE_DEBOUNCE_MS = 500;
+let saveTimer;
+function scheduleSave(id, name, cb) {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    savePatient(id, name);
+    cb?.();
+  }, SAVE_DEBOUNCE_MS);
+}
+function flushSave(id, name, cb) {
+  clearTimeout(saveTimer);
+  savePatient(id, name);
+  cb?.();
+}
 
 function initNIHSS() {
   $$('.nihss-calc').forEach((calc) => {
@@ -206,7 +222,10 @@ function bind() {
   );
   updateDecision();
 
-  const { updateSaveStatus } = setupAutosave(inputs);
+  const { updateSaveStatus } = setupAutosave(inputs, {
+    scheduleSave,
+    flushSave,
+  });
   const { activateFromHash } = setupNavigation(inputs);
 
   // Initial

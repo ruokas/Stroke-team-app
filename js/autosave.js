@@ -128,6 +128,7 @@ export function setupAutosave(
 
   window.addEventListener('beforeunload', (e) => {
     if (dirty) {
+      flush(getActivePatientId(), undefined);
       e.preventDefault();
       e.returnValue = '';
     }

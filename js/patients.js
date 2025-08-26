@@ -7,13 +7,13 @@ import { getInputs } from './state.js';
 
 const patients = {};
 let activeId = null;
-let counter = 1;
 
 function generateId() {
-  return `p${counter++}`;
+  if (globalThis.crypto?.randomUUID) return globalThis.crypto.randomUUID();
+  return `${Date.now().toString(36)}_${Math.random().toString(36).slice(2)}`;
 }
 
-export function addPatient() {
+export function addPatient(id, data = {}) {
   const inputs = getInputs();
   if (activeId)
     patients[activeId] = {
@@ -21,13 +21,17 @@ export function addPatient() {
       summary: inputs.summary?.value || '',
       name: patients[activeId].name,
     };
-  const id = generateId();
-  const name = `Pacientas ${Object.keys(patients).length + 1}`;
-  patients[id] = { summary: '', name };
-  activeId = id;
-  setPayload({});
-  if (inputs.summary) inputs.summary.value = '';
-  return id;
+  const newId = id || generateId();
+  const {
+    summary = '',
+    name = `Pacientas ${Object.keys(patients).length + 1}`,
+    ...payload
+  } = data || {};
+  patients[newId] = { ...payload, summary, name };
+  activeId = newId;
+  setPayload(payload);
+  if (inputs.summary) inputs.summary.value = summary;
+  return newId;
 }
 
 export function switchPatient(id) {

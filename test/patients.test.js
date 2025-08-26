@@ -67,3 +67,18 @@ test(
     assert.strictEqual(remaining[id2].p_nihss0, '2');
   },
 );
+
+test('addPatient keeps provided ID and data', () => {
+  localStorageStub.store = {};
+  resetInputs();
+
+  const existingId = 'existing-id';
+  const data = { p_nihss0: '5', summary: 's', name: 'Existing' };
+  const id = addPatient(existingId, data);
+
+  assert.strictEqual(id, existingId);
+  const patients = getPatientStore();
+  assert.strictEqual(patients[existingId].p_nihss0, '5');
+  assert.strictEqual(patients[existingId].summary, 's');
+  assert.strictEqual(patients[existingId].name, 'Existing');
+});

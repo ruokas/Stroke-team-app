@@ -1,80 +1,20 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import './jsdomSetup.js';
 
 test('summaryTemplate generates summary text correctly', async () => {
-  const elements = {};
-  function createEl() {
-    return {
-      value: '',
-      textContent: '',
-      style: {},
-      classList: {
-        classes: new Set(),
-        add(...cs) {
-          cs.forEach((c) => this.classes.add(c));
-        },
-        remove(...cs) {
-          cs.forEach((c) => this.classes.delete(c));
-        },
-        contains(c) {
-          return this.classes.has(c);
-        },
-      },
-      querySelector: () => ({ textContent: '' }),
-      addEventListener: () => {},
-      checked: false,
-    };
-  }
-  function getEl(key) {
-    if (!elements[key]) elements[key] = createEl();
-    return elements[key];
-  }
-  const decisionOpt = {
-    checked: true,
-    value: 'Taikoma IVT, indikacijų MTE nenustatyta',
-  };
-  const aLkwOpt = { checked: true, value: '<4.5' };
-  const bpEntry = {
-    querySelector: (sel) =>
-      sel === 'strong' ? { textContent: 'Kaptoprilis' } : null,
-    querySelectorAll: (sel) =>
-      sel === 'input'
-        ? [{ value: '10:00' }, { value: '25 mg' }, { value: 'požymai' }]
-        : [],
-  };
-  const documentStub = {
-    querySelector: (sel) => getEl(sel),
-    querySelectorAll: (sel) => {
-      if (sel === 'input[name="a_lkw"]') return [aLkwOpt];
-      if (sel === 'input[name="d_decision"]') return [decisionOpt];
-      if (sel === '#bpEntries .bp-entry') return [bpEntry];
-      if (sel === 'input[name="a_face"]') return [{ checked: true }];
-      if (sel === 'input[name="a_speech"]') return [{ checked: true }];
-      return [];
-    },
-    getElementById: (id) => getEl('#' + id),
-    addEventListener: () => {},
-    createElement: () => createEl(),
-  };
-
-  global.document = documentStub;
-  const { toast } = await import('../js/toast.js');
-  toast.showToast = () => {};
-  global.confirm = () => true;
-  global.localStorage = { setItem: () => {}, getItem: () => null };
-  global.URL = { createObjectURL: () => '', revokeObjectURL: () => {} };
-  global.Blob = function () {};
-  global.FileReader = function () {
-    this.readAsText = () => {};
-  };
-  global.setInterval = () => {};
-
   const { getInputs } = await import('../js/state.js');
   const inputs = getInputs();
   const { getPayload } = await import('../js/storage.js');
-  const { collectSummaryData, summaryTemplate } = await import(
-    '../js/summary.js'
-  );
+  const { collectSummaryData, summaryTemplate } = await import('../js/summary.js');
+
+  document.querySelector('input[name="d_decision"][value="Taikoma IVT, indikacijų MTE nenustatyta"]').checked = true;
+  document.querySelector('input[name="a_lkw"][value="<4.5"]').checked = true;
+  document.querySelector('input[name="a_face"]').checked = true;
+  document.querySelector('input[name="a_speech"]').checked = true;
+
+  const bpEntries = document.getElementById('bpEntries');
+  bpEntries.innerHTML = `<div class="bp-entry"><strong>Kaptoprilis</strong><input value="10:00" /><input value="25 mg" /><input value="požymai" /></div>`;
 
   inputs.a_personal.value = '12345678901';
   inputs.a_name.value = 'Jonas Jonaitis';
@@ -82,7 +22,6 @@ test('summaryTemplate generates summary text correctly', async () => {
   inputs.weight.value = '80';
   inputs.bp.value = '120/80';
   inputs.nih0.value = '0';
-
   inputs.a_warfarin.checked = true;
   inputs.a_glucose.value = '5';
   inputs.a_aks.value = '140/90';
@@ -90,11 +29,9 @@ test('summaryTemplate generates summary text correctly', async () => {
   inputs.a_spo2.value = '98';
   inputs.a_temp.value = '37';
   inputs.arrival_symptoms.value = 'Dešinės rankos silpnumas';
-
   inputs.lkw.value = '2024-01-01T07:00';
   inputs.door.value = '2024-01-01T08:00';
   inputs.d_time.value = '2024-01-01T08:40';
-
   inputs.drugType.value = 'tnk';
   inputs.drugConc.value = '5';
   inputs.doseTotal.value = '20';
@@ -111,23 +48,11 @@ test('summaryTemplate generates summary text correctly', async () => {
   assert(summary.includes('VAISTAI:\n- Tipas: Tenekteplazė'));
   assert(summary.includes('- Koncentracija: 5 mg/ml'));
   assert(summary.includes('- Bendra dozė: 20 mg (4 ml)'));
-  assert(
-    summary.includes('AKS KOREKCIJA:\n- Kaptoprilis 10:00 25 mg (požymai)'),
-  );
-  assert(
-    summary.includes(
-      'AKTYVACIJA:\n- Preliminarus susirgimo laikas: <4.5',
-    ),
-  );
+  assert(summary.includes('AKS KOREKCIJA:\n- Kaptoprilis 10:00 25 mg (požymai)'));
+  assert(summary.includes('AKTYVACIJA:\n- Preliminarus susirgimo laikas: <4.5'));
   assert(summary.includes('- Vartojami vaistai: Varfarinas'));
-  assert(
-    summary.includes(
-      '- GMP parametrai: Gliukozė: 5, AKS: 140/90, ŠSD: 80, SpO₂: 98, Temp: 37',
-    ),
-  );
+  assert(summary.includes('- GMP parametrai: Gliukozė: 5, AKS: 140/90, ŠSD: 80, SpO₂: 98, Temp: 37'));
   assert(summary.includes('SIMPTOMAI:\n- Veido paralyžius, Kalbos sutrikimas'));
   assert(summary.includes('- Dešinės rankos silpnumas'));
-  assert(
-    summary.includes('SPRENDIMAS:\n- Taikoma IVT, indikacijų MTE nenustatyta'),
-  );
+  assert(summary.includes('SPRENDIMAS:\n- Taikoma IVT, indikacijų MTE nenustatyta'));
 });

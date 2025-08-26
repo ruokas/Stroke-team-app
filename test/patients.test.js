@@ -1,8 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { setupDom } from './testUtils.js';
-
-const { localStorageStub } = await setupDom();
+import './jsdomSetup.js';
 const { getInputs } = await import('../js/state.js');
 const {
   addPatient,
@@ -25,7 +23,7 @@ test(
   'patients add, switch and delete correctly',
   { concurrency: false },
   () => {
-    localStorageStub.store = {};
+    localStorage.clear();
     resetInputs();
 
     // start first patient
@@ -69,7 +67,7 @@ test(
 );
 
 test('addPatient keeps provided ID and data', () => {
-  localStorageStub.store = {};
+  localStorage.clear();
   resetInputs();
 
   const existingId = 'existing-id';

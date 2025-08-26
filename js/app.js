@@ -73,13 +73,16 @@ function bind() {
     if (lkwIntervalBox) {
       if (lkw && thrombo) {
         const diff = diffMinutes(lkw, thrombo);
-        lkwIntervalBox.textContent = `LKW → trombolizė: ${diff} min`;
+        lkwIntervalBox.textContent = `Paskutinį kartą matytas sveikas → trombolizė: ${diff} min`;
         const over = diff > INTERVAL_LIMITS.lkwThrombolysis;
         lkwIntervalBox.classList.toggle('error', over);
         if (over)
-          showToast('Viršytas LKW→trombolizės intervalas', {
-            type: 'warning',
-          });
+          showToast(
+            'Viršytas Paskutinį kartą matytas sveikas→trombolizės intervalas',
+            {
+              type: 'warning',
+            },
+          );
       } else {
         lkwIntervalBox.textContent = '';
         lkwIntervalBox.classList.remove('error');

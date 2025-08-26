@@ -2,7 +2,12 @@ import { $, $$, getInputs } from './state.js';
 import { setNow, triggerChange, sleepMidpoint } from './time.js';
 import { openTimePicker } from './timePicker.js';
 import { updateDrugDefaults, calcDrugs } from './drugs.js';
-import { collectSummaryData, summaryTemplate, copySummary } from './summary.js';
+import {
+  collectSummaryData,
+  summaryTemplate,
+  copySummary,
+  exportSummaryPDF,
+} from './summary.js';
 import { showToast } from './toast.js';
 import { updateAge } from './age.js';
 import { initArrival } from './arrival.js';
@@ -142,6 +147,15 @@ function bind() {
     const data = collectSummaryData(patient);
     const text = copySummary(data);
     patient.summary = text;
+  });
+  $('#exportSummaryBtn').addEventListener('click', () => {
+    const patient = getActivePatient();
+    if (!patient) return;
+    const data = collectSummaryData(patient);
+    const text = summaryTemplate(data);
+    inputs.summary.value = text;
+    patient.summary = text;
+    exportSummaryPDF(data);
   });
 
   // Copy personal code

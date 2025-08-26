@@ -612,7 +612,8 @@ select.invalid {
 @media print {
   header,
   nav,
-  .toolbar {
+  .toolbar,
+  .sticky-actions {
     display: none !important;
   }
   body {

@@ -10,6 +10,14 @@ const LS_KEY = 'insultoKomandaPatients_v1';
 // Current version of the payload schema stored in localStorage
 const SCHEMA_VERSION = 1;
 
+function migrateSchema(rec) {
+  // Attempt to migrate an older schema to the current version.
+  // Currently, schema v0 simply wrapped the payload without versioning.
+  if (rec.version === 0) return { version: 1, data: rec.data };
+  if (rec.version === 1) return { version: SCHEMA_VERSION, data: rec.data };
+  throw new Error(`Unknown schema version ${rec.version}`);
+}
+
 export function getPatients() {
   const raw = localStorage.getItem(LS_KEY);
   if (!raw) return {};
@@ -36,6 +44,19 @@ export function getPatients() {
       ) {
         p.data = { version: 0, data: p.data };
         migrated = true;
+      }
+      if (p.data.version !== SCHEMA_VERSION) {
+        try {
+          p.data = migrateSchema(p.data);
+          if (p.data.version !== SCHEMA_VERSION) throw new Error('');
+          migrated = true;
+        } catch (e) {
+          console.warn(
+            `Discarding patient ${id} due to incompatible schema version ${p.data.version}`,
+          );
+          delete patients[id];
+          migrated = true;
+        }
       }
     });
     if (migrated) setPatients(patients);
@@ -292,7 +313,13 @@ export function savePatient(id, name) {
     name: patientName,
     created: patients[patientId]?.created || now,
     lastUpdated: now,
-    data: { version: SCHEMA_VERSION, data: getPayload() },
+    data: {
+      version:
+        (patients[patientId]?.data?.version || 0) < SCHEMA_VERSION
+          ? SCHEMA_VERSION
+          : patients[patientId]?.data?.version || SCHEMA_VERSION,
+      data: getPayload(),
+    },
   };
   setPatients(patients);
   return patientId;

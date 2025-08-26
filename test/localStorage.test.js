@@ -86,9 +86,26 @@ test('getPatients migrates unversioned data', () => {
     }),
   };
   const patients = getPatients();
-  assert.strictEqual(patients.old.data.version, 0);
+  assert.strictEqual(patients.old.data.version, 1);
   assert.strictEqual(patients.old.data.data.p_nihss0, '1');
   assert.strictEqual(patients.old.patientId, 'old');
   assert.ok(patients.old.created);
   assert.ok(patients.old.lastUpdated);
+});
+
+test('getPatients discards unknown schema versions', () => {
+  localStorageStub.store = {
+    insultoKomandaPatients_v1: JSON.stringify({
+      future: { name: 'Future', data: { version: 999, data: {} } },
+    }),
+  };
+  let warned = false;
+  const origWarn = console.warn;
+  console.warn = () => {
+    warned = true;
+  };
+  const patients = getPatients();
+  console.warn = origWarn;
+  assert.ok(!('future' in patients));
+  assert.ok(warned);
 });

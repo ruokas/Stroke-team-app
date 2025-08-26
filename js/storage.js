@@ -164,8 +164,12 @@ export function setPayload(p) {
     inputs.t_thrombolysis.value = payload.t_thrombolysis || '';
   if (inputs.lkw_type)
     setRadioValue(inputs.lkw_type, payload.arrival_lkw_type || 'known');
-  if (inputs.arrival_symptoms)
+  if (inputs.arrival_symptoms) {
     inputs.arrival_symptoms.value = payload.arrival_symptoms || '';
+    inputs.arrival_symptoms.dispatchEvent?.(
+      new Event('input', { bubbles: true }),
+    );
+  }
   const contraVals = (payload.arrival_contra || '')
     .split(/;\s*/)
     .filter(Boolean);

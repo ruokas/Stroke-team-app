@@ -93,6 +93,28 @@ export function updateArrivalInfo() {
   }
 }
 
+export function initSymptomButtons() {
+  const textarea = $('#arrival_symptoms');
+  if (!textarea) return;
+  const boxes = $$('input[name="arrival_symptom"]');
+  const updateFromBoxes = () => {
+    const values = boxes.filter((i) => i.checked).map((i) => i.value);
+    textarea.value = values.join(', ');
+  };
+  const updateFromText = () => {
+    const values = textarea.value
+      .split(',')
+      .map((v) => v.trim())
+      .filter(Boolean);
+    boxes.forEach((b) => {
+      b.checked = values.includes(b.value);
+    });
+  };
+  boxes.forEach((i) => i.addEventListener('change', updateFromBoxes));
+  textarea.addEventListener('input', updateFromText);
+  updateFromText();
+}
+
 export function initArrival() {
   const updateAll = () => {
     updateArrivalInfo();
@@ -104,6 +126,7 @@ export function initArrival() {
   $$('input[name="lkw_type"]').forEach((r) =>
     r.addEventListener('change', updateAll),
   );
+  initSymptomButtons();
   updateAll();
   clearInterval(timerId);
   timerId = setInterval(updateTimers, 1000);

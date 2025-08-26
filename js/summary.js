@@ -94,6 +94,33 @@ export function summaryTemplate({
   if (patient.inr) lines.push(`- INR: ${patient.inr}`);
   lines.push(`- NIHSS pradinis: ${patient.nih0 ?? '—'}`);
 
+  if (
+    activation.lkw ||
+    activation.drugs.length ||
+    activation.params.glucose ||
+    activation.params.aks ||
+    activation.params.hr ||
+    activation.params.spo2 ||
+    activation.params.temp
+  ) {
+    lines.push('AKTYVACIJA:');
+    if (activation.lkw)
+      lines.push(`- Preliminarus susirgimo laikas: ${activation.lkw}`);
+    if (activation.drugs.length)
+      lines.push(`- Vartojami vaistai: ${activation.drugs.join(', ')}`);
+    const paramParts = [];
+    if (activation.params.glucose)
+      paramParts.push(`Gliukozė: ${activation.params.glucose}`);
+    if (activation.params.aks) paramParts.push(`AKS: ${activation.params.aks}`);
+    if (activation.params.hr) paramParts.push(`ŠSD: ${activation.params.hr}`);
+    if (activation.params.spo2)
+      paramParts.push(`SpO₂: ${activation.params.spo2}`);
+    if (activation.params.temp)
+      paramParts.push(`Temp: ${activation.params.temp}`);
+    if (paramParts.length)
+      lines.push(`- GMP parametrai: ${paramParts.join(', ')}`);
+  }
+
   lines.push('LAIKAI:');
   if (times.gmp) lines.push(`- GMP iškvietimas: ${times.gmp}`);
   lines.push(`- LKW: ${times.lkw ?? '—'}`);
@@ -122,30 +149,6 @@ export function summaryTemplate({
         }`.trim(),
       ),
     );
-  }
-
-  if (
-    activation.lkw ||
-    activation.drugs.length ||
-    activation.params.glucose ||
-    activation.params.aks ||
-    activation.params.hr ||
-    activation.params.spo2 ||
-    activation.params.temp
-  ) {
-    lines.push('AKTYVACIJOS KRITERIJAI:');
-    if (activation.lkw) lines.push(`- ${activation.lkw}`);
-    if (activation.drugs.length) lines.push(`- ${activation.drugs.join(', ')}`);
-    const paramParts = [];
-    if (activation.params.glucose)
-      paramParts.push(`Gliukozė: ${activation.params.glucose}`);
-    if (activation.params.aks) paramParts.push(`AKS: ${activation.params.aks}`);
-    if (activation.params.hr) paramParts.push(`ŠSD: ${activation.params.hr}`);
-    if (activation.params.spo2)
-      paramParts.push(`SpO₂: ${activation.params.spo2}`);
-    if (activation.params.temp)
-      paramParts.push(`Temp: ${activation.params.temp}`);
-    if (paramParts.length) lines.push(`- ${paramParts.join(', ')}`);
   }
 
   if (activation.symptoms.length || arrivalSymptoms) {

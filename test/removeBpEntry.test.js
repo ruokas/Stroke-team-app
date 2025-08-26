@@ -9,7 +9,7 @@ test('bp entry can be added and removed', async () => {
     <div id="bpEntries"></div>
   `;
   const { setupBpEntry } = await import('../js/bp.js');
-  const { handleBpEntriesClick } = await import('../js/app.js');
+  const { handleBpEntriesClick } = await import('../js/bpEntries.js');
 
   setupBpEntry();
 

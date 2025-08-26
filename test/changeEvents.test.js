@@ -20,7 +20,10 @@ function createEl() {
         return this.classes.has(c);
       },
     },
-    querySelector: () => ({ textContent: '' }),
+    querySelector: () => ({ textContent: '', addEventListener: () => {} }),
+    setAttribute(name, value) {
+      (this.attributes || (this.attributes = {}))[name] = value;
+    },
     checked: false,
     appendChild(child) {
       (this.children || (this.children = [])).push(child);

@@ -115,4 +115,6 @@ export function getInputs() {
   };
 }
 
-state.autosave = getAutosaveInput()?.value || 'on';
+if (typeof document !== 'undefined') {
+  state.autosave = getAutosaveInput()?.value || 'on';
+}

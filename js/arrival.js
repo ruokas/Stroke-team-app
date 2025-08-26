@@ -1,5 +1,4 @@
-const $ = (sel) => document.querySelector(sel);
-const $$ = (sel) => Array.from(document.querySelectorAll(sel));
+import { $, $$ } from './state.js';
 
 const pad = (n) => String(n).padStart(2, '0');
 

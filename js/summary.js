@@ -186,3 +186,29 @@ export function copySummary(data) {
   }
   return inputs.summary.value;
 }
+
+export function exportSummaryPDF(data) {
+  const text = summaryTemplate(data);
+  const printWindow = window.open('', '', 'width=800,height=600');
+  if (!printWindow) {
+    showToast('Nepavyko atidaryti spausdinimo lango', { type: 'error' });
+    return;
+  }
+  const esc = (s) =>
+    s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  printWindow.document.write(`
+    <html>
+      <head>
+        <title>Santrauka</title>
+        <style>
+          body { font-family: monospace; white-space: pre-wrap; padding: 16px; }
+          pre { margin: 0; }
+        </style>
+      </head>
+      <body><pre>${esc(text)}</pre></body>
+    </html>
+  `);
+  printWindow.document.close();
+  printWindow.focus();
+  printWindow.print();
+}

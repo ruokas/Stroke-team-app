@@ -42,10 +42,12 @@ function initNIHSS() {
       totalEl.textContent = sum;
     };
     fields.forEach((i) => i.addEventListener('input', update));
-    calc.querySelector('.apply').addEventListener('click', () => {
-      target.value = totalEl.textContent;
-      target.dispatchEvent(new Event('input'));
-    });
+    const applyBtn = calc.querySelector('.apply');
+    if (applyBtn)
+      applyBtn.addEventListener('click', () => {
+        target.value = totalEl.textContent;
+        target.dispatchEvent(new Event('input'));
+      });
   });
 }
 

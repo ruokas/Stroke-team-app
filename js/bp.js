@@ -1,5 +1,4 @@
-import { setNow } from './time.js';
-import { openTimePicker } from './timePicker.js';
+// Event handlers for created entries are delegated in app.js
 
 export function setupBpEntry() {
   const bpCorrBtn = document.getElementById('bpCorrBtn');
@@ -33,28 +32,6 @@ export function setupBpEntry() {
           </div>`;
         bpEntries.appendChild(entry);
         bpMedList.classList.add('hidden');
-        entry
-          .querySelector(`[data-now="${id}"]`)
-          .addEventListener('click', () => setNow(id));
-        entry
-          .querySelector(`[data-time-picker="${id}"]`)
-          .addEventListener('click', () =>
-            openTimePicker(document.getElementById(id)),
-          );
-        entry
-          .querySelector(`[data-stepup="${id}"]`)
-          .addEventListener('click', () => {
-            const target = document.getElementById(id);
-            target?.stepUp(5);
-            target?.dispatchEvent(new Event('input'));
-          });
-        entry
-          .querySelector(`[data-stepdown="${id}"]`)
-          .addEventListener('click', () => {
-            const target = document.getElementById(id);
-            target?.stepDown(5);
-            target?.dispatchEvent(new Event('input'));
-          });
       });
     });
   }

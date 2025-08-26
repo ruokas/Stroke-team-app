@@ -36,6 +36,7 @@ export function setupAutosave(
 
   const saveStatus = document.getElementById('saveStatus');
   const updateSaveStatus = () => {
+    if (!saveStatus) return;
     const id = getActivePatientId();
     const rec = getSavedPatients()[id];
     if (!rec) {

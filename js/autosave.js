@@ -37,13 +37,13 @@ export function setupAutosave(
     Object.entries(pats).forEach(([id, p], idx) => {
       const opt = document.createElement('option');
       opt.value = id;
-      opt.textContent = p.name || `Pacientas ${idx + 1}`;
+      opt.textContent = p.name || `${t('patient')} ${idx + 1}`;
       patientSelect.appendChild(opt);
     });
     if (selectedId) patientSelect.value = selectedId;
     const current = pats[selectedId || patientSelect.value];
     if (patientMenuLabel)
-      patientMenuLabel.textContent = current?.name || 'Pacientas';
+      patientMenuLabel.textContent = current?.name || t('patient');
   };
 
   const saveStatus = document.getElementById('saveStatus');

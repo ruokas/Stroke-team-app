@@ -18,8 +18,15 @@ const { copySummary, collectSummaryData } = await import('../js/summary.js');
 function resetInputs() {
   inputs = getInputs();
   Object.values(inputs).forEach((el) => {
-    if ('value' in el) el.value = '';
-    if ('checked' in el) el.checked = false;
+    if (Array.isArray(el)) {
+      el.forEach((n) => {
+        if ('value' in n) n.value = '';
+        if ('checked' in n) n.checked = false;
+      });
+    } else if (el) {
+      if ('value' in el) el.value = '';
+      if ('checked' in el) el.checked = false;
+    }
   });
 }
 
@@ -46,6 +53,28 @@ test('localStorage handles multiple records', { concurrency: false }, () => {
   assert.ok(patients.d2.created);
   assert.ok(patients.d2.lastUpdated);
 });
+
+test(
+  'getPayload/setPayload support complex fields',
+  { concurrency: false },
+  () => {
+    const orig = document.body.innerHTML;
+    document.body.innerHTML =
+      '<input type="checkbox" name="arrival_contra" value="A" />\n' +
+      '<input type="radio" name="d_decision" value="X" />\n' +
+      '<input type="radio" name="d_decision" value="Y" />';
+    inputs = getInputs();
+    inputs.arrival_contra[0].checked = true;
+    inputs.d_decision[1].checked = true;
+
+    const payload = getPayload();
+    assert.strictEqual(payload.arrival_contra, 'A');
+    assert.strictEqual(payload.d_decision, 'Y');
+
+    document.body.innerHTML = orig;
+    inputs = getInputs();
+  },
+);
 
 test(
   'savePatient/loadPatient with copySummary copies generated text',

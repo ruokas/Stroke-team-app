@@ -82,9 +82,222 @@ function setRadioValue(nodes, value) {
   });
 }
 
+function getCheckboxList(nodes) {
+  return (nodes || [])
+    .filter((n) => n.checked)
+    .map((n) => n.value)
+    .join('; ');
+}
+
+function setCheckboxList(nodes, value) {
+  const vals = (value || '').split(/;\s*/).filter(Boolean);
+  (nodes || []).forEach((cb) => {
+    cb.checked = vals.includes(cb.value);
+  });
+}
+
+function getBooleanGroup(nodes) {
+  return nodes?.some((n) => n.checked) || false;
+}
+
+function setBooleanGroup(nodes, value) {
+  (nodes || []).forEach((n) => {
+    n.checked = !!value;
+    n.dispatchEvent(new Event('change', { bubbles: true }));
+  });
+}
+
+const FIELD_DEFS = [
+  { key: 'p_weight', selector: 'weight' },
+  { key: 'p_bp', selector: 'bp' },
+  { key: 'p_inr', selector: 'inr' },
+  { key: 'p_nihss0', selector: 'nih0', alias: ['nihs_initial'] },
+  { key: 't_lkw', selector: 'lkw' },
+  { key: 't_sleep_start', selector: 'sleep_start' },
+  { key: 't_sleep_end', selector: 'sleep_end' },
+  { key: 't_door', selector: 'door' },
+  { key: 'd_time', selector: 'd_time' },
+  {
+    key: 'd_decision',
+    selector: 'd_decision',
+    get: getRadioValue,
+    set: (nodes, value) => setRadioValue(nodes, value || ''),
+  },
+  { key: 'drug_type', selector: 'drugType', default: 'tnk' },
+  { key: 'drug_conc', selector: 'drugConc' },
+  { key: 'dose_total', selector: 'doseTotal' },
+  { key: 'dose_volume', selector: 'doseVol' },
+  { key: 'tpa_bolus', selector: 'tpaBolus' },
+  { key: 'tpa_infusion', selector: 'tpaInf' },
+  { key: 't_thrombolysis', selector: 't_thrombolysis' },
+  {
+    key: 'arrival_lkw_type',
+    selector: 'lkw_type',
+    get: getRadioValue,
+    set: (nodes, value) => setRadioValue(nodes, value || 'known'),
+    default: 'known',
+  },
+  {
+    key: 'arrival_symptoms',
+    selector: 'arrival_symptoms',
+    set: (el, value) => {
+      if (el) {
+        el.value = value || '';
+        el.dispatchEvent?.(new Event('input', { bubbles: true }));
+      }
+    },
+  },
+  {
+    key: 'arrival_contra',
+    selector: 'arrival_contra',
+    get: getCheckboxList,
+    set: setCheckboxList,
+  },
+  {
+    key: 'arrival_mt_contra',
+    selector: 'arrival_mt_contra',
+    get: getCheckboxList,
+    set: setCheckboxList,
+  },
+  { key: 'def_tnk', selector: 'def_tnk', default: 5 },
+  { key: 'def_tpa', selector: 'def_tpa', default: 1 },
+  {
+    key: 'autosave',
+    selector: 'autosave',
+    get: () => state.autosave,
+    set: (el, value) => {
+      if (el) {
+        el.value = value || 'on';
+        state.autosave = el.value || 'on';
+      }
+    },
+    default: 'on',
+  },
+  { key: 'a_personal', selector: 'a_personal' },
+  { key: 'a_name', selector: 'a_name' },
+  { key: 'a_dob', selector: 'a_dob' },
+  { key: 'a_age', selector: 'a_age' },
+  {
+    key: 'a_sym_face',
+    selector: 'a_sym_face',
+    get: getBooleanGroup,
+    set: setBooleanGroup,
+    default: false,
+  },
+  {
+    key: 'a_sym_speech',
+    selector: 'a_sym_speech',
+    get: getBooleanGroup,
+    set: setBooleanGroup,
+    default: false,
+  },
+  {
+    key: 'a_sym_commands',
+    selector: 'a_sym_commands',
+    get: getBooleanGroup,
+    set: setBooleanGroup,
+    default: false,
+  },
+  {
+    key: 'a_sym_arm',
+    selector: 'a_sym_arm',
+    get: getBooleanGroup,
+    set: setBooleanGroup,
+    default: false,
+  },
+  {
+    key: 'a_sym_leg',
+    selector: 'a_sym_leg',
+    get: getBooleanGroup,
+    set: setBooleanGroup,
+    default: false,
+  },
+  {
+    key: 'a_sym_gaze',
+    selector: 'a_sym_gaze',
+    get: getBooleanGroup,
+    set: setBooleanGroup,
+    default: false,
+  },
+  {
+    key: 'a_drug_warfarin',
+    selector: 'a_warfarin',
+    get: (el) => el?.checked || false,
+    set: (el, value) => {
+      if (el) el.checked = !!value;
+    },
+    default: false,
+  },
+  {
+    key: 'a_drug_apixaban',
+    selector: 'a_apixaban',
+    get: (el) => el?.checked || false,
+    set: (el, value) => {
+      if (el) el.checked = !!value;
+    },
+    default: false,
+  },
+  {
+    key: 'a_drug_rivaroxaban',
+    selector: 'a_rivaroxaban',
+    get: (el) => el?.checked || false,
+    set: (el, value) => {
+      if (el) el.checked = !!value;
+    },
+    default: false,
+  },
+  {
+    key: 'a_drug_dabigatran',
+    selector: 'a_dabigatran',
+    get: (el) => el?.checked || false,
+    set: (el, value) => {
+      if (el) el.checked = !!value;
+    },
+    default: false,
+  },
+  {
+    key: 'a_drug_edoxaban',
+    selector: 'a_edoxaban',
+    get: (el) => el?.checked || false,
+    set: (el, value) => {
+      if (el) el.checked = !!value;
+    },
+    default: false,
+  },
+  {
+    key: 'a_drug_unknown',
+    selector: 'a_unknown',
+    get: (el) => el?.checked || false,
+    set: (el, value) => {
+      if (el) el.checked = !!value;
+    },
+    default: false,
+  },
+  {
+    key: 'a_lkw',
+    selector: 'a_lkw',
+    get: getRadioValue,
+    set: (nodes, value) => setRadioValue(nodes, value || ''),
+  },
+  { key: 'a_glucose', selector: 'a_glucose' },
+  { key: 'a_aks', selector: 'a_aks' },
+  { key: 'a_hr', selector: 'a_hr' },
+  { key: 'a_spo2', selector: 'a_spo2' },
+  { key: 'a_temp', selector: 'a_temp' },
+  { key: 'a_gmp_time', selector: 'a_gmp_time' },
+];
+
 export function getPayload() {
   const inputs = getInputs();
-  const bp_meds = Array.from(
+  /** @type {Record<string, unknown>} */
+  const payload = {};
+  FIELD_DEFS.forEach(({ key, alias, selector, get }) => {
+    const input = selector ? inputs[selector] : undefined;
+    const val = get ? get(input) : input?.value || '';
+    payload[key] = val;
+    if (alias) alias.forEach((a) => (payload[a] = val));
+  });
+  payload.bp_meds = Array.from(
     document.querySelectorAll('#bpEntries .bp-entry'),
   ).map((entry) => {
     const med = entry.querySelector('strong')?.textContent || '';
@@ -96,159 +309,33 @@ export function getPayload() {
       notes: notesEl?.value || '',
     };
   });
-  return {
-    p_weight: inputs.weight?.value || '',
-    p_bp: inputs.bp?.value || '',
-    p_inr: inputs.inr?.value || '',
-    p_nihss0: inputs.nih0?.value || '',
-    nihs_initial: inputs.nih0?.value || '',
-    t_lkw: inputs.lkw?.value || '',
-    t_sleep_start: inputs.sleep_start?.value || '',
-    t_sleep_end: inputs.sleep_end?.value || '',
-    t_door: inputs.door?.value || '',
-    d_time: inputs.d_time?.value || '',
-    d_decision: getRadioValue(inputs.d_decision || []),
-    drug_type: inputs.drugType?.value || '',
-    drug_conc: inputs.drugConc?.value || '',
-    dose_total: inputs.doseTotal?.value || '',
-    dose_volume: inputs.doseVol?.value || '',
-    tpa_bolus: inputs.tpaBolus?.value || '',
-    tpa_infusion: inputs.tpaInf?.value || '',
-    t_thrombolysis: inputs.t_thrombolysis?.value || '',
-    arrival_lkw_type: getRadioValue(inputs.lkw_type || []),
-    arrival_symptoms: inputs.arrival_symptoms?.value || '',
-    arrival_contra: (inputs.arrival_contra || [])
-      .filter((n) => n.checked)
-      .map((n) => n.value)
-      .join('; '),
-    arrival_mt_contra: (inputs.arrival_mt_contra || [])
-      .filter((n) => n.checked)
-      .map((n) => n.value)
-      .join('; '),
-    def_tnk: inputs.def_tnk?.value || '',
-    def_tpa: inputs.def_tpa?.value || '',
-    autosave: state.autosave,
-    a_personal: inputs.a_personal?.value || '',
-    a_name: inputs.a_name?.value || '',
-    a_dob: inputs.a_dob?.value || '',
-    a_age: inputs.a_age?.value || '',
-    a_sym_face: inputs.a_sym_face?.some((n) => n.checked) || false,
-    a_sym_speech: inputs.a_sym_speech?.some((n) => n.checked) || false,
-    a_sym_commands: inputs.a_sym_commands?.some((n) => n.checked) || false,
-    a_sym_arm: inputs.a_sym_arm?.some((n) => n.checked) || false,
-    a_sym_leg: inputs.a_sym_leg?.some((n) => n.checked) || false,
-    a_sym_gaze: inputs.a_sym_gaze?.some((n) => n.checked) || false,
-    a_drug_warfarin: inputs.a_warfarin?.checked || false,
-    a_drug_apixaban: inputs.a_apixaban?.checked || false,
-    a_drug_rivaroxaban: inputs.a_rivaroxaban?.checked || false,
-    a_drug_dabigatran: inputs.a_dabigatran?.checked || false,
-    a_drug_edoxaban: inputs.a_edoxaban?.checked || false,
-    a_drug_unknown: inputs.a_unknown?.checked || false,
-    a_lkw: getRadioValue(inputs.a_lkw || []),
-    a_glucose: inputs.a_glucose?.value || '',
-    a_aks: inputs.a_aks?.value || '',
-    a_hr: inputs.a_hr?.value || '',
-    a_spo2: inputs.a_spo2?.value || '',
-    a_temp: inputs.a_temp?.value || '',
-    a_gmp_time: inputs.a_gmp_time?.value || '',
-    bp_meds,
-  };
+  return payload;
 }
 
 export function setPayload(p) {
   if (!p) return;
   const payload = p.version !== undefined ? p.data : p;
   const inputs = getInputs();
-  if (inputs.weight) inputs.weight.value = payload.p_weight || '';
-  if (inputs.bp) inputs.bp.value = payload.p_bp || '';
-  if (inputs.inr) inputs.inr.value = payload.p_inr || '';
-  if (inputs.nih0)
-    inputs.nih0.value = payload.p_nihss0 || payload.nihs_initial || '';
-  if (inputs.lkw) inputs.lkw.value = payload.t_lkw || '';
-  if (inputs.sleep_start)
-    inputs.sleep_start.value = payload.t_sleep_start || '';
-  if (inputs.sleep_end) inputs.sleep_end.value = payload.t_sleep_end || '';
-  if (inputs.door) inputs.door.value = payload.t_door || '';
-  if (inputs.d_time) inputs.d_time.value = payload.d_time || '';
-  if (inputs.d_decision)
-    setRadioValue(inputs.d_decision, payload.d_decision || '');
-  if (inputs.drugType) inputs.drugType.value = payload.drug_type || 'tnk';
-  if (inputs.drugConc) inputs.drugConc.value = payload.drug_conc || '';
-  if (inputs.doseTotal) inputs.doseTotal.value = payload.dose_total || '';
-  if (inputs.doseVol) inputs.doseVol.value = payload.dose_volume || '';
-  if (inputs.tpaBolus) inputs.tpaBolus.value = payload.tpa_bolus || '';
-  if (inputs.tpaInf) inputs.tpaInf.value = payload.tpa_infusion || '';
-  if (inputs.t_thrombolysis)
-    inputs.t_thrombolysis.value = payload.t_thrombolysis || '';
-  if (inputs.lkw_type)
-    setRadioValue(inputs.lkw_type, payload.arrival_lkw_type || 'known');
-  if (inputs.arrival_symptoms) {
-    inputs.arrival_symptoms.value = payload.arrival_symptoms || '';
-    inputs.arrival_symptoms.dispatchEvent?.(
-      new Event('input', { bubbles: true }),
-    );
-  }
-  const contraVals = (payload.arrival_contra || '')
-    .split(/;\s*/)
-    .filter(Boolean);
-  (inputs.arrival_contra || []).forEach((cb) => {
-    cb.checked = contraVals.includes(cb.value);
+  FIELD_DEFS.forEach(({ key, alias, selector, set, default: def }) => {
+    const input = selector ? inputs[selector] : undefined;
+    let value = payload[key];
+    if (value === undefined && alias) {
+      for (const a of alias) {
+        if (payload[a] !== undefined) {
+          value = payload[a];
+          break;
+        }
+      }
+    }
+    if (value === undefined) value = def;
+    if (set) {
+      set(input, value, payload);
+    } else if (input) {
+      if (Array.isArray(input)) return;
+      if ('value' in input) input.value = value ?? '';
+      else if ('checked' in input) input.checked = !!value;
+    }
   });
-  const mtContraVals = (payload.arrival_mt_contra || '')
-    .split(/;\s*/)
-    .filter(Boolean);
-  (inputs.arrival_mt_contra || []).forEach((cb) => {
-    cb.checked = mtContraVals.includes(cb.value);
-  });
-  if (inputs.a_personal) inputs.a_personal.value = payload.a_personal || '';
-  if (inputs.a_name) inputs.a_name.value = payload.a_name || '';
-  if (inputs.a_dob) inputs.a_dob.value = payload.a_dob || '';
-  updateAge();
-  if (inputs.a_sym_face)
-    inputs.a_sym_face.forEach((n) => {
-      n.checked = !!payload.a_sym_face;
-      n.dispatchEvent(new Event('change', { bubbles: true }));
-    });
-  if (inputs.a_sym_speech)
-    inputs.a_sym_speech.forEach((n) => {
-      n.checked = !!payload.a_sym_speech;
-      n.dispatchEvent(new Event('change', { bubbles: true }));
-    });
-  if (inputs.a_sym_commands)
-    inputs.a_sym_commands.forEach((n) => {
-      n.checked = !!payload.a_sym_commands;
-      n.dispatchEvent(new Event('change', { bubbles: true }));
-    });
-  if (inputs.a_sym_arm)
-    inputs.a_sym_arm.forEach((n) => {
-      n.checked = !!payload.a_sym_arm;
-      n.dispatchEvent(new Event('change', { bubbles: true }));
-    });
-  if (inputs.a_sym_leg)
-    inputs.a_sym_leg.forEach((n) => {
-      n.checked = !!payload.a_sym_leg;
-      n.dispatchEvent(new Event('change', { bubbles: true }));
-    });
-  if (inputs.a_sym_gaze)
-    inputs.a_sym_gaze.forEach((n) => {
-      n.checked = !!payload.a_sym_gaze;
-      n.dispatchEvent(new Event('change', { bubbles: true }));
-    });
-  if (inputs.a_warfarin) inputs.a_warfarin.checked = !!payload.a_drug_warfarin;
-  if (inputs.a_apixaban) inputs.a_apixaban.checked = !!payload.a_drug_apixaban;
-  if (inputs.a_rivaroxaban)
-    inputs.a_rivaroxaban.checked = !!payload.a_drug_rivaroxaban;
-  if (inputs.a_dabigatran)
-    inputs.a_dabigatran.checked = !!payload.a_drug_dabigatran;
-  if (inputs.a_edoxaban) inputs.a_edoxaban.checked = !!payload.a_drug_edoxaban;
-  if (inputs.a_unknown) inputs.a_unknown.checked = !!payload.a_drug_unknown;
-  if (inputs.a_lkw) setRadioValue(inputs.a_lkw, payload.a_lkw || '');
-  if (inputs.a_glucose) inputs.a_glucose.value = payload.a_glucose || '';
-  if (inputs.a_aks) inputs.a_aks.value = payload.a_aks || '';
-  if (inputs.a_hr) inputs.a_hr.value = payload.a_hr || '';
-  if (inputs.a_spo2) inputs.a_spo2.value = payload.a_spo2 || '';
-  if (inputs.a_temp) inputs.a_temp.value = payload.a_temp || '';
-  if (inputs.a_gmp_time) inputs.a_gmp_time.value = payload.a_gmp_time || '';
   const bpContainer = document.getElementById('bpEntries');
   if (bpContainer) {
     bpContainer.innerHTML = '';
@@ -262,10 +349,7 @@ export function setPayload(p) {
       bpContainer.appendChild(entry);
     });
   }
-  if (inputs.def_tnk) inputs.def_tnk.value = payload.def_tnk || 5;
-  if (inputs.def_tpa) inputs.def_tpa.value = payload.def_tpa || 1;
-  if (inputs.autosave) inputs.autosave.value = payload.autosave || 'on';
-  state.autosave = inputs.autosave?.value || 'on';
+  updateAge();
   updateDrugDefaults();
 }
 

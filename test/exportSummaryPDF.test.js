@@ -2,58 +2,21 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import './jsdomSetup.js';
 
+const { getInputs } = await import('../js/state.js');
+const { getPayload } = await import('../js/storage.js');
+const { exportSummaryPDF, summaryTemplate, collectSummaryData } = await import(
+  '../js/summary.js'
+);
+const { toast } = await import('../js/toast.js');
+
 function createData() {
-  return {
-    patient: {
-      personal: null,
-      name: 'Jonas <Doe>',
-      dob: null,
-      age: null,
-      weight: null,
-      bp: null,
-      inr: null,
-      nih0: null,
-    },
-    times: {
-      lkw: null,
-      door: null,
-      decision: null,
-      thrombolysis: null,
-      gmp: null,
-    },
-    drugs: {
-      type: '',
-      conc: null,
-      totalDose: null,
-      totalVol: null,
-      bolus: null,
-      infusion: null,
-    },
-    decision: null,
-    bpMeds: [],
-    activation: {
-      lkw: null,
-      drugs: [],
-      params: {
-        glucose: null,
-        aks: null,
-        hr: null,
-        spo2: null,
-        temp: null,
-      },
-      symptoms: [],
-    },
-    arrivalSymptoms: null,
-    arrivalContra: null,
-    arrivalMtContra: null,
-  };
+  const inputs = getInputs();
+  inputs.a_name.value = 'Jonas <Doe>';
+  return collectSummaryData(getPayload());
 }
 
-test('exportSummaryPDF writes escaped summary to new window', async () => {
+test('exportSummaryPDF writes escaped summary to new window', () => {
   const data = createData();
-  const { exportSummaryPDF, summaryTemplate } = await import(
-    '../js/summary.js'
-  );
   let html = '';
   const stubPrintWindow = {
     document: {
@@ -77,10 +40,8 @@ test('exportSummaryPDF writes escaped summary to new window', async () => {
   assert.ok(html.includes(`<pre>${escaped}</pre>`));
 });
 
-test('exportSummaryPDF shows error when window cannot be opened', async () => {
+test('exportSummaryPDF shows error when window cannot be opened', () => {
   const data = createData();
-  const { exportSummaryPDF } = await import('../js/summary.js');
-  const { toast } = await import('../js/toast.js');
   let message;
   let options;
   toast.showToast = (msg, opts) => {

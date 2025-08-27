@@ -84,12 +84,14 @@ export function openTimePicker(target) {
   const cancelBtn = document.createElement('button');
   cancelBtn.value = 'cancel';
   cancelBtn.type = 'button';
+  cancelBtn.className = 'btn ghost';
   cancelBtn.textContent = 'Atšaukti';
   actions.appendChild(cancelBtn);
 
   const okBtn = document.createElement('button');
   okBtn.value = 'ok';
   okBtn.type = 'submit';
+  okBtn.className = 'btn primary';
   okBtn.textContent = 'Gerai';
   actions.appendChild(okBtn);
 

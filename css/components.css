@@ -379,7 +379,7 @@ section[data-tab='Intervencijos'] h3 {
   border: 1px solid var(--line);
   border-radius: 4px;
 }
-.modal .actions button {
+.modal .actions .btn {
   background: var(--button-bg);
   color: var(--ink);
   border: 1px solid var(--line);
@@ -387,12 +387,12 @@ section[data-tab='Intervencijos'] h3 {
   padding: 6px 12px;
   cursor: pointer;
 }
-.modal .actions button.primary {
+.modal .actions .btn.primary {
   background: var(--accent);
   color: #fff;
   border-color: #2d74b8;
 }
-.modal .actions button:focus {
+.modal .actions .btn:focus {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
@@ -470,6 +470,7 @@ section[data-tab='Intervencijos'] h3 {
   right: 8px;
   background: none;
   border: none;
+  padding: 0;
   color: inherit;
   font-size: 16px;
   cursor: pointer;

@@ -11,7 +11,7 @@ test(
     window.history.replaceState(null, '', 'http://localhost/');
 
     document.body.innerHTML = `
-    <button id="navToggle"></button>
+    <button id="navToggle" class="btn"></button>
     <nav>
       <a href="#sec1" class="tab" data-section="sec1">One</a>
       <a href="#sec2" class="tab" data-section="sec2">Two</a>

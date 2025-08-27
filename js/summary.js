@@ -189,13 +189,19 @@ export function copySummary(data) {
   return inputs.summary.value;
 }
 
-export function exportSummaryPDF(data) {
-  const text = summaryTemplate(data);
-  const printWindow = window.open('', '', 'width=800,height=600');
+export function openPrintWindow(win) {
+  const printWindow = win.open('', '', 'width=800,height=600');
   if (!printWindow) {
     showToast('Nepavyko atidaryti spausdinimo lango', { type: 'error' });
-    return;
+    return null;
   }
+  return printWindow;
+}
+
+export function exportSummaryPDF(data, win = window) {
+  const text = summaryTemplate(data);
+  const printWindow = openPrintWindow(win);
+  if (!printWindow) return;
   const esc = (s) =>
     s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   printWindow.document.write(`

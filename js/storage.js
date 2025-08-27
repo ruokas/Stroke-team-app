@@ -1,8 +1,7 @@
 import { state, getInputs } from './state.js';
 import { updateDrugDefaults } from './drugs.js';
 import { updateAge } from './age.js';
-import { setNow } from './time.js';
-import { openTimePicker } from './timePicker.js';
+import { createBpEntry } from './bpEntry.js';
 
 const LS_KEY = 'insultoKomandaPatients_v1';
 // Current version of the payload schema stored in localStorage
@@ -254,92 +253,13 @@ export function setPayload(p) {
   if (bpContainer) {
     bpContainer.innerHTML = '';
     (payload.bp_meds || []).forEach((m) => {
-      const entry = document.createElement('div');
-      entry.className = 'bp-entry mt-10';
-      const id = `bp_time_${Date.now()}_${Math.random()
-        .toString(36)
-        .slice(2, 7)}`;
-      const strong = document.createElement('strong');
-      strong.textContent = m.med;
-      entry.appendChild(strong);
-
-      const grid = document.createElement('div');
-      grid.className = 'grid-3 mt-5';
-      entry.appendChild(grid);
-
-      const group = document.createElement('div');
-      group.className = 'input-group';
-      grid.appendChild(group);
-
-      const timeInput = document.createElement('input');
-      timeInput.setAttribute('type', 'time');
-      timeInput.id = id;
-      timeInput.className = 'time-input';
-      timeInput.step = '60';
-      if (m.time) timeInput.value = m.time;
-      group.appendChild(timeInput);
-
-      const timePickerBtn = document.createElement('button');
-      timePickerBtn.className = 'btn ghost';
-      timePickerBtn.setAttribute('data-time-picker', id);
-      timePickerBtn.setAttribute('aria-label', 'Pasirinkti laiką');
-      timePickerBtn.textContent = '⌚';
-      group.appendChild(timePickerBtn);
-
-      const nowBtn = document.createElement('button');
-      nowBtn.className = 'btn ghost';
-      nowBtn.setAttribute('data-now', id);
-      nowBtn.textContent = 'Dabar';
-      group.appendChild(nowBtn);
-
-      const stepDownBtn = document.createElement('button');
-      stepDownBtn.className = 'btn ghost';
-      stepDownBtn.setAttribute('data-stepdown', id);
-      stepDownBtn.setAttribute('aria-label', '−5 min');
-      stepDownBtn.textContent = '−5';
-      group.appendChild(stepDownBtn);
-
-      const stepUpBtn = document.createElement('button');
-      stepUpBtn.className = 'btn ghost';
-      stepUpBtn.setAttribute('data-stepup', id);
-      stepUpBtn.setAttribute('aria-label', '+5 min');
-      stepUpBtn.textContent = '+5';
-      group.appendChild(stepUpBtn);
-
-      const doseInput = document.createElement('input');
-      doseInput.setAttribute('type', 'text');
-      doseInput.value = m.dose || '';
-      grid.appendChild(doseInput);
-
-      const notesInput = document.createElement('input');
-      notesInput.setAttribute('type', 'text');
-      notesInput.setAttribute('placeholder', 'Pastabos');
-      notesInput.value = m.notes || '';
-      grid.appendChild(notesInput);
-
+      const entry = createBpEntry(
+        m.med || '',
+        m.dose || '',
+        m.time,
+        m.notes || '',
+      );
       bpContainer.appendChild(entry);
-      entry
-        .querySelector(`[data-now="${id}"]`)
-        ?.addEventListener?.('click', () => setNow(id));
-      entry
-        .querySelector(`[data-time-picker="${id}"]`)
-        ?.addEventListener?.('click', () =>
-          openTimePicker(document.getElementById(id)),
-        );
-      entry
-        .querySelector(`[data-stepup="${id}"]`)
-        ?.addEventListener?.('click', () => {
-          const target = document.getElementById(id);
-          target?.stepUp(5);
-          target?.dispatchEvent(new Event('input'));
-        });
-      entry
-        .querySelector(`[data-stepdown="${id}"]`)
-        ?.addEventListener?.('click', () => {
-          const target = document.getElementById(id);
-          target?.stepDown(5);
-          target?.dispatchEvent(new Event('input'));
-        });
     });
   }
   if (inputs.def_tnk) inputs.def_tnk.value = payload.def_tnk || 5;

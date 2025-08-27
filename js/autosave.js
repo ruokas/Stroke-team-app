@@ -27,6 +27,8 @@ export function setupAutosave(
 ) {
   let dirty = false;
   const patientSelect = $('#patientSelect');
+  const patientMenu = $('#patientMenu');
+  const patientMenuLabel = $('#patientMenuLabel');
 
   const refreshPatientSelect = (selectedId) => {
     if (!patientSelect) return;
@@ -39,6 +41,9 @@ export function setupAutosave(
       patientSelect.appendChild(opt);
     });
     if (selectedId) patientSelect.value = selectedId;
+    const current = pats[selectedId || patientSelect.value];
+    if (patientMenuLabel)
+      patientMenuLabel.textContent = current?.name || 'Pacientas';
   };
 
   const saveStatus = document.getElementById('saveStatus');
@@ -62,6 +67,7 @@ export function setupAutosave(
     switchPatient(patientSelect.value);
     refreshPatientSelect(patientSelect.value);
     updateSaveStatus();
+    patientMenu?.removeAttribute('open');
   });
 
   const firstId = addPatient();
@@ -75,6 +81,7 @@ export function setupAutosave(
       updateSaveStatus();
       dirty = false;
     });
+    patientMenu?.removeAttribute('open');
   });
 
   $('#renamePatientBtn').addEventListener('click', async () => {
@@ -90,6 +97,7 @@ export function setupAutosave(
         showToast(t('patient_renamed'), { type: 'info' });
       });
     }
+    patientMenu?.removeAttribute('open');
   });
 
   $('#deletePatientBtn').addEventListener('click', async () => {
@@ -101,12 +109,14 @@ export function setupAutosave(
       updateSaveStatus();
       showToast(t('patient_deleted'), { type: 'warning' });
     }
+    patientMenu?.removeAttribute('open');
   });
 
   $('#newPatientBtn').addEventListener('click', () => {
     const id = addPatient();
     refreshPatientSelect(id);
     updateSaveStatus();
+    patientMenu?.removeAttribute('open');
   });
 
   const handleChange = () => {

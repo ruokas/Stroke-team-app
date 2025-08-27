@@ -1,7 +1,7 @@
 import { test, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
 import './jsdomSetup.js';
-import { toast, showToast } from '../js/toast.js';
+import { toast, showToast } from '../src/toast.js';
 
 const originalShowToast = toast.showToast;
 

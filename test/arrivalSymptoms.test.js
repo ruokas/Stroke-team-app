@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import './jsdomSetup.js';
-import { initSymptomButtons } from '../js/arrival.js';
+import { initSymptomButtons } from '../src/arrival.js';
 
 test('symptom buttons sync with textarea both ways', () => {
   document.body.innerHTML = `

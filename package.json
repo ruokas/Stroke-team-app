@@ -6,6 +6,7 @@
     "node": ">=20"
   },
   "devDependencies": {
+    "autoprefixer": "^10.4.21",
     "axe-core": "^4.8.3",
     "cssnano": "^7.1.1",
     "eslint": "^9.34.0",

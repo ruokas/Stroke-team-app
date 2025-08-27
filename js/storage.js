@@ -1,10 +1,8 @@
-import * as dom from './state.js';
+import { state, getInputs } from './state.js';
 import { updateDrugDefaults } from './drugs.js';
 import { updateAge } from './age.js';
 import { setNow } from './time.js';
 import { openTimePicker } from './timePicker.js';
-
-const { state } = dom;
 
 const LS_KEY = 'insultoKomandaPatients_v1';
 // Current version of the payload schema stored in localStorage
@@ -86,7 +84,7 @@ function setRadioValue(nodes, value) {
 }
 
 export function getPayload() {
-  const inputs = dom.getInputs();
+  const inputs = getInputs();
   const bp_meds = Array.from(
     document.querySelectorAll('#bpEntries .bp-entry'),
   ).map((entry) => {
@@ -161,7 +159,7 @@ export function getPayload() {
 export function setPayload(p) {
   if (!p) return;
   const payload = p.version !== undefined ? p.data : p;
-  const inputs = dom.getInputs();
+  const inputs = getInputs();
   if (inputs.weight) inputs.weight.value = payload.p_weight || '';
   if (inputs.bp) inputs.bp.value = payload.p_bp || '';
   if (inputs.inr) inputs.inr.value = payload.p_inr || '';
@@ -352,7 +350,7 @@ export function setPayload(p) {
 }
 
 export function savePatient(id, name) {
-  const inputs = dom.getInputs();
+  const inputs = getInputs();
   const patients = getPatients();
   const patientId = id || Date.now().toString();
   const now = new Date().toISOString();

@@ -1,4 +1,4 @@
-import * as dom from './state.js';
+import { dom } from './state.js';
 import { showToast } from './toast.js';
 
 function setValidity(el, valid, message) {

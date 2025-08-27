@@ -1,4 +1,4 @@
-import * as dom from './state.js';
+import { getInputs } from './state.js';
 import { showToast } from './toast.js';
 
 export function collectSummaryData(payload) {
@@ -173,7 +173,7 @@ export function summaryTemplate({
 }
 
 export function copySummary(data) {
-  const inputs = dom.getInputs();
+  const inputs = getInputs();
   if (inputs.summary) inputs.summary.value = summaryTemplate(data);
   if (window.isSecureContext && navigator.clipboard) {
     navigator.clipboard.writeText(inputs.summary.value).catch((err) => {

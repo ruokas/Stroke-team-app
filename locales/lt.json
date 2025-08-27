@@ -16,15 +16,5 @@
   "just_now": "ką tik",
   "minutes_ago": "prieš {mins} min.",
   "saved": "išsaugota",
-  "patient_actions": "Paciento veiksmai",
-  "patients": "Pacientai",
-  "patient": "Pacientas",
-  "new_patient": "Naujas pacientas",
-  "new": "Naujas",
-  "rename_patient": "Pervardyti pacientą",
-  "rename": "Pervardyti",
-  "delete_patient": "Ištrinti pacientą",
-  "delete": "Trinti",
-  "save_local": "Išsaugoti vietoje (naršyklėje)",
-  "save": "Išsaugoti"
+  "patient_actions": "Paciento veiksmai"
 }

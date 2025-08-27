@@ -10,18 +10,18 @@
       </div>
     </div>
     <div class="header-actions" role="toolbar">
-        <details id="patientMenu" class="patient-menu">
-          <summary class="btn" aria-label="Pacientai" data-i18n-aria-label="patients">👥
-            <span id="patientMenuLabel" class="btn-label" data-i18n="patient">Pacientas</span>
-          </summary>
-          <div class="menu">
-            <select id="patientSelect" title="Pacientai" aria-label="Pacientai" class="btn" data-i18n-title="patients" data-i18n-aria-label="patients"></select>
-            {{ actionButton('newPatientBtn', 'Naujas pacientas', '🆕', 'Naujas', tTitle='new_patient', tLabel='new') }}
-            {{ actionButton('renamePatientBtn', 'Pervardyti pacientą', '✏️', 'Pervardyti', tTitle='rename_patient', tLabel='rename') }}
-            {{ actionButton('deletePatientBtn', 'Ištrinti pacientą', '🗑️', 'Trinti', tTitle='delete_patient', tLabel='delete') }}
-            {{ actionButton('saveBtn', 'Išsaugoti vietoje (naršyklėje)', '💾', 'Išsaugoti', tTitle='save_local', tLabel='save') }}
-          </div>
-        </details>
+      <details id="patientMenu" class="patient-menu">
+        <summary class="btn" aria-label="Pacientai" data-i18n-aria-label="patients">👥
+          <span id="patientMenuLabel" class="btn-label">Pacientas</span>
+        </summary>
+        <div class="menu">
+          <select id="patientSelect" title="Pacientai" aria-label="Pacientai" class="btn"></select>
+          {{ actionButton('newPatientBtn', 'Naujas pacientas', '🆕', 'Naujas') }}
+          {{ actionButton('renamePatientBtn', 'Pervardyti pacientą', '✏️', 'Pervardyti') }}
+          {{ actionButton('deletePatientBtn', 'Ištrinti pacientą', '🗑️', 'Trinti') }}
+          {{ actionButton('saveBtn', 'Išsaugoti vietoje (naršyklėje)', '💾', 'Išsaugoti') }}
+        </div>
+      </details>
     </div>
   </div>
   <div id="saveStatus" aria-live="polite"></div>

@@ -8,7 +8,10 @@ const {
   removePatient,
   getPatients: getPatientStore,
 } = await import('../js/patients.js');
-const { savePatient, loadPatient } = await import('../js/storage.js');
+const { savePatient, loadPatient, getPatients } = await import(
+  '../js/storage.js'
+);
+const { SCHEMA_VERSION } = await import('../js/storage/migrations.js');
 
 let inputs = getInputs();
 function resetInputs() {
@@ -47,6 +50,9 @@ test(
     assert.strictEqual(memoryPatients[id2].p_nihss0, '2');
     assert.strictEqual(loadPatient(id1).p_nihss0, '1');
     assert.strictEqual(loadPatient(id2).p_nihss0, '2');
+    const stored = getPatients();
+    assert.strictEqual(stored[id1].data.version, SCHEMA_VERSION);
+    assert.strictEqual(stored[id2].data.version, SCHEMA_VERSION);
 
     // switching patients restores their respective data
     switchPatient(id1);

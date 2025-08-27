@@ -56,8 +56,7 @@ test(
 
     inputs.a_dob.value = '2000-01-01';
     inputs.weight.value = '70';
-    inputs.bp_sys.value = '120';
-    inputs.bp_dia.value = '80';
+    inputs.bp.value = '120/80';
     inputs.nih0.value = '5';
     inputs.lkw.value = '2024-01-01T08:00';
     inputs.door.value = '2024-01-01T08:30';

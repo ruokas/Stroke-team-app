@@ -74,7 +74,7 @@ test('copySummary builds data object and copies formatted text', async () => {
     ],
     activation: {
       lkw: '<4.5',
-      drugs: ['Varfarinas'],
+      drugs: ['Varfarinas (Warfarin, Orfarin)'],
       params: {
         glucose: '5',
         aks: '140/90',

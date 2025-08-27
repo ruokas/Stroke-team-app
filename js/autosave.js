@@ -14,6 +14,12 @@ import {
 } from './patients.js';
 import { getPatients as getSavedPatients } from './storage.js';
 
+const SAVE_STATUS_TEXT = {
+  justNow: 'ką tik',
+  minutesAgo: (mins) => `prieš ${mins} min.`,
+  saved: 'išsaugota',
+};
+
 export function setupAutosave(
   inputs,
   { scheduleSave: sched, flushSave: flush },
@@ -45,8 +51,9 @@ export function setupAutosave(
     }
     const diff = Date.now() - new Date(rec.lastUpdated).getTime();
     const mins = Math.floor(diff / 60000);
-    const ago = mins < 1 ? 'just now' : `${mins}m ago`;
-    saveStatus.textContent = `${rec.name} saved ${ago}`;
+    const ago =
+      mins < 1 ? SAVE_STATUS_TEXT.justNow : SAVE_STATUS_TEXT.minutesAgo(mins);
+    saveStatus.textContent = `${rec.name} ${SAVE_STATUS_TEXT.saved} ${ago}`;
   };
 
   patientSelect?.addEventListener('change', () => {

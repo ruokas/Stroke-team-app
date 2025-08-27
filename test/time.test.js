@@ -44,3 +44,18 @@ test('diffMinutes returns minutes between times', async () => {
   const { diffMinutes } = await import('../js/time.js');
   assert.equal(diffMinutes('2024-01-01T23:00', '2024-01-02T01:00'), 120);
 });
+
+test('parseValidDate returns null for invalid input', async () => {
+  const { parseValidDate } = await import('../js/time.js');
+  assert.equal(parseValidDate('not-a-date'), null);
+});
+
+test('sleepMidpoint returns empty string for invalid dates', async () => {
+  const { sleepMidpoint } = await import('../js/time.js');
+  assert.equal(sleepMidpoint('bad', 'dates'), '');
+});
+
+test('diffMinutes returns NaN for invalid dates', async () => {
+  const { diffMinutes } = await import('../js/time.js');
+  assert.ok(Number.isNaN(diffMinutes('bad', 'dates')));
+});

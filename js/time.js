@@ -9,6 +9,11 @@ export function triggerChange(el) {
   el.dispatchEvent(new Event('change', { bubbles: true }));
 }
 
+export function parseValidDate(value) {
+  const date = new Date(value);
+  return isNaN(date.getTime()) ? null : date;
+}
+
 export function setNow(id) {
   const el = document.getElementById(id);
   if (!el) return;
@@ -23,9 +28,9 @@ export function setNow(id) {
 
 export function sleepMidpoint(start, end) {
   if (!start || !end) return '';
-  const s = new Date(start);
-  let e = new Date(end);
-  if (isNaN(s) || isNaN(e)) return '';
+  const s = parseValidDate(start);
+  let e = parseValidDate(end);
+  if (!s || !e) return '';
   if (e < s) e = new Date(e.getTime() + 864e5);
   const mid = new Date((s.getTime() + e.getTime()) / 2);
   return toLocalInputValue(mid);
@@ -33,9 +38,9 @@ export function sleepMidpoint(start, end) {
 
 export function diffMinutes(start, end) {
   if (!start || !end) return NaN;
-  const s = new Date(start);
-  let e = new Date(end);
-  if (isNaN(s) || isNaN(e)) return NaN;
+  const s = parseValidDate(start);
+  let e = parseValidDate(end);
+  if (!s || !e) return NaN;
   if (e < s) e = new Date(e.getTime() + 864e5);
   return Math.round((e.getTime() - s.getTime()) / 60000);
 }

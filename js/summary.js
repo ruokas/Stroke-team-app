@@ -32,11 +32,11 @@ export function collectSummaryData(payload) {
   const activation = {
     lkw: get(payload.a_lkw),
     drugs: [
-      payload.a_drug_warfarin && 'Varfarinas',
-      payload.a_drug_apixaban && 'Apiksabanas',
-      payload.a_drug_rivaroxaban && 'Rivaroksabanas',
-      payload.a_drug_dabigatran && 'Dabigatranas',
-      payload.a_drug_edoxaban && 'Edoksabanas',
+      payload.a_drug_warfarin && 'Varfarinas (Warfarin, Orfarin)',
+      payload.a_drug_apixaban && 'Apiksabanas (Eliquis)',
+      payload.a_drug_rivaroxaban && 'Rivaroksabanas (Xarelto)',
+      payload.a_drug_dabigatran && 'Dabigatranas (Pradaxa)',
+      payload.a_drug_edoxaban && 'Edoksabanas (Lixiana)',
       payload.a_drug_unknown && 'Nežinoma',
     ].filter(Boolean),
     params: {

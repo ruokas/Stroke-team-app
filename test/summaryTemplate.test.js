@@ -58,7 +58,9 @@ test('summaryTemplate generates summary text correctly', async () => {
   assert(
     summary.includes('AKTYVACIJA:\n- Preliminarus susirgimo laikas: <4.5'),
   );
-  assert(summary.includes('- Vartojami vaistai: Varfarinas'));
+  assert(
+    summary.includes('- Vartojami vaistai: Varfarinas (Warfarin, Orfarin)'),
+  );
   assert(
     summary.includes(
       '- GMP parametrai: Gliukozė: 5, AKS: 140/90, ŠSD: 80, SpO₂: 98, Temp: 37',

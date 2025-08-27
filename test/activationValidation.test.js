@@ -74,6 +74,35 @@ test('validateTemp checks 30-43°C', async () => {
   assert(!el.classList.contains('invalid'));
 });
 
+test('personal details validators work', async () => {
+  const { validatePersonalCode, validateName, validateDob } =
+    await loadModule();
+  let el = document.createElement('input');
+  el.value = '123';
+  validatePersonalCode(el);
+  assert(el.classList.contains('invalid'));
+  el.value = '12345678901';
+  validatePersonalCode(el);
+  assert(!el.classList.contains('invalid'));
+
+  el = document.createElement('input');
+  el.value = '';
+  validateName(el);
+  assert(el.classList.contains('invalid'));
+  el.value = 'Jonas';
+  validateName(el);
+  assert(!el.classList.contains('invalid'));
+
+  el = document.createElement('input');
+  el.value = '2999-01-01';
+  validateDob(el);
+  assert(el.classList.contains('invalid'));
+  const past = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+  el.value = past;
+  validateDob(el);
+  assert(!el.classList.contains('invalid'));
+});
+
 test('activation parameter inputs have numeric attributes', async () => {
   const html = await fs.readFile('templates/sections/activation.njk', 'utf8');
   function getInput(id) {
@@ -115,4 +144,15 @@ test('activation parameter inputs have numeric attributes', async () => {
   assert.match(input, /type="text"/);
   assert.match(input, /inputmode="numeric"/);
   assert.match(input, /placeholder="120\/80"/);
+
+  input = getInput('a_personal');
+  assert.match(input, /required/);
+  assert.ok(input.includes('pattern="\\d{11}"'));
+
+  input = getInput('a_name');
+  assert.match(input, /required/);
+
+  input = getInput('a_dob');
+  assert.match(input, /type="date"/);
+  assert.match(input, /required/);
 });

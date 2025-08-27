@@ -17,7 +17,8 @@ export const state = {
  */
 const selectorMap = {
   weight: ['#p_weight'],
-  bp: ['#p_bp'],
+  bp_sys: ['#p_bp_sys'],
+  bp_dia: ['#p_bp_dia'],
   inr: ['#p_inr'],
   nih0: ['#p_nihss0'],
   lkw: ['#t_lkw'],

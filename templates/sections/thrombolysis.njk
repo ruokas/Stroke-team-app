@@ -20,8 +20,24 @@
                 />
               </div>
               <div>
-                <label for="p_bp">AKS (mmHg)</label>
-                <input id="p_bp" type="text" placeholder="pvz. 178/92" />
+                <label for="p_bp_sys">AKS (mmHg)</label>
+                <div class="input-group">
+                  <input
+                    id="p_bp_sys"
+                    type="number"
+                    min="50"
+                    max="300"
+                    placeholder="sist."
+                  />
+                  <span>/</span>
+                  <input
+                    id="p_bp_dia"
+                    type="number"
+                    min="30"
+                    max="200"
+                    placeholder="diast."
+                  />
+                </div>
               </div>
               <div>
                 <label for="p_inr">INR</label>

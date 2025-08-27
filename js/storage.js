@@ -2,6 +2,7 @@ import { state, getInputs } from './state.js';
 import { updateDrugDefaults } from './drugs.js';
 import { updateAge } from './age.js';
 import { createBpEntry } from './bpEntry.js';
+import { showToast } from './toast.js';
 
 const LS_KEY = 'insultoKomandaPatients_v1';
 // Current version of the payload schema stored in localStorage
@@ -96,9 +97,23 @@ export function getPayload() {
       notes: notesEl?.value || '',
     };
   });
+  let p_bp_sys = inputs.bp_sys?.value.trim() || '';
+  let p_bp_dia = inputs.bp_dia?.value.trim() || '';
+  let p_bp = '';
+  if (p_bp_sys || p_bp_dia) {
+    if (/^\d{2,3}$/.test(p_bp_sys) && /^\d{2,3}$/.test(p_bp_dia)) {
+      p_bp = `${p_bp_sys}/${p_bp_dia}`;
+    } else {
+      showToast('Neteisingas AKS formatas', { type: 'error' });
+      p_bp_sys = '';
+      p_bp_dia = '';
+    }
+  }
   return {
     p_weight: inputs.weight?.value || '',
-    p_bp: inputs.bp?.value || '',
+    p_bp,
+    p_bp_sys,
+    p_bp_dia,
     p_inr: inputs.inr?.value || '',
     p_nihss0: inputs.nih0?.value || '',
     nihs_initial: inputs.nih0?.value || '',
@@ -160,7 +175,16 @@ export function setPayload(p) {
   const payload = p.version !== undefined ? p.data : p;
   const inputs = getInputs();
   if (inputs.weight) inputs.weight.value = payload.p_weight || '';
-  if (inputs.bp) inputs.bp.value = payload.p_bp || '';
+  if (inputs.bp_sys && inputs.bp_dia) {
+    let sys = payload.p_bp_sys || '';
+    let dia = payload.p_bp_dia || '';
+    if ((!sys || !dia) && payload.p_bp) {
+      const parts = payload.p_bp.split('/');
+      if (parts.length === 2) [sys, dia] = parts.map((s) => s.trim());
+    }
+    inputs.bp_sys.value = sys || '';
+    inputs.bp_dia.value = dia || '';
+  }
   if (inputs.inr) inputs.inr.value = payload.p_inr || '';
   if (inputs.nih0)
     inputs.nih0.value = payload.p_nihss0 || payload.nihs_initial || '';

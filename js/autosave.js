@@ -41,6 +41,7 @@ export function setupAutosave(
   };
 
   const saveStatus = document.getElementById('saveStatus');
+  const appForm = document.getElementById('appForm');
   const updateSaveStatus = () => {
     if (!saveStatus) return;
     const id = getActivePatientId();
@@ -130,8 +131,8 @@ export function setupAutosave(
       });
     }
   };
-  document.addEventListener('input', handleChange);
-  document.addEventListener('change', handleChange);
+  appForm?.addEventListener('input', handleChange);
+  appForm?.addEventListener('change', handleChange);
 
   window.addEventListener('beforeunload', (e) => {
     if (dirty) {

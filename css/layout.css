@@ -220,7 +220,6 @@ nav .tab:focus-visible {
   }
   #navToggle {
     display: inline-flex;
-    margin-bottom: 12px;
   }
   nav {
     display: none;

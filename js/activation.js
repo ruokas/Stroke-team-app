@@ -1,6 +1,17 @@
 import { dom } from './state.js';
 import { showToast } from './toast.js';
-import { setValidity } from './validation.js';
+
+function setValidity(el, valid, message) {
+  if (!el) return valid;
+  if (valid) {
+    el.classList.remove('invalid');
+    el.setCustomValidity?.('');
+  } else {
+    el.classList.add('invalid');
+    el.setCustomValidity?.(message);
+  }
+  return valid;
+}
 
 export function validateGlucose(el) {
   const v = parseFloat(el.value);
@@ -32,25 +43,6 @@ export function validateTemp(el) {
   return setValidity(el, ok, 'Temperatūra turi būti 30–43 °C.');
 }
 
-export function validatePersonalCode(el) {
-  const ok = !el.value || /^\d{11}$/.test(el.value);
-  return setValidity(el, ok, 'Asmens kodas turi būti 11 skaitmenų.');
-}
-
-export function validateName(el) {
-  const val = (el.value || '').trim();
-  const ok = val.length >= 2;
-  return setValidity(el, ok, 'Įveskite vardą ir pavardę.');
-}
-
-export function validateDob(el) {
-  const val = el.value;
-  const d = val ? new Date(val) : null;
-  const now = new Date();
-  const ok = !val || (d instanceof Date && !isNaN(d) && d <= now);
-  return setValidity(el, ok, 'Pasirinkite teisingą gimimo datą.');
-}
-
 export function initActivation() {
   const handlers = [
     [dom.getAGlucoseInput(), validateGlucose],
@@ -58,9 +50,6 @@ export function initActivation() {
     [dom.getAHrInput(), validateHr],
     [dom.getASpo2Input(), validateSpo2],
     [dom.getATempInput(), validateTemp],
-    [dom.getAPersonalInput(), validatePersonalCode],
-    [dom.getANameInput(), validateName],
-    [dom.getADobInput(), validateDob],
   ];
   handlers.forEach(([el, fn]) => {
     if (!el) return;

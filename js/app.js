@@ -19,7 +19,6 @@ import { setupPillState } from './pill.js';
 import { setupLkw } from './lkw.js';
 import { initNIHSS } from './nihss.js';
 import { initI18n } from './i18n.js';
-import { initThrombolysisValidation } from './thrombolysis.js';
 
 const SAVE_DEBOUNCE_MS = 500;
 let saveTimer;
@@ -51,7 +50,6 @@ function bind() {
   setupBpHandlers();
   setupPillState();
   setupLkw(inputs);
-  initThrombolysisValidation();
 
   const { updateSaveStatus } = setupAutosave(inputs, {
     scheduleSave,

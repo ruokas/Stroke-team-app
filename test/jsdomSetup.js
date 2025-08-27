@@ -15,7 +15,11 @@ function applyDom() {
   Object.defineProperty(global, 'navigator', {
     value: {
       ...dom.window.navigator,
-      clipboard: { writeText: async (txt) => { global.__copied = txt; } },
+      clipboard: {
+        writeText: async (txt) => {
+          global.__copied = txt;
+        },
+      },
     },
     configurable: true,
   });

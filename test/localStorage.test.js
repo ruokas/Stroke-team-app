@@ -73,7 +73,10 @@ test(
 
     assert.ok(global.__copied.includes('PACIENTAS'));
     assert.ok(global.__copied.includes('NIHSS pradinis: 5'));
-    assert.strictEqual(document.getElementById('summary').value, global.__copied);
+    assert.strictEqual(
+      document.getElementById('summary').value,
+      global.__copied,
+    );
   },
 );
 

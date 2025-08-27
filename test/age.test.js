@@ -22,7 +22,10 @@ test('calcAge and updateAge compute and display age correctly', async () => {
   assert.strictEqual(calcAge('2000-01-01'), '24');
   updateAge();
   assert.strictEqual(inputs.a_age.value, '24');
-  assert.strictEqual(document.getElementById('a_age_display').textContent, '24 m.');
+  assert.strictEqual(
+    document.getElementById('a_age_display').textContent,
+    '24 m.',
+  );
 
   inputs.a_dob.value = '';
   updateAge();

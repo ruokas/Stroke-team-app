@@ -15,7 +15,7 @@
     "prettier": "^3.2.5"
   },
   "scripts": {
-    "format": "prettier --write js/*.js",
+    "format": "prettier --write \"js/**/*.js\" \"test/**/*.js\"",
     "test": "node --test",
     "build": "node build.js",
     "prepare": "husky install",

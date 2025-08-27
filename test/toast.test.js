@@ -14,24 +14,28 @@ beforeEach(() => {
   container.innerHTML = '';
 });
 
-test('queues messages and shows next on close', { concurrency: false }, async () => {
-  showToast('first', { duration: 10000 });
-  showToast('second', { duration: 10000 });
+test(
+  'queues messages and shows next on close',
+  { concurrency: false },
+  async () => {
+    showToast('first', { duration: 10000 });
+    showToast('second', { duration: 10000 });
 
-  const container = document.getElementById('toastContainer');
-  assert.equal(container.querySelectorAll('.toast').length, 1);
-  assert.match(container.querySelector('.toast').textContent, /first/);
-  assert.equal(toast.queue.length, 1);
+    const container = document.getElementById('toastContainer');
+    assert.equal(container.querySelectorAll('.toast').length, 1);
+    assert.match(container.querySelector('.toast').textContent, /first/);
+    assert.equal(toast.queue.length, 1);
 
-  const firstToast = container.querySelector('.toast');
-  const closeBtn = firstToast.querySelector('.toast-close');
-  closeBtn.dispatchEvent(new window.Event('click', { bubbles: true }));
-  firstToast.dispatchEvent(new window.Event('transitionend'));
-  await new Promise((r) => setTimeout(r, 0));
+    const firstToast = container.querySelector('.toast');
+    const closeBtn = firstToast.querySelector('.toast-close');
+    closeBtn.dispatchEvent(new window.Event('click', { bubbles: true }));
+    firstToast.dispatchEvent(new window.Event('transitionend'));
+    await new Promise((r) => setTimeout(r, 0));
 
-  assert.equal(container.querySelectorAll('.toast').length, 1);
-  assert.match(container.querySelector('.toast').textContent, /second/);
-});
+    assert.equal(container.querySelectorAll('.toast').length, 1);
+    assert.match(container.querySelector('.toast').textContent, /second/);
+  },
+);
 
 test('shows queued toast after timeout', { concurrency: false }, async () => {
   showToast('first', { duration: 10 });
@@ -49,4 +53,3 @@ test('shows queued toast after timeout', { concurrency: false }, async () => {
   assert.equal(container.querySelectorAll('.toast').length, 1);
   assert.match(container.querySelector('.toast').textContent, /second/);
 });
-

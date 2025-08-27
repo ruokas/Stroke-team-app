@@ -2,6 +2,39 @@
 
 import { createBpEntry } from './bpEntry.js';
 
+export function validateBp(value) {
+  const match = /^\s*(\d{2,3})\s*\/\s*(\d{2,3})\s*$/.exec(value);
+  if (!match) return false;
+  const systolic = Number(match[1]);
+  const diastolic = Number(match[2]);
+  if (
+    !Number.isFinite(systolic) ||
+    !Number.isFinite(diastolic) ||
+    systolic < 30 ||
+    systolic > 300 ||
+    diastolic < 10 ||
+    diastolic > 200
+  )
+    return false;
+  return true;
+}
+
+export function setupBpInput() {
+  const bpInput = document.getElementById('p_bp');
+  if (!bpInput) return;
+  bpInput.addEventListener('input', () => {
+    bpInput.classList.remove('invalid');
+    if (bpInput.setCustomValidity) bpInput.setCustomValidity('');
+    const val = bpInput.value;
+    if (!val) return;
+    if (!validateBp(val)) {
+      bpInput.classList.add('invalid');
+      if (bpInput.setCustomValidity)
+        bpInput.setCustomValidity('Įveskite teisingą AKS (pvz. 120/80).');
+    }
+  });
+}
+
 export function setupBpEntry() {
   const bpCorrBtn = document.getElementById('bpCorrBtn');
   const bpMedList = document.getElementById('bpMedList');

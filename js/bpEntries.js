@@ -1,6 +1,6 @@
 import { setNow } from './time.js';
 import { openTimePicker } from './timePicker.js';
-import { setupBpEntry } from './bp.js';
+import { setupBpEntry, setupBpInput } from './bp.js';
 
 export function handleBpEntriesClick(event) {
   const target = event.target;
@@ -27,6 +27,7 @@ export function handleBpEntriesClick(event) {
 
 export function setupBpHandlers() {
   setupBpEntry();
+  setupBpInput();
   const bpEntries = document.getElementById('bpEntries');
   bpEntries?.addEventListener('click', handleBpEntriesClick);
 }

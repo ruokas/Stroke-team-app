@@ -10,9 +10,12 @@
   --line: #2d3b4f;
   --accent: #4ea0f5;
   --red: #e53935;
-  --yellow: #ffcc00;
+  --yellow: #ffb74d;
   --green: #00c853;
   --ink2: #d7ecff;
+  --button-bg: var(--card);
+  --yellow-text: #271400;
+  --yellow-border: #bf7d19;
 }
 *,
 *::before,

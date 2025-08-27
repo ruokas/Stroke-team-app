@@ -1,6 +1,6 @@
 .btn {
   border: 1px solid var(--line);
-  background: #152231;
+  background: var(--button-bg);
   color: var(--ink);
   padding: 8px 12px;
   border-radius: 10px;
@@ -29,9 +29,9 @@
   border-color: #2d74b8;
 }
 .btn.warn {
-  background: #ffb74d;
-  color: #271400;
-  border-color: #bf7d19;
+  background: var(--yellow);
+  color: var(--yellow-text);
+  border-color: var(--yellow-border);
 }
 .btn.ghost {
   background: rgba(0, 0, 0, 0);
@@ -50,7 +50,7 @@
   padding: 6px 10px;
   border: 1px solid var(--line);
   border-radius: 999px;
-  background: #152231;
+  background: var(--card);
   color: #fff;
   font-weight: 700;
 }
@@ -76,7 +76,7 @@ select option.red {
   padding: 8px 10px;
   border: 1px solid var(--line);
   border-radius: 999px;
-  background: #152231;
+  background: var(--card);
   color: var(--ink);
   cursor: pointer;
   user-select: none;
@@ -117,7 +117,7 @@ label.chip input {
   border: 1px solid var(--line);
   border-radius: 10px;
   padding: 8px;
-  background: #152231;
+  background: var(--card);
 }
 .gcs-calc .grid {
   margin-bottom: 8px;
@@ -162,7 +162,7 @@ select.invalid {
   border-radius: 8px;
   font-size: 0.75rem;
   border: 1px solid var(--line);
-  background: #152231;
+  background: var(--card);
   color: var(--muted);
 }
 .activation-dot {
@@ -234,7 +234,7 @@ select.invalid {
   padding: 8px 10px;
   border-radius: 10px;
   border: 1px solid var(--line);
-  background: #152231;
+  background: var(--card);
   color: var(--ink);
   min-height: 36px;
   cursor: pointer;
@@ -358,7 +358,7 @@ section[data-tab='Intervencijos'] h3 {
   border-radius: 4px;
 }
 .modal .actions button {
-  background: #152231;
+  background: var(--button-bg);
   color: var(--ink);
   border: 1px solid var(--line);
   border-radius: 4px;

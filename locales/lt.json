@@ -15,5 +15,6 @@
   "patient_deleted": "Pacientas ištrintas.",
   "just_now": "ką tik",
   "minutes_ago": "prieš {mins} min.",
-  "saved": "išsaugota"
+  "saved": "išsaugota",
+  "patient_actions": "Paciento veiksmai"
 }

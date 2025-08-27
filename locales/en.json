@@ -15,5 +15,6 @@
   "patient_deleted": "Patient deleted.",
   "just_now": "just now",
   "minutes_ago": "{mins} min ago",
-  "saved": "saved"
+  "saved": "saved",
+  "patient_actions": "Patient actions"
 }

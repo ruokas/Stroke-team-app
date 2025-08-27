@@ -2,6 +2,7 @@ import { test, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
 import './jsdomSetup.js';
 import { toast, showToast } from '../js/toast.js';
+import { t } from '../js/i18n.js';
 
 const originalShowToast = toast.showToast;
 
@@ -28,7 +29,7 @@ test(
 
     const firstToast = container.querySelector('.toast');
     const closeBtn = firstToast.querySelector('.toast-close');
-    assert.equal(closeBtn.getAttribute('aria-label'), 'Close');
+    assert.equal(closeBtn.getAttribute('aria-label'), t('close'));
     assert.equal(closeBtn.textContent, '×');
     closeBtn.dispatchEvent(new window.Event('click', { bubbles: true }));
     firstToast.dispatchEvent(new window.Event('transitionend'));
@@ -54,4 +55,19 @@ test('shows queued toast after timeout', { concurrency: false }, async () => {
 
   assert.equal(container.querySelectorAll('.toast').length, 1);
   assert.match(container.querySelector('.toast').textContent, /second/);
+});
+
+test('dismisses toast with Escape key', { concurrency: false }, async () => {
+  showToast('to dismiss', { duration: 10000 });
+
+  const container = document.getElementById('toastContainer');
+  const firstToast = container.querySelector('.toast');
+
+  document.dispatchEvent(
+    new window.KeyboardEvent('keydown', { key: 'Escape' }),
+  );
+  firstToast.dispatchEvent(new window.Event('transitionend'));
+  await new Promise((r) => setTimeout(r, 0));
+
+  assert.equal(container.querySelectorAll('.toast').length, 0);
 });

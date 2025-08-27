@@ -16,5 +16,6 @@
   "just_now": "ką tik",
   "minutes_ago": "prieš {mins} min.",
   "saved": "išsaugota",
-  "patient_actions": "Paciento veiksmai"
+  "patient_actions": "Paciento veiksmai",
+  "close": "Uždaryti"
 }

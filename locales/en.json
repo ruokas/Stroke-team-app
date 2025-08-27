@@ -16,5 +16,6 @@
   "just_now": "just now",
   "minutes_ago": "{mins} min ago",
   "saved": "saved",
-  "patient_actions": "Patient actions"
+  "patient_actions": "Patient actions",
+  "close": "Close"
 }

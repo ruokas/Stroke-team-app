@@ -16,15 +16,5 @@
   "just_now": "just now",
   "minutes_ago": "{mins} min ago",
   "saved": "saved",
-  "patient_actions": "Patient actions",
-  "patients": "Patients",
-  "patient": "Patient",
-  "new_patient": "New patient",
-  "new": "New",
-  "rename_patient": "Rename patient",
-  "rename": "Rename",
-  "delete_patient": "Delete patient",
-  "delete": "Delete",
-  "save_local": "Save locally (browser)",
-  "save": "Save"
+  "patient_actions": "Patient actions"
 }

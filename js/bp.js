@@ -9,7 +9,9 @@ export function setupBpEntry() {
   if (bpCorrBtn && bpMedList && bpEntries) {
     bpCorrBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      bpMedList.classList.toggle('hidden');
+      const isHidden = bpMedList.classList.toggle('hidden');
+      bpMedList.hidden = isHidden;
+      bpCorrBtn.setAttribute('aria-expanded', (!isHidden).toString());
     });
     bpMedList.querySelectorAll('.bp-med').forEach((btn) => {
       btn.addEventListener('click', () => {
@@ -19,6 +21,8 @@ export function setupBpEntry() {
         const entry = createBpEntry(med, dose, now);
         bpEntries.appendChild(entry);
         bpMedList.classList.add('hidden');
+        bpMedList.hidden = true;
+        bpCorrBtn.setAttribute('aria-expanded', 'false');
       });
     });
   }

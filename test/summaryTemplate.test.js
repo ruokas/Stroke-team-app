@@ -64,8 +64,8 @@ test('summaryTemplate generates summary text correctly', async () => {
       '- GMP parametrai: Gliukozė: 5, AKS: 140/90, ŠSD: 80, SpO₂: 98, Temp: 37',
     ),
   );
-  assert(summary.includes('SIMPTOMAI:\n- Veido paralyžius, Kalbos sutrikimas'));
-  assert(summary.includes('- Dešinės rankos silpnumas'));
+  assert(summary.includes('SIMPTOMAI:\n- Dešinės rankos silpnumas'));
+  assert(!summary.includes('Veido paralyžius'));
   assert(
     summary.includes('SPRENDIMAS:\n- Taikoma IVT, indikacijų MTE nenustatyta'),
   );

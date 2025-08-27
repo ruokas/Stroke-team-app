@@ -153,9 +153,11 @@ export function summaryTemplate({
 
   if (activation.symptoms.length || arrivalSymptoms) {
     lines.push('SIMPTOMAI:');
-    if (activation.symptoms.length)
+    if (arrivalSymptoms) {
+      lines.push(`- ${arrivalSymptoms}`);
+    } else if (activation.symptoms.length) {
       lines.push(`- ${activation.symptoms.join(', ')}`);
-    if (arrivalSymptoms) lines.push(`- ${arrivalSymptoms}`);
+    }
   }
 
   if (arrivalContra) {

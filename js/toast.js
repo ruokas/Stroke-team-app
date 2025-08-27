@@ -19,7 +19,7 @@ const toast = {
     closeBtn.className = 'toast-close';
     closeBtn.setAttribute('aria-label', 'Close');
     closeBtn.setAttribute('tabindex', '0');
-    closeBtn.innerHTML = '&times;';
+    closeBtn.textContent = '×';
     el.appendChild(closeBtn);
 
     const hide = () => {

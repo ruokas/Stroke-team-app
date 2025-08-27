@@ -4,6 +4,7 @@ import {
   deletePatient as deleteStoredPatient,
 } from './storage.js';
 import { getInputs } from './state.js';
+import { t } from './i18n.js';
 
 const patients = {};
 let activeId = null;
@@ -24,7 +25,7 @@ export function addPatient(id, data = {}) {
   const newId = id || generateId();
   const {
     summary = '',
-    name = `Pacientas ${Object.keys(patients).length + 1}`,
+    name = `${t('patient')} ${Object.keys(patients).length + 1}`,
     ...payload
   } = data || {};
   patients[newId] = { ...payload, summary, name };

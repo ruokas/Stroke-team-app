@@ -2,6 +2,7 @@ import { state, getInputs } from './state.js';
 import { updateDrugDefaults } from './drugs.js';
 import { updateAge } from './age.js';
 import { createBpEntry } from './bpEntry.js';
+import { t } from './i18n.js';
 
 const LS_KEY = 'insultoKomandaPatients_v1';
 // Current version of the payload schema stored in localStorage
@@ -278,7 +279,7 @@ export function savePatient(id, name) {
     name ||
     patients[patientId]?.name ||
     inputs.nih0?.value ||
-    `Pacientas ${patientId}`;
+    `${t('patient')} ${patientId}`;
   patients[patientId] = {
     patientId,
     name: patientName,

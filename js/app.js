@@ -8,6 +8,7 @@ import { setupAutosave } from './autosave.js';
 import { savePatient } from './storage.js';
 import { setupIntervals } from './intervals.js';
 import { setupHeaderHeight } from './header.js';
+import { setupToolbarNavigation } from './toolbar.js';
 import { setupTimeButtons } from './timeButtons.js';
 import { setupDrugControls } from './drugControls.js';
 import { setupSummaryHandlers } from './summaryHandlers.js';
@@ -40,6 +41,7 @@ function bind() {
 
   setupIntervals(inputs);
   setupHeaderHeight();
+  setupToolbarNavigation();
   setupTimeButtons();
   setupDrugControls(inputs);
   setupSummaryHandlers(inputs);

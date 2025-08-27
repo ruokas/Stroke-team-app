@@ -28,6 +28,8 @@ test(
 
     const firstToast = container.querySelector('.toast');
     const closeBtn = firstToast.querySelector('.toast-close');
+    assert.equal(closeBtn.getAttribute('aria-label'), 'Close');
+    assert.equal(closeBtn.textContent, '×');
     closeBtn.dispatchEvent(new window.Event('click', { bubbles: true }));
     firstToast.dispatchEvent(new window.Event('transitionend'));
     await new Promise((r) => setTimeout(r, 0));

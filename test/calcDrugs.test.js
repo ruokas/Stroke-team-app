@@ -3,9 +3,9 @@ import assert from 'node:assert/strict';
 import './jsdomSetup.js';
 
 test('calcDrugs handles dosing correctly, validates inputs, and resets outputs', async () => {
-  const { getInputs } = await import('../src/state.js');
+  const { getInputs } = await import('../js/state.js');
   const inputs = getInputs();
-  const { calcDrugs } = await import('../src/drugs.js');
+  const { calcDrugs } = await import('../js/drugs.js');
 
   inputs.weight.value = '0';
   inputs.drugConc.value = '5';

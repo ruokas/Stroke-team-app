@@ -1,17 +1,17 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import './jsdomSetup.js';
-const { getInputs } = await import('../src/state.js');
+const { getInputs } = await import('../js/state.js');
 const {
   addPatient,
   switchPatient,
   removePatient,
   getPatients: getPatientStore,
-} = await import('../src/patients.js');
+} = await import('../js/patients.js');
 const { savePatient, loadPatient, getPatients } = await import(
-  '../src/storage.js'
+  '../js/storage.js'
 );
-const { SCHEMA_VERSION } = await import('../src/storage/migrations.js');
+const { SCHEMA_VERSION } = await import('../js/storage/migrations.js');
 
 let inputs = getInputs();
 function resetInputs() {

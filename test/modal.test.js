@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import './jsdomSetup.js';
-import { showModal, confirmModal, promptModal } from '../src/modal.js';
+import { showModal, confirmModal, promptModal } from '../js/modal.js';
 
 const tick = () => new Promise((r) => setTimeout(r, 0));
 

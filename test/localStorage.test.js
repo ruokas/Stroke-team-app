@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import './jsdomSetup.js';
 
 let inputs = null;
-const { getInputs } = await import('../src/state.js');
+const { getInputs } = await import('../js/state.js');
 const {
   savePatient,
   loadPatient,
@@ -11,10 +11,10 @@ const {
   setPayload,
   getPatients,
   getPayload,
-} = await import('../src/storage.js');
-const { SCHEMA_VERSION } = await import('../src/storage/migrations.js');
+} = await import('../js/storage.js');
+const { SCHEMA_VERSION } = await import('../js/storage/migrations.js');
 inputs = getInputs();
-const { copySummary, collectSummaryData } = await import('../src/summary.js');
+const { copySummary, collectSummaryData } = await import('../js/summary.js');
 
 function resetInputs() {
   inputs = getInputs();

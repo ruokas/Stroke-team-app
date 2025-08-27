@@ -89,6 +89,10 @@ header {
     width: 100%;
     margin-top: 8px;
   }
+
+  .brand .subtle {
+    display: none;
+  }
 }
 
 @media (max-width: 480px) {

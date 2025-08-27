@@ -21,6 +21,10 @@
       </div>
     </div>
     <div class="header-actions">
+      <select id="langSelect" class="btn" title="Kalba" data-i18n-title="language" aria-label="Kalba" data-i18n-aria-label="language">
+        <option value="lt">LT</option>
+        <option value="en">EN</option>
+      </select>
       <select id="patientSelect" title="Pacientai" aria-label="Pacientai" class="btn"></select>
       <details class="patient-menu">
         <summary>⋮</summary>
@@ -90,14 +94,14 @@
       type="button"
       class="btn ghost"
       data-time-picker="a_gmp_time"
-      aria-label="Pasirinkti datą ir laiką"
+      aria-label="Pasirinkti datą ir laiką" data-i18n-aria-label="select_date_time"
     >
       📅
     </button>
     <button
       type="button"
       class="btn ghost"
-      data-now="a_gmp_time"
+      data-now="a_gmp_time" data-i18n="now" data-i18n-aria-label="now"
       aria-label="Dabar"
     >
       Dabar
@@ -129,7 +133,7 @@
                   <label for="a_personal">Asmens kodas</label>
                   <div class="input-group">
                     <input id="a_personal" type="text" />
-                    <button id="copyPersonalBtn" type="button" class="btn ghost">
+                    <button id="copyPersonalBtn" type="button" class="btn ghost" data-i18n="copy">
                       Kopijuoti
                     </button>
                   </div>
@@ -322,14 +326,14 @@
       type="button"
       class="btn ghost"
       data-time-picker="t_door"
-      aria-label="Pasirinkti datą ir laiką"
+      aria-label="Pasirinkti datą ir laiką" data-i18n-aria-label="select_date_time"
     >
       📅
     </button>
     <button
       type="button"
       class="btn ghost"
-      data-now="t_door"
+      data-now="t_door" data-i18n="now" data-i18n-aria-label="now"
       aria-label="Dabar"
     >
       Dabar
@@ -385,14 +389,14 @@
       type="button"
       class="btn ghost"
       data-time-picker="t_lkw"
-      aria-label="Pasirinkti datą ir laiką"
+      aria-label="Pasirinkti datą ir laiką" data-i18n-aria-label="select_date_time"
     >
       📅
     </button>
     <button
       type="button"
       class="btn ghost"
-      data-now="t_lkw"
+      data-now="t_lkw" data-i18n="now" data-i18n-aria-label="now"
       aria-label="Dabar"
     >
       Dabar
@@ -433,14 +437,14 @@
       type="button"
       class="btn ghost"
       data-time-picker="t_sleep_start"
-      aria-label="Pasirinkti datą ir laiką"
+      aria-label="Pasirinkti datą ir laiką" data-i18n-aria-label="select_date_time"
     >
       📅
     </button>
     <button
       type="button"
       class="btn ghost"
-      data-now="t_sleep_start"
+      data-now="t_sleep_start" data-i18n="now" data-i18n-aria-label="now"
       aria-label="Dabar"
     >
       Dabar
@@ -481,14 +485,14 @@
       type="button"
       class="btn ghost"
       data-time-picker="t_sleep_end"
-      aria-label="Pasirinkti datą ir laiką"
+      aria-label="Pasirinkti datą ir laiką" data-i18n-aria-label="select_date_time"
     >
       📅
     </button>
     <button
       type="button"
       class="btn ghost"
-      data-now="t_sleep_end"
+      data-now="t_sleep_end" data-i18n="now" data-i18n-aria-label="now"
       aria-label="Dabar"
     >
       Dabar
@@ -1305,14 +1309,14 @@
       type="button"
       class="btn ghost"
       data-time-picker="t_thrombolysis"
-      aria-label="Pasirinkti datą ir laiką"
+      aria-label="Pasirinkti datą ir laiką" data-i18n-aria-label="select_date_time"
     >
       📅
     </button>
     <button
       type="button"
       class="btn ghost"
-      data-now="t_thrombolysis"
+      data-now="t_thrombolysis" data-i18n="now" data-i18n-aria-label="now"
       aria-label="Dabar"
     >
       Dabar
@@ -1366,14 +1370,14 @@
       type="button"
       class="btn ghost"
       data-time-picker="d_time"
-      aria-label="Pasirinkti datą ir laiką"
+      aria-label="Pasirinkti datą ir laiką" data-i18n-aria-label="select_date_time"
     >
       📅
     </button>
     <button
       type="button"
       class="btn ghost"
-      data-now="d_time"
+      data-now="d_time" data-i18n="now" data-i18n-aria-label="now"
       aria-label="Dabar"
     >
       Dabar
@@ -1445,14 +1449,14 @@
           ></textarea>
           <div class="sticky-actions">
             
-<button id="copySummaryBtn" title="Kopijuoti santrauką" class="btn" >📋 <span class="btn-label">Kopijuoti</span></button>
-<button id="exportSummaryBtn" title="Eksportuoti santrauką" class="btn" >🖨️ <span class="btn-label">PDF</span></button>
+<button id="copySummaryBtn" title="Kopijuoti santrauką" data-i18n-title="copy_summary" class="btn" >📋 <span class="btn-label" data-i18n="copy">Kopijuoti</span></button>
+<button id="exportSummaryBtn" title="Eksportuoti santrauką" data-i18n-title="export_summary" class="btn" >🖨️ <span class="btn-label" data-i18n="export_pdf">PDF</span></button>
 
           </div>
         </section>
 
-              <details class="settings">
-          <summary><span class="pill">⚙️ Nustatymai</span></summary>
+<details class="settings">
+          <summary><span class="pill">⚙️ <span data-i18n="settings">Nustatymai</span></span></summary>
             <div class="card">
               <div class="grid-3">
                 <div>

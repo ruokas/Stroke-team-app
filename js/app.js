@@ -17,6 +17,7 @@ import { setupBpHandlers } from './bpEntries.js';
 import { setupPillState } from './pill.js';
 import { setupLkw } from './lkw.js';
 import { initNIHSS } from './nihss.js';
+import { initI18n } from './i18n.js';
 
 const SAVE_DEBOUNCE_MS = 500;
 let saveTimer;
@@ -63,4 +64,7 @@ function bind() {
   activateFromHash();
 }
 
-document.addEventListener('DOMContentLoaded', bind);
+document.addEventListener('DOMContentLoaded', async () => {
+  await initI18n();
+  bind();
+});

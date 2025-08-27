@@ -2,6 +2,7 @@ import { $ } from './state.js';
 import { collectSummaryData, summaryTemplate } from './summary.js';
 import { showToast } from './toast.js';
 import { confirmModal, promptModal } from './modal.js';
+import { t } from './i18n.js';
 import {
   addPatient,
   switchPatient,
@@ -15,9 +16,9 @@ import {
 import { getPatients as getSavedPatients } from './storage.js';
 
 const SAVE_STATUS_TEXT = {
-  justNow: 'ką tik',
-  minutesAgo: (mins) => `prieš ${mins} min.`,
-  saved: 'išsaugota',
+  justNow: () => t('just_now'),
+  minutesAgo: (mins) => t('minutes_ago', { mins }),
+  saved: () => t('saved'),
 };
 
 export function setupAutosave(
@@ -53,8 +54,8 @@ export function setupAutosave(
     const diff = Date.now() - new Date(rec.lastUpdated).getTime();
     const mins = Math.floor(diff / 60000);
     const ago =
-      mins < 1 ? SAVE_STATUS_TEXT.justNow : SAVE_STATUS_TEXT.minutesAgo(mins);
-    saveStatus.textContent = `${rec.name} ${SAVE_STATUS_TEXT.saved} ${ago}`;
+      mins < 1 ? SAVE_STATUS_TEXT.justNow() : SAVE_STATUS_TEXT.minutesAgo(mins);
+    saveStatus.textContent = `${rec.name} ${SAVE_STATUS_TEXT.saved()} ${ago}`;
   };
 
   patientSelect?.addEventListener('change', () => {
@@ -70,7 +71,7 @@ export function setupAutosave(
     const id = getActivePatientId();
     if (!id) return;
     flush(id, undefined, () => {
-      showToast('Išsaugota naršyklėje.', { type: 'success' });
+      showToast(t('saved_locally'), { type: 'success' });
       updateSaveStatus();
       dirty = false;
     });
@@ -80,16 +81,13 @@ export function setupAutosave(
     const id = getActivePatientId();
     if (!id) return;
     const pats = getPatients();
-    const newName = await promptModal(
-      'Naujas pavadinimas',
-      pats[id]?.name || '',
-    );
+    const newName = await promptModal(t('rename_prompt'), pats[id]?.name || '');
     if (newName) {
       renamePatient(id, newName);
       refreshPatientSelect(id);
       flush(id, newName, () => {
         updateSaveStatus();
-        showToast('Pacientas pervadintas.', { type: 'info' });
+        showToast(t('patient_renamed'), { type: 'info' });
       });
     }
   });
@@ -97,11 +95,11 @@ export function setupAutosave(
   $('#deletePatientBtn').addEventListener('click', async () => {
     const id = getActivePatientId();
     if (!id) return;
-    if (await confirmModal('Ištrinti pacientą?')) {
+    if (await confirmModal(t('delete_patient_confirm'))) {
       removePatient(id);
       refreshPatientSelect(getActivePatientId());
       updateSaveStatus();
-      showToast('Pacientas ištrintas.', { type: 'warning' });
+      showToast(t('patient_deleted'), { type: 'warning' });
     }
   });
 

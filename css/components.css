@@ -11,10 +11,11 @@
     color 0.2s;
 }
 .btn:hover {
-  filter: brightness(1.1);
+  background: #141d28;
 }
+
 .btn:active {
-  filter: brightness(0.9);
+  background: #101720;
 }
 .btn:focus-visible {
   outline: 3px solid var(--accent);
@@ -28,15 +29,36 @@
   color: #fff;
   border-color: #2d74b8;
 }
+.btn.primary:hover {
+  background: #2368c5;
+}
+
+.btn.primary:active {
+  background: #1a56aa;
+}
 .btn.warn {
   background: var(--yellow);
   color: var(--yellow-text);
   border-color: var(--yellow-border);
 }
+.btn.warn:hover {
+  background: #ffcb70;
+}
+
+.btn.warn:active {
+  background: #e5a545;
+}
 .btn.ghost {
   background: rgba(0, 0, 0, 0);
   color: var(--muted);
   border-style: dashed;
+}
+.btn.ghost:hover {
+  background: #18222e;
+}
+
+.btn.ghost:active {
+  background: #0d1319;
 }
 #d_gks_total {
   margin-left: auto;

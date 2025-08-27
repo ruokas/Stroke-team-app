@@ -1,0 +1,19 @@
+{
+  "LKW": "Last known well – the time when the patient was last known without stroke symptoms. The app uses this to compute intervals like LKW to thrombolysis for treatment decisions.",
+  "settings": "Settings",
+  "copy": "Copy",
+  "export_pdf": "PDF",
+  "select_date_time": "Select date and time",
+  "now": "Now",
+  "language": "Language",
+  "copy_summary": "Copy summary",
+  "export_summary": "Export summary",
+  "saved_locally": "Saved locally.",
+  "rename_prompt": "New name",
+  "patient_renamed": "Patient renamed.",
+  "delete_patient_confirm": "Delete patient?",
+  "patient_deleted": "Patient deleted.",
+  "just_now": "just now",
+  "minutes_ago": "{mins} min ago",
+  "saved": "saved"
+}

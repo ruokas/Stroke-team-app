@@ -1,4 +1,4 @@
-import * as dom from './state.js';
+import { dom } from './state.js';
 import { computeDose } from './computeDose.js';
 
 export function updateDrugDefaults() {

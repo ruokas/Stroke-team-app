@@ -1,4 +1,4 @@
-import * as dom from './state.js';
+import { dom } from './state.js';
 
 export function calcAge(dob) {
   if (!dob) return '';

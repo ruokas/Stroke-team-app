@@ -10,16 +10,18 @@
       </div>
     </div>
     <div class="header-actions" role="toolbar">
-      <select id="patientSelect" title="Pacientai" aria-label="Pacientai" class="btn"></select>
-      <details class="patient-menu">
-        <summary>⋮</summary>
+      <details id="patientMenu" class="patient-menu">
+        <summary class="btn" aria-label="Pacientai" data-i18n-aria-label="patients">👥
+          <span id="patientMenuLabel" class="btn-label">Pacientas</span>
+        </summary>
         <div class="menu">
+          <select id="patientSelect" title="Pacientai" aria-label="Pacientai" class="btn"></select>
+          {{ actionButton('newPatientBtn', 'Naujas pacientas', '🆕', 'Naujas') }}
           {{ actionButton('renamePatientBtn', 'Pervardyti pacientą', '✏️', 'Pervardyti') }}
           {{ actionButton('deletePatientBtn', 'Ištrinti pacientą', '🗑️', 'Trinti') }}
+          {{ actionButton('saveBtn', 'Išsaugoti vietoje (naršyklėje)', '💾', 'Išsaugoti') }}
         </div>
       </details>
-      {{ actionButton('newPatientBtn', 'Naujas pacientas', '🆕', 'Naujas') }}
-      {{ actionButton('saveBtn', 'Išsaugoti vietoje (naršyklėje)', '💾', 'Išsaugoti') }}
     </div>
   </div>
   <div id="saveStatus" aria-live="polite"></div>

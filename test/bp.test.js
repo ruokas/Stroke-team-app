@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { validateBp } from '../src/bp.js';
+import { validateBp } from '../js/bp.js';
 
 test('validateBp accepts correct format and range', () => {
   assert.equal(validateBp('120/80'), true);

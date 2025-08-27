@@ -2,12 +2,12 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import './jsdomSetup.js';
 
-const { getInputs } = await import('../src/state.js');
-const { getPayload } = await import('../src/storage.js');
+const { getInputs } = await import('../js/state.js');
+const { getPayload } = await import('../js/storage.js');
 const { exportSummaryPDF, summaryTemplate, collectSummaryData } = await import(
-  '../src/summary.js'
+  '../js/summary.js'
 );
-const { toast } = await import('../src/toast.js');
+const { toast } = await import('../js/toast.js');
 
 function createData() {
   const inputs = getInputs();

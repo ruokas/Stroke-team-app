@@ -3,11 +3,11 @@ import assert from 'node:assert/strict';
 import './jsdomSetup.js';
 
 test('summaryTemplate generates summary text correctly', async () => {
-  const { getInputs } = await import('../src/state.js');
+  const { getInputs } = await import('../js/state.js');
   const inputs = getInputs();
-  const { getPayload } = await import('../src/storage.js');
+  const { getPayload } = await import('../js/storage.js');
   const { collectSummaryData, summaryTemplate } = await import(
-    '../src/summary.js'
+    '../js/summary.js'
   );
 
   document.querySelector(

@@ -8,8 +8,8 @@ test('bp entry can be added and removed', async () => {
     <div id="bpMedList"><button class="btn bp-med" data-med="Med" data-dose="1"></button></div>
     <div id="bpEntries"></div>
   `;
-  const { setupBpEntry } = await import('../src/bp.js');
-  const { handleBpEntriesClick } = await import('../src/bpEntries.js');
+  const { setupBpEntry } = await import('../js/bp.js');
+  const { handleBpEntriesClick } = await import('../js/bpEntries.js');
 
   setupBpEntry();
 

@@ -16,14 +16,13 @@ npm install
 npm test
 ```
 
-To build optimized assets and write them to `dist/`, run:
+To build optimized assets run:
 
 ```sh
 npm run build
 ```
 
-This bundles the JavaScript with Rollup and processes CSS with PostCSS.
-After building, open `index.html` in a browser to use the app.
+Open `index.html` in a browser to use the app.
 
 ## Draft storage schema
 

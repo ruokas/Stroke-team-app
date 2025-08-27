@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { JSDOM } from 'jsdom';
-import { autoSetContraDecision } from '../src/decision.js';
+import { autoSetContraDecision } from '../js/decision.js';
 
 test('selects contraindicated decision when contraindication checked', () => {
   const dom = new JSDOM(

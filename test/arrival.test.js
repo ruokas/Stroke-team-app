@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { computeArrivalMessage, timeSince } from '../src/arrival.js';
+import { computeArrivalMessage, timeSince } from '../js/arrival.js';
 
 test('unknown last known well', () => {
   const res = computeArrivalMessage({ lkwType: 'unknown' });

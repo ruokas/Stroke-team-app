@@ -13,18 +13,16 @@
     "husky": "^9.0.11",
     "jsdom": "^24.0.0",
     "postcss": "^8.5.6",
-    "postcss-cli": "^11.0.0",
-    "postcss-import": "^16.1.0",
-    "prettier": "^3.2.5",
-    "@rollup/plugin-node-resolve": "^15.2.3",
-    "rollup": "^4.19.0"
+    "prettier": "^3.2.5"
   },
   "scripts": {
-    "format": "prettier --write \"src/**/*.js\" \"test/**/*.js\"",
+    "format": "prettier --write \"js/**/*.js\" \"test/**/*.js\"",
     "test": "node --test",
-    "build": "rollup -c && postcss src/css/style.css -o dist/style.css",
+    "build": "node build.js",
     "prepare": "husky install",
-    "lint": "ESLINT_USE_FLAT_CONFIG=false eslint src test"
+    "lint": "ESLINT_USE_FLAT_CONFIG=false eslint js test"
   },
-  "dependencies": {}
+  "dependencies": {
+    "nunjucks": "^3.2.4"
+  }
 }

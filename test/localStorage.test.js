@@ -12,6 +12,7 @@ const {
   getPatients,
   getPayload,
 } = await import('../js/storage.js');
+const { SCHEMA_VERSION } = await import('../js/storage/migrations.js');
 inputs = getInputs();
 const { copySummary, collectSummaryData } = await import('../js/summary.js');
 
@@ -48,7 +49,7 @@ test('localStorage handles multiple records', { concurrency: false }, () => {
   assert.strictEqual(loadPatient('d2').p_nihss0, '2');
   const patients = getPatients();
   assert.ok(!('d1' in patients));
-  assert.strictEqual(patients.d2.data.version, 1);
+  assert.strictEqual(patients.d2.data.version, SCHEMA_VERSION);
   assert.strictEqual(patients.d2.patientId, 'd2');
   assert.ok(patients.d2.created);
   assert.ok(patients.d2.lastUpdated);
@@ -116,7 +117,7 @@ test('getPatients migrates unversioned data', () => {
     JSON.stringify({ old: { name: 'Old', data: { p_nihss0: '1' } } }),
   );
   const patients = getPatients();
-  assert.strictEqual(patients.old.data.version, 1);
+  assert.strictEqual(patients.old.data.version, SCHEMA_VERSION);
   assert.strictEqual(patients.old.data.data.p_nihss0, '1');
   assert.strictEqual(patients.old.patientId, 'old');
   assert.ok(patients.old.created);

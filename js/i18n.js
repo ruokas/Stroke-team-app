@@ -33,17 +33,7 @@ async function setLanguage(lang) {
 }
 
 export async function initI18n() {
-  const lang = localStorage.getItem('lang') || DEFAULT_LANG;
-  await setLanguage(lang);
-  const selector = document.getElementById('langSelect');
-  if (selector) {
-    selector.value = lang;
-    selector.addEventListener('change', async () => {
-      const newLang = selector.value;
-      localStorage.setItem('lang', newLang);
-      await setLanguage(newLang);
-    });
-  }
+  await setLanguage(DEFAULT_LANG);
 }
 
 export { t };

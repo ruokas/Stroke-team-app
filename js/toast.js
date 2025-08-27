@@ -1,3 +1,5 @@
+import { t } from './i18n.js';
+
 const toast = {
   queue: [],
   showing: false,
@@ -17,13 +19,15 @@ const toast = {
     const closeBtn = document.createElement('button');
     closeBtn.type = 'button';
     closeBtn.className = 'btn toast-close';
-    closeBtn.setAttribute('aria-label', 'Close');
+    closeBtn.setAttribute('data-i18n-aria-label', 'close');
+    closeBtn.setAttribute('aria-label', t('close'));
     closeBtn.setAttribute('tabindex', '0');
     closeBtn.textContent = '×';
     el.appendChild(closeBtn);
 
     const hide = () => {
       el.classList.add('hide');
+      document.removeEventListener('keydown', onKey);
       el.addEventListener(
         'transitionend',
         () => {
@@ -35,11 +39,19 @@ const toast = {
       );
     };
 
+    const onKey = (e) => {
+      if (e.key === 'Escape') {
+        clearTimeout(timer);
+        hide();
+      }
+    };
+
     const timer = setTimeout(hide, duration);
     closeBtn.addEventListener('click', () => {
       clearTimeout(timer);
       hide();
     });
+    document.addEventListener('keydown', onKey);
 
     container.appendChild(el);
     this.showing = true;

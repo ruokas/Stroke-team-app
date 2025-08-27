@@ -73,7 +73,7 @@ export function setupAutosave(
   const firstId = addPatient();
   refreshPatientSelect(firstId);
 
-  $('#saveBtn').addEventListener('click', () => {
+  $('#saveBtn')?.addEventListener('click', () => {
     const id = getActivePatientId();
     if (!id) return;
     flush(id, undefined, () => {
@@ -84,7 +84,7 @@ export function setupAutosave(
     patientMenu?.removeAttribute('open');
   });
 
-  $('#renamePatientBtn').addEventListener('click', async () => {
+  $('#renamePatientBtn')?.addEventListener('click', async () => {
     const id = getActivePatientId();
     if (!id) return;
     const pats = getPatients();
@@ -100,7 +100,7 @@ export function setupAutosave(
     patientMenu?.removeAttribute('open');
   });
 
-  $('#deletePatientBtn').addEventListener('click', async () => {
+  $('#deletePatientBtn')?.addEventListener('click', async () => {
     const id = getActivePatientId();
     if (!id) return;
     if (await confirmModal(t('delete_patient_confirm'))) {
@@ -112,7 +112,7 @@ export function setupAutosave(
     patientMenu?.removeAttribute('open');
   });
 
-  $('#newPatientBtn').addEventListener('click', () => {
+  $('#newPatientBtn')?.addEventListener('click', () => {
     const id = addPatient();
     refreshPatientSelect(id);
     updateSaveStatus();

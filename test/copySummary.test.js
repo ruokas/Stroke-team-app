@@ -6,9 +6,13 @@ test('copySummary builds data object and copies formatted text', async () => {
   const { getInputs } = await import('../js/state.js');
   const inputs = getInputs();
   const { getPayload } = await import('../js/storage.js');
-  const { collectSummaryData, summaryTemplate, copySummary } = await import('../js/summary.js');
+  const { collectSummaryData, summaryTemplate, copySummary } = await import(
+    '../js/summary.js'
+  );
 
-  document.querySelector('input[name="d_decision"][value="Taikoma IVT, indikacijų MTE nenustatyta"]').checked = true;
+  document.querySelector(
+    'input[name="d_decision"][value="Taikoma IVT, indikacijų MTE nenustatyta"]',
+  ).checked = true;
   document.querySelector('input[name="a_lkw"][value="<4.5"]').checked = true;
   document.querySelector('input[name="a_face"]').checked = true;
   document.querySelector('input[name="a_speech"]').checked = true;

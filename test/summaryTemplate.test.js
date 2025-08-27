@@ -6,9 +6,13 @@ test('summaryTemplate generates summary text correctly', async () => {
   const { getInputs } = await import('../js/state.js');
   const inputs = getInputs();
   const { getPayload } = await import('../js/storage.js');
-  const { collectSummaryData, summaryTemplate } = await import('../js/summary.js');
+  const { collectSummaryData, summaryTemplate } = await import(
+    '../js/summary.js'
+  );
 
-  document.querySelector('input[name="d_decision"][value="Taikoma IVT, indikacijų MTE nenustatyta"]').checked = true;
+  document.querySelector(
+    'input[name="d_decision"][value="Taikoma IVT, indikacijų MTE nenustatyta"]',
+  ).checked = true;
   document.querySelector('input[name="a_lkw"][value="<4.5"]').checked = true;
   document.querySelector('input[name="a_face"]').checked = true;
   document.querySelector('input[name="a_speech"]').checked = true;
@@ -48,11 +52,21 @@ test('summaryTemplate generates summary text correctly', async () => {
   assert(summary.includes('VAISTAI:\n- Tipas: Tenekteplazė'));
   assert(summary.includes('- Koncentracija: 5 mg/ml'));
   assert(summary.includes('- Bendra dozė: 20 mg (4 ml)'));
-  assert(summary.includes('AKS KOREKCIJA:\n- Kaptoprilis 10:00 25 mg (požymai)'));
-  assert(summary.includes('AKTYVACIJA:\n- Preliminarus susirgimo laikas: <4.5'));
+  assert(
+    summary.includes('AKS KOREKCIJA:\n- Kaptoprilis 10:00 25 mg (požymai)'),
+  );
+  assert(
+    summary.includes('AKTYVACIJA:\n- Preliminarus susirgimo laikas: <4.5'),
+  );
   assert(summary.includes('- Vartojami vaistai: Varfarinas'));
-  assert(summary.includes('- GMP parametrai: Gliukozė: 5, AKS: 140/90, ŠSD: 80, SpO₂: 98, Temp: 37'));
+  assert(
+    summary.includes(
+      '- GMP parametrai: Gliukozė: 5, AKS: 140/90, ŠSD: 80, SpO₂: 98, Temp: 37',
+    ),
+  );
   assert(summary.includes('SIMPTOMAI:\n- Veido paralyžius, Kalbos sutrikimas'));
   assert(summary.includes('- Dešinės rankos silpnumas'));
-  assert(summary.includes('SPRENDIMAS:\n- Taikoma IVT, indikacijų MTE nenustatyta'));
+  assert(
+    summary.includes('SPRENDIMAS:\n- Taikoma IVT, indikacijų MTE nenustatyta'),
+  );
 });

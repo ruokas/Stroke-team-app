@@ -46,7 +46,7 @@ export function showModal({ title = '', message = '', input, buttons = [] }) {
       const b = document.createElement('button');
       b.type = 'button';
       b.textContent = btn.label;
-      if (btn.class) b.className = btn.class;
+      b.className = 'btn' + (btn.class ? ` ${btn.class}` : '');
       b.addEventListener('click', () => {
         const v =
           typeof btn.value === 'function'

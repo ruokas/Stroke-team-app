@@ -10,6 +10,7 @@ test(
   { concurrency: false },
   async () => {
     const outside = document.createElement('button');
+    outside.className = 'btn';
     document.body.appendChild(outside);
     outside.focus();
 
@@ -57,6 +58,7 @@ test(
   { concurrency: false },
   async () => {
     const outside = document.createElement('button');
+    outside.className = 'btn';
     document.body.appendChild(outside);
     outside.focus();
 
@@ -97,6 +99,7 @@ test(
   { concurrency: false },
   async () => {
     const outside = document.createElement('button');
+    outside.className = 'btn';
     document.body.appendChild(outside);
     outside.focus();
 

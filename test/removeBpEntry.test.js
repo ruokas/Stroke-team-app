@@ -4,8 +4,8 @@ import './jsdomSetup.js';
 
 test('bp entry can be added and removed', async () => {
   document.body.innerHTML = `
-    <button id="bpCorrBtn"></button>
-    <div id="bpMedList"><button class="bp-med" data-med="Med" data-dose="1"></button></div>
+    <button id="bpCorrBtn" class="btn"></button>
+    <div id="bpMedList"><button class="btn bp-med" data-med="Med" data-dose="1"></button></div>
     <div id="bpEntries"></div>
   `;
   const { setupBpEntry } = await import('../js/bp.js');

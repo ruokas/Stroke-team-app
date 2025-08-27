@@ -16,7 +16,7 @@ const toast = {
 
     const closeBtn = document.createElement('button');
     closeBtn.type = 'button';
-    closeBtn.className = 'toast-close';
+    closeBtn.className = 'btn toast-close';
     closeBtn.setAttribute('aria-label', 'Close');
     closeBtn.setAttribute('tabindex', '0');
     closeBtn.textContent = '×';

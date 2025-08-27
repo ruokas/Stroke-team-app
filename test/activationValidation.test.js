@@ -4,7 +4,7 @@ import fs from 'node:fs/promises';
 import './jsdomSetup.js';
 
 async function loadModule() {
-  return import('../js/activation.js');
+  return import('../src/activation.js');
 }
 
 test('validateGlucose enforces 2.8-22 range', async () => {

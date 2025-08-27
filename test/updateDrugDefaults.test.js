@@ -3,9 +3,9 @@ import assert from 'node:assert/strict';
 import './jsdomSetup.js';
 
 test('updateDrugDefaults sets default concentrations correctly', async () => {
-  const { getInputs } = await import('../js/state.js');
+  const { getInputs } = await import('../src/state.js');
   const inputs = getInputs();
-  const { updateDrugDefaults } = await import('../js/drugs.js');
+  const { updateDrugDefaults } = await import('../src/drugs.js');
 
   inputs.def_tnk.value = '';
   inputs.def_tpa.value = '';

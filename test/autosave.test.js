@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import './jsdomSetup.js';
 
 test('autosave triggers on form input', { concurrency: false }, async () => {
-  const { setupAutosave } = await import('../js/autosave.js');
-  const { getInputs } = await import('../js/state.js');
+  const { setupAutosave } = await import('../src/autosave.js');
+  const { getInputs } = await import('../src/state.js');
 
   const inputs = getInputs();
   let called = false;

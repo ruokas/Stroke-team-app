@@ -14,9 +14,9 @@ test('calcAge and updateAge compute and display age correctly', async () => {
     }
   };
 
-  const { getInputs } = await import('../js/state.js');
+  const { getInputs } = await import('../src/state.js');
   const inputs = getInputs();
-  const { calcAge, updateAge } = await import('../js/age.js');
+  const { calcAge, updateAge } = await import('../src/age.js');
 
   inputs.a_dob.value = '2000-01-01';
   assert.strictEqual(calcAge('2000-01-01'), '24');

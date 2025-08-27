@@ -38,6 +38,6 @@ applyDom();
 
 beforeEach(async () => {
   applyDom();
-  const { toast } = await import('../js/toast.js');
+  const { toast } = await import('../src/toast.js');
   toast.showToast = () => {};
 });

@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import './jsdomSetup.js';
-import { setupNavigation } from '../js/navigation.js';
+import { setupNavigation } from '../src/navigation.js';
 
 test(
   'arrow key navigation updates focus, sections and hash',

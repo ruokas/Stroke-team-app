@@ -23,7 +23,7 @@ test('setNow sets local HH:MM and triggers change', async () => {
   input.addEventListener('change', (e) => dispatched.push(e.type));
   document.body.appendChild(input);
 
-  const { setNow } = await import('../js/time.js');
+  const { setNow } = await import('../src/time.js');
 
   setNow('time-input');
 
@@ -34,13 +34,13 @@ test('setNow sets local HH:MM and triggers change', async () => {
 });
 
 test('sleepMidpoint computes midpoint across midnight', async () => {
-  const { sleepMidpoint } = await import('../js/time.js');
+  const { sleepMidpoint } = await import('../src/time.js');
   const start = '2024-01-01T22:00';
   const end = '2024-01-02T06:00';
   assert.equal(sleepMidpoint(start, end), '2024-01-02T02:00');
 });
 
 test('diffMinutes returns minutes between times', async () => {
-  const { diffMinutes } = await import('../js/time.js');
+  const { diffMinutes } = await import('../src/time.js');
   assert.equal(diffMinutes('2024-01-01T23:00', '2024-01-02T01:00'), 120);
 });

@@ -9,11 +9,7 @@ export function collectSummaryData(payload) {
     dob: get(payload.a_dob),
     age: get(payload.a_age),
     weight: get(payload.p_weight),
-    bp: get(
-      payload.p_bp_sys && payload.p_bp_dia
-        ? `${payload.p_bp_sys}/${payload.p_bp_dia}`
-        : payload.p_bp,
-    ),
+    bp: get(payload.p_bp),
     inr: get(payload.p_inr),
     nih0: get(payload.p_nihss0 ?? payload.nihs_initial),
   };

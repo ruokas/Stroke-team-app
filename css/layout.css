@@ -1,6 +1,6 @@
 ﻿:root {
   color-scheme: dark;
-  --header-height: 68px;
+  --header-height: 48px;
 }
 :root.dark {
   --bg: #0c1218;
@@ -52,7 +52,7 @@ header {
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
-  padding: 14px 16px;
+  padding: 8px 16px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -177,7 +177,7 @@ header {
 }
 h1 {
   font-size: clamp(1.25rem, 5vw, 2rem);
-  margin: 4px 0;
+  margin: 2px 0;
 }
 .sub {
   color: var(--muted);

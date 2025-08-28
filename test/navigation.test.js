@@ -75,3 +75,29 @@ test(
     assert.strictEqual(window.location.hash, '#sec1');
   },
 );
+
+test('falls back to first section when hash is invalid', () => {
+  window.history.replaceState(null, '', 'http://localhost/#missing');
+  document.body.innerHTML = `
+    <button id="navToggle" class="btn"></button>
+    <nav>
+      <a href="#sec1" class="tab" data-section="sec1">One</a>
+      <a href="#sec2" class="tab" data-section="sec2">Two</a>
+    </nav>
+    <main>
+      <section id="sec1"></section>
+      <section id="sec2" class="hidden"></section>
+    </main>
+  `;
+
+  const inputs = { summary: { value: '' }, d_time: { value: '' } };
+  global.location = window.location;
+  global.history = window.history;
+  const { activateFromHash } = setupNavigation(inputs);
+  activateFromHash();
+
+  const sections = document.querySelectorAll('main > section');
+  assert.ok(!sections[0].classList.contains('hidden'));
+  assert.ok(sections[1].classList.contains('hidden'));
+  assert.strictEqual(window.location.hash, '#sec1');
+});

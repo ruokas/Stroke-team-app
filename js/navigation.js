@@ -37,8 +37,13 @@ export function setupNavigation(inputs) {
   };
 
   const activateFromHash = () => {
-    const id = location.hash.slice(1) || tabs[0]?.dataset.section;
-    if (id) showSection(id);
+    const hash = location.hash.slice(1);
+    const first = tabs[0]?.dataset.section;
+    const id = tabs.some((t) => t.dataset.section === hash) ? hash : first;
+    if (id) {
+      if (hash !== id) history.replaceState(null, '', `#${id}`);
+      showSection(id);
+    }
   };
 
   if (navToggle) {

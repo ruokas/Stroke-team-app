@@ -58,7 +58,7 @@
 }
 
 .btn.success:active {
-  background: #00913c;
+  background: #00c853;
 }
 .btn.danger {
   background: var(--red);

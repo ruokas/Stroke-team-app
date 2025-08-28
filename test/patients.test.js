@@ -86,3 +86,29 @@ test('addPatient keeps provided ID and data', () => {
   assert.strictEqual(patients[existingId].summary, 's');
   assert.strictEqual(patients[existingId].name, 'Existing');
 });
+
+test('addPatient persists previous patient data', () => {
+  localStorage.clear();
+  resetInputs();
+  Object.keys(getPatientStore()).forEach((id) => removePatient(id));
+
+  const id1 = addPatient();
+  inputs.nih0.value = '1';
+  addPatient();
+  const patients = getPatientStore();
+  assert.strictEqual(patients[id1].p_nihss0, '1');
+});
+
+test('switchPatient persists previous patient data', () => {
+  localStorage.clear();
+  resetInputs();
+  Object.keys(getPatientStore()).forEach((id) => removePatient(id));
+
+  const id1 = addPatient();
+  inputs.nih0.value = '1';
+  const id2 = addPatient();
+  inputs.nih0.value = '2';
+  switchPatient(id1);
+  const patients = getPatientStore();
+  assert.strictEqual(patients[id2].p_nihss0, '2');
+});

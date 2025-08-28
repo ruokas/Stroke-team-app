@@ -13,14 +13,17 @@ function generateId() {
   return `${Date.now().toString(36)}_${Math.random().toString(36).slice(2)}`;
 }
 
+function persistActivePatient(inputs) {
+  patients[activeId] = {
+    ...getPayload(),
+    summary: inputs.summary?.value || '',
+    name: patients[activeId].name,
+  };
+}
+
 export function addPatient(id, data = {}) {
   const inputs = getInputs();
-  if (activeId)
-    patients[activeId] = {
-      ...getPayload(),
-      summary: inputs.summary?.value || '',
-      name: patients[activeId].name,
-    };
+  if (activeId) persistActivePatient(inputs);
   const newId = id || generateId();
   const {
     summary = '',
@@ -37,12 +40,7 @@ export function addPatient(id, data = {}) {
 export function switchPatient(id) {
   if (!patients[id]) return;
   const inputs = getInputs();
-  if (activeId)
-    patients[activeId] = {
-      ...getPayload(),
-      summary: inputs.summary?.value || '',
-      name: patients[activeId].name,
-    };
+  if (activeId) persistActivePatient(inputs);
   activeId = id;
   setPayload(patients[id]);
   if (inputs.summary) inputs.summary.value = patients[id].summary || '';

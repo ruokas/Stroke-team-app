@@ -1,4 +1,5 @@
 import { state } from '../state.js';
+import { booleanField } from './helpers.js';
 
 export function getRadioValue(nodes) {
   return nodes.find((n) => n.checked)?.value || '';
@@ -149,60 +150,12 @@ export const FIELD_DEFS = [
     set: setBooleanGroup,
     default: false,
   },
-  {
-    key: 'a_drug_warfarin',
-    selector: 'a_warfarin',
-    get: (el) => el?.checked || false,
-    set: (el, value) => {
-      if (el) el.checked = !!value;
-    },
-    default: false,
-  },
-  {
-    key: 'a_drug_apixaban',
-    selector: 'a_apixaban',
-    get: (el) => el?.checked || false,
-    set: (el, value) => {
-      if (el) el.checked = !!value;
-    },
-    default: false,
-  },
-  {
-    key: 'a_drug_rivaroxaban',
-    selector: 'a_rivaroxaban',
-    get: (el) => el?.checked || false,
-    set: (el, value) => {
-      if (el) el.checked = !!value;
-    },
-    default: false,
-  },
-  {
-    key: 'a_drug_dabigatran',
-    selector: 'a_dabigatran',
-    get: (el) => el?.checked || false,
-    set: (el, value) => {
-      if (el) el.checked = !!value;
-    },
-    default: false,
-  },
-  {
-    key: 'a_drug_edoxaban',
-    selector: 'a_edoxaban',
-    get: (el) => el?.checked || false,
-    set: (el, value) => {
-      if (el) el.checked = !!value;
-    },
-    default: false,
-  },
-  {
-    key: 'a_drug_unknown',
-    selector: 'a_unknown',
-    get: (el) => el?.checked || false,
-    set: (el, value) => {
-      if (el) el.checked = !!value;
-    },
-    default: false,
-  },
+  booleanField('a_drug_warfarin', 'a_warfarin'),
+  booleanField('a_drug_apixaban', 'a_apixaban'),
+  booleanField('a_drug_rivaroxaban', 'a_rivaroxaban'),
+  booleanField('a_drug_dabigatran', 'a_dabigatran'),
+  booleanField('a_drug_edoxaban', 'a_edoxaban'),
+  booleanField('a_drug_unknown', 'a_unknown'),
   {
     key: 'a_lkw',
     selector: 'a_lkw',

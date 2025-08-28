@@ -30,6 +30,16 @@ export function setupAutosave(
   const patientMenu = $('#patientMenu');
   const patientMenuLabel = $('#patientMenuLabel');
 
+  const onDocumentClick = (e) => {
+    if (
+      patientMenu?.hasAttribute('open') &&
+      !patientMenu.contains(/** @type {Node} */ (e.target))
+    ) {
+      patientMenu.removeAttribute('open');
+    }
+  };
+  document.addEventListener('click', onDocumentClick);
+
   const refreshPatientSelect = (selectedId) => {
     if (!patientSelect) return;
     patientSelect.innerHTML = '';
@@ -150,5 +160,8 @@ export function setupAutosave(
     }
   });
 
-  return { updateSaveStatus };
+  return {
+    updateSaveStatus,
+    cleanup: () => document.removeEventListener('click', onDocumentClick),
+  };
 }

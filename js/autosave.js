@@ -131,8 +131,8 @@ export function setupAutosave(
     } else {
       refreshPatientSelect(id);
     }
-    updateSaveStatus();
     showToast(t('patient_created'), { type: 'success' });
+    updateSaveStatus();
     patientMenu?.removeAttribute('open');
   });
 

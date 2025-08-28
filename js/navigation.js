@@ -33,7 +33,7 @@ export function setupNavigation(inputs) {
     if (id === 'decision' && inputs.d_time && !inputs.d_time.value)
       setNow('d_time');
     document.body.classList.remove('nav-open');
-    navToggle.setAttribute('aria-expanded', 'false');
+    if (navToggle) navToggle.setAttribute('aria-expanded', 'false');
   };
 
   const activateFromHash = () => {
@@ -41,10 +41,13 @@ export function setupNavigation(inputs) {
     if (id) showSection(id);
   };
 
-  navToggle.addEventListener('click', () => {
-    const open = document.body.classList.toggle('nav-open');
-    navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-  });
+  if (navToggle) {
+    navToggle.addEventListener('click', () => {
+      const open = document.body.classList.toggle('nav-open');
+      if (navToggle)
+        navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  }
 
   tabs.forEach((tab, index) => {
     tab.addEventListener('click', (e) => {

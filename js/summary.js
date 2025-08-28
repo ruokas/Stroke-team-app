@@ -49,7 +49,7 @@ export function collectSummaryData(payload) {
     symptoms: [
       payload.a_sym_face && 'Veido paralyžius',
       payload.a_sym_speech && 'Kalbos sutrikimas',
-      payload.a_sym_commands && 'Paliepimų nevykdo',
+      payload.a_sym_commands && 'Nevykdo paliepimų',
       payload.a_sym_arm && 'Rankos silpnumas',
       payload.a_sym_leg && 'Kojos silpnumas',
       payload.a_sym_gaze && 'Žvilgsnis fiksuotas ar nukrypęs',

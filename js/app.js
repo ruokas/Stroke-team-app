@@ -67,6 +67,11 @@ function bind() {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-  await initI18n();
-  bind();
+  try {
+    await initI18n();
+  } catch (err) {
+    console.error('Failed to initialize i18n', err);
+  } finally {
+    bind();
+  }
 });

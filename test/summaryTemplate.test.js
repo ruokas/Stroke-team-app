@@ -52,7 +52,6 @@ test('summaryTemplate generates summary text correctly', async () => {
   assert(summary.includes('- AKS atvykus: 120/80'));
   assert(summary.includes('- NIHSS pradinis: 0'));
   assert(summary.includes('VAISTAI:\n- Tipas: Tenekteplazė'));
-  assert(summary.includes('- Koncentracija: 5 mg/ml'));
   assert(summary.includes('- Bendra dozė: 20 mg (4 ml)'));
   assert(
     summary.includes('AKS KOREKCIJA:\n- Kaptoprilis 10:00 25 mg (požymai)'),
@@ -73,4 +72,9 @@ test('summaryTemplate generates summary text correctly', async () => {
   assert(
     summary.includes('SPRENDIMAS:\n- Taikoma IVT, indikacijų MTE nenustatyta'),
   );
+  assert(
+    summary.includes('- Paskutinį kartą matytas sveikas: 2024-01-01 07:00'),
+  );
+  assert(summary.includes('- Atvykimas: 2024-01-01 08:00'));
+  assert(summary.includes('- Sprendimas: 2024-01-01 08:40'));
 });

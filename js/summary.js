@@ -8,6 +8,7 @@ export function collectSummaryData(payload) {
     const d = get(dia);
     return s && d ? `${s}/${d}` : null;
   };
+  const formatDateTime = (v) => (v ? v.replace('T', ' ') : null);
   const patient = {
     personal: get(payload.a_personal),
     name: get(payload.a_name),
@@ -19,15 +20,14 @@ export function collectSummaryData(payload) {
     nih0: get(payload.p_nihss0 ?? payload.nihs_initial),
   };
   const times = {
-    lkw: get(payload.t_lkw),
-    door: get(payload.t_door),
-    decision: get(payload.d_time),
-    thrombolysis: get(payload.t_thrombolysis),
-    gmp: get(payload.a_gmp_time),
+    lkw: formatDateTime(get(payload.t_lkw)),
+    door: formatDateTime(get(payload.t_door)),
+    decision: formatDateTime(get(payload.d_time)),
+    thrombolysis: formatDateTime(get(payload.t_thrombolysis)),
+    gmp: formatDateTime(get(payload.a_gmp_time)),
   };
   const drugs = {
     type: payload.drug_type || '',
-    conc: get(payload.drug_conc),
     totalDose: get(payload.dose_total),
     totalVol: get(payload.dose_volume),
     bolus: get(payload.tpa_bolus),
@@ -136,7 +136,6 @@ export function summaryTemplate({
   lines.push('VAISTAI:');
   const drugType = drugs.type === 'tnk' ? 'Tenekteplazė' : 'Alteplazė';
   lines.push(`- Tipas: ${drugType}`);
-  lines.push(`- Koncentracija: ${drugs.conc ? `${drugs.conc} mg/ml` : '—'}`);
   lines.push(
     `- Bendra dozė: ${
       drugs.totalDose ? `${drugs.totalDose} mg` : '—'

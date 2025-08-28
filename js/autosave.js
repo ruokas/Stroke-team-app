@@ -122,10 +122,17 @@ export function setupAutosave(
     patientMenu?.removeAttribute('open');
   });
 
-  $('#newPatientBtn')?.addEventListener('click', () => {
+  $('#newPatientBtn')?.addEventListener('click', async () => {
     const id = addPatient();
-    refreshPatientSelect(id);
+    const enteredName = await promptModal(t('rename_prompt'), '');
+    if (enteredName) {
+      renamePatient(id, enteredName);
+      refreshPatientSelect(id);
+    } else {
+      refreshPatientSelect(id);
+    }
     updateSaveStatus();
+    showToast(t('patient_created'), { type: 'success' });
     patientMenu?.removeAttribute('open');
   });
 

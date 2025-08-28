@@ -11,6 +11,7 @@
   "saved_locally": "Saved locally.",
   "rename_prompt": "New name",
   "patient_renamed": "Patient renamed.",
+  "patient_created": "Patient created.",
   "delete_patient_confirm": "Delete patient?",
   "patient_deleted": "Patient deleted.",
   "just_now": "just now",

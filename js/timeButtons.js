@@ -1,6 +1,6 @@
 import { $$ } from './state.js';
 import { openTimePicker } from './timePicker.js';
-import { setNow } from './time.js';
+import { setNow, triggerChange } from './time.js';
 
 export function setupTimeButtons() {
   $$('button[data-now]').forEach((b) =>
@@ -20,7 +20,7 @@ export function setupTimeButtons() {
     b.addEventListener('click', () => {
       const target = document.getElementById(b.getAttribute('data-stepup'));
       target?.stepUp(5);
-      target?.dispatchEvent(new Event('input'));
+      if (target) triggerChange(target);
     }),
   );
 
@@ -28,7 +28,7 @@ export function setupTimeButtons() {
     b.addEventListener('click', () => {
       const target = document.getElementById(b.getAttribute('data-stepdown'));
       target?.stepDown(5);
-      target?.dispatchEvent(new Event('input'));
+      if (target) triggerChange(target);
     }),
   );
 
@@ -37,7 +37,7 @@ export function setupTimeButtons() {
       const target = document.getElementById(b.dataset.set);
       if (target) {
         target.value = b.dataset.val ?? '';
-        target.dispatchEvent(new Event('input'));
+        triggerChange(target);
       }
     }),
   );

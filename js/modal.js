@@ -7,7 +7,8 @@ export function showModal({ title = '', message = '', input, buttons = [] }) {
     dialog.className = 'modal';
     dialog.setAttribute('role', 'dialog');
     dialog.setAttribute('aria-modal', 'true');
-    const titleId = `modal-title-${Date.now()}`;
+    const idPart = globalThis.crypto?.randomUUID?.() ?? Date.now();
+    const titleId = `modal-title-${idPart}`;
     dialog.setAttribute('aria-labelledby', titleId);
 
     const h2 = document.createElement('h2');

@@ -113,8 +113,8 @@ header {
   }
 
   .header-actions {
-    flex-direction: column;
-    align-items: stretch;
+    flex-direction: row;
+    align-items: center;
   }
 }
 .header-actions .toolbar {

@@ -7,7 +7,7 @@ import {
 import { getActivePatient } from './patients.js';
 
 export function setupSummaryHandlers(inputs) {
-  document.getElementById('summary').addEventListener('focus', () => {
+  document.getElementById('summary')?.addEventListener('focus', () => {
     const patient = getActivePatient();
     if (!patient) return;
     const data = collectSummaryData(patient);
@@ -15,14 +15,14 @@ export function setupSummaryHandlers(inputs) {
     inputs.summary.value = text;
     patient.summary = text;
   });
-  document.getElementById('copySummaryBtn').addEventListener('click', () => {
+  document.getElementById('copySummaryBtn')?.addEventListener('click', () => {
     const patient = getActivePatient();
     if (!patient) return;
     const data = collectSummaryData(patient);
     const text = copySummary(data);
     patient.summary = text;
   });
-  document.getElementById('exportSummaryBtn').addEventListener('click', () => {
+  document.getElementById('exportSummaryBtn')?.addEventListener('click', () => {
     const patient = getActivePatient();
     if (!patient) return;
     const data = collectSummaryData(patient);

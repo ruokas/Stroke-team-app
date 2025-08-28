@@ -16,6 +16,14 @@
   --button-bg: var(--card);
   --yellow-text: #271400;
   --yellow-border: #bf7d19;
+  --btn-hover-bg: #141d28;
+  --btn-active-bg: #101720;
+  --ghost-hover-bg: #18222e;
+  --ghost-active-bg: #0d1319;
+  --nav-tab-bg: #152231;
+  --nav-tab-hover-bg: #2c3846;
+  --nav-tab-active-bg: #1f2e44;
+  --nav-tab-active-border: #2b405c;
 }
 *,
 *::before,
@@ -216,7 +224,7 @@ nav .tab {
   border: 1px solid var(--line);
   border-radius: 10px;
   margin-bottom: 8px;
-  background: #152231;
+  background: var(--nav-tab-bg);
   color: var(--ink);
   cursor: pointer;
   font-weight: 600;
@@ -229,12 +237,12 @@ nav .tab {
   text-decoration: none;
 }
 nav .tab:hover {
-  background: #2c3846;
-  color: #ebf3fb;
+  background: var(--nav-tab-hover-bg);
+  color: var(--ink2);
 }
 nav .tab.active {
-  background: #1f2e44;
-  border-color: #2b405c;
+  background: var(--nav-tab-active-bg);
+  border-color: var(--nav-tab-active-border);
 }
 nav .tab:focus-visible {
   outline: 2px solid var(--accent);

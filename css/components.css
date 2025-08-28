@@ -11,11 +11,11 @@
     color 0.2s;
 }
 .btn:hover {
-  background: #141d28;
+  background: var(--btn-hover-bg);
 }
 
 .btn:active {
-  background: #101720;
+  background: var(--btn-active-bg);
 }
 .btn:focus-visible {
   outline: 3px solid var(--accent);
@@ -78,11 +78,11 @@
   border-style: dashed;
 }
 .btn.ghost:hover {
-  background: #18222e;
+  background: var(--ghost-hover-bg);
 }
 
 .btn.ghost:active {
-  background: #0d1319;
+  background: var(--ghost-active-bg);
 }
 #d_gks_total {
   margin-left: auto;

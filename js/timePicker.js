@@ -1,3 +1,5 @@
+import { triggerChange } from './time.js';
+
 export function openTimePicker(target) {
   if (!target) return;
   if (typeof document === 'undefined' || typeof window === 'undefined') {
@@ -115,8 +117,7 @@ export function openTimePicker(target) {
         val = `${d}T${h}:${m}`;
       }
       target.value = val;
-      target.dispatchEvent(new Event('input', { bubbles: true }));
-      target.dispatchEvent(new Event('change', { bubbles: true }));
+      triggerChange(target);
     }
     dialog.remove();
   });

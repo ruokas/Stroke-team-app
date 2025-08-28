@@ -88,6 +88,7 @@ export function openTimePicker(target) {
   cancelBtn.type = 'button';
   cancelBtn.className = 'btn ghost';
   cancelBtn.textContent = 'Atšaukti';
+  cancelBtn.addEventListener('click', () => dialog.close('cancel'));
   actions.appendChild(cancelBtn);
 
   const okBtn = document.createElement('button');

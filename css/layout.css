@@ -127,7 +127,8 @@ header {
 .header-actions .patient-menu {
   position: relative;
 }
-.header-actions .patient-menu > summary.btn {
+.header-actions .patient-menu > summary.btn,
+.header-actions #navToggle {
   min-width: 0;
   padding: 8px;
 }

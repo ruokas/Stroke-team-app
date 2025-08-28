@@ -171,4 +171,5 @@ export function initArrival() {
   updateAll();
   clearInterval(timerId);
   timerId = setInterval(updateTimers, 1000);
+  timerId.unref?.();
 }

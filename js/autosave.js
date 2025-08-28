@@ -30,12 +30,28 @@ export function setupAutosave(
   const patientMenu = $('#patientMenu');
   const patientMenuLabel = $('#patientMenuLabel');
 
+  const isDesktop = () =>
+    typeof window.matchMedia === 'function'
+      ? window.matchMedia('(min-width: 769px)').matches
+      : true;
+
+  const updatePatientMenu = () => {
+    if (isDesktop()) patientMenu?.setAttribute('open', '');
+    else patientMenu?.removeAttribute('open');
+  };
+  updatePatientMenu();
+  window.addEventListener('resize', updatePatientMenu);
+
+  const closePatientMenu = () => {
+    if (!isDesktop()) patientMenu?.removeAttribute('open');
+  };
+
   const onDocumentClick = (e) => {
     if (
       patientMenu?.hasAttribute('open') &&
       !patientMenu.contains(/** @type {Node} */ (e.target))
     ) {
-      patientMenu.removeAttribute('open');
+      closePatientMenu();
     }
   };
   document.addEventListener('click', onDocumentClick);
@@ -77,7 +93,7 @@ export function setupAutosave(
     switchPatient(patientSelect.value);
     refreshPatientSelect(patientSelect.value);
     updateSaveStatus();
-    patientMenu?.removeAttribute('open');
+    closePatientMenu();
   });
 
   const firstId = addPatient();
@@ -91,7 +107,7 @@ export function setupAutosave(
       updateSaveStatus();
       dirty = false;
     });
-    patientMenu?.removeAttribute('open');
+    closePatientMenu();
   });
 
   $('#renamePatientBtn')?.addEventListener('click', async () => {
@@ -107,7 +123,7 @@ export function setupAutosave(
         showToast(t('patient_renamed'), { type: 'info' });
       });
     }
-    patientMenu?.removeAttribute('open');
+    closePatientMenu();
   });
 
   $('#deletePatientBtn')?.addEventListener('click', async () => {
@@ -119,7 +135,7 @@ export function setupAutosave(
       updateSaveStatus();
       showToast(t('patient_deleted'), { type: 'warning' });
     }
-    patientMenu?.removeAttribute('open');
+    closePatientMenu();
   });
 
   $('#newPatientBtn')?.addEventListener('click', async () => {
@@ -133,7 +149,7 @@ export function setupAutosave(
     }
     showToast(t('patient_created'), { type: 'success' });
     updateSaveStatus();
-    patientMenu?.removeAttribute('open');
+    closePatientMenu();
   });
 
   const handleChange = () => {

@@ -66,7 +66,7 @@ function bind() {
   activateFromHash();
 }
 
-document.addEventListener('DOMContentLoaded', async () => {
+async function init() {
   try {
     await initI18n();
   } catch (err) {
@@ -74,4 +74,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   } finally {
     bind();
   }
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}

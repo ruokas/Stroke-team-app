@@ -48,30 +48,6 @@
 .btn.warn:active {
   background: #e5a545;
 }
-.btn.success {
-  background: var(--green);
-  color: #fff;
-  border-color: #00973d;
-}
-.btn.success:hover {
-  background: #00b248;
-}
-
-.btn.success:active {
-  background: #00913c;
-}
-.btn.danger {
-  background: var(--red);
-  color: #fff;
-  border-color: #a52623;
-}
-.btn.danger:hover {
-  background: #d32f2f;
-}
-
-.btn.danger:active {
-  background: #b71c1c;
-}
 .btn.ghost {
   background: rgba(0, 0, 0, 0);
   color: var(--muted);

@@ -76,8 +76,11 @@ async function init() {
   }
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', init);
-} else {
+if (
+  document.readyState === 'complete' ||
+  document.readyState === 'interactive'
+) {
   init();
+} else {
+  document.addEventListener('DOMContentLoaded', init);
 }

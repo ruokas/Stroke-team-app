@@ -20,10 +20,6 @@
   --btn-active-bg: #101720;
   --ghost-hover-bg: #18222e;
   --ghost-active-bg: #0d1319;
-  --nav-tab-bg: #152231;
-  --nav-tab-hover-bg: #2c3846;
-  --nav-tab-active-bg: #1f2e44;
-  --nav-tab-active-border: #2b405c;
 }
 *,
 *::before,
@@ -220,32 +216,15 @@ nav .tab {
   width: 100%;
   white-space: normal;
   overflow-wrap: anywhere;
-  padding: 10px 12px;
-  border: 1px solid var(--line);
-  border-radius: 10px;
   margin-bottom: 8px;
-  background: var(--nav-tab-bg);
-  color: var(--ink);
-  cursor: pointer;
-  font-weight: 600;
   text-align: left;
   text-transform: none;
   font-size: 1rem;
-  transition:
-    background-color 0.2s,
-    color 0.2s;
   text-decoration: none;
 }
-nav .tab:hover {
-  background: var(--nav-tab-hover-bg);
-  color: var(--ink2);
-}
 nav .tab.active {
-  background: var(--nav-tab-active-bg);
-  border-color: var(--nav-tab-active-border);
-}
-nav .tab:focus-visible {
-  outline: 2px solid var(--accent);
+  background: var(--btn-active-bg);
+  border-color: var(--accent);
 }
 .tab-icon {
   width: 1.5rem;

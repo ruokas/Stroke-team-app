@@ -38,7 +38,8 @@ export function setBooleanGroup(nodes, value) {
 
 export const FIELD_DEFS = [
   { key: 'p_weight', selector: 'weight' },
-  { key: 'p_bp', selector: 'bp' },
+  { key: 'p_bp_sys', selector: 'bp_sys' },
+  { key: 'p_bp_dia', selector: 'bp_dia' },
   { key: 'p_inr', selector: 'inr' },
   { key: 'p_nihss0', selector: 'nih0', alias: ['nihs_initial'] },
   { key: 't_lkw', selector: 'lkw' },
@@ -209,7 +210,8 @@ export const FIELD_DEFS = [
     set: (nodes, value) => setRadioValue(nodes, value || ''),
   },
   { key: 'a_glucose', selector: 'a_glucose' },
-  { key: 'a_aks', selector: 'a_aks' },
+  { key: 'a_aks_sys', selector: 'a_aks_sys' },
+  { key: 'a_aks_dia', selector: 'a_aks_dia' },
   { key: 'a_hr', selector: 'a_hr' },
   { key: 'a_spo2', selector: 'a_spo2' },
   { key: 'a_temp', selector: 'a_temp' },

@@ -142,12 +142,25 @@
                   />
                 </div>
                 <div>
-                  <label for="a_aks">AKS</label>
+                  <label for="a_aks_sys">Sistolinis AKS</label>
                   <input
-                    id="a_aks"
-                    type="text"
-                    inputmode="numeric"
-                    placeholder="120/80"
+                    id="a_aks_sys"
+                    type="number"
+                    step="1"
+                    min="30"
+                    max="300"
+                    placeholder="mmHg"
+                  />
+                </div>
+                <div>
+                  <label for="a_aks_dia">Diastolinis AKS</label>
+                  <input
+                    id="a_aks_dia"
+                    type="number"
+                    step="1"
+                    min="10"
+                    max="200"
+                    placeholder="mmHg"
                   />
                 </div>
                 <div>

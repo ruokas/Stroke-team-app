@@ -84,6 +84,23 @@
 .btn.ghost:active {
   background: var(--ghost-active-bg);
 }
+#bpCorrBtn[aria-expanded="true"] {
+  background: var(--accent);
+  color: #fff;
+  border-color: #2d74b8;
+}
+#bpCorrBtn[aria-expanded="true"]:hover {
+  background: #2368c5;
+}
+#bpCorrBtn[aria-expanded="true"]:active {
+  background: #1a56aa;
+}
+.bp-med:active,
+.bp-med.selected {
+  background: var(--accent);
+  color: #fff;
+  border-color: #2d74b8;
+}
 #d_gks_total {
   margin-left: auto;
   font-weight: 700;

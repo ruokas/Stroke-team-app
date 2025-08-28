@@ -1,4 +1,4 @@
-import { setNow } from './time.js';
+import { setNow, triggerChange } from './time.js';
 import { openTimePicker } from './timePicker.js';
 import { setupBpEntry, setupBpInput } from './bp.js';
 
@@ -14,11 +14,11 @@ export function handleBpEntriesClick(event) {
   } else if (target.matches('button[data-stepup]')) {
     const input = document.getElementById(target.dataset.stepup);
     input?.stepUp(5);
-    input?.dispatchEvent(new Event('input'));
+    if (input) triggerChange(input);
   } else if (target.matches('button[data-stepdown]')) {
     const input = document.getElementById(target.dataset.stepdown);
     input?.stepDown(5);
-    input?.dispatchEvent(new Event('input'));
+    if (input) triggerChange(input);
   } else if (target.matches('button[data-remove-bp]')) {
     const entry = document.getElementById(target.dataset.removeBp);
     entry?.remove();

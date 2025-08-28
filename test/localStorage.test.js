@@ -11,6 +11,7 @@ const {
   setPayload,
   getPatients,
   getPayload,
+  migratePatientRecord,
 } = await import('../js/storage.js');
 const { SCHEMA_VERSION } = await import('../js/storage/migrations.js');
 inputs = getInputs();
@@ -142,4 +143,24 @@ test('getPatients discards unknown schema versions', () => {
   console.warn = origWarn;
   assert.ok(!('future' in patients));
   assert.ok(warned);
+});
+
+test('migratePatientRecord migrates unversioned data', () => {
+  const { record, changed } = migratePatientRecord('old', {
+    name: 'Old',
+    data: { p_nihss0: '1' },
+  });
+  assert.ok(changed);
+  assert.strictEqual(record?.patientId, 'old');
+  assert.strictEqual(record?.data.version, SCHEMA_VERSION);
+  assert.strictEqual(record?.data.data.p_nihss0, '1');
+});
+
+test('migratePatientRecord discards unknown schema versions', () => {
+  const { record, changed } = migratePatientRecord('future', {
+    name: 'Future',
+    data: { version: 999, data: {} },
+  });
+  assert.ok(changed);
+  assert.strictEqual(record, null);
 });

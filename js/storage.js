@@ -7,6 +7,39 @@ import { migrateSchema, SCHEMA_VERSION } from './storage/migrations.js';
 
 const LS_KEY = 'insultoKomandaPatients_v1';
 
+export function migratePatientRecord(id, p) {
+  let changed = false;
+  if (!p.patientId) {
+    p.patientId = id;
+    changed = true;
+  }
+  if (!p.created) {
+    p.created = new Date().toISOString();
+    changed = true;
+  }
+  if (!p.lastUpdated) {
+    p.lastUpdated = p.created;
+    changed = true;
+  }
+  if (!p.data || typeof p.data !== 'object' || p.data.version === undefined) {
+    p.data = { version: 0, data: p.data };
+    changed = true;
+  }
+  if (p.data.version !== SCHEMA_VERSION) {
+    try {
+      p.data = migrateSchema(p.data);
+      if (p.data.version !== SCHEMA_VERSION) throw new Error('');
+      changed = true;
+    } catch {
+      console.warn(
+        `Discarding patient ${id} due to incompatible schema version ${p.data.version}`,
+      );
+      return { record: null, changed: true };
+    }
+  }
+  return { record: p, changed };
+}
+
 export function getPatients() {
   const raw = localStorage.getItem(LS_KEY);
   if (!raw) return {};
@@ -14,39 +47,10 @@ export function getPatients() {
     const patients = JSON.parse(raw);
     let migrated = false;
     Object.entries(patients).forEach(([id, p]) => {
-      if (!p.patientId) {
-        p.patientId = id;
-        migrated = true;
-      }
-      if (!p.created) {
-        p.created = new Date().toISOString();
-        migrated = true;
-      }
-      if (!p.lastUpdated) {
-        p.lastUpdated = p.created;
-        migrated = true;
-      }
-      if (
-        !p.data ||
-        typeof p.data !== 'object' ||
-        p.data.version === undefined
-      ) {
-        p.data = { version: 0, data: p.data };
-        migrated = true;
-      }
-      if (p.data.version !== SCHEMA_VERSION) {
-        try {
-          p.data = migrateSchema(p.data);
-          if (p.data.version !== SCHEMA_VERSION) throw new Error('');
-          migrated = true;
-        } catch {
-          console.warn(
-            `Discarding patient ${id} due to incompatible schema version ${p.data.version}`,
-          );
-          delete patients[id];
-          migrated = true;
-        }
-      }
+      const { record, changed } = migratePatientRecord(id, p);
+      if (record) patients[id] = record;
+      else delete patients[id];
+      if (changed) migrated = true;
     });
     if (migrated) setPatients(patients);
     return patients;

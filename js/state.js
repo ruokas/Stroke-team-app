@@ -17,7 +17,8 @@ export const state = {
  */
 const selectorMap = {
   weight: ['#p_weight'],
-  bp: ['#p_bp'],
+  bp_sys: ['#p_bp_sys'],
+  bp_dia: ['#p_bp_dia'],
   inr: ['#p_inr'],
   nih0: ['#p_nihss0'],
   lkw: ['#t_lkw'],
@@ -62,7 +63,8 @@ const selectorMap = {
   a_drugs: ['#a_drugs input[type="checkbox"]', true],
   a_lkw: ['input[name="a_lkw"]', true],
   a_glucose: ['#a_glucose'],
-  a_aks: ['#a_aks'],
+  a_aks_sys: ['#a_aks_sys'],
+  a_aks_dia: ['#a_aks_dia'],
   a_hr: ['#a_hr'],
   a_spo2: ['#a_spo2'],
   a_temp: ['#a_temp'],

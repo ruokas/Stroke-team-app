@@ -7,15 +7,17 @@
   <div class="wrap layout-main">
     {{ actionButton('navToggle', '', '☰', 'Meniu', '', 'aria-expanded="false" aria-controls="mainNav"') }}
     {% include "partials/nav.njk" %}
-    <main class="px-0">
-      {% include "sections/activation.njk" %}
-      {% include "sections/arrival.njk" %}
-      {% include "sections/nihss.njk" %}
-      {% include "sections/thrombolysis.njk" %}
-      {% include "sections/decision.njk" %}
-      {% include "sections/summary.njk" %}
-      {% include "partials/settings.njk" %}
-      {% include "partials/footer.njk" %}
-    </main>
+    <div id="appForm">
+      <main class="px-0">
+        {% include "sections/activation.njk" %}
+        {% include "sections/arrival.njk" %}
+        {% include "sections/nihss.njk" %}
+        {% include "sections/thrombolysis.njk" %}
+        {% include "sections/decision.njk" %}
+        {% include "sections/summary.njk" %}
+        {% include "partials/settings.njk" %}
+        {% include "partials/footer.njk" %}
+      </main>
+    </div>
   </div>
 {% endblock %}

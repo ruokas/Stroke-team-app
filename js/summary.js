@@ -3,13 +3,18 @@ import { showToast } from './toast.js';
 
 export function collectSummaryData(payload) {
   const get = (v) => (v !== undefined && v !== null && v !== '' ? v : null);
+  const formatBp = (sys, dia) => {
+    const s = get(sys);
+    const d = get(dia);
+    return s && d ? `${s}/${d}` : null;
+  };
   const patient = {
     personal: get(payload.a_personal),
     name: get(payload.a_name),
     dob: get(payload.a_dob),
     age: get(payload.a_age),
     weight: get(payload.p_weight),
-    bp: get(payload.p_bp),
+    bp: formatBp(payload.p_bp_sys, payload.p_bp_dia),
     inr: get(payload.p_inr),
     nih0: get(payload.p_nihss0 ?? payload.nihs_initial),
   };
@@ -41,7 +46,7 @@ export function collectSummaryData(payload) {
     ].filter(Boolean),
     params: {
       glucose: get(payload.a_glucose),
-      aks: get(payload.a_aks),
+      aks: formatBp(payload.a_aks_sys, payload.a_aks_dia),
       hr: get(payload.a_hr),
       spo2: get(payload.a_spo2),
       temp: get(payload.a_temp),

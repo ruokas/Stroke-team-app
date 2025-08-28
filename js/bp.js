@@ -2,37 +2,38 @@
 
 import { createBpEntry } from './bpEntry.js';
 
-export function validateBp(value) {
-  const match = /^\s*(\d{2,3})\s*\/\s*(\d{2,3})\s*$/.exec(value);
-  if (!match) return false;
-  const systolic = Number(match[1]);
-  const diastolic = Number(match[2]);
+export function validateBp(sys, dia) {
   if (
-    !Number.isFinite(systolic) ||
-    !Number.isFinite(diastolic) ||
-    systolic < 30 ||
-    systolic > 300 ||
-    diastolic < 10 ||
-    diastolic > 200
+    !Number.isFinite(sys) ||
+    !Number.isFinite(dia) ||
+    sys < 30 ||
+    sys > 300 ||
+    dia < 10 ||
+    dia > 200
   )
     return false;
   return true;
 }
 
 export function setupBpInput() {
-  const bpInput = document.getElementById('p_bp');
-  if (!bpInput) return;
-  bpInput.addEventListener('input', () => {
-    bpInput.classList.remove('invalid');
-    if (bpInput.setCustomValidity) bpInput.setCustomValidity('');
-    const val = bpInput.value;
-    if (!val) return;
-    if (!validateBp(val)) {
-      bpInput.classList.add('invalid');
-      if (bpInput.setCustomValidity)
-        bpInput.setCustomValidity('Įveskite teisingą AKS (pvz. 120/80).');
+  const sys = document.getElementById('p_bp_sys');
+  const dia = document.getElementById('p_bp_dia');
+  if (!sys || !dia) return;
+  const inputs = [sys, dia];
+  const handler = () => {
+    inputs.forEach((i) => {
+      i.classList.remove('invalid');
+      i.setCustomValidity?.('');
+    });
+    if (!sys.value || !dia.value) return;
+    if (!validateBp(Number(sys.value), Number(dia.value))) {
+      inputs.forEach((i) => {
+        i.classList.add('invalid');
+        i.setCustomValidity?.('Įveskite teisingą AKS (pvz. 120/80).');
+      });
     }
-  });
+  };
+  inputs.forEach((i) => i.addEventListener('input', handler));
 }
 
 export function setupBpEntry() {

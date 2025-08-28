@@ -19,10 +19,16 @@ export function validateGlucose(el) {
   return setValidity(el, ok, 'Gliukozė turi būti 2.8–22 mmol/l.');
 }
 
-export function validateAks(el) {
-  const val = (el.value || '').trim();
-  const match = val.match(/^\d{2,3}\s*\/\s*\d{2,3}$/);
-  return setValidity(el, !val || !!match, 'AKS įveskite formatu "120/80".');
+export function validateAksSys(el) {
+  const v = parseInt(el.value, 10);
+  const ok = !el.value || (Number.isFinite(v) && v >= 30 && v <= 300);
+  return setValidity(el, ok, 'Sistolinis AKS turi būti 30–300.');
+}
+
+export function validateAksDia(el) {
+  const v = parseInt(el.value, 10);
+  const ok = !el.value || (Number.isFinite(v) && v >= 10 && v <= 200);
+  return setValidity(el, ok, 'Diastolinis AKS turi būti 10–200.');
 }
 
 export function validateHr(el) {
@@ -46,7 +52,8 @@ export function validateTemp(el) {
 export function initActivation() {
   const handlers = [
     [dom.getAGlucoseInput(), validateGlucose],
-    [dom.getAAksInput(), validateAks],
+    [dom.getAAksSysInput(), validateAksSys],
+    [dom.getAAksDiaInput(), validateAksDia],
     [dom.getAHrInput(), validateHr],
     [dom.getASpo2Input(), validateSpo2],
     [dom.getATempInput(), validateTemp],

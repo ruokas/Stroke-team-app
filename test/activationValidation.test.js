@@ -21,14 +21,31 @@ test('validateGlucose enforces 2.8-22 range', async () => {
   assert(!el.classList.contains('invalid'));
 });
 
-test('validateAks requires systolic/diastolic format', async () => {
-  const { validateAks } = await loadModule();
+test('validateAksSys checks 30-300', async () => {
+  const { validateAksSys } = await loadModule();
   const el = document.createElement('input');
-  el.value = '120';
-  validateAks(el);
+  el.value = '10';
+  validateAksSys(el);
   assert(el.classList.contains('invalid'));
-  el.value = '120/80';
-  validateAks(el);
+  el.value = '350';
+  validateAksSys(el);
+  assert(el.classList.contains('invalid'));
+  el.value = '120';
+  validateAksSys(el);
+  assert(!el.classList.contains('invalid'));
+});
+
+test('validateAksDia checks 10-200', async () => {
+  const { validateAksDia } = await loadModule();
+  const el = document.createElement('input');
+  el.value = '5';
+  validateAksDia(el);
+  assert(el.classList.contains('invalid'));
+  el.value = '250';
+  validateAksDia(el);
+  assert(el.classList.contains('invalid'));
+  el.value = '80';
+  validateAksDia(el);
   assert(!el.classList.contains('invalid'));
 });
 
@@ -111,8 +128,17 @@ test('activation parameter inputs have numeric attributes', async () => {
   assert.match(input, /max="43"/);
   assert.match(input, /placeholder="°C"/);
 
-  input = getInput('a_aks');
-  assert.match(input, /type="text"/);
-  assert.match(input, /inputmode="numeric"/);
-  assert.match(input, /placeholder="120\/80"/);
+  input = getInput('a_aks_sys');
+  assert.match(input, /type="number"/);
+  assert.match(input, /step="1"/);
+  assert.match(input, /min="30"/);
+  assert.match(input, /max="300"/);
+  assert.match(input, /placeholder="mmHg"/);
+
+  input = getInput('a_aks_dia');
+  assert.match(input, /type="number"/);
+  assert.match(input, /step="1"/);
+  assert.match(input, /min="10"/);
+  assert.match(input, /max="200"/);
+  assert.match(input, /placeholder="mmHg"/);
 });

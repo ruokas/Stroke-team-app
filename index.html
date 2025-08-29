@@ -21,38 +21,62 @@
       </div>
     </div>
     <div class="header-actions" role="toolbar">
-      <details id="patientMenu" class="patient-menu">
-        <summary class="btn" aria-label="Pacientai" data-i18n-aria-label="patients">👥
-          <span id="patientMenuLabel" class="btn-label">Pacientas</span>
-        </summary>
-        <div class="menu">
-          <button
-            id="patientSearchToggle"
-            class="btn"
-            title="Search patients"
-            aria-label="Search patients"
-          >🔍</button>
-          <input
-            id="patientSearch"
-            class="btn hidden"
-            type="search"
-            placeholder="Search…"
-          >
-          <select id="patientSelect" title="Pacientai" aria-label="Pacientai" class="btn"></select>
-          
-<button id="newPatientBtn" title="Naujas pacientas" aria-label="Naujas pacientas" class="btn">🆕 <span class="btn-label">Naujas</span></button>
+        <details id="patientMenu" class="patient-menu">
+          <summary class="btn" aria-label="Pacientai" data-i18n-aria-label="patients">
 
-          
-<button id="renamePatientBtn" title="Pervardyti pacientą" aria-label="Pervardyti pacientą" class="btn">✏️</button>
+<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
 
-          
-<button id="deletePatientBtn" title="Ištrinti pacientą" aria-label="Ištrinti pacientą" class="btn">🗑️</button>
 
-          
-<button id="saveBtn" title="Išsaugoti vietoje (naršyklėje)" aria-label="Išsaugoti vietoje (naršyklėje)" class="btn">💾</button>
+            <span id="patientMenuLabel" class="btn-label">Pacientas</span>
+          </summary>
+          <div class="menu">
+            <button
+              id="patientSearchToggle"
+              class="btn"
+              title="Search patients"
+              aria-label="Search patients"
+            >
 
-        </div>
-      </details>
+<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+
+</button>
+            <input
+              id="patientSearch"
+              class="btn hidden"
+              type="search"
+              placeholder="Search…"
+            >
+            <select id="patientSelect" title="Pacientai" aria-label="Pacientai" class="btn"></select>
+            
+<button id="newPatientBtn" title="Naujas pacientas" aria-label="Naujas pacientas" class="btn">
+
+<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+
+ <span class="btn-label">Naujas</span></button>
+
+            
+<button id="renamePatientBtn" title="Pervardyti pacientą" aria-label="Pervardyti pacientą" class="btn">
+
+<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+
+</button>
+
+            
+<button id="deletePatientBtn" title="Ištrinti pacientą" aria-label="Ištrinti pacientą" class="btn">
+
+<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+
+</button>
+
+            
+<button id="saveBtn" title="Išsaugoti vietoje (naršyklėje)" aria-label="Išsaugoti vietoje (naršyklėje)" class="btn">
+
+<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+
+</button>
+
+          </div>
+        </details>
       
 <button id="navToggle" class="btn" aria-expanded="false" aria-controls="mainNav">☰ <span class="btn-label">Meniu</span></button>
 

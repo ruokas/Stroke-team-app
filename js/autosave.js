@@ -29,6 +29,7 @@ export function setupAutosave(
   const patientSelect = $('#patientSelect');
   const patientMenu = $('#patientMenu');
   const patientMenuLabel = $('#patientMenuLabel');
+  const patientSearch = $('#patientSearch');
 
   const isDesktop = () =>
     typeof window.matchMedia === 'function'
@@ -60,13 +61,21 @@ export function setupAutosave(
     if (!patientSelect) return;
     patientSelect.innerHTML = '';
     const pats = getPatients();
+    const query = patientSearch?.value?.toLowerCase() || '';
     Object.entries(pats).forEach(([id, p], idx) => {
-      const opt = document.createElement('option');
-      opt.value = id;
-      opt.textContent = p.name || `Pacientas ${idx + 1}`;
-      patientSelect.appendChild(opt);
+      const name = p.name || `Pacientas ${idx + 1}`;
+      if (!query || name.toLowerCase().includes(query)) {
+        const opt = document.createElement('option');
+        opt.value = id;
+        opt.textContent = name;
+        patientSelect.appendChild(opt);
+      }
     });
-    if (selectedId) patientSelect.value = selectedId;
+    if (
+      selectedId &&
+      Array.from(patientSelect.options).some((opt) => opt.value === selectedId)
+    )
+      patientSelect.value = selectedId;
     const current = pats[selectedId || patientSelect.value];
     if (patientMenuLabel)
       patientMenuLabel.textContent = current?.name || 'Pacientas';
@@ -98,6 +107,9 @@ export function setupAutosave(
 
   const firstId = addPatient();
   refreshPatientSelect(firstId);
+  patientSearch?.addEventListener('input', () =>
+    refreshPatientSelect(getActivePatientId()),
+  );
 
   $('#saveBtn')?.addEventListener('click', () => {
     const id = getActivePatientId();

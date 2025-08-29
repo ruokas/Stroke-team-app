@@ -4,6 +4,8 @@ import { updateAge } from './age.js';
 import { createBpEntry } from './bpEntry.js';
 import { FIELD_DEFS } from './storage/fields.js';
 import { migrateSchema, SCHEMA_VERSION } from './storage/migrations.js';
+import { showToast } from './toast.js';
+import { t } from './i18n.js';
 
 const LS_KEY = 'insultoKomandaPatients_v1';
 
@@ -63,8 +65,13 @@ export function getPatients() {
 
 function setPatients(patients) {
   const keys = Object.keys(patients);
-  if (keys.length) localStorage.setItem(LS_KEY, JSON.stringify(patients));
-  else localStorage.removeItem(LS_KEY);
+  try {
+    if (keys.length) localStorage.setItem(LS_KEY, JSON.stringify(patients));
+    else localStorage.removeItem(LS_KEY);
+  } catch (e) {
+    console.error(e);
+    showToast(t('storage_full'), { type: 'error' });
+  }
 }
 
 export function getPayload() {

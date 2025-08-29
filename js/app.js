@@ -20,6 +20,14 @@ import { setupLkw } from './lkw.js';
 import { initNIHSS } from './nihss.js';
 import { initI18n } from './i18n.js';
 
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch((err) => {
+      console.error('Service worker registration failed', err);
+    });
+  });
+}
+
 const SAVE_DEBOUNCE_MS = 500;
 let saveTimer;
 function scheduleSave(id, name, cb) {

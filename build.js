@@ -18,8 +18,12 @@ async function buildCss() {
   await fs.writeFile('css/style.css', result.css);
 }
 
+async function copySw() {
+  await fs.copyFile('sw.js', 'sw.js');
+}
+
 try {
-  await Promise.all([buildHtml(), buildCss()]);
+  await Promise.all([buildHtml(), buildCss(), copySw()]);
 } catch (error) {
   console.error('Build failed:', error);
   process.exit(1);

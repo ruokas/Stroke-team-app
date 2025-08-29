@@ -24,6 +24,12 @@ npm run build
 
 Open `index.html` in a browser to use the app.
 
+## Offline support
+
+The app registers a Service Worker that caches the core HTML, CSS, JavaScript
+and locale files so the interface continues to work offline after the first
+load.
+
 ## Draft storage schema
 
 Drafts saved to `localStorage` are wrapped in an object with a `version`

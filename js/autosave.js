@@ -30,6 +30,7 @@ export function setupAutosave(
   const patientMenu = $('#patientMenu');
   const patientMenuLabel = $('#patientMenuLabel');
   const patientSearch = $('#patientSearch');
+  const patientSearchToggle = $('#patientSearchToggle');
 
   const isDesktop = () =>
     typeof window.matchMedia === 'function'
@@ -45,6 +46,7 @@ export function setupAutosave(
 
   const closePatientMenu = () => {
     if (!isDesktop()) patientMenu?.removeAttribute('open');
+    patientSearch?.classList.add('hidden');
   };
 
   const onDocumentClick = (e) => {
@@ -110,6 +112,16 @@ export function setupAutosave(
   patientSearch?.addEventListener('input', () =>
     refreshPatientSelect(getActivePatientId()),
   );
+
+  patientSearchToggle?.addEventListener('click', () => {
+    patientSearch?.classList.toggle('hidden');
+    if (!patientSearch?.classList.contains('hidden')) {
+      patientSearch?.focus();
+    } else {
+      patientSearch.value = '';
+      refreshPatientSelect(getActivePatientId());
+    }
+  });
 
   $('#saveBtn')?.addEventListener('click', () => {
     const id = getActivePatientId();

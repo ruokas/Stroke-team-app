@@ -15,7 +15,18 @@
           <span id="patientMenuLabel" class="btn-label">Pacientas</span>
         </summary>
         <div class="menu">
-          <input id="patientSearch" type="search" placeholder="Search…">
+          <button
+            id="patientSearchToggle"
+            class="btn"
+            title="Search patients"
+            aria-label="Search patients"
+          >🔍</button>
+          <input
+            id="patientSearch"
+            class="btn hidden"
+            type="search"
+            placeholder="Search…"
+          >
           <select id="patientSelect" title="Pacientai" aria-label="Pacientai" class="btn"></select>
           {{ actionButton('newPatientBtn', 'Naujas pacientas', '🆕', 'Naujas') }}
           {{ actionButton('renamePatientBtn', 'Pervardyti pacientą', '✏️', 'Pervardyti') }}

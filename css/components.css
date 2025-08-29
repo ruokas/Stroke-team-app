@@ -84,6 +84,9 @@
 .btn.ghost:active {
   background: var(--ghost-active-bg);
 }
+#patientSearch {
+  cursor: text;
+}
 #bpCorrBtn[aria-expanded="true"] {
   background: var(--accent);
   color: #fff;

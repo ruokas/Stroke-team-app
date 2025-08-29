@@ -18,5 +18,6 @@
   "minutes_ago": "{mins} min ago",
   "saved": "saved",
   "patient_actions": "Patient actions",
+  "storage_full": "Failed to save: storage limit reached.",
   "close": "Close"
 }

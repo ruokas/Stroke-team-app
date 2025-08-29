@@ -16,6 +16,8 @@ const {
 const { SCHEMA_VERSION } = await import('../js/storage/migrations.js');
 inputs = getInputs();
 const { copySummary, collectSummaryData } = await import('../js/summary.js');
+const { toast } = await import('../js/toast.js');
+const { t } = await import('../js/i18n.js');
 
 function resetInputs() {
   inputs = getInputs();
@@ -163,4 +165,24 @@ test('migratePatientRecord discards unknown schema versions', () => {
   });
   assert.ok(changed);
   assert.strictEqual(record, null);
+});
+
+test('saving handles storage quota exceeded', { concurrency: false }, () => {
+  localStorage.clear();
+  const storageProto = Object.getPrototypeOf(localStorage);
+  const origSetItem = storageProto.setItem;
+  const origToast = toast.showToast;
+  let toastMsg = null;
+  toast.showToast = (msg) => {
+    toastMsg = msg;
+  };
+  storageProto.setItem = () => {
+    throw new DOMException('Quota exceeded', 'QuotaExceededError');
+  };
+  assert.doesNotThrow(() => {
+    savePatient('quota', 'Test');
+  });
+  assert.strictEqual(toastMsg, t('storage_full'));
+  storageProto.setItem = origSetItem;
+  toast.showToast = origToast;
 });

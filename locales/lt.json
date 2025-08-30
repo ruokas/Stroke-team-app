@@ -19,5 +19,7 @@
   "saved": "išsaugota",
   "patient_actions": "Paciento veiksmai",
   "storage_full": "Nepavyko išsaugoti: naršyklės saugykla pilna.",
-  "close": "Uždaryti"
+  "close": "Uždaryti",
+  "invalid_weight": "Įveskite teisingą svorį.",
+  "invalid_concentration": "Įveskite teisingą koncentraciją."
 }

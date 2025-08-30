@@ -1,5 +1,5 @@
 import { getInputs } from './state.js';
-import { updateDrugDefaults } from './drugs.js';
+import { updateDrugDefaults, calcDrugs } from './drugs.js';
 import { updateAge } from './age.js';
 import { createBpEntry } from './bpEntry.js';
 import { FIELD_DEFS } from './storage/fields.js';
@@ -138,6 +138,7 @@ export function setPayload(p) {
   }
   updateAge();
   updateDrugDefaults();
+  calcDrugs();
 }
 
 export function savePatient(id, name) {

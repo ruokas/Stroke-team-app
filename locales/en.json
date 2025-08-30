@@ -19,5 +19,7 @@
   "saved": "saved",
   "patient_actions": "Patient actions",
   "storage_full": "Failed to save: storage limit reached.",
-  "close": "Close"
+  "close": "Close",
+  "invalid_weight": "Enter a valid weight.",
+  "invalid_concentration": "Enter a valid concentration."
 }

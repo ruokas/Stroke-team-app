@@ -1,5 +1,6 @@
 import { dom } from './state.js';
 import { computeDose } from './computeDose.js';
+import { t } from './i18n.js';
 
 export function updateDrugDefaults() {
   const typeEl = dom.getDrugTypeInput();
@@ -54,13 +55,13 @@ export function calcDrugs() {
     if (!wValid) {
       weightEl.classList.add('invalid');
       if (weightEl.setCustomValidity)
-        weightEl.setCustomValidity('Įveskite teisingą svorį.');
+        weightEl.setCustomValidity(t('invalid_weight'));
       if (weightEl.reportValidity) weightEl.reportValidity();
     }
     if (!cValid) {
       concEl.classList.add('invalid');
       if (concEl.setCustomValidity)
-        concEl.setCustomValidity('Įveskite teisingą koncentraciją.');
+        concEl.setCustomValidity(t('invalid_concentration'));
       if (concEl.reportValidity) concEl.reportValidity();
     }
     return;

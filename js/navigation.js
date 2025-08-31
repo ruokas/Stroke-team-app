@@ -2,6 +2,7 @@ import { $, $$ } from './state.js';
 import { collectSummaryData, summaryTemplate } from './summary.js';
 import { setNow } from './time.js';
 import { getActivePatient } from './patients.js';
+import { renderAnalytics } from './analytics.js';
 
 export function setupNavigation(inputs) {
   const tabs = $$('nav .tab');
@@ -32,6 +33,7 @@ export function setupNavigation(inputs) {
     }
     if (id === 'decision' && inputs.d_time && !inputs.d_time.value)
       setNow('d_time');
+    if (id === 'analytics') renderAnalytics();
     document.body.classList.remove('nav-open');
     if (navToggle) navToggle.setAttribute('aria-expanded', 'false');
   };

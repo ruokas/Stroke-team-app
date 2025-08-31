@@ -19,6 +19,7 @@ import { setupPillState } from './pill.js';
 import { setupLkw } from './lkw.js';
 import { initNIHSS } from './nihss.js';
 import { initI18n } from './i18n.js';
+import { initAnalytics } from './analytics.js';
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
@@ -46,7 +47,7 @@ function flushSave(id, name, cb) {
 
 function bind() {
   const inputs = getInputs();
-
+  initAnalytics();
   setupIntervals(inputs);
   setupHeaderHeight();
   setupToolbarNavigation();

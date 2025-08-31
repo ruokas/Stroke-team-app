@@ -1,5 +1,6 @@
 import * as state from './state.js';
 import { diffMinutes } from './time.js';
+import { t } from './i18n.js';
 
 /**
  * Render analytics KPIs into the analytics section.
@@ -29,5 +30,5 @@ export function renderAnalytics() {
   setText('analytics_dtn', Number.isFinite(dtn) ? String(dtn) : '');
   setText('analytics_dtd', Number.isFinite(dtd) ? String(dtd) : '');
   setText('analytics_lkwd', Number.isFinite(lkwDoor) ? String(lkwDoor) : '');
-  setText('analytics_bp', bpOk == null ? '' : bpOk ? 'Taip' : 'Ne');
+  setText('analytics_bp', bpOk == null ? '' : bpOk ? t('yes') : t('no'));
 }

@@ -2,6 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import './jsdomSetup.js';
 import { renderAnalytics } from '../js/analytics.js';
+import { t } from '../js/i18n.js';
 
 // set up DOM and run renderAnalytics
 
@@ -33,5 +34,5 @@ test('renderAnalytics computes KPI values', () => {
   assert.equal(document.getElementById('analytics_dtn').textContent, '30');
   assert.equal(document.getElementById('analytics_dtd').textContent, '20');
   assert.equal(document.getElementById('analytics_lkwd').textContent, '120');
-  assert.equal(document.getElementById('analytics_bp').textContent, 'Taip');
+  assert.equal(document.getElementById('analytics_bp').textContent, t('yes'));
 });

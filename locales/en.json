@@ -21,5 +21,7 @@
   "storage_full": "Failed to save: storage limit reached.",
   "close": "Close",
   "invalid_weight": "Enter a valid weight.",
-  "invalid_concentration": "Enter a valid concentration."
+  "invalid_concentration": "Enter a valid concentration.",
+  "yes": "Yes",
+  "no": "No"
 }

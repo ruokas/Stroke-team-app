@@ -21,5 +21,7 @@
   "storage_full": "Nepavyko išsaugoti: naršyklės saugykla pilna.",
   "close": "Uždaryti",
   "invalid_weight": "Įveskite teisingą svorį.",
-  "invalid_concentration": "Įveskite teisingą koncentraciją."
+  "invalid_concentration": "Įveskite teisingą koncentraciją.",
+  "yes": "Taip",
+  "no": "Ne"
 }

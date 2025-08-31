@@ -29,5 +29,5 @@ export function renderAnalytics() {
   setText('analytics_dtn', Number.isFinite(dtn) ? String(dtn) : '');
   setText('analytics_dtd', Number.isFinite(dtd) ? String(dtd) : '');
   setText('analytics_lkwd', Number.isFinite(lkwDoor) ? String(lkwDoor) : '');
-  setText('analytics_bp', bpOk == null ? '' : bpOk ? 'Yes' : 'No');
+  setText('analytics_bp', bpOk == null ? '' : bpOk ? 'Taip' : 'Ne');
 }

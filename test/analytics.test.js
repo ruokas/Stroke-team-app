@@ -33,5 +33,5 @@ test('renderAnalytics computes KPI values', () => {
   assert.equal(document.getElementById('analytics_dtn').textContent, '30');
   assert.equal(document.getElementById('analytics_dtd').textContent, '20');
   assert.equal(document.getElementById('analytics_lkwd').textContent, '120');
-  assert.equal(document.getElementById('analytics_bp').textContent, 'Yes');
+  assert.equal(document.getElementById('analytics_bp').textContent, 'Taip');
 });

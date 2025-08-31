@@ -135,6 +135,14 @@
     role="tab"
     ><span class="tab-icon">📄</span>Santrauka</a
   >
+  <a
+    id="analytics-tab"
+    href="#analytics"
+    data-section="analytics"
+    class="tab btn"
+    role="tab"
+    ><span class="tab-icon">📊</span>Analytics</a
+  >
 </nav>
 
     <div id="appForm">
@@ -1579,6 +1587,24 @@
 <button id="copySummaryBtn" title="Kopijuoti santrauką" aria-label="Kopijuoti santrauką" class="btn">📋 <span class="btn-label">Kopijuoti</span></button>
 
           </div>
+        </section>
+        <section
+          id="analytics"
+          class="card full-span hidden"
+          role="tabpanel"
+          aria-labelledby="analytics-tab"
+        >
+          <h2>Analytics</h2>
+          <dl>
+            <dt>Door-to-Needle (min)</dt>
+            <dd id="analytics_dtn"></dd>
+            <dt>Door-to-Decision (min)</dt>
+            <dd id="analytics_dtd"></dd>
+            <dt>Last Known Well to Door (min)</dt>
+            <dd id="analytics_lkwd"></dd>
+            <dt>Initial BP within range</dt>
+            <dd id="analytics_bp"></dd>
+          </dl>
         </section>
 
                 <details class="settings">

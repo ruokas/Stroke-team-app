@@ -2,7 +2,7 @@ import { $, $$ } from './state.js';
 import { collectSummaryData, summaryTemplate } from './summary.js';
 import { setNow } from './time.js';
 import { getActivePatient } from './patients.js';
-import { renderAnalytics } from './analytics.js';
+import { renderAnalytics, track, flush } from './analytics.js';
 
 export function setupNavigation(inputs) {
   const tabs = $$('nav .tab');
@@ -34,6 +34,8 @@ export function setupNavigation(inputs) {
     if (id === 'decision' && inputs.d_time && !inputs.d_time.value)
       setNow('d_time');
     if (id === 'analytics') renderAnalytics();
+    track('section_view', { id });
+    flush();
     document.body.classList.remove('nav-open');
     if (navToggle) navToggle.setAttribute('aria-expanded', 'false');
   };
@@ -60,6 +62,7 @@ export function setupNavigation(inputs) {
     tab.addEventListener('click', (e) => {
       e.preventDefault();
       const id = tab.dataset.section;
+      track('section_tab_click', { id });
       showSection(id);
       if (id) history.pushState(null, '', `#${id}`);
     });
@@ -70,6 +73,7 @@ export function setupNavigation(inputs) {
         const next = (index + dir + tabs.length) % tabs.length;
         const nextTab = tabs[next];
         const id = nextTab.dataset.section;
+        track('section_tab_click', { id });
         nextTab.focus();
         showSection(id);
         if (id) history.pushState(null, '', `#${id}`);

@@ -6,8 +6,11 @@ import { FIELD_DEFS } from './storage/fields.js';
 import { migrateSchema, SCHEMA_VERSION } from './storage/migrations.js';
 import { showToast } from './toast.js';
 import { t } from './i18n.js';
+import { track, flush } from './analytics.js';
 
 const LS_KEY = 'insultoKomandaPatients_v1';
+
+window.addEventListener('unload', flush);
 
 export function migratePatientRecord(id, p) {
   let changed = false;
@@ -165,6 +168,7 @@ export function savePatient(id, name) {
     },
   };
   setPatients(patients);
+  track('patient_save', { patientId, name: patientName });
   return patientId;
 }
 
@@ -181,6 +185,7 @@ export function deletePatient(id) {
   if (patients[id]) {
     delete patients[id];
     setPatients(patients);
+    track('patient_delete', { patientId: id });
   }
 }
 
@@ -189,5 +194,6 @@ export function renamePatient(id, newName) {
   if (patients[id]) {
     patients[id].name = newName;
     setPatients(patients);
+    track('patient_rename', { patientId: id, newName });
   }
 }

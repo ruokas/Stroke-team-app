@@ -21,7 +21,9 @@ import { setupLkw } from './lkw.js';
 import { initNIHSS } from './nihss.js';
 import { initI18n } from './i18n.js';
 import { initAnalytics, track } from './analytics.js';
+import { initTheme, setupThemeToggle } from './theme.js';
 
+initTheme();
 initErrorLogger();
 
 if ('serviceWorker' in navigator) {
@@ -75,6 +77,7 @@ function bind() {
   setupBpHandlers();
   setupPillState();
   setupLkw(inputs);
+  setupThemeToggle();
 
   const { updateSaveStatus } = setupAutosave(inputs, {
     scheduleSave,

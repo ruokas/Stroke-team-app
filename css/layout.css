@@ -1,8 +1,9 @@
 ﻿:root {
-  color-scheme: dark;
   --header-height: 48px;
 }
+
 :root.dark {
+  color-scheme: dark;
   --bg: #0c1218;
   --card: #121a24;
   --ink: #e9f2fb;
@@ -20,6 +21,27 @@
   --btn-active-bg: #101720;
   --ghost-hover-bg: #18222e;
   --ghost-active-bg: #0d1319;
+}
+
+:root.light {
+  color-scheme: light;
+  --bg: #ffffff;
+  --card: #f1f5f9;
+  --ink: #0f172a;
+  --muted: #475569;
+  --line: #cbd5e1;
+  --accent: #4ea0f5;
+  --red: #e53935;
+  --yellow: #ffb74d;
+  --green: #00c853;
+  --ink2: #1e293b;
+  --button-bg: var(--card);
+  --yellow-text: #271400;
+  --yellow-border: #bf7d19;
+  --btn-hover-bg: #e2e8f0;
+  --btn-active-bg: #cbd5e1;
+  --ghost-hover-bg: #e2e8f0;
+  --ghost-active-bg: #cbd5e1;
 }
 *,
 *::before,

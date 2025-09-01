@@ -22,6 +22,7 @@ import { initNIHSS } from './nihss.js';
 import { initI18n } from './i18n.js';
 import { initAnalytics, track } from './analytics.js';
 import { initTheme, setupThemeToggle } from './theme.js';
+import { setupNotificationToggle } from './notifications.js';
 
 initTheme();
 initErrorLogger();
@@ -78,6 +79,7 @@ function bind() {
   setupPillState();
   setupLkw(inputs);
   setupThemeToggle();
+  setupNotificationToggle();
 
   const { updateSaveStatus } = setupAutosave(inputs, {
     scheduleSave,

@@ -1,7 +1,7 @@
 section.card {
-  background: rgba(18, 26, 36, 0.6);
+  background: var(--card-bg);
   backdrop-filter: blur(10px);
-  border: 1px solid #576272;
+  border: 1px solid var(--line);
   border-radius: 14px;
   padding: 14px;
   color: var(--ink);
@@ -31,7 +31,7 @@ select:not(.btn) {
   padding: 9px 10px;
   border: 1px solid var(--line);
   border-radius: 10px;
-  background: #0f1620;
+  background: var(--bg);
   color: var(--ink);
   font-size: 0.875rem;
 }
@@ -88,7 +88,7 @@ input[type='datetime-local']::-webkit-calendar-picker-indicator {
   padding: 9px 10px;
   border: 1px solid var(--line);
   border-radius: 10px;
-  background: #0f1620;
+  background: var(--bg);
   color: var(--ink);
   font-size: 0.875rem;
 }

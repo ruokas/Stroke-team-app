@@ -1,5 +1,6 @@
 import { diffMinutes } from './time.js';
 import { showToast } from './toast.js';
+import { notify } from './notifications.js';
 
 const INTERVAL_LIMITS = {
   lkwThrombolysis: 270,
@@ -23,13 +24,14 @@ export function setupIntervals(inputs) {
         const over = diff > INTERVAL_LIMITS.lkwThrombolysis;
         lkwIntervalBox.classList.toggle('error', over);
         if (over) {
-          if (!lkwToastShown)
-            showToast(
-              'Viršytas Paskutinį kartą matytas sveikas→trombolizės intervalas',
-              {
-                type: 'warning',
-              },
-            );
+          if (!lkwToastShown) {
+            const msg =
+              'Viršytas Paskutinį kartą matytas sveikas→trombolizės intervalas';
+            showToast(msg, {
+              type: 'warning',
+            });
+            notify(msg);
+          }
           lkwToastShown = true;
         } else {
           lkwToastShown = false;
@@ -48,10 +50,13 @@ export function setupIntervals(inputs) {
         const over = diff > INTERVAL_LIMITS.doorThrombolysis;
         doorIntervalBox.classList.toggle('error', over);
         if (over) {
-          if (!doorToastShown)
-            showToast('Viršytas durų→trombolizės intervalas', {
+          if (!doorToastShown) {
+            const msg = 'Viršytas durų→trombolizės intervalas';
+            showToast(msg, {
               type: 'warning',
             });
+            notify(msg);
+          }
           doorToastShown = true;
         } else {
           doorToastShown = false;

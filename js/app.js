@@ -1,3 +1,4 @@
+import { initErrorLogger } from './errorLogger.js';
 import { getInputs } from './state.js';
 import { updateDrugDefaults } from './drugs.js';
 import { updateAge } from './age.js';
@@ -19,12 +20,19 @@ import { setupPillState } from './pill.js';
 import { setupLkw } from './lkw.js';
 import { initNIHSS } from './nihss.js';
 import { initI18n } from './i18n.js';
-import { initAnalytics } from './analytics.js';
+import { initAnalytics, track } from './analytics.js';
+
+initErrorLogger();
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js').catch((err) => {
       console.error('Service worker registration failed', err);
+      track('error', {
+        message: 'Service worker registration failed',
+        stack: err?.stack,
+        source: 'serviceWorker',
+      });
     });
   });
 }
@@ -80,6 +88,11 @@ async function init() {
     await initI18n();
   } catch (err) {
     console.error('Failed to initialize i18n', err);
+    track('error', {
+      message: 'Failed to initialize i18n',
+      stack: err?.stack,
+      source: 'i18n',
+    });
   } finally {
     bind();
   }

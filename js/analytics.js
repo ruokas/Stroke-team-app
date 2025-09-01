@@ -22,6 +22,11 @@ function saveEvents(events) {
     else localStorage.removeItem(LS_KEY);
   } catch (e) {
     console.error('Failed to save analytics events', e);
+    track('error', {
+      message: 'Failed to save analytics events',
+      stack: e?.stack,
+      source: 'analytics.js',
+    });
   }
 }
 
@@ -46,6 +51,11 @@ export async function sync() {
     if (res.ok) localStorage.removeItem(LS_KEY);
   } catch (e) {
     console.error('Failed to sync analytics', e);
+    track('error', {
+      message: 'Failed to sync analytics',
+      stack: e?.stack,
+      source: 'analytics.js',
+    });
   }
 }
 

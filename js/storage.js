@@ -61,6 +61,11 @@ export function getPatients() {
     return patients;
   } catch (e) {
     console.error(e);
+    track('error', {
+      message: e?.message || 'Failed to load patients',
+      stack: e?.stack,
+      source: 'storage.js',
+    });
     localStorage.removeItem(LS_KEY);
     return {};
   }
@@ -73,6 +78,11 @@ function setPatients(patients) {
     else localStorage.removeItem(LS_KEY);
   } catch (e) {
     console.error(e);
+    track('error', {
+      message: e?.message || 'Failed to save patients',
+      stack: e?.stack,
+      source: 'storage.js',
+    });
     showToast(t('storage_full'), { type: 'error' });
   }
 }

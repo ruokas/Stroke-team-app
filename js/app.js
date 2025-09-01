@@ -26,14 +26,22 @@ initErrorLogger();
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').catch((err) => {
-      console.error('Service worker registration failed', err);
-      track('error', {
-        message: 'Service worker registration failed',
-        stack: err?.stack,
-        source: 'serviceWorker',
+    navigator.serviceWorker
+      .register('/sw.js')
+      .then((reg) => {
+        track('sw_register_success');
+        navigator.serviceWorker.ready.then(() => track('sw_active'));
+        reg.addEventListener('updatefound', () => track('sw_update_found'));
+      })
+      .catch((err) => {
+        console.error('Service worker registration failed', err);
+        track('sw_register_error', { message: err.message });
+        track('error', {
+          message: 'Service worker registration failed',
+          stack: err?.stack,
+          source: 'serviceWorker',
+        });
       });
-    });
   });
 }
 

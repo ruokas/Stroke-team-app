@@ -69,8 +69,14 @@ export function flush() {
 }
 
 export function initAnalytics() {
-  window.addEventListener('online', sync);
-  window.addEventListener('offline', flush);
+  window.addEventListener('online', () => {
+    track('online');
+    sync();
+  });
+  window.addEventListener('offline', () => {
+    track('offline');
+    flush();
+  });
   setInterval(flush, 30000);
   sync();
 }

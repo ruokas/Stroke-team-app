@@ -7,10 +7,12 @@ import { migrateSchema, SCHEMA_VERSION } from './storage/migrations.js';
 import { showToast } from './toast.js';
 import { t } from './i18n.js';
 import { track, flush } from './analytics.js';
+import { syncPatients, restorePatients } from './sync.js';
 
 const LS_KEY = 'insultoKomandaPatients_v1';
 
 window.addEventListener('unload', flush);
+if (typeof navigator !== 'undefined' && navigator.onLine) restorePatients();
 
 export function migratePatientRecord(id, p) {
   let changed = false;
@@ -179,6 +181,7 @@ export function savePatient(id, name) {
   };
   setPatients(patients);
   track('patient_save', { patientId, name: patientName });
+  if (typeof navigator !== 'undefined' && navigator.onLine) syncPatients();
   return patientId;
 }
 

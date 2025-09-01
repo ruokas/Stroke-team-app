@@ -9,6 +9,15 @@
   <body>
     
   <div id="toastContainer" class="toast-container"></div>
+  <dialog id="collabDialog">
+    <form method="dialog">
+      <label for="collabRoomInput">Session ID</label>
+      <input id="collabRoomInput" type="text" />
+      <menu>
+        <button id="collabJoinBtn" class="btn">Join</button>
+      </menu>
+    </form>
+  </dialog>
   <header>
   <div class="wrap">
     <div class="brand">
@@ -79,6 +88,7 @@
         </details>
 
         <button id="syncBtn" class="btn">Sync Now</button>
+        <button id="joinCollabBtn" class="btn">Join Session</button>
 
         <button id="themeToggle" class="btn" aria-label="Perjungti temą">🌙</button>
 

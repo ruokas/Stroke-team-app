@@ -12,6 +12,27 @@
             placeholder="Santrauka generuojama automatiškai"
           ></textarea>
           <div class="sticky-actions">
-            {{ actionButton('copySummaryBtn', 'Kopijuoti santrauką', '📋', 'Kopijuoti') }}
+            {{
+              actionButton(
+                'copySummaryBtn',
+                'Kopijuoti santrauką',
+                '📋',
+                'Kopijuoti',
+                '',
+                'data-i18n-title="copy_summary" data-i18n-aria-label="copy_summary"',
+                'copy'
+              )
+            }}
+            {{
+              actionButton(
+                'exportSummaryBtn',
+                'Eksportuoti santrauką',
+                '⬇️',
+                'Eksportuoti santrauką',
+                '',
+                'data-i18n-title="export_summary" data-i18n-aria-label="export_summary"',
+                'export_summary'
+              )
+            }}
           </div>
         </section>

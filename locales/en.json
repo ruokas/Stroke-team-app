@@ -22,6 +22,9 @@
   "close": "Close",
   "invalid_weight": "Enter a valid weight.",
   "invalid_concentration": "Enter a valid concentration.",
+  "collaborate": "Collaborate",
+  "room_id": "Room ID",
+  "join": "Join",
   "yes": "Yes",
   "no": "No"
 }

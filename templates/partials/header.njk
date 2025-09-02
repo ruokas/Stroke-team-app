@@ -34,7 +34,17 @@
             {{ actionButton('saveBtn', 'Išsaugoti vietoje (naršyklėje)', icon('save')) }}
           </div>
         </details>
-      {{ actionButton('joinCollabBtn', 'Collaborate', icon('users'), 'Collaborate') }}
+      {{
+        actionButton(
+          'joinCollabBtn',
+          'Bendradarbiauti',
+          icon('users'),
+          'Bendradarbiauti',
+          '',
+          'data-i18n-title="collaborate" data-i18n-aria-label="collaborate"',
+          'collaborate'
+        )
+      }}
       {{ actionButton('navToggle', '', icon('menu'), 'Meniu', '', 'aria-expanded="false" aria-controls="mainNav"') }}
     </div>
   </div>

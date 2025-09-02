@@ -22,6 +22,9 @@
   "close": "Uždaryti",
   "invalid_weight": "Įveskite teisingą svorį.",
   "invalid_concentration": "Įveskite teisingą koncentraciją.",
+  "collaborate": "Bendradarbiauti",
+  "room_id": "Kambario ID",
+  "join": "Prisijungti",
   "yes": "Taip",
   "no": "Ne"
 }

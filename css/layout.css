@@ -138,6 +138,12 @@ header {
     flex-direction: row;
     align-items: center;
   }
+
+  /* Ensure consistent button and label sizing on small screens */
+  .header-actions .btn,
+  .header-actions .btn-label {
+    font-size: 1rem;
+  }
 }
 .header-actions .toolbar {
   display: flex;

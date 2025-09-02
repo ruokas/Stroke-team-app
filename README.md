@@ -22,7 +22,13 @@ To build optimized assets run:
 npm run build
 ```
 
-Open `index.html` in a browser to use the app.
+To start the WebSocket server during development run:
+
+```sh
+npm start
+```
+
+Leave this running and open `index.html` in a browser to use the app. The frontend connects to `ws://localhost:3000/ws` for real-time updates.
 
 ## Offline support
 

@@ -19,7 +19,12 @@ async function buildCss() {
 }
 
 async function copySw() {
-  await fs.copyFile('sw.js', 'sw.js');
+  try {
+    await fs.copyFile('src/sw.js', 'sw.js');
+  } catch (error) {
+    console.error('Failed to copy service worker:', error);
+    throw error;
+  }
 }
 
 try {

@@ -12,9 +12,14 @@ export function setupThemeToggle() {
   const btn = document.getElementById('themeToggle');
   if (!btn) return;
   const root = document.documentElement;
+  const icon = document.getElementById('themeToggleIcon');
 
   const update = () => {
-    btn.textContent = root.classList.contains('dark') ? '☀️' : '🌙';
+    if (icon) {
+      icon.src = root.classList.contains('dark')
+        ? 'icons/sun.svg'
+        : 'icons/moon.svg';
+    }
   };
 
   btn.addEventListener('click', () => {

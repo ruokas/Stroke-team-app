@@ -21,10 +21,12 @@
     "format": "prettier --write \"js/**/*.js\" \"test/**/*.js\"",
     "test": "node --test",
     "build": "node build.js",
+    "start": "node server/wsServer.js",
     "prepare": "husky install",
     "lint": "ESLINT_USE_FLAT_CONFIG=false eslint js test"
   },
   "dependencies": {
-    "nunjucks": "^3.2.4"
+    "nunjucks": "^3.2.4",
+    "ws": "^8.18.3"
   }
 }

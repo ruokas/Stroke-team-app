@@ -1,5 +1,5 @@
-{% macro actionButton(id, title, icon, label='', classes='', attrs='') %}
-<button id="{{ id }}"{% if title %} title="{{ title }}" aria-label="{{ title }}"{% endif %} class="btn{% if classes %} {{ classes }}{% endif %}"{% if attrs %} {{ attrs|safe }}{% endif %}>{{ icon | safe }}{% if label %} <span class="btn-label">{{ label }}</span>{% endif %}</button>
+{% macro actionButton(id, title, icon, label='', classes='', attrs='', labelKey='') %}
+<button id="{{ id }}"{% if title %} title="{{ title }}" aria-label="{{ title }}"{% endif %} class="btn{% if classes %} {{ classes }}{% endif %}"{% if attrs %} {{ attrs|safe }}{% endif %}>{{ icon | safe }}{% if label %} <span class="btn-label"{% if labelKey %} data-i18n="{{ labelKey }}"{% endif %}>{{ label }}</span>{% endif %}</button>
 {% endmacro %}
 
 {% macro icon(name) %}

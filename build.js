@@ -27,8 +27,17 @@ async function copySw() {
   }
 }
 
+async function copyManifest() {
+  try {
+    await fs.copyFile('src/manifest.json', 'manifest.json');
+  } catch (error) {
+    console.error('Failed to copy manifest:', error);
+    throw error;
+  }
+}
+
 try {
-  await Promise.all([buildHtml(), buildCss(), copySw()]);
+  await Promise.all([buildHtml(), buildCss(), copySw(), copyManifest()]);
 } catch (error) {
   console.error('Build failed:', error);
   process.exit(1);

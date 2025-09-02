@@ -1,4 +1,4 @@
-const CACHE_NAME = 'stroke-cache-v2';
+const CACHE_NAME = 'stroke-cache-v3';
 const ASSETS = [
   '/',
   '/index.html',
@@ -6,6 +6,20 @@ const ASSETS = [
   '/js/app.js',
   '/locales/en.json',
   '/locales/lt.json',
+  '/manifest.json',
+  '/icons/activation.svg',
+  '/icons/analytics.svg',
+  '/icons/arrival.svg',
+  '/icons/date-picker.svg',
+  '/icons/decision.svg',
+  '/icons/menu.svg',
+  '/icons/nihss.svg',
+  '/icons/settings.svg',
+  '/icons/sun.svg',
+  '/icons/moon.svg',
+  '/icons/summary.svg',
+  '/icons/thrombolysis.svg',
+  '/icons/warning.svg'
 ];
 
 self.addEventListener('install', (event) => {
@@ -40,7 +54,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  const allowedPaths = ['/css/', '/js/', '/locales/'];
+  const allowedPaths = ['/css/', '/js/', '/locales/', '/icons/', '/manifest.json'];
   if (!allowedPaths.some((path) => url.pathname.startsWith(path))) {
     return;
   }

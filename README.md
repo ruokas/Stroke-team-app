@@ -22,6 +22,14 @@ To build optimized assets run:
 npm run build
 ```
 
+## Database migrations
+
+Set the `DATABASE_URL` environment variable and run migrations with:
+
+```sh
+npm run migrate
+```
+
 ## Real-time collaboration
 
 The app ships with a small WebSocket server that syncs form data between browsers.

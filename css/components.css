@@ -460,6 +460,7 @@ section[data-tab='Intervencijos'] h3 {
     opacity 0.3s,
     transform 0.3s;
   position: relative;
+  max-width: calc(100vw - 40px);
 }
 .toast.success {
   background: var(--green);
@@ -480,6 +481,17 @@ section[data-tab='Intervencijos'] h3 {
 .toast.hide {
   opacity: 0;
   transform: translateY(10px);
+}
+
+@media (max-width: 480px) {
+  .toast-container {
+    top: 20px;
+    bottom: auto;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    align-items: center;
+  }
 }
 
 .info-box {

@@ -274,10 +274,13 @@ nav .tab {
   text-transform: none;
   font-size: 1rem;
   text-decoration: none;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
 }
 nav .tab.active {
   background: var(--btn-active-bg);
   border-color: var(--accent);
+  box-shadow: inset 4px 0 0 var(--accent);
+  font-weight: 700;
 }
 .tab-icon {
   width: 1.5rem;

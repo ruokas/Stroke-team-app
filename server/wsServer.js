@@ -1,5 +1,8 @@
 import http from 'http';
 import { WebSocketServer, WebSocket } from 'ws';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const server = http.createServer();
 const wss = new WebSocketServer({ server, path: '/ws' });

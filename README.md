@@ -50,6 +50,17 @@ npm run build
 
 For additional database setup details and using Docker Compose for a local PostgreSQL instance, see [docs/postgres.md](docs/postgres.md).
 
+## Database setup
+
+Create a `.env` file in the project root with your database connection string:
+
+```sh
+DATABASE_URL=postgres://user:password@host:5432/dbname
+```
+
+Replace `user`, `password`, `host`, and `dbname` with your own PostgreSQL credentials.  
+You may also set `PORT` to choose the server's HTTP port (default: `3000`).
+
 ## Real-time collaboration
 
 The app ships with a small WebSocket server that syncs form data between browsers.

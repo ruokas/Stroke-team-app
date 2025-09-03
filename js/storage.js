@@ -171,6 +171,7 @@ export function savePatient(id, name) {
     name: patientName,
     created: patients[patientId]?.created || now,
     lastUpdated: now,
+    needsSync: true,
     data: {
       version:
         (patients[patientId]?.data?.version || 0) < SCHEMA_VERSION

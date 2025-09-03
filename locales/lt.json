@@ -26,5 +26,7 @@
   "room_id": "Kambario ID",
   "join": "Prisijungti",
   "yes": "Taip",
-  "no": "Ne"
+  "no": "Ne",
+  "sync_failed": "Nepavyko sinchronizuoti pacientų.",
+  "restore_failed": "Nepavyko atkurti pacientų."
 }

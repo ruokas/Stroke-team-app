@@ -26,5 +26,7 @@
   "room_id": "Room ID",
   "join": "Join",
   "yes": "Yes",
-  "no": "No"
+  "no": "No",
+  "sync_failed": "Failed to sync patients.",
+  "restore_failed": "Failed to restore patients."
 }

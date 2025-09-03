@@ -7,14 +7,40 @@ and stores drafts locally so it can be used offline.
 
 ## Getting started
 
-Requires Node.js 20 or later.
+Requires Node.js 20 or later and access to a PostgreSQL database.
 
-Install dependencies and run the tests:
+1. **Configure environment variables**
 
-```sh
-npm install
-npm test
-```
+   Copy the example file and update it with your database connection string (and optionally the port the server should listen on):
+
+   ```sh
+   cp .env.example .env
+   # edit .env
+   ```
+
+   - `DATABASE_URL` – PostgreSQL connection string
+   - `PORT` – optional HTTP port (defaults to `3000`)
+
+2. **Install dependencies and run migrations**
+
+   ```sh
+   npm install
+   npm run migrate
+   ```
+
+3. **Run the test suite** *(optional but recommended)*
+
+   ```sh
+   npm test
+   ```
+
+4. **Start the backend server**
+
+   ```sh
+   npm start
+   ```
+
+   The API is now available at `http://localhost:3000`.
 
 To build optimized assets run:
 
@@ -22,13 +48,7 @@ To build optimized assets run:
 npm run build
 ```
 
-## Database migrations
-
-Set the `DATABASE_URL` environment variable and run migrations with:
-
-```sh
-npm run migrate
-```
+For additional database setup details and using Docker Compose for a local PostgreSQL instance, see [docs/postgres.md](docs/postgres.md).
 
 ## Real-time collaboration
 
@@ -60,6 +80,18 @@ Leave the server running while using the app.
 * Firewalls or corporate networks may block WebSocket connections; try a different network if you cannot connect.
 * When served over HTTPS the app uses `wss://`; if the server only provides `ws://`, run it behind an HTTPS proxy or access the app over HTTP.
 * Check the browser console for additional error details.
+
+## Client synchronization
+
+The browser stores patient records in `localStorage` so the app works offline.
+When connectivity is available the client:
+
+1. Sends any unsynced patients to `POST /api/patients`.
+2. Fetches the latest records from `GET /api/patients`.
+
+This happens automatically when the page goes online and can also be triggered
+manually via the **Sync** button. Keep the backend server running so changes
+are persisted to the database.
 
 ## Offline support
 

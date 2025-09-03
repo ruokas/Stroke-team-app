@@ -1,8 +1,23 @@
 <!doctype html>
-<html lang="lt" class="dark">
+<html lang="lt">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>
+      (function () {
+        let saved;
+        try {
+          saved = localStorage.getItem('theme');
+        } catch {
+          /* ignore */
+        }
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = saved || (prefersDark ? 'dark' : 'light');
+        const root = document.documentElement;
+        root.classList.remove('light', 'dark');
+        root.classList.add(theme);
+      })();
+    </script>
     <title>Insulto komandos forma</title>
     <link rel="stylesheet" href="css/style.css" />
     <link rel="manifest" href="/manifest.json" />

@@ -104,6 +104,25 @@ This happens automatically when the page goes online and can also be triggered
 manually via the **Sync** button. Keep the backend server running so changes
 are persisted to the database.
 
+### Configuring the API base URL
+
+By default the frontend sends requests to `/api`. When deploying the app in an
+environment where the API lives elsewhere, set the base URL either by defining
+`window.API_BASE` before loading the scripts or via the `API_BASE`
+environment variable at build time:
+
+```html
+<script>
+  window.API_BASE = 'https://example.com/api';
+</script>
+```
+
+```sh
+API_BASE=https://example.com/api npm run build
+```
+
+If no API is available, the sync logic silently skips network calls.
+
 ## Offline support
 
 The app registers a Service Worker that caches the core HTML, CSS, JavaScript

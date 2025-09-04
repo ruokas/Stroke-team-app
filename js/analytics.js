@@ -7,7 +7,7 @@ let buffer = [];
 const API_BASE =
   (typeof window !== 'undefined' && window.API_BASE) ||
   (typeof process !== 'undefined' && process.env.API_BASE) ||
-  'api';
+  '/api';
 
 function loadEvents() {
   const raw = localStorage.getItem(LS_KEY);

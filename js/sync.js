@@ -21,6 +21,7 @@ function saveLocalPatients(patients) {
 }
 
 export async function syncPatients() {
+  if (typeof window !== 'undefined' && window.disableSync) return;
   if (typeof navigator !== 'undefined' && !navigator.onLine) return;
   const patients = loadLocalPatients();
   let changed = false;
@@ -53,6 +54,7 @@ export async function syncPatients() {
 }
 
 export async function restorePatients() {
+  if (typeof window !== 'undefined' && window.disableSync) return;
   if (typeof navigator !== 'undefined' && !navigator.onLine) return;
   try {
     const res = await fetch(`${API_BASE}/patients`);
@@ -107,5 +109,9 @@ if (typeof window !== 'undefined') {
 if (typeof document !== 'undefined') {
   document.getElementById('syncBtn')?.addEventListener('click', () => {
     syncPatients().then(restorePatients);
+  });
+  document.getElementById('enableLocalBtn')?.addEventListener('click', () => {
+    window.disableSync = true;
+    showToast(t('local_storage_enabled'), { type: 'info' });
   });
 }

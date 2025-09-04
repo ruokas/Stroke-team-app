@@ -97,8 +97,8 @@ Leave the server running while using the app.
 The browser stores patient records in `localStorage` so the app works offline.
 When connectivity is available the client:
 
-1. Sends any unsynced patients to `POST /api/patients`.
-2. Fetches the latest records from `GET /api/patients`.
+1. Sends any unsynced patients to `POST api/patients`.
+2. Fetches the latest records from `GET api/patients`.
 
 This happens automatically when the page goes online and can also be triggered
 manually via the **Sync** button. Keep the backend server running so changes
@@ -106,7 +106,7 @@ are persisted to the database.
 
 ### Configuring the API base URL
 
-By default the frontend sends requests to `/api`. This base URL is used for
+By default the frontend sends requests to `api`. This base URL is used for
 both patient synchronization and analytics event uploads. When deploying the
 app in an environment where the API lives elsewhere, set the base URL either by
 defining `window.API_BASE` before loading the scripts or via the `API_BASE`

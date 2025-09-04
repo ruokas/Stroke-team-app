@@ -87,15 +87,15 @@
 #patientSearch {
   cursor: text;
 }
-#bpCorrBtn[aria-expanded="true"] {
+#bpCorrBtn[aria-expanded='true'] {
   background: var(--accent);
   color: #fff;
   border-color: #2d74b8;
 }
-#bpCorrBtn[aria-expanded="true"]:hover {
+#bpCorrBtn[aria-expanded='true']:hover {
   background: #2368c5;
 }
-#bpCorrBtn[aria-expanded="true"]:active {
+#bpCorrBtn[aria-expanded='true']:active {
   background: #1a56aa;
 }
 .bp-med:active,
@@ -556,6 +556,10 @@ section[data-tab='Intervencijos'] h3 {
 
 .grid-4 {
   grid-template-columns: repeat(4, 1fr);
+}
+
+.bp-entry .grid-3 {
+  gap: 6px;
 }
 
 #liveTimers {

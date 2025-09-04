@@ -4,7 +4,7 @@ export function createBpEntry(med, dose = '', time, notes = '') {
   const timeId = `bp_time_${ts}`;
 
   const entry = document.createElement('div');
-  entry.className = 'bp-entry mt-10';
+  entry.className = 'bp-entry mt-6';
   entry.id = entryId;
 
   const strong = document.createElement('strong');
@@ -12,7 +12,7 @@ export function createBpEntry(med, dose = '', time, notes = '') {
   entry.appendChild(strong);
 
   const grid = document.createElement('div');
-  grid.className = 'grid-3 mt-5';
+  grid.className = 'grid-3 mt-4';
   entry.appendChild(grid);
 
   const group = document.createElement('div');
@@ -31,7 +31,10 @@ export function createBpEntry(med, dose = '', time, notes = '') {
   timePickerBtn.className = 'btn ghost';
   timePickerBtn.setAttribute('data-time-picker', timeId);
   timePickerBtn.setAttribute('aria-label', 'Pasirinkti laiką');
-  timePickerBtn.textContent = '⌚';
+  const clockIcon = document.createElement('img');
+  clockIcon.src = 'icons/clock.svg';
+  clockIcon.alt = '';
+  timePickerBtn.appendChild(clockIcon);
   group.appendChild(timePickerBtn);
 
   const nowBtn = document.createElement('button');
@@ -39,20 +42,6 @@ export function createBpEntry(med, dose = '', time, notes = '') {
   nowBtn.setAttribute('data-now', timeId);
   nowBtn.textContent = 'Dabar';
   group.appendChild(nowBtn);
-
-  const stepDownBtn = document.createElement('button');
-  stepDownBtn.className = 'btn ghost';
-  stepDownBtn.setAttribute('data-stepdown', timeId);
-  stepDownBtn.setAttribute('aria-label', '−5 min');
-  stepDownBtn.textContent = '−5';
-  group.appendChild(stepDownBtn);
-
-  const stepUpBtn = document.createElement('button');
-  stepUpBtn.className = 'btn ghost';
-  stepUpBtn.setAttribute('data-stepup', timeId);
-  stepUpBtn.setAttribute('aria-label', '+5 min');
-  stepUpBtn.textContent = '+5';
-  group.appendChild(stepUpBtn);
 
   const doseInput = document.createElement('input');
   doseInput.setAttribute('type', 'text');
@@ -68,7 +57,10 @@ export function createBpEntry(med, dose = '', time, notes = '') {
   const removeBtn = document.createElement('button');
   removeBtn.className = 'btn ghost';
   removeBtn.setAttribute('data-remove-bp', entryId);
-  removeBtn.textContent = '❌';
+  const closeIcon = document.createElement('img');
+  closeIcon.src = 'icons/close.svg';
+  closeIcon.alt = '';
+  removeBtn.appendChild(closeIcon);
   entry.appendChild(removeBtn);
 
   return entry;

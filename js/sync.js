@@ -6,7 +6,7 @@ const LS_KEY = 'insultoKomandaPatients_v1';
 const API_BASE =
   (typeof window !== 'undefined' && window.API_BASE) ||
   (typeof process !== 'undefined' && process.env.API_BASE) ||
-  'api';
+  '/api';
 
 function loadLocalPatients() {
   try {

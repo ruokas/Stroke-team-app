@@ -63,7 +63,15 @@ export async function restorePatients() {
     const localData = loadLocalPatients();
     let changed = false;
     const merged = { ...localData };
-    for (const [id, remote] of Object.entries(serverData)) {
+    const remotes = Array.isArray(serverData)
+      ? serverData
+      : Object.entries(serverData).map(([id, data]) => ({
+          ...data,
+          patient_id: id,
+        }));
+    for (const remote of remotes) {
+      const id = remote?.patient_id;
+      if (!id) continue;
       const local = merged[id];
       if (!local) {
         merged[id] = { ...remote, needsSync: false };

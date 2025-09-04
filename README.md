@@ -106,9 +106,10 @@ are persisted to the database.
 
 ### Configuring the API base URL
 
-By default the frontend sends requests to `/api`. When deploying the app in an
-environment where the API lives elsewhere, set the base URL either by defining
-`window.API_BASE` before loading the scripts or via the `API_BASE`
+By default the frontend sends requests to `/api`. This base URL is used for
+both patient synchronization and analytics event uploads. When deploying the
+app in an environment where the API lives elsewhere, set the base URL either by
+defining `window.API_BASE` before loading the scripts or via the `API_BASE`
 environment variable at build time:
 
 ```html

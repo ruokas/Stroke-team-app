@@ -4,6 +4,10 @@ import { t } from './i18n.js';
 
 const LS_KEY = 'analytics_events';
 let buffer = [];
+const API_BASE =
+  (typeof window !== 'undefined' && window.API_BASE) ||
+  (typeof process !== 'undefined' && process.env.API_BASE) ||
+  '/api';
 
 function loadEvents() {
   const raw = localStorage.getItem(LS_KEY);
@@ -43,7 +47,7 @@ export async function sync() {
   const events = loadEvents();
   if (!events.length) return;
   try {
-    const res = await fetch('/api/events', {
+    const res = await fetch(`${API_BASE}/events`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(events),

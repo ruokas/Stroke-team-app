@@ -108,6 +108,8 @@ export function initSymptomButtons() {
     'Veido asimetrija',
     'Rankos silpnumas',
     'Kojos silpnumas',
+    'Koordinacijos sutrikimas',
+    'Jutimo sutrikimas',
   ];
   const sideLabels = { left: 'Kairės', right: 'Dešinės' };
   const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1);

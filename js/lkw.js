@@ -41,4 +41,25 @@ export function setupLkw(inputs) {
     c.addEventListener('change', updateDecision),
   );
   updateDecision();
+
+  const updateThrombolysisAccess = () => {
+    const lkwUnknown =
+      inputs.lkw_type.find((o) => o.checked)?.value === 'unknown';
+    const hasArrivalContra = (inputs.arrival_contra || []).some(
+      (c) => c.checked,
+    );
+    const disabled = lkwUnknown || hasArrivalContra;
+    const tab = document.getElementById('thrombolysis-tab');
+    const startBtn = document.getElementById('startThrombolysis');
+    tab?.classList.toggle('disabled', disabled);
+    tab?.toggleAttribute('disabled', disabled);
+    if (startBtn) startBtn.disabled = disabled;
+  };
+  inputs.lkw_type.forEach((o) =>
+    o.addEventListener('change', updateThrombolysisAccess),
+  );
+  (inputs.arrival_contra || []).forEach((c) =>
+    c.addEventListener('change', updateThrombolysisAccess),
+  );
+  updateThrombolysisAccess();
 }

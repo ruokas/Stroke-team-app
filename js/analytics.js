@@ -46,7 +46,7 @@ export async function sync() {
     const res = await fetch('/api/events', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ events }),
+      body: JSON.stringify(events),
     });
     if (res.ok) localStorage.removeItem(LS_KEY);
   } catch (e) {

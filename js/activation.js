@@ -112,7 +112,11 @@ export function initActivation() {
   };
 
   lkwInputs.forEach((el) => {
-    el.addEventListener('change', () => {
+    el.addEventListener('change', (e) => {
+      if (!e.isTrusted || !e.target.checked || !el.checked) {
+        updateLkwBadge();
+        return;
+      }
       if (el.value === '<4.5') {
         showToast('Aktyvuokite insulto komandą', { type: 'info' });
       } else if (el.value === '4.5-24') {

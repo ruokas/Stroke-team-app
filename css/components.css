@@ -839,19 +839,19 @@ details .card {
   margin-top: 12px;
 }
 
-/* Collaboration dialog */
-#collabDialog::backdrop {
-  background: rgba(0, 0, 0, 0.5);
-}
-#collabDialog {
-  border: none;
-  padding: 20px;
+/* Collaboration bar */
+#collabBar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 8px;
   background: var(--card);
   color: var(--ink);
-  border-radius: 6px;
   display: flex;
   gap: 8px;
+  border-top: 1px solid var(--line);
 }
-#collabDialog input {
+#collabBar input {
   flex: 1;
 }

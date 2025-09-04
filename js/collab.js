@@ -44,19 +44,23 @@ function connect() {
 }
 
 export function initCollab() {
-  const joinBtn = document.getElementById('joinCollabBtn');
-  const dialog = document.getElementById('collabDialog');
   const input = document.getElementById('collabRoomInput');
-  const joinDialogBtn = document.getElementById('collabJoinBtn');
+  const joinBtn = document.getElementById('collabJoinBtn');
   const form = document.getElementById('appForm');
+  const showBtn = document.getElementById('joinCollabBtn');
+  const bar = document.getElementById('collabBar');
+
+  showBtn?.addEventListener('click', () => {
+    bar?.classList.remove('hidden');
+    document.body.style.paddingBottom = '60px';
+    input?.focus();
+  });
 
   form?.addEventListener('input', () => {
     void broadcast();
   });
 
-  joinBtn?.addEventListener('click', () => dialog?.showModal());
-  joinDialogBtn?.addEventListener('click', () => {
-    dialog?.close();
+  joinBtn?.addEventListener('click', () => {
     const room = input?.value?.trim();
     if (!room) return;
     roomId = room;

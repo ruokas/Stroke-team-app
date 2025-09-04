@@ -3,6 +3,10 @@ import { t } from './i18n.js';
 import { track } from './analytics.js';
 
 const LS_KEY = 'insultoKomandaPatients_v1';
+const API_BASE =
+  (typeof window !== 'undefined' && window.API_BASE) ||
+  (typeof process !== 'undefined' && process.env.API_BASE) ||
+  '/api';
 
 function loadLocalPatients() {
   try {
@@ -24,11 +28,12 @@ export async function syncPatients() {
   for (const [id, p] of Object.entries(patients)) {
     if (!p?.needsSync) continue;
     try {
-      const res = await fetch('/api/patients', {
+      const res = await fetch(`${API_BASE}/patients`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(p),
       });
+      if (res.status === 404) continue;
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       p.needsSync = false;
       changed = true;
@@ -50,7 +55,8 @@ export async function syncPatients() {
 export async function restorePatients() {
   if (typeof navigator !== 'undefined' && !navigator.onLine) return;
   try {
-    const res = await fetch('/api/patients');
+    const res = await fetch(`${API_BASE}/patients`);
+    if (res.status === 404) return;
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const serverData = await res.json();
     if (!serverData || typeof serverData !== 'object') return;

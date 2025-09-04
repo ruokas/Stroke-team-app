@@ -31,5 +31,6 @@
   "restore_failed": "Failed to restore patients.",
   "enable_local_storage": "Enable local storage",
   "local_storage": "Local storage",
-  "local_storage_enabled": "Local storage enabled; server sync disabled."
+  "local_storage_enabled": "Local storage enabled; server sync disabled.",
+  "toggle_theme": "Toggle theme"
 }

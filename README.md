@@ -41,6 +41,9 @@ Requires Node.js 20 or later and access to a PostgreSQL database.
    ```
 
    The API is now available at `http://localhost:3000`.
+   Patient endpoints are namespaced under `/api`; use `/api/patients` for
+   patient data. Requests to `/patients` without the `/api` prefix will be
+   redirected to the correct path.
 
 To build optimized assets run:
 

@@ -83,6 +83,11 @@ const app = express();
 
 app.use(express.json());
 
+// Redirect legacy /patients path to the new /api/patients endpoint
+app.use('/patients', (req, res) => {
+  res.redirect(307, '/api/patients');
+});
+
 // GET /api/patients → return all patient records
 app.get('/api/patients', async (_req, res) => {
   let client;

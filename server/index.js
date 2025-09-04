@@ -4,9 +4,80 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const pool = new pg.Pool({
-  connectionString: process.env.DATABASE_URL,
-});
+let pool;
+if (process.env.NODE_ENV === 'test') {
+  class FakeClient {
+    constructor(p) {
+      this.pool = p;
+    }
+    async query(text, params) {
+      return this.pool._execute(text, params);
+    }
+    release() {}
+  }
+
+  class FakePool {
+    constructor() {
+      this.patients = [];
+      this.events = [];
+      this.nextPatientId = 1;
+      this.nextEventId = 1;
+    }
+    async connect() {
+      return new FakeClient(this);
+    }
+    async query(text, params) {
+      return this._execute(text, params);
+    }
+    async _execute(text, params = []) {
+      text = text.trim();
+      if (text.startsWith('INSERT INTO patients')) {
+        let [id, name, payload] = params;
+        if (id == null) {
+          id = this.nextPatientId++;
+        } else if (id >= this.nextPatientId) {
+          this.nextPatientId = id + 1;
+        }
+        const record = {
+          patient_id: id,
+          name,
+          payload,
+          created: new Date(),
+          last_updated: new Date(),
+        };
+        const idx = this.patients.findIndex((p) => p.patient_id === id);
+        if (idx >= 0) this.patients[idx] = record;
+        else this.patients.push(record);
+        return { rows: [record] };
+      }
+      if (text.startsWith('SELECT * FROM patients')) {
+        return { rows: [...this.patients] };
+      }
+      if (text.startsWith('INSERT INTO events')) {
+        for (let i = 0; i < params.length; i += 2) {
+          this.events.push({
+            id: this.nextEventId++,
+            event: params[i],
+            payload: params[i + 1],
+            ts: new Date(),
+          });
+        }
+        return { rows: [] };
+      }
+      if (text.startsWith('SELECT * FROM events')) {
+        return { rows: [...this.events] };
+      }
+      throw new Error('Unsupported query: ' + text);
+    }
+    async end() {}
+  }
+
+  pool = new FakePool();
+} else {
+  pool = new pg.Pool({
+    connectionString: process.env.DATABASE_URL,
+  });
+}
 
 const app = express();
 
@@ -97,8 +168,10 @@ app.post('/api/events', async (req, res) => {
 });
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
-});
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(port, () => {
+    console.log(`Server listening on port ${port}`);
+  });
+}
 
 export { app, pool };

@@ -28,5 +28,8 @@
   "yes": "Yes",
   "no": "No",
   "sync_failed": "Failed to sync patients.",
-  "restore_failed": "Failed to restore patients."
+  "restore_failed": "Failed to restore patients.",
+  "enable_local_storage": "Enable local storage",
+  "local_storage": "Local storage",
+  "local_storage_enabled": "Local storage enabled; server sync disabled."
 }

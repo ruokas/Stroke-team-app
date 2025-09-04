@@ -12,7 +12,8 @@ import { syncPatients, restorePatients } from './sync.js';
 const LS_KEY = 'insultoKomandaPatients_v1';
 
 window.addEventListener('unload', flush);
-if (typeof navigator !== 'undefined' && navigator.onLine) restorePatients();
+if (typeof navigator !== 'undefined' && navigator.onLine && !window.disableSync)
+  restorePatients();
 
 export function migratePatientRecord(id, p) {
   let changed = false;
@@ -182,7 +183,12 @@ export function savePatient(id, name) {
   };
   setPatients(patients);
   track('patient_save', { patientId, name: patientName });
-  if (typeof navigator !== 'undefined' && navigator.onLine) syncPatients();
+  if (
+    !window.disableSync &&
+    typeof navigator !== 'undefined' &&
+    navigator.onLine
+  )
+    syncPatients();
   return patientId;
 }
 

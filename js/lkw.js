@@ -53,7 +53,11 @@ export function setupLkw(inputs) {
     const startBtn = document.getElementById('startThrombolysis');
     tab?.classList.toggle('disabled', disabled);
     tab?.toggleAttribute('disabled', disabled);
-    if (startBtn) startBtn.disabled = disabled;
+    if (startBtn) {
+      startBtn.dataset.lkwDisabled = disabled ? 'true' : 'false';
+      startBtn.disabled =
+        disabled || startBtn.dataset.requirementsInvalid === 'true';
+    }
   };
   inputs.lkw_type.forEach((o) =>
     o.addEventListener('change', updateThrombolysisAccess),

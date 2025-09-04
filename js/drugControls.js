@@ -10,7 +10,13 @@ export function setupDrugControls(inputs) {
     const w = Number((inputs.weight?.value || '').replace(/,/g, '.'));
     const weightValid = Number.isFinite(w) && w > 0;
     const drugTypeValid = Boolean(inputs.drugType?.value);
-    startThrombolysisBtn.disabled = !(weightValid && drugTypeValid);
+    const requirementsInvalid = !(weightValid && drugTypeValid);
+    startThrombolysisBtn.dataset.requirementsInvalid = requirementsInvalid
+      ? 'true'
+      : 'false';
+    startThrombolysisBtn.disabled =
+      requirementsInvalid ||
+      startThrombolysisBtn.dataset.lkwDisabled === 'true';
   };
 
   [inputs.def_tnk, inputs.def_tpa].forEach((el) =>

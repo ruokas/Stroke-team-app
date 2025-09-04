@@ -30,7 +30,7 @@ initErrorLogger();
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker
-      .register('/sw.js')
+      .register(new URL('sw.js', window.location))
       .then((reg) => {
         track('sw_register_success');
         navigator.serviceWorker.ready.then(() => track('sw_active'));

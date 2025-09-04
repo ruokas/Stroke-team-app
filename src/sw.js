@@ -1,26 +1,30 @@
 const CACHE_NAME = 'stroke-cache-v3';
-const ASSETS = [
-  '/',
-  '/index.html',
-  '/css/style.css',
-  '/js/app.js',
-  '/locales/en.json',
-  '/locales/lt.json',
-  '/manifest.json',
-  '/icons/activation.svg',
-  '/icons/analytics.svg',
-  '/icons/arrival.svg',
-  '/icons/date-picker.svg',
-  '/icons/decision.svg',
-  '/icons/menu.svg',
-  '/icons/nihss.svg',
-  '/icons/settings.svg',
-  '/icons/sun.svg',
-  '/icons/moon.svg',
-  '/icons/summary.svg',
-  '/icons/thrombolysis.svg',
-  '/icons/warning.svg'
+const ASSET_PATHS = [
+  './',
+  'index.html',
+  'css/style.css',
+  'js/app.js',
+  'locales/en.json',
+  'locales/lt.json',
+  'manifest.json',
+  'icons/activation.svg',
+  'icons/analytics.svg',
+  'icons/arrival.svg',
+  'icons/date-picker.svg',
+  'icons/decision.svg',
+  'icons/menu.svg',
+  'icons/nihss.svg',
+  'icons/settings.svg',
+  'icons/sun.svg',
+  'icons/moon.svg',
+  'icons/summary.svg',
+  'icons/thrombolysis.svg',
+  'icons/warning.svg',
 ];
+
+const ASSETS = ASSET_PATHS.map((path) =>
+  new URL(path, self.registration.scope).toString()
+);
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -49,12 +53,16 @@ self.addEventListener('fetch', (event) => {
 
   if (event.request.mode === 'navigate') {
     event.respondWith(
-      fetch(event.request).catch(() => caches.match('/index.html'))
+      fetch(event.request).catch(() =>
+        caches.match(new URL('index.html', self.registration.scope))
+      )
     );
     return;
   }
 
-  const allowedPaths = ['/css/', '/js/', '/locales/', '/icons/', '/manifest.json'];
+  const allowedPaths = ['css/', 'js/', 'locales/', 'icons/', 'manifest.json'].map(
+    (path) => new URL(path, self.registration.scope).pathname
+  );
   if (!allowedPaths.some((path) => url.pathname.startsWith(path))) {
     return;
   }

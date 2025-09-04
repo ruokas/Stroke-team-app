@@ -31,5 +31,6 @@
   "restore_failed": "Nepavyko atkurti pacientų.",
   "enable_local_storage": "Įjungti vietinę saugyklą",
   "local_storage": "Vietinė saugykla",
-  "local_storage_enabled": "Vietinė saugykla įjungta; serverio sinchronizavimas išjungtas."
+  "local_storage_enabled": "Vietinė saugykla įjungta; serverio sinchronizavimas išjungtas.",
+  "toggle_theme": "Perjungti temą"
 }

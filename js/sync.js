@@ -8,6 +8,11 @@ const API_BASE =
   (typeof process !== 'undefined' && process.env.API_BASE) ||
   '/api';
 
+const SYNC_FAIL_TOAST_INTERVAL = 60_000; // 1 minute
+const MAX_CONSECUTIVE_SYNC_FAILS = 3;
+let lastSyncFailToast = 0;
+let consecutiveSyncFails = 0;
+
 function loadLocalPatients() {
   try {
     return JSON.parse(localStorage.getItem(LS_KEY) || '{}');
@@ -50,7 +55,23 @@ export async function syncPatients() {
     }
   }
   if (changed) saveLocalPatients(patients);
-  if (failed) showToast(t('sync_failed'), { type: 'error' });
+  if (failed) {
+    consecutiveSyncFails += 1;
+    const now = Date.now();
+    if (now - lastSyncFailToast > SYNC_FAIL_TOAST_INTERVAL) {
+      showToast(t('sync_failed'), { type: 'error' });
+      lastSyncFailToast = now;
+    }
+    if (
+      typeof window !== 'undefined' &&
+      consecutiveSyncFails >= MAX_CONSECUTIVE_SYNC_FAILS
+    ) {
+      window.disableSync = true;
+      showToast(t('local_storage_enabled'), { type: 'info' });
+    }
+  } else {
+    consecutiveSyncFails = 0;
+  }
 }
 
 export async function restorePatients() {

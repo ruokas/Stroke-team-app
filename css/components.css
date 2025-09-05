@@ -98,6 +98,28 @@
 #bpCorrBtn[aria-expanded='true']:active {
   background: #1a56aa;
 }
+#enableLocalBtn[aria-pressed='true'] {
+  background: var(--accent);
+  color: #fff;
+  border-color: #2d74b8;
+}
+#enableLocalBtn[aria-pressed='true']:hover {
+  background: #2368c5;
+}
+#enableLocalBtn[aria-pressed='true']:active {
+  background: #1a56aa;
+}
+#enableLocalBtn[aria-pressed='false'] {
+  background: var(--button-bg);
+  color: var(--ink);
+  border-color: var(--line);
+}
+#enableLocalBtn[aria-pressed='false']:hover {
+  background: var(--btn-hover-bg);
+}
+#enableLocalBtn[aria-pressed='false']:active {
+  background: var(--btn-active-bg);
+}
 .bp-med:active,
 .bp-med.selected {
   background: var(--accent);

@@ -11,13 +11,9 @@ export function createBpEntry(med, dose = '', time, notes = '') {
   strong.textContent = med;
   entry.appendChild(strong);
 
-  const grid = document.createElement('div');
-  grid.className = 'grid-3 mt-4';
-  entry.appendChild(grid);
-
   const group = document.createElement('div');
   group.className = 'input-group';
-  grid.appendChild(group);
+  entry.appendChild(group);
 
   const timeInput = document.createElement('input');
   timeInput.setAttribute('type', 'time');
@@ -46,13 +42,13 @@ export function createBpEntry(med, dose = '', time, notes = '') {
   const doseInput = document.createElement('input');
   doseInput.setAttribute('type', 'text');
   doseInput.value = dose;
-  grid.appendChild(doseInput);
+  entry.appendChild(doseInput);
 
   const notesInput = document.createElement('input');
   notesInput.setAttribute('type', 'text');
   notesInput.setAttribute('placeholder', 'Pastabos');
   notesInput.value = notes;
-  grid.appendChild(notesInput);
+  entry.appendChild(notesInput);
 
   const removeBtn = document.createElement('button');
   removeBtn.className = 'btn ghost';

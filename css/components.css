@@ -558,8 +558,11 @@ section[data-tab='Intervencijos'] h3 {
   grid-template-columns: repeat(4, 1fr);
 }
 
-.bp-entry .grid-3 {
+.bp-entry {
+  display: grid;
+  grid-template-columns: auto auto auto 1fr auto;
   gap: 6px;
+  align-items: center;
 }
 
 #liveTimers {

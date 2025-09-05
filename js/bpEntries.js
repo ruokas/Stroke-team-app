@@ -7,8 +7,9 @@ export function handleBpEntriesClick(event) {
 
   if (handleTimeButton(target)) return;
 
-  if (target.matches('button[data-remove-bp]')) {
-    const entry = document.getElementById(target.dataset.removeBp);
+  const removeBtn = target.closest('button[data-remove-bp]');
+  if (removeBtn) {
+    const entry = document.getElementById(removeBtn.dataset.removeBp);
     entry?.remove();
   }
 }

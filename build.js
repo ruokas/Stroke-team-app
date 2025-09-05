@@ -3,11 +3,12 @@ import nunjucks from 'nunjucks';
 import postcss from 'postcss';
 import cssnano from 'cssnano';
 import autoprefixer from 'autoprefixer';
+import { bpMeds } from './js/bpMeds.js';
 
 nunjucks.configure('templates', { autoescape: false });
 
 async function buildHtml() {
-  const html = nunjucks.render('index.njk');
+  const html = nunjucks.render('index.njk', { bpMeds });
   await fs.writeFile('index.html', html);
 }
 

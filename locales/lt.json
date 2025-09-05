@@ -33,5 +33,6 @@
   "local_storage": "Vietinė saugykla",
   "local_storage_enabled": "Vietinė saugykla įjungta; serverio sinchronizavimas išjungtas.",
   "local_storage_disabled": "Vietinė saugykla išjungta; serverio sinchronizavimas įjungtas.",
-  "toggle_theme": "Perjungti temą"
+  "toggle_theme": "Perjungti temą",
+  "stroke_not_determined": "Insultas nenustatytas"
 }

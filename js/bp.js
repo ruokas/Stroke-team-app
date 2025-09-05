@@ -11,7 +11,8 @@ export function validateBp(sys, dia) {
     sys < 30 ||
     sys > 300 ||
     dia < 10 ||
-    dia > 200
+    dia > 200 ||
+    dia >= sys
   )
     return false;
   return true;

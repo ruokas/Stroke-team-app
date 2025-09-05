@@ -11,3 +11,8 @@ test('validateBp rejects out of range or NaN', () => {
   assert.equal(validateBp(120, NaN), false);
   assert.equal(validateBp(400, 50), false);
 });
+
+test('validateBp rejects when diastolic is not less than systolic', () => {
+  assert.equal(validateBp(100, 110), false);
+  assert.equal(validateBp(100, 100), false);
+});

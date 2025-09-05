@@ -125,7 +125,18 @@ environment variable at build time:
 API_BASE=https://example.com/api npm run build
 ```
 
-If no API is available, the sync logic silently skips network calls.
+If no API is available, the sync logic silently skips network calls. The
+analytics module first sends an `OPTIONS` request to check whether the
+configured endpoint accepts writes and skips uploads when the server is not
+reachable. To disable analytics entirely—for example when hosting on a static
+site such as GitHub Pages—define `window.DISABLE_ANALYTICS = true` before
+loading the scripts:
+
+```html
+<script>
+  window.DISABLE_ANALYTICS = true;
+</script>
+```
 
 ## Offline support
 

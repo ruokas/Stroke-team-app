@@ -35,7 +35,9 @@ export function setupNavigation(inputs) {
       setNow('d_time');
     if (id === 'analytics') renderAnalytics();
     track('section_view', { id });
-    flush();
+    flush().catch(() => {
+      /* log or ignore analytics errors */
+    });
     document.body.classList.remove('nav-open');
     if (navToggle) navToggle.setAttribute('aria-expanded', 'false');
   };

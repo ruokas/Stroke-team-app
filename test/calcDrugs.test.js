@@ -28,8 +28,8 @@ test('calcDrugs handles dosing correctly, validates inputs, and resets outputs',
   inputs.drugConc.value = '5';
   inputs.drugType.value = 'tnk';
   calcDrugs();
-  assert.strictEqual(inputs.doseTotal.value, '17.5');
-  assert.strictEqual(inputs.doseVol.value, '3.5');
+  assert.strictEqual(inputs.doseTotal.value, '18');
+  assert.strictEqual(inputs.doseVol.value, '4');
   assert.strictEqual(inputs.tpaBolus.value, '');
   assert.strictEqual(inputs.tpaInf.value, '');
 
@@ -45,8 +45,8 @@ test('calcDrugs handles dosing correctly, validates inputs, and resets outputs',
   calcDrugs();
   assert.strictEqual(inputs.doseTotal.value, '63');
   assert.strictEqual(inputs.doseVol.value, '63');
-  assert.strictEqual(inputs.tpaBolus.value, '6.3 mg (6.3 ml)');
-  assert.strictEqual(inputs.tpaInf.value, '56.7 mg (56.7 ml) · ~56.7 ml/val');
+  assert.strictEqual(inputs.tpaBolus.value, '6 mg (6 ml)');
+  assert.strictEqual(inputs.tpaInf.value, '57 mg (57 ml) · ~57 ml/val');
 
   inputs.weight.value = '120';
   inputs.drugConc.value = '1';

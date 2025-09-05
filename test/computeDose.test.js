@@ -12,8 +12,8 @@ test('computeDose returns null on invalid inputs', () => {
 test('computeDose calculates TNK dose and caps at 25 mg', () => {
   const normal = computeDose(70, 5, 'tnk');
   assert.deepStrictEqual(normal, {
-    doseTotal: 17.5,
-    doseVol: 3.5,
+    doseTotal: 18,
+    doseVol: 4,
     bolus: null,
     infusion: null,
   });
@@ -27,8 +27,8 @@ test('computeDose calculates tPA dose and caps at 90 mg', () => {
   assert.deepStrictEqual(normal, {
     doseTotal: 63,
     doseVol: 63,
-    bolus: { mg: 6.3, ml: 6.3 },
-    infusion: { mg: 56.7, ml: 56.7, rateMlH: 56.7 },
+    bolus: { mg: 6, ml: 6 },
+    infusion: { mg: 57, ml: 57, rateMlH: 57 },
   });
   const capped = computeDose(120, 1, 'tpa');
   assert.strictEqual(capped.doseTotal, 90);

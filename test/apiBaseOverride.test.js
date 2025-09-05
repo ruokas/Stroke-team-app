@@ -22,6 +22,7 @@ test(
     };
 
     const { syncPatients } = await import('../js/sync.js?env');
+    window.disableSync = false;
     await syncPatients();
 
     assert.equal(calls[0], 'https://example.com/api/patients');

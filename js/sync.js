@@ -13,6 +13,10 @@ const MAX_CONSECUTIVE_SYNC_FAILS = 3;
 let lastSyncFailToast = 0;
 let consecutiveSyncFails = 0;
 
+if (typeof window !== 'undefined') {
+  window.disableSync = true;
+}
+
 function loadLocalPatients() {
   try {
     return JSON.parse(localStorage.getItem(LS_KEY) || '{}');
@@ -131,8 +135,16 @@ if (typeof document !== 'undefined') {
   document.getElementById('syncBtn')?.addEventListener('click', () => {
     syncPatients().then(restorePatients);
   });
-  document.getElementById('enableLocalBtn')?.addEventListener('click', () => {
-    window.disableSync = true;
-    showToast(t('local_storage_enabled'), { type: 'info' });
+  const enableLocalBtn = document.getElementById('enableLocalBtn');
+  enableLocalBtn?.addEventListener('click', () => {
+    const enabled = enableLocalBtn.getAttribute('aria-pressed') !== 'true';
+    enableLocalBtn.setAttribute('aria-pressed', enabled);
+    window.disableSync = enabled;
+    if (enabled) {
+      showToast(t('local_storage_enabled'), { type: 'info' });
+    } else {
+      showToast(t('local_storage_disabled'), { type: 'info' });
+      syncPatients().then(restorePatients);
+    }
   });
 }

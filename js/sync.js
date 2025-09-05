@@ -14,7 +14,7 @@ let lastSyncFailToast = 0;
 let consecutiveSyncFails = 0;
 
 if (typeof window !== 'undefined') {
-  window.disableSync = true;
+  window.disableSync = localStorage.getItem('disableSync') === 'true';
 }
 
 function loadLocalPatients() {
@@ -136,10 +136,12 @@ if (typeof document !== 'undefined') {
     syncPatients().then(restorePatients);
   });
   const enableLocalBtn = document.getElementById('enableLocalBtn');
+  enableLocalBtn?.setAttribute('aria-pressed', window.disableSync);
   enableLocalBtn?.addEventListener('click', () => {
     const enabled = enableLocalBtn.getAttribute('aria-pressed') !== 'true';
     enableLocalBtn.setAttribute('aria-pressed', enabled);
     window.disableSync = enabled;
+    localStorage.setItem('disableSync', String(enabled));
     if (enabled) {
       showToast(t('local_storage_enabled'), { type: 'info' });
     } else {

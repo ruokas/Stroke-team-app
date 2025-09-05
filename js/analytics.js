@@ -9,6 +9,22 @@ const API_BASE =
   (typeof process !== 'undefined' && process.env.API_BASE) ||
   '/api';
 
+const DISABLE_ANALYTICS =
+  typeof window !== 'undefined' && window.DISABLE_ANALYTICS === true;
+
+let apiWritable = null;
+
+async function canPost() {
+  if (apiWritable !== null) return apiWritable;
+  try {
+    const res = await fetch(`${API_BASE}/events`, { method: 'OPTIONS' });
+    apiWritable = res.ok;
+  } catch {
+    apiWritable = false;
+  }
+  return apiWritable;
+}
+
 function loadEvents() {
   const raw = localStorage.getItem(LS_KEY);
   if (!raw) return [];
@@ -35,6 +51,7 @@ function saveEvents(events) {
 }
 
 export function track(eventName, payload = {}) {
+  if (DISABLE_ANALYTICS) return;
   buffer.push({
     event: eventName,
     payload,
@@ -43,7 +60,9 @@ export function track(eventName, payload = {}) {
 }
 
 export async function sync() {
+  if (DISABLE_ANALYTICS) return;
   if (!navigator.onLine) return;
+  if (!(await canPost())) return;
   const events = loadEvents();
   if (!events.length) return;
   try {
@@ -64,6 +83,10 @@ export async function sync() {
 }
 
 export function flush() {
+  if (DISABLE_ANALYTICS) {
+    buffer = [];
+    return Promise.resolve();
+  }
   const stored = loadEvents();
   if (buffer.length) {
     saveEvents(stored.concat(buffer));
@@ -73,6 +96,7 @@ export function flush() {
 }
 
 export function initAnalytics() {
+  if (DISABLE_ANALYTICS) return;
   window.addEventListener('online', () => {
     track('online');
     sync();

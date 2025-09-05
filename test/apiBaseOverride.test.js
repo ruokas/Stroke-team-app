@@ -45,15 +45,18 @@ test(
     );
     const calls = [];
     const origFetch = global.fetch;
-    global.fetch = async (url) => {
-      calls.push(url);
+    global.fetch = async (url, opts = {}) => {
+      calls.push({ url, method: opts.method });
       return { ok: true, status: 200, json: async () => ({}) };
     };
 
     const { sync } = await import('../js/analytics.js?win');
     await sync();
 
-    assert.equal(calls[0], 'https://example.com/api/events');
+    assert.deepEqual(calls, [
+      { url: 'https://example.com/api/events', method: 'OPTIONS' },
+      { url: 'https://example.com/api/events', method: 'POST' },
+    ]);
     global.fetch = origFetch;
   },
 );

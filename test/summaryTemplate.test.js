@@ -18,7 +18,7 @@ test('summaryTemplate generates summary text correctly', async () => {
   document.querySelector('input[name="a_speech"]').checked = true;
 
   const bpEntries = document.getElementById('bpEntries');
-  bpEntries.innerHTML = `<div class="bp-entry"><strong>Kaptoprilis</strong><input value="10:00" /><input value="25 mg" /><input value="požymai" /></div>`;
+  bpEntries.innerHTML = `<div class="bp-entry"><strong>Nifedipinas</strong><input value="10:00" /><input value="25 mg" /><input value="požymai" /></div>`;
 
   inputs.a_personal.value = '12345678901';
   inputs.a_name.value = 'Jonas Jonaitis';
@@ -55,7 +55,7 @@ test('summaryTemplate generates summary text correctly', async () => {
   assert(summary.includes('- Koncentracija: 5 mg/ml'));
   assert(summary.includes('- Bendra dozė: 20 mg (4 ml)'));
   assert(
-    summary.includes('AKS KOREKCIJA:\n- Kaptoprilis 10:00 25 mg (požymai)'),
+    summary.includes('AKS KOREKCIJA:\n- Nifedipinas 10:00 25 mg (požymai)'),
   );
   assert(
     summary.includes('AKTYVACIJA:\n- Preliminarus susirgimo laikas: <4.5'),

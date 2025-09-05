@@ -26,7 +26,7 @@
 {% endif %}
 {% endmacro %}
 
-{% macro timeInput(id, wrapperId='', wrapperClass='row') %}
+{% macro timeInput(id, wrapperId='', wrapperClass='row', showNow=true) %}
 <div class="{{ wrapperClass }}"{% if wrapperId %} id="{{ wrapperId }}"{% endif %}>
   <div class="input-group">
     <input
@@ -44,14 +44,16 @@
     >
       {{ icon('date-picker') | safe }}
     </button>
-    <button
-      type="button"
-      class="btn ghost"
-      data-now="{{ id }}"
-      aria-label="Dabar"
-    >
-      Dabar
-    </button>
+      {% if showNow %}
+      <button
+        type="button"
+        class="btn ghost"
+        data-now="{{ id }}"
+        aria-label="Dabar"
+      >
+        Dabar
+      </button>
+      {% endif %}
     <button
       type="button"
       class="btn ghost"

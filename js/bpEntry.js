@@ -25,6 +25,7 @@ export function createBpEntry(med, dose = '', time, notes = '') {
 
   const timePickerBtn = document.createElement('button');
   timePickerBtn.className = 'btn ghost';
+  timePickerBtn.type = 'button';
   timePickerBtn.setAttribute('data-time-picker', timeId);
   timePickerBtn.setAttribute('aria-label', 'Pasirinkti laiką');
   const clockIcon = document.createElement('img');
@@ -35,6 +36,7 @@ export function createBpEntry(med, dose = '', time, notes = '') {
 
   const nowBtn = document.createElement('button');
   nowBtn.className = 'btn ghost';
+  nowBtn.type = 'button';
   nowBtn.setAttribute('data-now', timeId);
   nowBtn.textContent = 'Dabar';
   group.appendChild(nowBtn);
@@ -52,6 +54,7 @@ export function createBpEntry(med, dose = '', time, notes = '') {
 
   const removeBtn = document.createElement('button');
   removeBtn.className = 'btn ghost';
+  removeBtn.type = 'button';
   removeBtn.setAttribute('data-remove-bp', entryId);
   const closeIcon = document.createElement('img');
   closeIcon.src = 'icons/close.svg';

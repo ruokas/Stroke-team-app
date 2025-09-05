@@ -61,7 +61,7 @@ export function track(eventName, payload = {}) {
 
 export async function sync() {
   if (DISABLE_ANALYTICS) return;
-  if (!navigator.onLine) return;
+  if (typeof navigator === 'undefined' || !navigator.onLine) return;
   if (!(await canPost())) return;
   const events = loadEvents();
   if (!events.length) return;

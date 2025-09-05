@@ -114,3 +114,19 @@ export function promptModal(title, defaultValue = '') {
     ],
   });
 }
+
+export function medicationModal(defaultValue = '') {
+  return showModal({
+    title: 'Įveskite vaisto pavadinimą',
+    input: { value: defaultValue },
+    buttons: [
+      {
+        label: 'OK',
+        value: (v) => v.trim(),
+        class: 'primary',
+        autofocus: true,
+      },
+      { label: 'Cancel', value: null },
+    ],
+  });
+}

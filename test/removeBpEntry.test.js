@@ -55,3 +55,29 @@ test('bp entry can be removed even when #p_weight is invalid or empty', async ()
 
   window.HTMLButtonElement.prototype.click = origClick;
 });
+
+test('bp entry can be removed by clicking the icon inside the remove button', async () => {
+  document.body.innerHTML = `
+    <form>
+      <input id="p_weight" type="text" pattern="\\d+" required />
+      <button id="bpCorrBtn" class="btn" type="button"></button>
+      <div id="bpMedList"><button type="button" class="btn bp-med" data-med="Med" data-dose="1"></button></div>
+      <div id="bpEntries"></div>
+    </form>
+  `;
+  const { setupBpEntry } = await import('../js/bp.js');
+  const { handleBpEntriesClick } = await import('../js/bpEntries.js');
+
+  setupBpEntry();
+
+  const medBtn = document.querySelector('.bp-med');
+  const bpEntries = document.getElementById('bpEntries');
+  bpEntries.addEventListener('click', handleBpEntriesClick);
+
+  medBtn.click();
+  assert.equal(bpEntries.children.length, 1);
+
+  const removeIcon = bpEntries.querySelector('button[data-remove-bp] img');
+  removeIcon.dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  assert.equal(bpEntries.children.length, 0);
+});

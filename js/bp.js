@@ -52,9 +52,16 @@ export function setupBpEntry() {
       btn.addEventListener('click', () => {
         const med = btn.dataset.med;
         const dose = btn.dataset.dose || '';
+        let medName = med;
+        if (med === 'Kita') {
+          const input = prompt('Įveskite vaisto pavadinimą');
+          if (!input) return;
+          medName = input.trim();
+          if (!medName) return;
+        }
         const now = new Date();
         const time = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
-        const entry = createBpEntry(med, dose, time);
+        const entry = createBpEntry(medName, dose, time);
         bpEntries.appendChild(entry);
         bpMedList.classList.add('hidden');
         bpMedList.hidden = true;

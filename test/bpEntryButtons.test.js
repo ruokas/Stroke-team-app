@@ -1,13 +1,15 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import './jsdomSetup.js';
+import { bpMeds } from '../js/bpMeds.js';
 
 test('time picker works even when #p_weight is invalid or empty', async () => {
+  const med = bpMeds[0];
   document.body.innerHTML = `
     <form>
       <input id="p_weight" type="number" />
       <button id="bpCorrBtn" class="btn" type="button"></button>
-      <div id="bpMedList"><button type="button" class="btn bp-med" data-med="Med" data-dose="1"></button></div>
+      <ul id="bpMedList" role="list"><li><button type="button" class="btn bp-med" data-med="${med.name}">${med.name}</button></li></ul>
       <div id="bpEntries"></div>
     </form>
   `;
@@ -51,11 +53,12 @@ test('time picker works even when #p_weight is invalid or empty', async () => {
 });
 
 test('now button sets time even when #p_weight is invalid or empty', async () => {
+  const med = bpMeds[0];
   document.body.innerHTML = `
     <form>
       <input id="p_weight" type="number" />
       <button id="bpCorrBtn" class="btn" type="button"></button>
-      <div id="bpMedList"><button type="button" class="btn bp-med" data-med="Med" data-dose="1"></button></div>
+      <ul id="bpMedList" role="list"><li><button type="button" class="btn bp-med" data-med="${med.name}">${med.name}</button></li></ul>
       <div id="bpEntries"></div>
     </form>
   `;
@@ -97,11 +100,12 @@ test('bp entry defaults to local time', async () => {
     }
   };
 
+  const med = bpMeds[0];
   document.body.innerHTML = `
     <form>
       <input id="p_weight" type="number" />
       <button id="bpCorrBtn" class="btn" type="button"></button>
-      <div id="bpMedList"><button type="button" class="btn bp-med" data-med="Med" data-dose="1"></button></div>
+      <ul id="bpMedList" role="list"><li><button type="button" class="btn bp-med" data-med="${med.name}">${med.name}</button></li></ul>
       <div id="bpEntries"></div>
     </form>
   `;

@@ -2,6 +2,7 @@
 
 import { createBpEntry } from './bpEntry.js';
 import { pad } from './time.js';
+import { bpMeds } from './bpMeds.js';
 
 export function validateBp(sys, dia) {
   if (
@@ -42,31 +43,33 @@ export function setupBpEntry() {
   const bpMedList = document.getElementById('bpMedList');
   const bpEntries = document.getElementById('bpEntries');
   if (bpCorrBtn && bpMedList && bpEntries) {
+    bpMedList.setAttribute('role', 'list');
     bpCorrBtn.addEventListener('click', (e) => {
       e.preventDefault();
       const isHidden = bpMedList.classList.toggle('hidden');
       bpMedList.hidden = isHidden;
       bpCorrBtn.setAttribute('aria-expanded', (!isHidden).toString());
     });
-    bpMedList.querySelectorAll('.bp-med').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const med = btn.dataset.med;
-        const dose = btn.dataset.dose || '';
-        let medName = med;
-        if (med === 'Kita') {
-          const input = prompt('Įveskite vaisto pavadinimą');
-          if (!input) return;
-          medName = input.trim();
-          if (!medName) return;
-        }
-        const now = new Date();
-        const time = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
-        const entry = createBpEntry(medName, dose, time);
-        bpEntries.appendChild(entry);
-        bpMedList.classList.add('hidden');
-        bpMedList.hidden = true;
-        bpCorrBtn.setAttribute('aria-expanded', 'false');
-      });
+    bpMedList.addEventListener('click', (e) => {
+      const btn = e.target.closest('.bp-med');
+      if (!btn) return;
+      const med = btn.dataset.med;
+      const medObj = bpMeds.find((m) => m.name === med);
+      let dose = medObj?.dose || '';
+      let medName = med;
+      if (med === 'Kita') {
+        const input = prompt('Įveskite vaisto pavadinimą');
+        if (!input) return;
+        medName = input.trim();
+        if (!medName) return;
+      }
+      const now = new Date();
+      const time = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+      const entry = createBpEntry(medName, dose, time);
+      bpEntries.appendChild(entry);
+      bpMedList.classList.add('hidden');
+      bpMedList.hidden = true;
+      bpCorrBtn.setAttribute('aria-expanded', 'false');
     });
   }
 }

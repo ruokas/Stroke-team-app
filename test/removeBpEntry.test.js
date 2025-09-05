@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import './jsdomSetup.js';
+import { bpMeds } from '../js/bpMeds.js';
 
 /*
   Regression test:
@@ -22,11 +23,12 @@ test('bp entry can be removed even when #p_weight is invalid or empty', async ()
     return origClick.call(this);
   };
 
+  const med = bpMeds[0];
   document.body.innerHTML = `
     <form>
       <input id="p_weight" type="text" pattern="\\d+" required />
       <button id="bpCorrBtn" class="btn" type="button"></button>
-      <div id="bpMedList"><button type="button" class="btn bp-med" data-med="Med" data-dose="1"></button></div>
+      <ul id="bpMedList" role="list"><li><button type="button" class="btn bp-med" data-med="${med.name}">${med.name}</button></li></ul>
       <div id="bpEntries"></div>
     </form>
   `;
@@ -57,11 +59,12 @@ test('bp entry can be removed even when #p_weight is invalid or empty', async ()
 });
 
 test('bp entry can be removed by clicking the icon inside the remove button', async () => {
+  const med = bpMeds[0];
   document.body.innerHTML = `
     <form>
       <input id="p_weight" type="text" pattern="\\d+" required />
       <button id="bpCorrBtn" class="btn" type="button"></button>
-      <div id="bpMedList"><button type="button" class="btn bp-med" data-med="Med" data-dose="1"></button></div>
+      <ul id="bpMedList" role="list"><li><button type="button" class="btn bp-med" data-med="${med.name}">${med.name}</button></li></ul>
       <div id="bpEntries"></div>
     </form>
   `;

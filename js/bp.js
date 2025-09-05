@@ -1,6 +1,7 @@
 // Event handlers for created entries are delegated in app.js
 
 import { createBpEntry } from './bpEntry.js';
+import { pad } from './time.js';
 
 export function validateBp(sys, dia) {
   if (
@@ -51,8 +52,9 @@ export function setupBpEntry() {
       btn.addEventListener('click', () => {
         const med = btn.dataset.med;
         const dose = btn.dataset.dose || '';
-        const now = new Date().toISOString().slice(11, 16);
-        const entry = createBpEntry(med, dose, now);
+        const now = new Date();
+        const time = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+        const entry = createBpEntry(med, dose, time);
         bpEntries.appendChild(entry);
         bpMedList.classList.add('hidden');
         bpMedList.hidden = true;

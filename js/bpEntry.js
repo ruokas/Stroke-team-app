@@ -1,3 +1,5 @@
+import { pad } from './time.js';
+
 export function createBpEntry(med, dose = '', time, notes = '') {
   const ts = `${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
   const entryId = `bp_entry_${ts}`;
@@ -20,7 +22,8 @@ export function createBpEntry(med, dose = '', time, notes = '') {
   timeInput.id = timeId;
   timeInput.className = 'time-input';
   timeInput.step = '60';
-  timeInput.value = time ?? new Date().toISOString().slice(11, 16);
+  const now = new Date();
+  timeInput.value = time ?? `${pad(now.getHours())}:${pad(now.getMinutes())}`;
   group.appendChild(timeInput);
 
   const timePickerBtn = document.createElement('button');

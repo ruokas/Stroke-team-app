@@ -83,3 +83,36 @@ test('now button sets time even when #p_weight is invalid or empty', async () =>
   nowBtn.click();
   assert.notEqual(timeInput.value, '');
 });
+
+test('bp entry defaults to local time', async () => {
+  const RealDate = Date;
+  const fixed = new RealDate('2024-01-02T03:04');
+  global.Date = class extends RealDate {
+    constructor(...args) {
+      if (args.length === 0) return new RealDate(fixed);
+      return new RealDate(...args);
+    }
+    static now() {
+      return fixed.getTime();
+    }
+  };
+
+  document.body.innerHTML = `
+    <form>
+      <input id="p_weight" type="number" />
+      <button id="bpCorrBtn" class="btn" type="button"></button>
+      <div id="bpMedList"><button type="button" class="btn bp-med" data-med="Med" data-dose="1"></button></div>
+      <div id="bpEntries"></div>
+    </form>
+  `;
+
+  const { setupBpEntry } = await import('../js/bp.js');
+
+  setupBpEntry();
+  document.querySelector('.bp-med').click();
+
+  const timeInput = document.querySelector('.time-input');
+  assert.equal(timeInput.value, '03:04');
+
+  global.Date = RealDate;
+});

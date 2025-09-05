@@ -33,5 +33,6 @@
   "local_storage": "Local storage",
   "local_storage_enabled": "Local storage enabled; server sync disabled.",
   "local_storage_disabled": "Local storage disabled; server sync enabled.",
-  "toggle_theme": "Toggle theme"
+  "toggle_theme": "Toggle theme",
+  "stroke_not_determined": "Stroke undetermined"
 }

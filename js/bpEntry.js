@@ -6,7 +6,7 @@ export function createBpEntry(med, dose = '', time, notes = '') {
   const timeId = `bp_time_${ts}`;
 
   const entry = document.createElement('div');
-  entry.className = 'bp-entry mt-6';
+  entry.className = 'bp-entry mt-6 card';
   entry.id = entryId;
 
   const strong = document.createElement('strong');

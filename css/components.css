@@ -633,6 +633,10 @@ section[data-tab='Intervencijos'] h3 {
   grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
   gap: 6px;
   align-items: stretch;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--card-bg);
+  padding: 8px;
 }
 
 .bp-entry .dose-input {
@@ -641,7 +645,8 @@ section[data-tab='Intervencijos'] h3 {
 
 @media (max-width: 480px) {
   .bp-entry {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
   }
   .bp-entry .input-group {
     flex-direction: column;
@@ -650,6 +655,9 @@ section[data-tab='Intervencijos'] h3 {
   .bp-entry .btn,
   .bp-entry [data-remove-bp] {
     width: 100%;
+  }
+  .bp-entry [data-remove-bp] {
+    height: auto;
   }
 }
 

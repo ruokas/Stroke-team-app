@@ -34,8 +34,28 @@ export function createBpEntry(med, dose = '', time, notes = '') {
   group.appendChild(nowBtn);
 
   const doseInput = document.createElement('input');
-  doseInput.setAttribute('type', 'text');
+  doseInput.type = 'number';
+  doseInput.step = '0.1';
+  doseInput.placeholder = 'mg';
+  doseInput.className = 'dose-input';
   doseInput.value = dose;
+  const validateDose = () => {
+    if (!doseInput.value) {
+      doseInput.classList.remove('invalid');
+      doseInput.setCustomValidity?.('');
+      return;
+    }
+    const num = Number(doseInput.value);
+    if (!Number.isFinite(num)) {
+      doseInput.classList.add('invalid');
+      doseInput.setCustomValidity?.('Enter a valid dose');
+    } else {
+      doseInput.classList.remove('invalid');
+      doseInput.setCustomValidity?.('');
+    }
+  };
+  doseInput.addEventListener('input', validateDose);
+  validateDose();
   entry.appendChild(doseInput);
 
   const notesInput = document.createElement('input');

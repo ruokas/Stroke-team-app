@@ -12,7 +12,6 @@ test(
   async () => {
     document.body.innerHTML = `
     <form>
-      <button id="bpCorrBtn" class="btn" type="button"></button>
       <ul id="bpMedList" role="list">
         <li><button type="button" class="btn bp-med" data-med="Kita">Kita</button></li>
       </ul>
@@ -47,7 +46,6 @@ test(
   async () => {
     document.body.innerHTML = `
     <form>
-      <button id="bpCorrBtn" class="btn" type="button"></button>
       <ul id="bpMedList" role="list">
         <li><button type="button" class="btn bp-med" data-med="Kita">Kita</button></li>
       </ul>

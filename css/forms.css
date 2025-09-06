@@ -79,6 +79,10 @@ textarea {
   padding: 4px 6px;
 }
 
+.input-group.flex-nowrap {
+  flex-wrap: nowrap;
+}
+
 input[type='date']::-webkit-calendar-picker-indicator,
 input[type='datetime-local']::-webkit-calendar-picker-indicator {
   display: none;

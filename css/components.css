@@ -162,13 +162,17 @@
 #bpMedList {
   list-style: none;
   padding: 0;
-  display: inline-flex;
-  flex-direction: column;
+  display: flex;
+  flex-wrap: wrap;
   gap: 8px;
-  width: max-content;
+}
+@media (min-width: 769px) {
+  #bpMedList {
+    flex-wrap: nowrap;
+  }
 }
 #bpMedList .bp-med {
-  width: 100%;
+  width: auto;
 }
 #d_gks_total {
   margin-left: auto;

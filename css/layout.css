@@ -75,7 +75,7 @@ header {
   border-bottom: 1px solid var(--line);
 }
 .wrap {
-  max-width: 1200px;
+  max-width: 1400px;
   width: 100%;
   margin: 0 auto;
   padding: 8px 16px;
@@ -85,7 +85,7 @@ header {
   justify-content: space-between;
 }
 .container {
-  max-width: 1200px;
+  max-width: 1400px;
   width: 100%;
   margin: 0 auto;
   padding: 14px 16px;

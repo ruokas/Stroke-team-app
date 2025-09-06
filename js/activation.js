@@ -92,29 +92,10 @@ export function initActivation() {
   });
 
   const lkwInputs = dom.getALkwInputs();
-  const spsInput = lkwInputs.find((el) => el.value === '4.5-24');
-  let spsBadge;
-  if (spsInput) {
-    const label = spsInput.closest('label');
-    if (label) {
-      spsBadge = document.createElement('span');
-      spsBadge.className = 'badge';
-      spsBadge.textContent = 'SPS';
-      spsBadge.style.display = 'none';
-      label.appendChild(spsBadge);
-    }
-  }
-
-  const updateLkwBadge = () => {
-    if (spsBadge && spsInput) {
-      spsBadge.style.display = spsInput.checked ? 'inline-block' : 'none';
-    }
-  };
 
   lkwInputs.forEach((el) => {
     el.addEventListener('change', (e) => {
       if (!e.isTrusted || !e.target.checked || !el.checked) {
-        updateLkwBadge();
         return;
       }
       if (el.value === '<4.5') {
@@ -122,8 +103,6 @@ export function initActivation() {
       } else if (el.value === '4.5-24') {
         showToast('Informuokite SPS gydytoją', { type: 'warning' });
       }
-      updateLkwBadge();
     });
   });
-  updateLkwBadge();
 }

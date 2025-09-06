@@ -1,6 +1,10 @@
 const THEME_KEY = 'theme';
 
 export function initTheme() {
+  const root = document.documentElement;
+  if (root.classList.contains('light') || root.classList.contains('dark')) {
+    return;
+  }
   let saved;
   try {
     saved = localStorage.getItem(THEME_KEY);
@@ -9,8 +13,6 @@ export function initTheme() {
   }
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   const preferred = saved || (prefersDark ? 'dark' : 'light');
-  const root = document.documentElement;
-  root.classList.remove('light', 'dark');
   root.classList.add(preferred);
 }
 

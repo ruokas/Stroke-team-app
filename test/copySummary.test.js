@@ -18,7 +18,7 @@ test('copySummary builds data object and copies formatted text', async () => {
   document.querySelector('input[name="a_speech"]').checked = true;
 
   const bpEntries = document.getElementById('bpEntries');
-  bpEntries.innerHTML = `<div class="bp-entry"><strong>Kaptoprilis</strong><input value="10:00" /><input value="25 mg" /><input value="požymai" /></div>`;
+  bpEntries.innerHTML = `<div class="bp-entry"><strong>Kaptoprilis</strong><input value="10:00" /><input value="25" data-unit="mg" placeholder="mg" /><input value="požymai" /></div>`;
 
   inputs.a_personal.value = '12345678901';
   inputs.a_name.value = 'Jonas Jonaitis';
@@ -72,7 +72,13 @@ test('copySummary builds data object and copies formatted text', async () => {
       infusion: null,
     },
     bpMeds: [
-      { time: '10:00', med: 'Kaptoprilis', dose: '25 mg', notes: 'požymai' },
+      {
+        time: '10:00',
+        med: 'Kaptoprilis',
+        dose: '25',
+        unit: 'mg',
+        notes: 'požymai',
+      },
     ],
     activation: {
       lkw: '<4.5',

@@ -51,6 +51,7 @@ export function setupBpEntry() {
       const med = btn.dataset.med;
       const medObj = bpMeds.find((m) => m.name === med);
       let dose = medObj?.dose || '';
+      let unit = medObj?.unit || '';
       let medName = med;
       if (med === 'Kita') {
         const input = await medicationModal();
@@ -59,7 +60,7 @@ export function setupBpEntry() {
       }
       const now = new Date();
       const time = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
-      const entry = createBpEntry(medName, dose, time);
+      const entry = createBpEntry(medName, dose, time, '', unit);
       bpEntries.appendChild(entry);
     });
   }

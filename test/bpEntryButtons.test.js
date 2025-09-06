@@ -69,3 +69,22 @@ test('bp entry defaults to local time', async () => {
 
   global.Date = RealDate;
 });
+
+test('bp entry displays default dose from bpMeds', async () => {
+  const med = bpMeds[0];
+  document.body.innerHTML = `
+    <form>
+      <input id="p_weight" type="number" />
+      <ul id="bpMedList" role="list"><li><button type="button" class="btn bp-med" data-med="${med.name}">${med.name}</button></li></ul>
+      <div id="bpEntries"></div>
+    </form>
+  `;
+  const { setupBpEntry } = await import('../js/bp.js');
+
+  setupBpEntry();
+  document.querySelector('.bp-med').click();
+
+  const doseInput = document.querySelector('.dose-input');
+  assert.equal(doseInput.value, med.dose);
+  assert.equal(doseInput.placeholder, med.unit);
+});

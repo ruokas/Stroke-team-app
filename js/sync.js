@@ -14,7 +14,8 @@ let lastSyncFailToast = 0;
 let consecutiveSyncFails = 0;
 
 if (typeof window !== 'undefined') {
-  window.disableSync = localStorage.getItem('disableSync') === 'true';
+  const saved = localStorage.getItem('disableSync');
+  window.disableSync = saved !== 'false';
 }
 
 function loadLocalPatients() {

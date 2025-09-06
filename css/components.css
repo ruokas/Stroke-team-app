@@ -628,7 +628,15 @@ section[data-tab='Intervencijos'] h3 {
   display: grid;
   grid-template-columns: auto auto auto 1fr auto;
   gap: 6px;
+  align-items: stretch;
+}
+
+.bp-entry [data-remove-bp] {
+  height: 100%;
+  padding: 9px 10px;
+  display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 #liveTimers {

@@ -27,7 +27,6 @@ test('bp entry can be removed even when #p_weight is invalid or empty', async ()
   document.body.innerHTML = `
     <form>
       <input id="p_weight" type="text" pattern="\\d+" required />
-      <button id="bpCorrBtn" class="btn" type="button"></button>
       <ul id="bpMedList" role="list"><li><button type="button" class="btn bp-med" data-med="${med.name}">${med.name}</button></li></ul>
       <div id="bpEntries"></div>
     </form>
@@ -63,7 +62,6 @@ test('bp entry can be removed by clicking the icon inside the remove button', as
   document.body.innerHTML = `
     <form>
       <input id="p_weight" type="text" pattern="\\d+" required />
-      <button id="bpCorrBtn" class="btn" type="button"></button>
       <ul id="bpMedList" role="list"><li><button type="button" class="btn bp-med" data-med="${med.name}">${med.name}</button></li></ul>
       <div id="bpEntries"></div>
     </form>

@@ -8,7 +8,6 @@ test('now button sets time even when #p_weight is invalid or empty', async () =>
   document.body.innerHTML = `
     <form>
       <input id="p_weight" type="number" />
-      <button id="bpCorrBtn" class="btn" type="button"></button>
       <ul id="bpMedList" role="list"><li><button type="button" class="btn bp-med" data-med="${med.name}">${med.name}</button></li></ul>
       <div id="bpEntries"></div>
     </form>
@@ -55,7 +54,6 @@ test('bp entry defaults to local time', async () => {
   document.body.innerHTML = `
     <form>
       <input id="p_weight" type="number" />
-      <button id="bpCorrBtn" class="btn" type="button"></button>
       <ul id="bpMedList" role="list"><li><button type="button" class="btn bp-med" data-med="${med.name}">${med.name}</button></li></ul>
       <div id="bpEntries"></div>
     </form>

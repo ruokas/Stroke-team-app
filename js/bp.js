@@ -41,17 +41,10 @@ export function setupBpInput() {
 }
 
 export function setupBpEntry() {
-  const bpCorrBtn = document.getElementById('bpCorrBtn');
   const bpMedList = document.getElementById('bpMedList');
   const bpEntries = document.getElementById('bpEntries');
-  if (bpCorrBtn && bpMedList && bpEntries) {
+  if (bpMedList && bpEntries) {
     bpMedList.setAttribute('role', 'list');
-    bpCorrBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      const isHidden = bpMedList.classList.toggle('hidden');
-      bpMedList.hidden = isHidden;
-      bpCorrBtn.setAttribute('aria-expanded', (!isHidden).toString());
-    });
     bpMedList.addEventListener('click', async (e) => {
       const btn = e.target.closest('.bp-med');
       if (!btn) return;
@@ -68,9 +61,6 @@ export function setupBpEntry() {
       const time = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
       const entry = createBpEntry(medName, dose, time);
       bpEntries.appendChild(entry);
-      bpMedList.classList.add('hidden');
-      bpMedList.hidden = true;
-      bpCorrBtn.setAttribute('aria-expanded', 'false');
     });
   }
 }

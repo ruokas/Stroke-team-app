@@ -659,6 +659,26 @@ section[data-tab='Intervencijos'] h3 {
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.bp-entry [data-remove-bp] img {
+  transition: filter 0.2s;
+}
+
+.bp-entry [data-remove-bp]:hover {
+  background: var(--ghost-hover-bg);
+  transform: scale(1.05);
+}
+
+.bp-entry [data-remove-bp]:hover img,
+.bp-entry [data-remove-bp]:active img {
+  filter: brightness(0) invert(1);
+}
+
+.bp-entry [data-remove-bp]:active {
+  background: var(--ghost-active-bg);
+  transform: scale(0.95);
 }
 
 #liveTimers {

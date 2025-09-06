@@ -3,6 +3,7 @@
 import { createBpEntry } from './bpEntry.js';
 import { pad } from './time.js';
 import { bpMeds } from './bpMeds.js';
+import { medicationModal } from './modal.js';
 
 export function validateBp(sys, dia) {
   if (
@@ -51,7 +52,7 @@ export function setupBpEntry() {
       bpMedList.hidden = isHidden;
       bpCorrBtn.setAttribute('aria-expanded', (!isHidden).toString());
     });
-    bpMedList.addEventListener('click', (e) => {
+    bpMedList.addEventListener('click', async (e) => {
       const btn = e.target.closest('.bp-med');
       if (!btn) return;
       const med = btn.dataset.med;
@@ -59,10 +60,9 @@ export function setupBpEntry() {
       let dose = medObj?.dose || '';
       let medName = med;
       if (med === 'Kita') {
-        const input = prompt('Įveskite vaisto pavadinimą');
+        const input = await medicationModal();
         if (!input) return;
-        medName = input.trim();
-        if (!medName) return;
+        medName = input;
       }
       const now = new Date();
       const time = `${pad(now.getHours())}:${pad(now.getMinutes())}`;

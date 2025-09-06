@@ -897,34 +897,6 @@ details .card {
 .contra-list li {
   margin-bottom: 4px;
 }
-/* Time picker dialog */
-.time-picker-dialog::backdrop {
-  background: rgba(0, 0, 0, 0.5);
-}
-.time-picker-dialog {
-  border: none;
-  padding: 20px;
-  background: var(--card);
-  color: var(--ink);
-  border-radius: 6px;
-}
-.time-picker-dialog .tp-time {
-  display: flex;
-  gap: 4px;
-  align-items: center;
-  margin-top: 8px;
-}
-.time-picker-dialog select,
-.time-picker-dialog input {
-  font-size: 1rem;
-}
-.time-picker-dialog .tp-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  margin-top: 12px;
-}
-
 /* Collaboration bar */
 #collabBar {
   position: fixed;

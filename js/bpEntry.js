@@ -26,17 +26,6 @@ export function createBpEntry(med, dose = '', time, notes = '') {
   timeInput.value = time ?? `${pad(now.getHours())}:${pad(now.getMinutes())}`;
   group.appendChild(timeInput);
 
-  const timePickerBtn = document.createElement('button');
-  timePickerBtn.className = 'btn ghost';
-  timePickerBtn.setAttribute('type', 'button');
-  timePickerBtn.setAttribute('data-time-picker', timeId);
-  timePickerBtn.setAttribute('aria-label', 'Pasirinkti laiką');
-  const clockIcon = document.createElement('img');
-  clockIcon.src = 'icons/clock.svg';
-  clockIcon.alt = '';
-  timePickerBtn.appendChild(clockIcon);
-  group.appendChild(timePickerBtn);
-
   const nowBtn = document.createElement('button');
   nowBtn.className = 'btn ghost';
   nowBtn.setAttribute('type', 'button');

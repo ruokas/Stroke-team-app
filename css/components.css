@@ -159,6 +159,17 @@
   color: #fff;
   border-color: #2d74b8;
 }
+#bpMedList {
+  list-style: none;
+  padding: 0;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 8px;
+  width: max-content;
+}
+#bpMedList .bp-med {
+  width: 100%;
+}
 #d_gks_total {
   margin-left: auto;
   font-weight: 700;

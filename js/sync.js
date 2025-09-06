@@ -136,17 +136,20 @@ if (typeof document !== 'undefined') {
     syncPatients().then(restorePatients);
   });
   const enableLocalBtn = document.getElementById('enableLocalBtn');
-  enableLocalBtn?.setAttribute('aria-pressed', window.disableSync);
-  enableLocalBtn?.addEventListener('click', () => {
-    const enabled = enableLocalBtn.getAttribute('aria-pressed') !== 'true';
-    enableLocalBtn.setAttribute('aria-pressed', enabled);
-    window.disableSync = enabled;
-    localStorage.setItem('disableSync', String(enabled));
-    if (enabled) {
-      showToast(t('local_storage_enabled'), { type: 'info' });
-    } else {
-      showToast(t('local_storage_disabled'), { type: 'info' });
-      syncPatients().then(restorePatients);
-    }
-  });
+  if (enableLocalBtn) {
+    enableLocalBtn.checked = window.disableSync;
+    enableLocalBtn.setAttribute('aria-checked', window.disableSync);
+    enableLocalBtn.addEventListener('change', () => {
+      const enabled = enableLocalBtn.checked;
+      enableLocalBtn.setAttribute('aria-checked', enabled);
+      window.disableSync = enabled;
+      localStorage.setItem('disableSync', String(enabled));
+      if (enabled) {
+        showToast(t('local_storage_enabled'), { type: 'info' });
+      } else {
+        showToast(t('local_storage_disabled'), { type: 'info' });
+        syncPatients().then(restorePatients);
+      }
+    });
+  }
 }

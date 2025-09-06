@@ -98,27 +98,60 @@
 #bpCorrBtn[aria-expanded='true']:active {
   background: #1a56aa;
 }
-#enableLocalBtn[aria-pressed='true'] {
+.switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.switch input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.switch .slider {
+  position: relative;
+  width: 40px;
+  height: 24px;
+  background: var(--button-bg);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  transition: background-color 0.2s;
+}
+
+.switch .slider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  transform: translateY(-50%);
+  background: var(--ink);
+  border-radius: 50%;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.switch input:checked + .slider {
   background: var(--accent);
-  color: #fff;
   border-color: #2d74b8;
 }
-#enableLocalBtn[aria-pressed='true']:hover {
-  background: #2368c5;
+
+.switch input:checked + .slider::before {
+  transform: translate(16px, -50%);
+  background: #fff;
 }
-#enableLocalBtn[aria-pressed='true']:active {
-  background: #1a56aa;
+
+.switch input:focus-visible + .slider {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
 }
-#enableLocalBtn[aria-pressed='false'] {
-  background: var(--button-bg);
-  color: var(--ink);
-  border-color: var(--line);
-}
-#enableLocalBtn[aria-pressed='false']:hover {
-  background: var(--btn-hover-bg);
-}
-#enableLocalBtn[aria-pressed='false']:active {
-  background: var(--btn-active-bg);
+
+.switch-label {
+  font-weight: 600;
 }
 .bp-med:active,
 .bp-med.selected {

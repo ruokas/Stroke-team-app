@@ -635,6 +635,10 @@ section[data-tab='Intervencijos'] h3 {
   align-items: stretch;
 }
 
+.bp-entry .dose-input {
+  max-width: 6rem;
+}
+
 @media (max-width: 480px) {
   .bp-entry {
     grid-template-columns: 1fr;

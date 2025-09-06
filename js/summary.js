@@ -150,8 +150,8 @@ export function summaryTemplate({
     bpMeds.forEach((m) =>
       lines.push(
         `- ${m.med} ${m.time || '—'} ${m.dose || ''}${
-          m.notes ? ` (${m.notes})` : ''
-        }`.trim(),
+          m.unit ? ` ${m.unit}` : ''
+        }${m.notes ? ` (${m.notes})` : ''}`.trim(),
       ),
     );
   }

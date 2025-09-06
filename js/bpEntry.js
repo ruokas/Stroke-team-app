@@ -1,6 +1,6 @@
 import { pad } from './time.js';
 
-export function createBpEntry(med, dose = '', time, notes = '') {
+export function createBpEntry(med, dose = '', time, notes = '', unit = '') {
   const ts = `${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
   const entryId = `bp_entry_${ts}`;
   const timeId = `bp_time_${ts}`;
@@ -34,18 +34,29 @@ export function createBpEntry(med, dose = '', time, notes = '') {
   group.appendChild(nowBtn);
 
   const doseInput = document.createElement('input');
-  doseInput.type = 'number';
-  doseInput.step = '0.1';
-  doseInput.placeholder = 'mg';
+  doseInput.type = 'text';
   doseInput.className = 'dose-input';
-  doseInput.value = dose;
+  let doseValue = dose;
+  let unitValue = unit;
+  if (dose && typeof dose === 'string' && !unit) {
+    const match = dose.trim().match(/^(\d+(?:[.,]\d+)?)(.*)$/);
+    if (match) {
+      doseValue = match[1].replace(',', '.');
+      unitValue = match[2].trim();
+    }
+  }
+  doseInput.value = doseValue;
+  const placeholder = unitValue || 'mg';
+  doseInput.placeholder = placeholder;
+  if (unitValue) doseInput.dataset.unit = unitValue;
   const validateDose = () => {
-    if (!doseInput.value) {
+    const value = doseInput.value.trim();
+    if (!value) {
       doseInput.classList.remove('invalid');
       doseInput.setCustomValidity?.('');
       return;
     }
-    const num = Number(doseInput.value);
+    const num = Number.parseFloat(value);
     if (!Number.isFinite(num)) {
       doseInput.classList.add('invalid');
       doseInput.setCustomValidity?.('Enter a valid dose');

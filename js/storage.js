@@ -109,6 +109,7 @@ export function getPayload() {
       time: timeEl?.value || '',
       med,
       dose: doseEl?.value || '',
+      unit: doseEl?.dataset.unit || doseEl?.placeholder || '',
       notes: notesEl?.value || '',
     };
   });
@@ -148,6 +149,7 @@ export function setPayload(p) {
         m.dose || '',
         m.time,
         m.notes || '',
+        m.unit || '',
       );
       bpContainer.appendChild(entry);
     });

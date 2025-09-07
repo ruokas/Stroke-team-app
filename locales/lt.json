@@ -8,6 +8,8 @@
   "language": "Kalba",
   "copy_summary": "Kopijuoti santrauką",
   "export_summary": "Eksportuoti santrauką",
+  "summary_copied": "Santrauka nukopijuota.",
+  "summary_exported": "Santrauka eksportuota.",
   "saved_locally": "Išsaugota naršyklėje.",
   "rename_prompt": "Naujas pavadinimas",
   "patient_renamed": "Pacientas pervadintas.",

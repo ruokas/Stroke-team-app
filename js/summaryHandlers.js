@@ -5,6 +5,8 @@ import {
   exportSummaryPDF,
 } from './summary.js';
 import { getActivePatient } from './patients.js';
+import { showToast } from './toast.js';
+import { t } from './i18n.js';
 
 export function setupSummaryHandlers(inputs) {
   document.getElementById('summary')?.addEventListener('focus', () => {
@@ -19,8 +21,12 @@ export function setupSummaryHandlers(inputs) {
     const patient = getActivePatient();
     if (!patient) return;
     const data = collectSummaryData(patient);
-    const text = copySummary(data);
-    patient.summary = text;
+    copySummary(data)
+      .then((text) => {
+        patient.summary = text;
+        showToast(t('summary_copied'), { type: 'success' });
+      })
+      .catch(() => {});
   });
   document.getElementById('exportSummaryBtn')?.addEventListener('click', () => {
     const patient = getActivePatient();
@@ -30,5 +36,6 @@ export function setupSummaryHandlers(inputs) {
     inputs.summary.value = text;
     patient.summary = text;
     exportSummaryPDF(data);
+    showToast(t('summary_exported'), { type: 'success' });
   });
 }

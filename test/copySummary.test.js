@@ -99,7 +99,7 @@ test('copySummary builds data object and copies formatted text', async () => {
   });
 
   const expected = summaryTemplate(data);
-  const copied = copySummary(data);
+  const copied = await copySummary(data);
   assert.equal(global.__copied, expected);
   assert.equal(inputs.summary.value, expected);
   assert.equal(copied, expected);

@@ -182,16 +182,24 @@ export function summaryTemplate({
 export function copySummary(data) {
   const inputs = getInputs();
   if (inputs.summary) inputs.summary.value = summaryTemplate(data);
+  const text = inputs.summary.value;
   if (window.isSecureContext && navigator.clipboard) {
-    navigator.clipboard.writeText(inputs.summary.value).catch((err) => {
-      showToast('Nepavyko nukopijuoti: ' + err, { type: 'error' });
-    });
+    return navigator.clipboard
+      .writeText(text)
+      .then(() => text)
+      .catch((err) => {
+        showToast('Nepavyko nukopijuoti: ' + err, { type: 'error' });
+        throw err;
+      });
   } else {
     inputs.summary.select();
     const ok = document.execCommand('copy');
-    if (!ok) showToast('Nepavyko nukopijuoti', { type: 'error' });
+    if (!ok) {
+      showToast('Nepavyko nukopijuoti', { type: 'error' });
+      return Promise.reject(new Error('copy failed'));
+    }
+    return Promise.resolve(text);
   }
-  return inputs.summary.value;
 }
 
 export function openPrintWindow(win) {

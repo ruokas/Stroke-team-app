@@ -8,6 +8,8 @@
   "language": "Language",
   "copy_summary": "Copy summary",
   "export_summary": "Export summary",
+  "summary_copied": "Summary copied.",
+  "summary_exported": "Summary exported.",
   "saved_locally": "Saved locally.",
   "rename_prompt": "New name",
   "patient_renamed": "Patient renamed.",

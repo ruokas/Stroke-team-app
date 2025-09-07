@@ -939,6 +939,11 @@ details .card {
   margin-left: 18px;
 }
 
+.decision-group-title {
+  margin-top: 1rem;
+  font-weight: 600;
+}
+
 .contra-list {
   list-style: none;
   padding-left: 0;

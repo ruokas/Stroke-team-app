@@ -52,7 +52,7 @@ export function initCollab() {
 
   showBtn?.addEventListener('click', () => {
     bar?.classList.remove('hidden');
-    document.body.style.paddingBottom = '60px';
+    document.body.classList.add('collab-open');
     input?.focus();
   });
 

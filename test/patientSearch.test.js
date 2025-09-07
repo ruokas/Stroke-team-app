@@ -23,7 +23,12 @@ test(
     Object.keys(getPatientStore()).forEach((id) => removePatient(id));
 
     const inputs = getInputs();
-    setupAutosave(inputs, { scheduleSave() {}, flushSave() {} });
+    setupAutosave(inputs, {
+      scheduleSave(id, name, cb) {
+        cb?.();
+      },
+      flushSave() {},
+    });
 
     const firstId = getActivePatientId();
     renamePatient(firstId, 'Alice');

@@ -25,7 +25,7 @@ export function setupAutosave(
   inputs,
   { scheduleSave: sched, flushSave: flush },
 ) {
-  let dirty = false;
+  const dirtyPatients = new Set();
   const patientSelect = $('#patientSelect');
   const patientMenu = $('#patientMenu');
   const patientMenuLabel = $('#patientMenuLabel');
@@ -69,7 +69,7 @@ export function setupAutosave(
       if (!query || name.toLowerCase().includes(query)) {
         const opt = document.createElement('option');
         opt.value = id;
-        opt.textContent = name;
+        opt.textContent = dirtyPatients.has(id) ? `${name} •` : name;
         patientSelect.appendChild(opt);
       }
     });
@@ -129,7 +129,8 @@ export function setupAutosave(
     flush(id, undefined, () => {
       showToast(t('saved_locally'), { type: 'success' });
       updateSaveStatus();
-      dirty = false;
+      dirtyPatients.delete(id);
+      refreshPatientSelect(getActivePatientId());
     });
     closePatientMenu();
   });
@@ -145,6 +146,8 @@ export function setupAutosave(
       flush(id, newName, () => {
         updateSaveStatus();
         showToast(t('patient_renamed'), { type: 'info' });
+        dirtyPatients.delete(id);
+        refreshPatientSelect(getActivePatientId());
       });
     }
     closePatientMenu();
@@ -155,6 +158,7 @@ export function setupAutosave(
     if (!id) return;
     if (await confirmModal(t('delete_patient_confirm'))) {
       removePatient(id);
+      dirtyPatients.delete(id);
       refreshPatientSelect(getActivePatientId());
       updateSaveStatus();
       showToast(t('patient_deleted'), { type: 'warning' });
@@ -177,9 +181,9 @@ export function setupAutosave(
   });
 
   const handleChange = () => {
-    dirty = true;
-    updateActivePatient();
     const id = getActivePatientId();
+    if (id) dirtyPatients.add(id);
+    updateActivePatient();
     if (!$('#summarySec').classList.contains('hidden')) {
       const patient = getActivePatient();
       if (patient) {
@@ -190,9 +194,11 @@ export function setupAutosave(
       }
     }
     if (id) {
+      refreshPatientSelect(getActivePatientId());
       sched(id, undefined, () => {
         updateSaveStatus();
-        dirty = false;
+        dirtyPatients.delete(id);
+        refreshPatientSelect(getActivePatientId());
       });
     }
   };
@@ -200,8 +206,8 @@ export function setupAutosave(
   appForm?.addEventListener('change', handleChange);
 
   window.addEventListener('beforeunload', (e) => {
-    if (dirty) {
-      flush(getActivePatientId(), undefined);
+    if (dirtyPatients.size) {
+      dirtyPatients.forEach((id) => flush(id, undefined));
       e.preventDefault();
       e.returnValue = '';
     }

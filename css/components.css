@@ -663,8 +663,9 @@ section[data-tab='Intervencijos'] h3 {
 }
 
 .bp-entry [data-remove-bp] {
-  height: auto;
-  padding: 4px 6px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -672,6 +673,8 @@ section[data-tab='Intervencijos'] h3 {
 }
 
 .bp-entry [data-remove-bp] img {
+  width: 16px;
+  height: 16px;
   transition: filter 0.2s;
 }
 

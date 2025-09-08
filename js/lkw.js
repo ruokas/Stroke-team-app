@@ -1,5 +1,4 @@
 import { sleepMidpoint, triggerChange } from './time.js';
-import { autoSetContraDecision } from './decision.js';
 
 export function setupLkw(inputs) {
   const lkwOptions = inputs.lkw_type;
@@ -29,18 +28,6 @@ export function setupLkw(inputs) {
   };
   lkwOptions.forEach((o) => o.addEventListener('change', updateLKW));
   updateLKW();
-
-  const updateDecision = () =>
-    autoSetContraDecision({
-      lkwTypeInputs: inputs.lkw_type,
-      arrivalContraInputs: inputs.arrival_contra || [],
-      decisionInputs: inputs.d_decision || [],
-    });
-  inputs.lkw_type.forEach((o) => o.addEventListener('change', updateDecision));
-  (inputs.arrival_contra || []).forEach((c) =>
-    c.addEventListener('change', updateDecision),
-  );
-  updateDecision();
 
   const updateThrombolysisAccess = () => {
     const lkwUnknown =

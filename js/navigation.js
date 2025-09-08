@@ -1,6 +1,5 @@
 import { $, $$ } from './state.js';
 import { collectSummaryData, summaryTemplate } from './summary.js';
-import { setNow } from './time.js';
 import { getActivePatient } from './patients.js';
 import { renderAnalytics, track, flush } from './analytics.js';
 
@@ -31,8 +30,7 @@ export function setupNavigation(inputs) {
         patient.summary = text;
       }
     }
-    if (id === 'decision' && inputs.d_time && !inputs.d_time.value)
-      setNow('d_time');
+    // Removed automatic setting of decision time; now handled via buttons with data-now="d_time"
     if (id === 'analytics') renderAnalytics();
     track('section_view', { id });
     flush().catch(() => {

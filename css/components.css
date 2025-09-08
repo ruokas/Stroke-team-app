@@ -630,13 +630,13 @@ section[data-tab='Intervencijos'] h3 {
 
 .bp-entry {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
-  gap: 6px;
-  align-items: stretch;
+  grid-template-columns: auto auto 1fr auto;
+  gap: 4px;
+  align-items: center;
   border: 1px solid var(--line);
   border-radius: 10px;
   background: var(--card-bg);
-  padding: 8px;
+  padding: 4px;
 }
 
 .bp-entry .dose-input {

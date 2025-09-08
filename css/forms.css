@@ -34,6 +34,7 @@ select:not(.btn) {
   background: var(--bg);
   color: var(--ink);
   font-size: 0.875rem;
+  line-height: 1.2;
 }
 
 input[type='date'],
@@ -77,6 +78,13 @@ textarea {
 .input-group .btn {
   min-width: 2.5rem;
   padding: 4px 6px;
+  line-height: 1.2;
+}
+
+.bp-entry input,
+.bp-entry .btn {
+  padding: 4px 6px;
+  line-height: 1.2;
 }
 
 .input-group.flex-nowrap {

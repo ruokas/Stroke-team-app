@@ -1,6 +1,7 @@
 import { $, $$ } from './state.js';
 import { collectSummaryData, summaryTemplate } from './summary.js';
-import { getActivePatient } from './patients.js';
+import { getActivePatient, addPatient } from './patients.js';
+import { getPayload } from './storage.js';
 import { renderAnalytics, track, flush } from './analytics.js';
 
 export function setupNavigation(inputs) {
@@ -22,13 +23,15 @@ export function setupNavigation(inputs) {
       t.setAttribute('tabindex', selected ? '0' : '-1');
     });
     if (id === 'summarySec') {
-      const patient = getActivePatient();
-      if (patient) {
-        const data = collectSummaryData(patient);
-        const text = summaryTemplate(data);
-        inputs.summary.value = text;
-        patient.summary = text;
+      let patient = getActivePatient();
+      if (!patient) {
+        addPatient();
+        patient = getActivePatient();
       }
+      const data = collectSummaryData(patient || getPayload());
+      const text = summaryTemplate(data);
+      inputs.summary.value = text;
+      if (patient) patient.summary = text;
     }
     // Removed automatic setting of decision time; now handled via buttons with data-now="d_time"
     if (id === 'analytics') renderAnalytics();

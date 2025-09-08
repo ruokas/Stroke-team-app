@@ -133,12 +133,22 @@ test('activation parameter inputs have numeric attributes', async () => {
   assert.match(input, /step="1"/);
   assert.match(input, /min="30"/);
   assert.match(input, /max="300"/);
-  assert.match(input, /placeholder="mmHg"/);
+  assert.match(
+    html,
+    new RegExp(
+      `<input[^>]*id="a_aks_sys"[\\s\\S]*?<span class="unit">mmHg<\\/span>`,
+    ),
+  );
 
   input = getInput('a_aks_dia');
   assert.match(input, /type="number"/);
   assert.match(input, /step="1"/);
   assert.match(input, /min="10"/);
   assert.match(input, /max="200"/);
-  assert.match(input, /placeholder="mmHg"/);
+  assert.match(
+    html,
+    new RegExp(
+      `<input[^>]*id="a_aks_dia"[\\s\\S]*?<span class="unit">mmHg<\\/span>`,
+    ),
+  );
 });

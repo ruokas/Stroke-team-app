@@ -81,6 +81,10 @@ textarea {
   line-height: 1.2;
 }
 
+.unit {
+  margin-left: 4px;
+}
+
 .bp-entry input,
 .bp-entry .btn {
   padding: 4px 6px;

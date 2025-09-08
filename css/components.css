@@ -631,7 +631,7 @@ section[data-tab='Intervencijos'] h3 {
 
 .bp-entry {
   display: grid;
-  grid-template-columns: auto auto auto 1fr auto;
+  grid-template-columns: auto auto 1fr auto;
   gap: 4px;
   align-items: center;
   border: 1px solid var(--line);

@@ -79,6 +79,7 @@ export function createBpEntry(med, dose = '', time, notes = '', unit = '') {
   removeBtn.className = 'btn ghost';
   removeBtn.type = 'button';
   removeBtn.setAttribute('data-remove-bp', entryId);
+  removeBtn.setAttribute('aria-label', 'Pašalinti');
   const closeIcon = document.createElement('img');
   closeIcon.src = 'icons/close.svg';
   closeIcon.alt = '';

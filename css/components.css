@@ -662,8 +662,8 @@ section[data-tab='Intervencijos'] h3 {
 }
 
 .bp-entry [data-remove-bp] {
-  height: 100%;
-  padding: 9px 10px;
+  height: auto;
+  padding: 4px 6px;
   display: flex;
   align-items: center;
   justify-content: center;

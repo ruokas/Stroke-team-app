@@ -615,18 +615,7 @@ section[data-tab='Intervencijos'] h3 {
 .grid-4 {
   display: grid;
   gap: 10px;
-}
-
-.grid-2 {
-  grid-template-columns: repeat(2, 1fr);
-}
-
-.grid-3 {
-  grid-template-columns: repeat(3, 1fr);
-}
-
-.grid-4 {
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
 .bp-entry {
@@ -704,17 +693,38 @@ section[data-tab='Intervencijos'] h3 {
   flex-wrap: wrap;
   gap: 8px;
 }
-.cols-2 {
-  grid-template-columns: repeat(2, 1fr);
-}
-.cols-3 {
-  grid-template-columns: repeat(3, 1fr);
-}
-.cols-4 {
-  grid-template-columns: repeat(4, 1fr);
-}
+.cols-2,
+.cols-3,
+.cols-4,
 .cols-auto {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+@media (max-width: 1024px) {
+  .grid-4,
+  .cols-4 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .grid-3,
+  .grid-4,
+  .cols-3,
+  .cols-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .grid-2,
+  .grid-3,
+  .grid-4,
+  .cols-2,
+  .cols-3,
+  .cols-4 {
+    grid-template-columns: 1fr;
+  }
 }
 .row {
   display: flex;

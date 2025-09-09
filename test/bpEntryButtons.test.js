@@ -85,6 +85,8 @@ test('bp entry displays default dose from bpMeds', async () => {
   document.querySelector('.bp-med').click();
 
   const doseInput = document.querySelector('.dose-input');
+  const unitSpan = document.querySelector('.bp-entry .unit');
   assert.equal(doseInput.value, med.dose);
   assert.equal(doseInput.placeholder, med.unit);
+  assert.equal(unitSpan.textContent, med.unit);
 });

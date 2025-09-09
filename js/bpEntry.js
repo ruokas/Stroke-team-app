@@ -33,6 +33,9 @@ export function createBpEntry(med, dose = '', time, notes = '', unit = '') {
   nowBtn.textContent = 'Dabar';
   group.appendChild(nowBtn);
 
+  const doseGroup = document.createElement('div');
+  doseGroup.className = 'input-group flex-nowrap';
+
   const doseInput = document.createElement('input');
   doseInput.type = 'text';
   doseInput.className = 'dose-input';
@@ -67,7 +70,13 @@ export function createBpEntry(med, dose = '', time, notes = '', unit = '') {
   };
   doseInput.addEventListener('input', validateDose);
   validateDose();
-  entry.appendChild(doseInput);
+
+  doseGroup.appendChild(doseInput);
+  const unitSpan = document.createElement('span');
+  unitSpan.className = 'unit';
+  unitSpan.textContent = placeholder;
+  doseGroup.appendChild(unitSpan);
+  entry.appendChild(doseGroup);
 
   const notesInput = document.createElement('input');
   notesInput.setAttribute('type', 'text');

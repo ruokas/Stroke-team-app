@@ -966,19 +966,3 @@ details .card {
 .contra-list li {
   margin-bottom: 4px;
 }
-/* Collaboration bar */
-#collabBar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 8px;
-  background: var(--card);
-  color: var(--ink);
-  display: flex;
-  gap: 8px;
-  border-top: 1px solid var(--line);
-}
-#collabBar input {
-  flex: 1;
-}

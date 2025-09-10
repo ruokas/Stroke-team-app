@@ -1,5 +1,4 @@
 // Shared state and DOM helpers
-import { initCollab } from './collab.js';
 
 export const $ = (sel) => document.querySelector(sel);
 export const $$ = (sel) => Array.from(document.querySelectorAll(sel));
@@ -107,5 +106,4 @@ export function getInputs() {
 
 if (typeof document !== 'undefined') {
   state.autosave = dom.getAutosaveInput()?.value || 'on';
-  initCollab();
 }

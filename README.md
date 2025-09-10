@@ -64,37 +64,6 @@ DATABASE_URL=postgres://user:password@host:5432/dbname
 Replace `user`, `password`, `host`, and `dbname` with your own PostgreSQL credentials.  
 You may also set `PORT` to choose the server's HTTP port (default: `3000`).
 
-## Real-time collaboration
-
-The app ships with a small WebSocket server that syncs form data between browsers.
-
-### Starting the server
-
-```sh
-npm start
-```
-
-By default the server listens on `ws://localhost:3000/ws`. Set the `PORT` environment variable to use a different port:
-
-```sh
-PORT=4000 npm start
-```
-
-Leave the server running while using the app.
-
-### Joining a collaboration room
-
-1. Open `index.html` in a browser.
-2. Click the **Collaborate** button in the header.
-3. Enter a room ID and press **Join**. All clients that join the same room receive real-time updates.
-
-### Troubleshooting
-
-* Ensure the WebSocket server is running and the port matches the one used by the frontend.
-* Firewalls or corporate networks may block WebSocket connections; try a different network if you cannot connect.
-* When served over HTTPS the app uses `wss://`; if the server only provides `ws://`, run it behind an HTTPS proxy or access the app over HTTP.
-* Check the browser console for additional error details.
-
 ## Client synchronization
 
 The browser stores patient records in `localStorage` so the app works offline.

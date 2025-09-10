@@ -67,9 +67,6 @@ body {
   line-height: 1.5;
 }
 
-body.collab-open {
-  padding-bottom: 60px;
-}
 header {
   position: sticky;
   top: 0;

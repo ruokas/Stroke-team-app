@@ -62,6 +62,30 @@
                 </div>
               </div>
             </div>
+
+            <fieldset class="mt-10">
+              <legend data-i18n="patient_independent">
+                Ar pacientas savarankiškas kasdienėje veikloje?
+              </legend>
+              <div class="grid-2">
+                <label class="pill"
+                  ><input
+                    type="radio"
+                    name="p_independent"
+                    value="yes"
+                  />
+                  <span data-i18n="yes">Taip</span></label
+                >
+                <label class="pill"
+                  ><input
+                    type="radio"
+                    name="p_independent"
+                    value="no"
+                  />
+                  <span data-i18n="no">Ne</span></label
+                >
+              </div>
+            </fieldset>
             <div class="mt-10">
               <ul id="bpMedList" role="list">
                 {% for med in bpMeds %}

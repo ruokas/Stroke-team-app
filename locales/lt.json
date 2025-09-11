@@ -27,6 +27,7 @@
   "close": "Uždaryti",
   "invalid_weight": "Įveskite teisingą svorį.",
   "invalid_concentration": "Įveskite teisingą koncentraciją.",
+  "patient_independent": "Ar pacientas savarankiškas kasdienėje veikloje?",
   "yes": "Taip",
   "no": "Ne",
   "sync_failed": "Nepavyko sinchronizuoti pacientų.",

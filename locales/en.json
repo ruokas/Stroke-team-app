@@ -27,6 +27,7 @@
   "close": "Close",
   "invalid_weight": "Enter a valid weight.",
   "invalid_concentration": "Enter a valid concentration.",
+  "patient_independent": "Is the patient independent in daily activities?",
   "yes": "Yes",
   "no": "No",
   "sync_failed": "Failed to sync patients.",

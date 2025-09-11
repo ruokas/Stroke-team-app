@@ -9,6 +9,7 @@ export function collectSummaryData(payload) {
     const d = get(dia);
     return s && d ? `${s}/${d}` : null;
   };
+  const independent = payload.a_independent ?? payload.p_independent;
   const patient = {
     personal: get(payload.a_personal),
     name: get(payload.a_name),
@@ -18,6 +19,7 @@ export function collectSummaryData(payload) {
     bp: formatBp(payload.p_bp_sys, payload.p_bp_dia),
     inr: get(payload.p_inr),
     nih0: get(payload.p_nihss0 ?? payload.nihs_initial),
+    independent: get(independent),
   };
   const times = {
     lkw: get(payload.t_lkw),
@@ -98,6 +100,12 @@ export function summaryTemplate({
   lines.push(`- AKS atvykus: ${patient.bp ?? '—'}`);
   if (patient.inr) lines.push(`- INR: ${patient.inr}`);
   lines.push(`- NIHSS pradinis: ${patient.nih0 ?? '—'}`);
+  if (patient.independent)
+    lines.push(
+      `- Savarankiškas kasdienėje veikloje: ${
+        patient.independent === 'yes' ? t('yes') : t('no')
+      }`,
+    );
 
   if (
     activation.lkw ||

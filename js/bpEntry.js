@@ -1,6 +1,15 @@
 import { pad } from './time.js';
+import { validateBp } from './bp.js';
 
-export function createBpEntry(med, dose = '', time, notes = '', unit = '') {
+export function createBpEntry(
+  med,
+  dose = '',
+  time,
+  notes = '',
+  unit = '',
+  bpSysAfter = '',
+  bpDiaAfter = '',
+) {
   const ts = `${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
   const entryId = `bp_entry_${ts}`;
   const timeId = `bp_time_${ts}`;
@@ -77,6 +86,49 @@ export function createBpEntry(med, dose = '', time, notes = '', unit = '') {
   unitSpan.textContent = placeholder;
   doseGroup.appendChild(unitSpan);
   entry.appendChild(doseGroup);
+
+  const bpAfterGroup = document.createElement('div');
+  bpAfterGroup.className = 'input-group flex-nowrap bp-after';
+
+  const sysAfterInput = document.createElement('input');
+  sysAfterInput.type = 'number';
+  sysAfterInput.name = 'bp_sys_after';
+  sysAfterInput.className = 'bp-sys-after';
+  sysAfterInput.placeholder = 'Sistolinis';
+  sysAfterInput.min = '30';
+  sysAfterInput.max = '300';
+  sysAfterInput.step = '1';
+  sysAfterInput.value = bpSysAfter;
+
+  const diaAfterInput = document.createElement('input');
+  diaAfterInput.type = 'number';
+  diaAfterInput.name = 'bp_dia_after';
+  diaAfterInput.className = 'bp-dia-after';
+  diaAfterInput.placeholder = 'Diastolinis';
+  diaAfterInput.min = '10';
+  diaAfterInput.max = '200';
+  diaAfterInput.step = '1';
+  diaAfterInput.value = bpDiaAfter;
+
+  const validate = () => {
+    [sysAfterInput, diaAfterInput].forEach((i) => {
+      i.classList.remove('invalid');
+      i.setCustomValidity?.('');
+    });
+    if (!sysAfterInput.value || !diaAfterInput.value) return;
+    if (!validateBp(Number(sysAfterInput.value), Number(diaAfterInput.value))) {
+      [sysAfterInput, diaAfterInput].forEach((i) => {
+        i.classList.add('invalid');
+        i.setCustomValidity?.('Įveskite teisingą AKS (pvz. 120/80).');
+      });
+    }
+  };
+  sysAfterInput.addEventListener('input', validate);
+  diaAfterInput.addEventListener('input', validate);
+
+  bpAfterGroup.appendChild(sysAfterInput);
+  bpAfterGroup.appendChild(diaAfterInput);
+  entry.appendChild(bpAfterGroup);
 
   const notesInput = document.createElement('input');
   notesInput.setAttribute('type', 'text');

@@ -33,6 +33,7 @@ test('bp entry can be removed even when #p_weight is invalid or empty', async ()
   `;
   const { setupBpEntry } = await import('../js/bp.js');
   const { handleBpEntriesClick } = await import('../js/bpEntries.js');
+  const { getPayload } = await import('../js/storage.js');
 
   setupBpEntry();
 
@@ -43,9 +44,17 @@ test('bp entry can be removed even when #p_weight is invalid or empty', async ()
   // invalid weight
   medBtn.click();
   assert.equal(bpEntries.children.length, 1);
+  const sysInput = bpEntries.querySelector('.bp-sys-after');
+  const diaInput = bpEntries.querySelector('.bp-dia-after');
+  sysInput.value = '150';
+  diaInput.value = '90';
+  let payload = getPayload();
+  assert.equal(payload.bp_meds[0].bp_sys_after, '150');
   document.getElementById('p_weight').value = 'abc';
   bpEntries.querySelector('button[data-remove-bp]').click();
   assert.equal(bpEntries.children.length, 0);
+  payload = getPayload();
+  assert.equal(payload.bp_meds.length, 0);
 
   // empty weight
   medBtn.click();

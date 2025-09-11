@@ -18,7 +18,7 @@ test('summaryTemplate generates summary text correctly', async () => {
   document.querySelector('input[name="a_speech"]').checked = true;
 
   const bpEntries = document.getElementById('bpEntries');
-  bpEntries.innerHTML = `<div class="bp-entry"><strong>Nifedipinas</strong><input value="10:00" /><div class="input-group flex-nowrap"><input value="25" data-unit="mg" placeholder="mg" /><span class="unit">mg</span></div><input value="požymai" /></div>`;
+  bpEntries.innerHTML = `<div class="bp-entry"><strong>Nifedipinas</strong><input value="10:00" /><div class="input-group flex-nowrap"><input value="25" data-unit="mg" placeholder="mg" /><span class="unit">mg</span></div><div class="input-group flex-nowrap bp-after"><input name="bp_sys_after" value="150" /><input name="bp_dia_after" value="90" /></div><input value="požymai" /></div>`;
 
   inputs.a_personal.value = '12345678901';
   inputs.a_name.value = 'Jonas Jonaitis';

@@ -90,3 +90,31 @@ test('bp entry displays default dose from bpMeds', async () => {
   assert.equal(doseInput.placeholder, med.unit);
   assert.equal(unitSpan.textContent, med.unit);
 });
+
+test('bp entry creates and saves BP after inputs', async () => {
+  const med = bpMeds[0];
+  document.body.innerHTML = `
+    <form>
+      <input id="p_weight" type="number" />
+      <ul id="bpMedList" role="list"><li><button type="button" class="btn bp-med" data-med="${med.name}">${med.name}</button></li></ul>
+      <div id="bpEntries"></div>
+    </form>
+  `;
+  const { setupBpEntry } = await import('../js/bp.js');
+  const { getPayload } = await import('../js/storage.js');
+
+  setupBpEntry();
+  document.querySelector('.bp-med').click();
+
+  const sysInput = document.querySelector('.bp-sys-after');
+  const diaInput = document.querySelector('.bp-dia-after');
+  assert.ok(sysInput);
+  assert.ok(diaInput);
+
+  sysInput.value = '150';
+  diaInput.value = '90';
+
+  const payload = getPayload();
+  assert.equal(payload.bp_meds[0].bp_sys_after, '150');
+  assert.equal(payload.bp_meds[0].bp_dia_after, '90');
+});

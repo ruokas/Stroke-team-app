@@ -7,6 +7,13 @@ const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 function applyDom() {
   const dom = new JSDOM(html, { url: 'http://localhost' });
   global.window = dom.window;
+  global.window.matchMedia =
+    global.window.matchMedia ||
+    (() => ({
+      matches: false,
+      addListener: () => {},
+      removeListener: () => {},
+    }));
   global.document = dom.window.document;
   global.HTMLElement = dom.window.HTMLElement;
   global.Event = dom.window.Event;

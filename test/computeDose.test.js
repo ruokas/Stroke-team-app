@@ -4,9 +4,8 @@ import assert from 'node:assert/strict';
 import { computeDose } from '../js/computeDose.js';
 
 test('computeDose returns null on invalid inputs', () => {
-  assert.strictEqual(computeDose(0, 1, 'tnk'), null);
-  assert.strictEqual(computeDose(70, 0, 'tnk'), null);
-  assert.strictEqual(computeDose(70, 1, 'foo'), null);
+  assert.strictEqual(computeDose(0, 5, 'tnk'), null);
+  assert.strictEqual(computeDose(70, 5, 'foo'), null);
 });
 
 test('computeDose calculates TNK dose and caps at 25 mg', () => {

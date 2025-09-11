@@ -28,7 +28,6 @@ export function collectSummaryData(payload) {
   };
   const drugs = {
     type: payload.drug_type || '',
-    conc: get(payload.drug_conc),
     totalDose: get(payload.dose_total),
     totalVol: get(payload.dose_volume),
     bolus: get(payload.tpa_bolus),
@@ -137,7 +136,8 @@ export function summaryTemplate({
   lines.push('VAISTAI:');
   const drugType = drugs.type === 'tnk' ? 'Tenekteplazė' : 'Alteplazė';
   lines.push(`- Tipas: ${drugType}`);
-  lines.push(`- Koncentracija: ${drugs.conc ? `${drugs.conc} mg/ml` : '—'}`);
+  const concLine = drugs.type === 'tnk' ? '5 mg/ml' : '1 mg/ml';
+  lines.push(`- Koncentracija: ${concLine}`);
   lines.push(
     `- Bendra dozė: ${
       drugs.totalDose ? `${drugs.totalDose} mg` : '—'

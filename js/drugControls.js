@@ -41,7 +41,6 @@ export function setupDrugControls(inputs) {
     calcDrugs();
     toggleStartBtn();
   });
-  inputs.drugConc?.addEventListener('input', calcDrugs);
   inputs.ct_result?.forEach((el) =>
     el.addEventListener('change', toggleStartBtn),
   );

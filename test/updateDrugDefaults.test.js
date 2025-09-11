@@ -2,19 +2,17 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import './jsdomSetup.js';
 
-test('updateDrugDefaults sets default concentrations correctly', async () => {
+test('updateDrugDefaults toggles tPA breakdown visibility', async () => {
   const { getInputs } = await import('../js/state.js');
   const inputs = getInputs();
   const { updateDrugDefaults } = await import('../js/drugs.js');
-
-  inputs.def_tnk.value = '';
-  inputs.def_tpa.value = '';
+  const tpaBreakdown = document.getElementById('tpaBreakdown');
 
   inputs.drugType.value = 'tnk';
   updateDrugDefaults();
-  assert.strictEqual(inputs.drugConc.value, '5');
+  assert.strictEqual(tpaBreakdown.style.display, 'none');
 
   inputs.drugType.value = 'tpa';
   updateDrugDefaults();
-  assert.strictEqual(inputs.drugConc.value, '1');
+  assert.strictEqual(tpaBreakdown.style.display, 'grid');
 });

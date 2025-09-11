@@ -3,6 +3,7 @@ import {
   summaryTemplate,
   copySummary,
   exportSummaryPDF,
+  exportSummaryToDrive,
 } from './summary.js';
 import { getActivePatient } from './patients.js';
 import { getPayload } from './storage.js';
@@ -49,5 +50,14 @@ export function setupSummaryHandlers(inputs) {
     if (patient) patient.summary = text;
     exportSummaryPDF(data);
     showToast(t('summary_exported'), { type: 'success' });
+  });
+
+  document.getElementById('exportDriveBtn')?.addEventListener('click', () => {
+    const patient = getActivePatient();
+    const data = collectSummaryData(patient || getPayload());
+    const text = summaryTemplate(data);
+    inputs.summary.value = text;
+    if (patient) patient.summary = text;
+    exportSummaryToDrive(data);
   });
 }

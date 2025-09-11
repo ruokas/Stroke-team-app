@@ -1,5 +1,6 @@
 import { getInputs } from './state.js';
 import { showToast } from './toast.js';
+import { t } from './i18n.js';
 
 export function collectSummaryData(payload) {
   const get = (v) => (v !== undefined && v !== null && v !== '' ? v : null);
@@ -232,4 +233,73 @@ export function exportSummaryPDF(data, win = window) {
   printWindow.document.close();
   printWindow.focus();
   printWindow.print();
+}
+
+let tokenClient;
+
+async function loadGoogle() {
+  if (window.google && window.google.accounts && window.google.accounts.oauth2)
+    return;
+  await new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = 'https://accounts.google.com/gsi/client';
+    script.onload = resolve;
+    script.onerror = () => reject(new Error('GIS load failed'));
+    document.head.appendChild(script);
+  });
+}
+
+async function getAccessToken() {
+  await loadGoogle();
+  return new Promise((resolve, reject) => {
+    if (!window.GOOGLE_CLIENT_ID) {
+      reject(new Error('Missing Google client ID'));
+      return;
+    }
+    if (!tokenClient) {
+      tokenClient = window.google.accounts.oauth2.initTokenClient({
+        client_id: window.GOOGLE_CLIENT_ID,
+        scope: 'https://www.googleapis.com/auth/drive.file',
+        callback: (resp) => {
+          if (resp.error) reject(resp);
+          else resolve(resp.access_token);
+        },
+      });
+    }
+    tokenClient.callback = (resp) => {
+      if (resp.error) reject(resp);
+      else resolve(resp.access_token);
+    };
+    tokenClient.requestAccessToken();
+  });
+}
+
+export async function exportSummaryToDrive(data) {
+  const text = summaryTemplate(data);
+  try {
+    const token = await getAccessToken();
+    const metadata = {
+      name: `santrauka-${new Date().toISOString().slice(0, 10)}.txt`,
+      mimeType: 'text/plain',
+    };
+    const form = new FormData();
+    form.append(
+      'metadata',
+      new Blob([JSON.stringify(metadata)], { type: 'application/json' }),
+    );
+    form.append('file', new Blob([text], { type: 'text/plain' }));
+    const res = await fetch(
+      'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart',
+      {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+        body: form,
+      },
+    );
+    if (!res.ok) throw new Error(await res.text());
+    showToast(t('summary_drive_ok'), { type: 'success' });
+  } catch (err) {
+    console.error('Drive upload failed', err);
+    showToast(t('summary_drive_fail'), { type: 'error' });
+  }
 }

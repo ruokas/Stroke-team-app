@@ -1,9 +1,9 @@
 section.card {
-  background: var(--card-bg);
+  background: var(--card);
   backdrop-filter: blur(10px);
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 14px;
+  border: 1px solid color-mix(in srgb, var(--line), var(--bg) 20%);
+  border-radius: 0.875rem;
+  padding: 0.875rem;
   color: var(--ink);
 }
 section.card h2 {
@@ -30,8 +30,9 @@ select:not(.btn) {
   width: 100%;
   padding: 9px 10px;
   border: 1px solid var(--line);
-  border-radius: 10px;
-  background: var(--bg);
+  border-radius: 0.625rem;
+  background: var(--card);
+  background: color-mix(in srgb, var(--card), #fff 20%);
   color: var(--ink);
   font-size: 0.875rem;
   line-height: 1.2;
@@ -103,8 +104,9 @@ input[type='datetime-local']::-webkit-calendar-picker-indicator {
 .time-input {
   padding: 9px 10px;
   border: 1px solid var(--line);
-  border-radius: 10px;
-  background: var(--bg);
+  border-radius: 0.625rem;
+  background: var(--card);
+  background: color-mix(in srgb, var(--card), #fff 20%);
   color: var(--ink);
   font-size: 0.875rem;
 }

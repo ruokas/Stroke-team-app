@@ -2,21 +2,44 @@
 <html lang="lt">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Insulto komandos forma</title>
-    <script>
-      (() => {
-        let saved;
-        try {
-          saved = localStorage.getItem('theme');
-        } catch {}
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const preferred = saved || (prefersDark ? 'dark' : 'light');
-        document.documentElement.classList.add(preferred);
-      })();
-    </script>
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="manifest" href="manifest.json" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="color-scheme" content="light dark" />
+      <meta
+        name="theme-color"
+        media="(prefers-color-scheme: light)"
+        content="#ffffff"
+      />
+      <meta
+        name="theme-color"
+        media="(prefers-color-scheme: dark)"
+        content="#0d1117"
+      />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+      />
+      <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
+        rel="stylesheet"
+      />
+      <title>Insulto komandos forma</title>
+      <script>
+        (() => {
+          let saved;
+          try {
+            saved = localStorage.getItem('theme');
+          } catch {}
+          const prefersDark =
+            typeof window.matchMedia === 'function' &&
+            window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const preferred = saved || (prefersDark ? 'dark' : 'light');
+          document.documentElement.classList.add(preferred);
+        })();
+      </script>
+      <link rel="stylesheet" href="css/style.css?v=1.0.0" />
+      <link rel="manifest" href="manifest.json" />
   </head>
   <body>
     

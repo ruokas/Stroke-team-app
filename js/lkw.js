@@ -42,8 +42,10 @@ export function setupLkw(inputs) {
     tab?.toggleAttribute('disabled', disabled);
     if (startBtn) {
       startBtn.dataset.lkwDisabled = disabled ? 'true' : 'false';
-      startBtn.disabled =
+      const startDisabled =
         disabled || startBtn.dataset.requirementsInvalid === 'true';
+      startBtn.disabled = startDisabled;
+      startBtn.toggleAttribute('disabled', startDisabled);
     }
   };
   inputs.lkw_type.forEach((o) =>

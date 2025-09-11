@@ -14,9 +14,11 @@ export function setupDrugControls(inputs) {
     startThrombolysisBtn.dataset.requirementsInvalid = requirementsInvalid
       ? 'true'
       : 'false';
-    startThrombolysisBtn.disabled =
+    const startDisabled =
       requirementsInvalid ||
       startThrombolysisBtn.dataset.lkwDisabled === 'true';
+    startThrombolysisBtn.disabled = startDisabled;
+    startThrombolysisBtn.toggleAttribute('disabled', startDisabled);
   };
 
   [inputs.def_tnk, inputs.def_tpa].forEach((el) =>

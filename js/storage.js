@@ -104,12 +104,15 @@ export function getPayload() {
     document.querySelectorAll('#bpEntries .bp-entry'),
   ).map((entry) => {
     const med = entry.querySelector('strong')?.textContent || '';
-    const [timeEl, doseEl, notesEl] = entry.querySelectorAll('input');
+    const [timeEl, doseEl, sysAfterEl, diaAfterEl, notesEl] =
+      entry.querySelectorAll('input');
     return {
       time: timeEl?.value || '',
       med,
       dose: doseEl?.value || '',
       unit: doseEl?.dataset.unit || doseEl?.placeholder || '',
+      bp_sys_after: sysAfterEl?.value || '',
+      bp_dia_after: diaAfterEl?.value || '',
       notes: notesEl?.value || '',
     };
   });
@@ -150,6 +153,8 @@ export function setPayload(p) {
         m.time,
         m.notes || '',
         m.unit || '',
+        m.bp_sys_after || '',
+        m.bp_dia_after || '',
       );
       bpContainer.appendChild(entry);
     });

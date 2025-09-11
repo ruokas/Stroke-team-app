@@ -34,3 +34,27 @@ test('startThrombolysis button disables on unknown LKW', () => {
   assert.equal(startBtn.disabled, false);
   assert.equal(startBtn.hasAttribute('disabled'), false);
 });
+
+test('startThrombolysis button disables on CT bleed', () => {
+  const inputs = getInputs();
+  setupDrugControls(inputs);
+
+  inputs.weight.value = '70';
+  inputs.weight.dispatchEvent(new Event('input', { bubbles: true }));
+  inputs.drugType.value = 'tpa';
+  inputs.drugType.dispatchEvent(new Event('change', { bubbles: true }));
+
+  const startBtn = document.getElementById('startThrombolysis');
+
+  const ctClear = inputs.ct_result.find((o) => o.value === 'clear');
+  ctClear.checked = true;
+  ctClear.dispatchEvent(new Event('change', { bubbles: true }));
+  assert.equal(startBtn.disabled, false);
+  assert.equal(startBtn.hasAttribute('disabled'), false);
+
+  const ctBleed = inputs.ct_result.find((o) => o.value === 'bleed');
+  ctBleed.checked = true;
+  ctBleed.dispatchEvent(new Event('change', { bubbles: true }));
+  assert.equal(startBtn.disabled, true);
+  assert.equal(startBtn.hasAttribute('disabled'), true);
+});

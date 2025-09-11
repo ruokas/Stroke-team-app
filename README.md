@@ -28,7 +28,7 @@ Requires Node.js 20 or later and access to a PostgreSQL database.
    npm run migrate
    ```
 
-3. **Run the test suite** *(optional but recommended)*
+3. **Run the test suite** _(optional but recommended)_
 
    ```sh
    npm test
@@ -106,6 +106,27 @@ loading the scripts:
   window.DISABLE_ANALYTICS = true;
 </script>
 ```
+
+## Google Drive export
+
+Enable the **Upload to Drive** button to save summaries directly to Google Drive:
+
+1. In [Google Cloud Console](https://console.cloud.google.com/) create an OAuth 2.0
+   Client ID of type **Web application**.
+2. Enable the Google Drive API and grant the scope
+   `https://www.googleapis.com/auth/drive.file`.
+3. Add your application's URL and `http://localhost` to the list of authorized
+   origins.
+4. Expose the client ID before loading the app:
+
+   ```html
+   <script>
+     window.GOOGLE_CLIENT_ID = 'YOUR_CLIENT_ID';
+   </script>
+   ```
+
+When the user clicks **Upload to Drive** the app requests authorization and
+uploads the summary as a text file to their Drive account.
 
 ## Offline support
 

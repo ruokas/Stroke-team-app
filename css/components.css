@@ -859,7 +859,7 @@ section[data-tab='Intervencijos'] h3 {
   display: flex;
   gap: 8px;
   justify-content: flex-end;
-  background: linear-gradient(180deg, transparent, rgba(12, 18, 24, 0.85));
+  background: rgba(12, 18, 24, 0.85);
   padding-top: 8px;
 }
 details.settings {

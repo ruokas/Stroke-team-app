@@ -300,6 +300,30 @@ nav .tab.active {
   height: auto;
 }
 
+@media (max-width: 1024px) {
+  body.nav-collapsed:not(.nav-open) .layout-main {
+    grid-template-columns: 80px 1fr;
+  }
+
+  body.nav-collapsed:not(.nav-open) nav {
+    width: 80px;
+  }
+
+  body.nav-collapsed:not(.nav-open) nav .tab {
+    justify-content: center;
+    font-size: 0;
+  }
+
+  body.nav-collapsed:not(.nav-open) nav .tab .tab-icon {
+    margin-right: 0;
+    font-size: 1.5rem;
+  }
+
+  body.nav-collapsed:not(.nav-open) nav .tab-label {
+    display: none;
+  }
+}
+
 @media (max-width: 768px) {
   .layout-main {
     display: block;

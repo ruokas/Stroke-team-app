@@ -8,6 +8,7 @@ export function setupNavigation(inputs) {
   const tabs = $$('nav .tab');
   const sections = $$('main > section');
   const navToggle = $('#navToggle');
+  const mainNav = $('#mainNav');
 
   const showSection = (id) => {
     sections.forEach((s) => {
@@ -59,6 +60,25 @@ export function setupNavigation(inputs) {
       if (navToggle)
         navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
+  }
+
+  // collapse navigation to icons on tablets
+  if (window.innerWidth <= 1024) {
+    document.body.classList.add('nav-collapsed');
+    if (mainNav) {
+      mainNav.addEventListener('click', (e) => {
+        if (document.body.classList.contains('nav-collapsed')) {
+          e.preventDefault();
+          document.body.classList.remove('nav-collapsed');
+        }
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!mainNav.contains(e.target) && window.innerWidth <= 1024) {
+          document.body.classList.add('nav-collapsed');
+        }
+      });
+    }
   }
 
   tabs.forEach((tab, index) => {

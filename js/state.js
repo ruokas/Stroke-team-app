@@ -32,6 +32,7 @@ const selectorMap = {
   arrival_symptoms: ['#arrival_symptoms'],
   arrival_contra: ['input[name="arrival_contra"]', true],
   arrival_mt_contra: ['input[name="arrival_mt_contra"]', true],
+  ct_result: ['input[name="ct_result"]', true],
   drugType: ['#drug_type'],
   drugConc: ['#drug_conc'],
   doseTotal: ['#dose_total'],

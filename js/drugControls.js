@@ -14,9 +14,14 @@ export function setupDrugControls(inputs) {
     startThrombolysisBtn.dataset.requirementsInvalid = requirementsInvalid
       ? 'true'
       : 'false';
+    const ctBleed = inputs.ct_result?.some(
+      (n) => n.checked && n.value === 'bleed',
+    );
+    startThrombolysisBtn.dataset.ctBleed = ctBleed ? 'true' : 'false';
     const startDisabled =
       requirementsInvalid ||
-      startThrombolysisBtn.dataset.lkwDisabled === 'true';
+      startThrombolysisBtn.dataset.lkwDisabled === 'true' ||
+      ctBleed;
     startThrombolysisBtn.disabled = startDisabled;
     startThrombolysisBtn.toggleAttribute('disabled', startDisabled);
   };
@@ -37,6 +42,9 @@ export function setupDrugControls(inputs) {
     toggleStartBtn();
   });
   inputs.drugConc?.addEventListener('input', calcDrugs);
+  inputs.ct_result?.forEach((el) =>
+    el.addEventListener('change', toggleStartBtn),
+  );
 
   startThrombolysisBtn?.addEventListener('click', () => {
     setNow('t_thrombolysis');

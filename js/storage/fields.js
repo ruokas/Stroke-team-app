@@ -62,6 +62,12 @@ export const FIELD_DEFS = [
   { key: 'tpa_infusion', selector: 'tpaInf' },
   { key: 't_thrombolysis', selector: 't_thrombolysis' },
   {
+    key: 'ct_result',
+    selector: 'ct_result',
+    get: getRadioValue,
+    set: setRadioValue,
+  },
+  {
     key: 'arrival_lkw_type',
     selector: 'lkw_type',
     get: getRadioValue,

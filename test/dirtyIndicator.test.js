@@ -23,15 +23,21 @@ test(
 
     const id = getActivePatientId();
     const select = document.getElementById('patientSelect');
+    let opt = Array.from(select.options).find((o) => o.value === id);
+    assert.strictEqual(opt.textContent, 'Pacientas 1');
+
     const field = document.getElementById('a_name');
     field.value = 'Test';
     field.dispatchEvent(new Event('input', { bubbles: true }));
 
-    let opt = Array.from(select.options).find((o) => o.value === id);
+    opt = Array.from(select.options).find((o) => o.value === id);
+    assert.ok(opt.textContent.startsWith('Test'));
     assert.ok(opt.textContent.endsWith(' •'));
+    const label = document.getElementById('patientMenuLabel');
+    assert.strictEqual(label.textContent, 'Test');
 
     saveCb?.();
     opt = Array.from(select.options).find((o) => o.value === id);
-    assert.ok(!opt.textContent.endsWith(' •'));
+    assert.strictEqual(opt.textContent, 'Test');
   },
 );

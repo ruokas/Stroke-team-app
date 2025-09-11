@@ -112,3 +112,15 @@ test('switchPatient persists previous patient data', () => {
   const patients = getPatientStore();
   assert.strictEqual(patients[id2].p_nihss0, '2');
 });
+
+test('addPatient assigns default names sequentially', () => {
+  localStorage.clear();
+  resetInputs();
+  Object.keys(getPatientStore()).forEach((id) => removePatient(id));
+
+  const id1 = addPatient();
+  const id2 = addPatient();
+  const patients = getPatientStore();
+  assert.strictEqual(patients[id1].name, 'Pacientas 1');
+  assert.strictEqual(patients[id2].name, 'Pacientas 2');
+});

@@ -166,23 +166,20 @@ export function setupAutosave(
     closePatientMenu();
   });
 
-  $('#newPatientBtn')?.addEventListener('click', async () => {
+  $('#newPatientBtn')?.addEventListener('click', () => {
     const id = addPatient();
-    const enteredName = await promptModal(t('rename_prompt'), '');
-    if (enteredName) {
-      renamePatient(id, enteredName);
-      refreshPatientSelect(id);
-    } else {
-      refreshPatientSelect(id);
-    }
+    refreshPatientSelect(id);
     showToast(t('patient_created'), { type: 'success' });
     updateSaveStatus();
     closePatientMenu();
   });
 
-  const handleChange = () => {
+  const handleChange = (e) => {
     const id = getActivePatientId();
     if (id) dirtyPatients.add(id);
+    if (e.target?.id === 'a_name' && id) {
+      renamePatient(id, e.target.value);
+    }
     updateActivePatient();
     if (!$('#summarySec').classList.contains('hidden')) {
       const patient = getActivePatient();

@@ -101,3 +101,30 @@ test('falls back to first section when hash is invalid', () => {
   assert.ok(sections[1].classList.contains('hidden'));
   assert.strictEqual(window.location.hash, '#sec1');
 });
+
+test('collapses and expands nav on small screens', () => {
+  window.innerWidth = 1024;
+  document.body.innerHTML = `
+    <nav id="mainNav">
+      <a href="#s1" class="tab">One</a>
+    </nav>
+    <main><section id="s1"></section></main>
+  `;
+
+  const inputs = { summary: { value: '' }, d_time: { value: '' } };
+  setupNavigation(inputs);
+
+  const link = document.querySelector('nav .tab');
+  const evt = new window.MouseEvent('click', {
+    bubbles: true,
+    cancelable: true,
+  });
+  const prevented = !link.dispatchEvent(evt);
+  assert.ok(prevented);
+  assert.ok(!document.body.classList.contains('nav-collapsed'));
+
+  document.body.dispatchEvent(
+    new window.MouseEvent('click', { bubbles: true }),
+  );
+  assert.ok(document.body.classList.contains('nav-collapsed'));
+});

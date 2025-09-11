@@ -42,6 +42,12 @@ export const FIELD_DEFS = [
   { key: 'p_bp_sys', selector: 'bp_sys' },
   { key: 'p_bp_dia', selector: 'bp_dia' },
   { key: 'p_inr', selector: 'inr' },
+  {
+    key: 'p_independent',
+    selector: 'p_independent',
+    get: getRadioValue,
+    set: (nodes, value) => setRadioValue(nodes, value || ''),
+  },
   { key: 'p_nihss0', selector: 'nih0', alias: ['nihs_initial'] },
   { key: 't_lkw', selector: 'lkw' },
   { key: 't_sleep_start', selector: 'sleep_start' },
@@ -114,6 +120,12 @@ export const FIELD_DEFS = [
   { key: 'a_dob', selector: 'a_dob' },
   { key: 'a_age', selector: 'a_age' },
   {
+    key: 'a_independent',
+    selector: 'a_independent',
+    get: getRadioValue,
+    set: (nodes, value) => setRadioValue(nodes, value || ''),
+  },
+  {
     key: 'a_sym_face',
     selector: 'a_sym_face',
     get: getBooleanGroup,
@@ -175,3 +187,25 @@ export const FIELD_DEFS = [
   { key: 'a_temp', selector: 'a_temp' },
   { key: 'a_gmp_time', selector: 'a_gmp_time' },
 ];
+
+if (typeof document !== 'undefined') {
+  const aNodes = Array.from(
+    document.querySelectorAll('input[name="a_independent"]'),
+  );
+  const pNodes = Array.from(
+    document.querySelectorAll('input[name="p_independent"]'),
+  );
+  function mirror(src, target) {
+    src.forEach((el) => {
+      el.addEventListener('change', () => {
+        if (!el.checked) return;
+        target.forEach((t) => {
+          t.checked = t.value === el.value;
+          t.dispatchEvent(new Event('change', { bubbles: true }));
+        });
+      });
+    });
+  }
+  mirror(aNodes, pNodes);
+  mirror(pNodes, aNodes);
+}

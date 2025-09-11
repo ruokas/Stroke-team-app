@@ -6,9 +6,11 @@ function round0(n) {
 
 export function computeDose(weight, concentration, type) {
   const w = Number(weight);
-  const c = Number(concentration);
+  let c = Number(concentration);
   if (!Number.isFinite(w) || w <= 0) return null;
-  if (!Number.isFinite(c) || c <= 0) return null;
+  if (!Number.isFinite(c) || c <= 0) {
+    c = type === 'tnk' ? 5 : 1;
+  }
 
   if (type === 'tnk') {
     const doseTotal = Math.min(25, round0(0.25 * w));

@@ -34,7 +34,6 @@ const selectorMap = {
   arrival_mt_contra: ['input[name="arrival_mt_contra"]', true],
   ct_result: ['input[name="ct_result"]', true],
   drugType: ['#drug_type'],
-  drugConc: ['#drug_conc'],
   doseTotal: ['#dose_total'],
   doseVol: ['#dose_volume'],
   tpaBolus: ['#tpa_bolus'],

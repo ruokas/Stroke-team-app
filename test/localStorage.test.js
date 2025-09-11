@@ -95,7 +95,6 @@ test(
     inputs.lkw.value = '2024-01-01T08:00';
     inputs.door.value = '2024-01-01T08:30';
     inputs.drugType.value = 'tnk';
-    inputs.drugConc.value = '5';
     inputs.doseTotal.value = '10';
     inputs.doseVol.value = '2';
 

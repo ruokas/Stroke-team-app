@@ -39,7 +39,6 @@ test('summaryTemplate generates summary text correctly', async () => {
   inputs.door.value = '2024-01-01T08:00';
   inputs.d_time.value = '2024-01-01T08:40';
   inputs.drugType.value = 'tnk';
-  inputs.drugConc.value = '5';
   inputs.doseTotal.value = '20';
   inputs.doseVol.value = '4';
 

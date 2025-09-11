@@ -10,7 +10,6 @@ import('../js/drugs.js').then(({ calcDrugs }) => {
 
     document.body.innerHTML = `
       <select id="drug_type"></select>
-      <input id="drug_conc" />
       <input id="p_weight" />
       <input id="dose_total" />
       <input id="dose_volume" />
@@ -22,7 +21,6 @@ import('../js/drugs.js').then(({ calcDrugs }) => {
     const { getInputs } = await import('../js/state.js');
     const inputs = getInputs();
     inputs.drugType.value = 'tnk';
-    inputs.drugConc.value = '5';
     inputs.weight.value = '70';
     assert.doesNotThrow(() => calcDrugs());
   });

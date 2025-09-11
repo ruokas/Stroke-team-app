@@ -55,7 +55,6 @@ export const FIELD_DEFS = [
     set: (nodes, value) => setRadioValue(nodes, value || ''),
   },
   { key: 'drug_type', selector: 'drugType', default: 'tnk' },
-  { key: 'drug_conc', selector: 'drugConc' },
   { key: 'dose_total', selector: 'doseTotal' },
   { key: 'dose_volume', selector: 'doseVol' },
   { key: 'tpa_bolus', selector: 'tpaBolus' },

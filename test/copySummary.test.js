@@ -40,7 +40,6 @@ test('copySummary builds data object and copies formatted text', async () => {
   inputs.a_temp.value = '37';
   inputs.arrival_symptoms.value = 'Dešinės rankos silpnumas';
   inputs.drugType.value = 'tnk';
-  inputs.drugConc.value = '5';
   inputs.doseTotal.value = '20';
   inputs.doseVol.value = '4';
 
@@ -65,7 +64,6 @@ test('copySummary builds data object and copies formatted text', async () => {
     },
     drugs: {
       type: 'tnk',
-      conc: '5',
       totalDose: '20',
       totalVol: '4',
       bolus: null,

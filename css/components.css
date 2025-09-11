@@ -36,14 +36,14 @@
 .btn.primary {
   background: var(--accent);
   color: #fff;
-  border-color: #2d74b8;
+  border-color: var(--accent);
 }
 .btn.primary:hover {
-  background: #2368c5;
+  background: color-mix(in srgb, var(--accent), #000 10%);
 }
 
 .btn.primary:active {
-  background: #1a56aa;
+  background: color-mix(in srgb, var(--accent), #000 20%);
 }
 .btn.warn {
   background: var(--yellow);
@@ -99,13 +99,13 @@
 #bpCorrBtn[aria-expanded='true'] {
   background: var(--accent);
   color: #fff;
-  border-color: #2d74b8;
+  border-color: var(--accent);
 }
 #bpCorrBtn[aria-expanded='true']:hover {
-  background: #2368c5;
+  background: color-mix(in srgb, var(--accent), #000 10%);
 }
 #bpCorrBtn[aria-expanded='true']:active {
-  background: #1a56aa;
+  background: color-mix(in srgb, var(--accent), #000 20%);
 }
 .switch {
   position: relative;
@@ -146,7 +146,7 @@
 
 .switch input:checked + .slider {
   background: var(--accent);
-  border-color: #2d74b8;
+  border-color: var(--accent);
 }
 
 .switch input:checked + .slider::before {

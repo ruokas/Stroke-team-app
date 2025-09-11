@@ -21,13 +21,16 @@ test('startThrombolysis button disables on unknown LKW', () => {
   lkwUnknown.checked = true;
   lkwUnknown.dispatchEvent(new Event('change', { bubbles: true }));
   assert.equal(startBtn.disabled, true);
+  assert.equal(startBtn.hasAttribute('disabled'), true);
 
   inputs.weight.value = '80';
   inputs.weight.dispatchEvent(new Event('input', { bubbles: true }));
   assert.equal(startBtn.disabled, true);
+  assert.equal(startBtn.hasAttribute('disabled'), true);
 
   const lkwKnown = inputs.lkw_type.find((o) => o.value === 'known');
   lkwKnown.checked = true;
   lkwKnown.dispatchEvent(new Event('change', { bubbles: true }));
   assert.equal(startBtn.disabled, false);
+  assert.equal(startBtn.hasAttribute('disabled'), false);
 });

@@ -613,6 +613,17 @@ section[data-tab='Intervencijos'] h3 {
   color: inherit;
   font-size: 16px;
   cursor: pointer;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+
+.toast-close:hover,
+.toast-close:focus {
+  background: var(--ghost-hover-bg);
 }
 .arrival-timer {
   font-family: monospace;

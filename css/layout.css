@@ -4,30 +4,30 @@
 
 :root.dark {
   color-scheme: dark;
-  --bg: #0c1218;
-  --card: #121a24;
-  --ink: #e9f2fb;
-  --muted: #c2d0e0;
-  --line: #2d3b4f;
-  --accent: #4ea0f5;
-  --red: #e53935;
-  --yellow: #ffb74d;
-  --green: #00c853;
-  --ink2: #d7ecff;
+  --bg: #111827;
+  --card: #1f2937;
+  --ink: #f3f4f6;
+  --muted: #9ca3af;
+  --line: #4b5563;
+  --accent: #60a5fa;
+  --red: #f87171;
+  --yellow: #fbbf24;
+  --green: #34d399;
+  --ink2: #e0e7ff;
   --button-bg: var(--card);
-  --header-bg: rgba(13, 21, 31, 0.87);
-  --card-bg: rgba(18, 26, 36, 0.6);
+  --header-bg: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent), var(--card) 70%));
+  --card-bg: color-mix(in srgb, var(--card), var(--bg) 60%);
   --yellow-text: #271400;
   --yellow-border: #bf7d19;
-  --btn-hover-bg: #141d28;
-  --btn-active-bg: #101720;
-  --ghost-hover-bg: #18222e;
-  --ghost-active-bg: #0d1319;
+  --btn-hover-bg: color-mix(in srgb, var(--card), var(--bg) 10%);
+  --btn-active-bg: color-mix(in srgb, var(--card), var(--ink) 20%);
+  --ghost-hover-bg: color-mix(in srgb, var(--card), var(--bg) 10%);
+  --ghost-active-bg: color-mix(in srgb, var(--card), var(--ink) 20%);
 }
 
 :root.light {
   color-scheme: light;
-  --bg: #ffffff;
+  --bg: #fff;
   --card: #f1f5f9;
   --ink: #0f172a;
   --muted: #475569;
@@ -38,14 +38,14 @@
   --green: #00c853;
   --ink2: #1e293b;
   --button-bg: var(--card);
-  --header-bg: rgba(255, 255, 255, 0.86);
-  --card-bg: rgba(241, 245, 249, 0.6);
+  --header-bg: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent), var(--card) 70%));
+  --card-bg: color-mix(in srgb, var(--card), var(--bg) 60%);
   --yellow-text: #271400;
   --yellow-border: #bf7d19;
-  --btn-hover-bg: #e2e8f0;
-  --btn-active-bg: #cbd5e1;
-  --ghost-hover-bg: #e2e8f0;
-  --ghost-active-bg: #cbd5e1;
+  --btn-hover-bg: color-mix(in srgb, var(--card), var(--bg) 10%);
+  --btn-active-bg: color-mix(in srgb, var(--card), var(--ink) 20%);
+  --ghost-hover-bg: color-mix(in srgb, var(--card), var(--bg) 10%);
+  --ghost-active-bg: color-mix(in srgb, var(--card), var(--ink) 20%);
 }
 *,
 *::before,

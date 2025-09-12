@@ -1794,23 +1794,29 @@ Kontraindikacijos trombektomijai</summary>
 
  Nustatymai</span></summary>
             <div class="card">
-              <div class="grid-3">
-                <div>
-                  <label>TNK numatyta koncentracija (mg/ml)</label>
-                  <input id="def_tnk" type="number" step="0.1" value="5" />
-                </div>
-                <div>
-                  <label>tPA numatyta koncentracija (mg/ml)</label>
-                  <input id="def_tpa" type="number" step="0.1" value="1" />
-                </div>
-                <div>
-                  <label>Automatinis išsaugojimas</label>
-                  <select id="autosave">
-                    <option value="on">Įjungtas</option>
-                    <option value="off">Išjungtas</option>
-                  </select>
-                </div>
-              </div>
+              <form id="settingsForm">
+                <fieldset>
+                  <legend>Nustatymai</legend>
+                  <div class="grid-3">
+                    <div>
+                      <label>TNK numatyta koncentracija (mg/ml)</label>
+                      <input id="def_tnk" type="number" step="0.1" value="5" />
+                    </div>
+                    <div>
+                      <label>tPA numatyta koncentracija (mg/ml)</label>
+                      <input id="def_tpa" type="number" step="0.1" value="1" />
+                    </div>
+                    <div>
+                      <label>Automatinis išsaugojimas</label>
+                      <select id="autosave">
+                        <option value="on">Įjungtas</option>
+                        <option value="off">Išjungtas</option>
+                      </select>
+                    </div>
+                  </div>
+                </fieldset>
+                <button type="submit" class="btn">Išsaugoti</button>
+              </form>
             </div>
           </details>
 

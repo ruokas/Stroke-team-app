@@ -1,5 +1,5 @@
 import { initErrorLogger } from './errorLogger.js';
-import { getInputs } from './state.js';
+import { getInputs, state } from './state.js';
 import { updateDrugDefaults } from './drugs.js';
 import { updateAge } from './age.js';
 import { initArrival } from './arrival.js';
@@ -65,8 +65,42 @@ function flushSave(id, name, cb) {
   cb?.();
 }
 
+const SETTINGS_KEY = 'stroke_settings';
+
+function loadSettings(inputs) {
+  try {
+    const raw = localStorage.getItem(SETTINGS_KEY);
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    if (inputs.def_tnk)
+      inputs.def_tnk.value = data.def_tnk ?? inputs.def_tnk.value;
+    if (inputs.def_tpa)
+      inputs.def_tpa.value = data.def_tpa ?? inputs.def_tpa.value;
+    if (inputs.autosave) {
+      inputs.autosave.value = data.autosave ?? inputs.autosave.value;
+      state.autosave = inputs.autosave.value;
+    }
+  } catch (err) {
+    console.error('Failed to load settings', err);
+  }
+}
+
+function saveSettings(inputs) {
+  const data = {
+    def_tnk: inputs.def_tnk?.value || '',
+    def_tpa: inputs.def_tpa?.value || '',
+    autosave: inputs.autosave?.value || 'on',
+  };
+  try {
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(data));
+  } catch (err) {
+    console.error('Failed to save settings', err);
+  }
+}
+
 function bind() {
   const inputs = getInputs();
+  loadSettings(inputs);
   initAnalytics();
   setupIntervals(inputs);
   setupHeaderHeight();
@@ -87,6 +121,13 @@ function bind() {
     flushSave,
   });
   const { activateFromHash } = setupNavigation(inputs);
+
+  const settingsForm = document.getElementById('settingsForm');
+  settingsForm?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    saveSettings(inputs);
+    updateDrugDefaults();
+  });
 
   initNIHSS();
   updateDrugDefaults();

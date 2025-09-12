@@ -67,6 +67,13 @@ export const FIELD_DEFS = [
   { key: 'tpa_infusion', selector: 'tpaInf' },
   { key: 't_thrombolysis', selector: 't_thrombolysis' },
   {
+    key: 'complications',
+    selector: 'complication',
+    get: getCheckboxList,
+    set: setCheckboxList,
+  },
+  { key: 't_complication', selector: 't_complication' },
+  {
     key: 'ct_result',
     selector: 'ct_result',
     get: getRadioValue,

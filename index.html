@@ -199,6 +199,18 @@
 </span><span class="tab-label">Sprendimas</span></a
   >
   <a
+    id="complications-tab"
+    href="#complications"
+    data-section="complications"
+    class="tab btn"
+    role="tab"
+    ><span class="tab-icon" aria-hidden="true">
+
+<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 36 36"><path fill="#FFCC4D" d="M2.653 35C.811 35-.001 33.662.847 32.027L16.456 1.972c.849-1.635 2.238-1.635 3.087 0l15.609 30.056c.85 1.634.037 2.972-1.805 2.972H2.653z"/><path fill="#231F20" d="M15.583 28.953c0-1.333 1.085-2.418 2.419-2.418 1.333 0 2.418 1.085 2.418 2.418 0 1.334-1.086 2.419-2.418 2.419-1.334 0-2.419-1.085-2.419-2.419zm.186-18.293c0-1.302.961-2.108 2.232-2.108 1.241 0 2.233.837 2.233 2.108v11.938c0 1.271-.992 2.108-2.233 2.108-1.271 0-2.232-.807-2.232-2.108V10.66z"/></svg>
+
+</span><span class="tab-label">Komplikacijos</span></a
+  >
+  <a
     id="summarySec-tab"
     href="#summarySec"
     data-section="summarySec"
@@ -1673,6 +1685,77 @@ Kontraindikacijos trombektomijai</summary>
             </form>
           </section>
 
+
+                <!-- Komplikacijos -->
+        <section
+          id="complications"
+          class="card hidden"
+          role="tabpanel"
+          aria-labelledby="complications-tab"
+        >
+          <h2>Komplikacijos</h2>
+          <form>
+            <fieldset>
+              <legend>Komplikacijos</legend>
+              <div class="grid-3">
+                <label class="pill"
+                  ><input type="checkbox" name="complication" value="bleeding" />
+                  Kraujavimas</label
+                >
+                <label class="pill"
+                  ><input type="checkbox" name="complication" value="allergy" />
+                  Alergija</label
+                >
+                <label class="pill"
+                  ><input type="checkbox" name="complication" value="other" />
+                  Kita</label
+                >
+              </div>
+            </fieldset>
+            <div class="mt-10">
+              <label for="t_complication">Laikas</label>
+              
+<div class="row">
+  <div class="input-group">
+    <input
+      id="t_complication"
+      class="time-input"
+      type="datetime-local"
+      placeholder="YYYY-MM-DD HH:MM"
+      step="60"
+    />
+      
+      <button
+        type="button"
+        class="btn ghost"
+        data-now="t_complication"
+        aria-label="Dabar"
+      >
+        Dabar
+      </button>
+      
+    <button
+      type="button"
+      class="btn ghost"
+      data-stepdown="t_complication"
+      aria-label="−5 min"
+    >
+      −5
+    </button>
+    <button
+      type="button"
+      class="btn ghost"
+      data-stepup="t_complication"
+      aria-label="+5 min"
+    >
+      +5
+    </button>
+  </div>
+</div>
+
+            </div>
+          </form>
+        </section>
 
                 <!-- Santrauka HIS sistemai -->
         <section

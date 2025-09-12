@@ -70,6 +70,7 @@ test('copySummary builds data object and copies formatted text', async () => {
       bolus: null,
       infusion: null,
     },
+    decision: 'Taikoma IVT, indikacijų MTE nenustatyta',
     bpMeds: [
       {
         time: '10:00',
@@ -96,7 +97,8 @@ test('copySummary builds data object and copies formatted text', async () => {
     arrivalSymptoms: 'Dešinės rankos silpnumas',
     arrivalContra: null,
     arrivalMtContra: null,
-    decision: 'Taikoma IVT, indikacijų MTE nenustatyta',
+    complications: null,
+    compTime: null,
   });
 
   const expected = summaryTemplate(data);

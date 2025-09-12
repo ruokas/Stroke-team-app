@@ -65,6 +65,8 @@ export function collectSummaryData(payload) {
   const arrivalSymptoms = get(payload.arrival_symptoms);
   const arrivalContra = get(payload.arrival_contra);
   const arrivalMtContra = get(payload.arrival_mt_contra);
+  const complications = get(payload.complications);
+  const compTime = get(payload.t_complication);
   const decision = payload.d_decision || null;
   return {
     patient,
@@ -76,6 +78,8 @@ export function collectSummaryData(payload) {
     arrivalSymptoms,
     arrivalContra,
     arrivalMtContra,
+    complications,
+    compTime,
   };
 }
 
@@ -89,6 +93,8 @@ export function summaryTemplate({
   arrivalSymptoms,
   arrivalContra,
   arrivalMtContra,
+  complications,
+  compTime,
 }) {
   const lines = [];
   lines.push('PACIENTAS:');
@@ -181,6 +187,12 @@ export function summaryTemplate({
   if (arrivalMtContra) {
     lines.push('KONTRAINDIKACIJOS MTE:');
     lines.push(`- ${arrivalMtContra}`);
+  }
+
+  if (complications || compTime) {
+    lines.push('KOMPLIKACIJOS:');
+    if (complications) lines.push(`- ${complications}`);
+    if (compTime) lines.push(`- Laikas: ${compTime}`);
   }
 
   lines.push('SPRENDIMAS:');

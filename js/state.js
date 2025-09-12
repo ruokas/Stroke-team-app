@@ -45,6 +45,8 @@ const selectorMap = {
   def_tnk: ['#def_tnk'],
   def_tpa: ['#def_tpa'],
   t_thrombolysis: ['#t_thrombolysis'],
+  complication: ['input[name="complication"]', true],
+  t_complication: ['#t_complication'],
   autosave: ['#autosave'],
   summary: ['#summary'],
   patientSelect: ['#patientSelect'],

@@ -1,0 +1,32 @@
+        <!-- Komplikacijos -->
+        <section
+          id="complications"
+          class="card hidden"
+          role="tabpanel"
+          aria-labelledby="complications-tab"
+        >
+          <h2>Komplikacijos</h2>
+          <form>
+            <fieldset>
+              <legend>Komplikacijos</legend>
+              <div class="grid-3">
+                <label class="pill"
+                  ><input type="checkbox" name="complication" value="bleeding" />
+                  Kraujavimas</label
+                >
+                <label class="pill"
+                  ><input type="checkbox" name="complication" value="allergy" />
+                  Alergija</label
+                >
+                <label class="pill"
+                  ><input type="checkbox" name="complication" value="other" />
+                  Kita</label
+                >
+              </div>
+            </fieldset>
+            <div class="mt-10">
+              <label for="t_complication">Laikas</label>
+              {{ timeInput('t_complication') }}
+            </div>
+          </form>
+        </section>

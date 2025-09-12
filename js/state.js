@@ -27,6 +27,7 @@ const selectorMap = {
   door: ['#t_door'],
   d_time: ['#d_time'],
   d_decision: ['input[name="d_decision"]', true],
+  d_department: ['#d_department'],
   lkw_type: ['input[name="lkw_type"]', true],
   sleep_start: ['#t_sleep_start'],
   sleep_end: ['#t_sleep_end'],

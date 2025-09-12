@@ -68,11 +68,13 @@ export function collectSummaryData(payload) {
   const complications = get(payload.complications);
   const compTime = get(payload.t_complication);
   const decision = payload.d_decision || null;
+  const department = payload.d_department || null;
   return {
     patient,
     times,
     drugs,
     decision,
+    department,
     bpMeds,
     activation,
     arrivalSymptoms,
@@ -88,6 +90,7 @@ export function summaryTemplate({
   times,
   drugs,
   decision,
+  department,
   bpMeds,
   activation,
   arrivalSymptoms,
@@ -197,6 +200,7 @@ export function summaryTemplate({
 
   lines.push('SPRENDIMAS:');
   lines.push(`- ${decision ?? '—'}`);
+  lines.push(`- Stacionarizacija: ${department ?? '—'}`);
   return lines.join('\n');
 }
 

@@ -38,6 +38,7 @@ test('summaryTemplate generates summary text correctly', async () => {
   inputs.lkw.value = '2024-01-01T07:00';
   inputs.door.value = '2024-01-01T08:00';
   inputs.d_time.value = '2024-01-01T08:40';
+  inputs.d_department.value = 'Neurologijos skyrius';
   inputs.drugType.value = 'tnk';
   inputs.doseTotal.value = '20';
   inputs.doseVol.value = '4';
@@ -72,4 +73,5 @@ test('summaryTemplate generates summary text correctly', async () => {
   assert(
     summary.includes('SPRENDIMAS:\n- Taikoma IVT, indikacijų MTE nenustatyta'),
   );
+  assert(summary.includes('- Stacionarizacija: Neurologijos skyrius'));
 });

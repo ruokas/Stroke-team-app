@@ -73,6 +73,14 @@ export const FIELD_DEFS = [
     set: setRadioValue,
   },
   {
+    key: 'cta_result',
+    selector: 'cta_result',
+    get: getRadioValue,
+    set: (nodes, value) => setRadioValue(nodes, value || ''),
+  },
+  { key: 'perf_core', selector: 'perf_core' },
+  { key: 'perf_penumbra', selector: 'perf_penumbra' },
+  {
     key: 'arrival_lkw_type',
     selector: 'lkw_type',
     get: getRadioValue,

@@ -80,8 +80,8 @@ export const FIELD_DEFS = [
     set: setRadioValue,
   },
   {
-    key: 'cta_result',
-    selector: 'cta_result',
+    key: 'kta_result',
+    selector: 'kta_result',
     get: getRadioValue,
     set: (nodes, value) => setRadioValue(nodes, value || ''),
   },

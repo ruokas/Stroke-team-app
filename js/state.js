@@ -34,7 +34,7 @@ const selectorMap = {
   arrival_contra: ['input[name="arrival_contra"]', true],
   arrival_mt_contra: ['input[name="arrival_mt_contra"]', true],
   ct_result: ['input[name="ct_result"]', true],
-  cta_result: ['input[name="cta_result"]', true],
+  kta_result: ['input[name="kta_result"]', true],
   perf_core: ['#perf_core'],
   perf_penumbra: ['#perf_penumbra'],
   drugType: ['#drug_type'],

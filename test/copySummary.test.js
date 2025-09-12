@@ -30,6 +30,7 @@ test('copySummary builds data object and copies formatted text', async () => {
   inputs.lkw.value = '2024-01-01T07:00';
   inputs.door.value = '2024-01-01T08:00';
   inputs.d_time.value = '2024-01-01T08:40';
+  inputs.d_department.value = 'Neurologijos skyrius';
   inputs.t_thrombolysis.value = '2024-01-01T09:00';
   inputs.a_warfarin.checked = true;
   inputs.a_glucose.value = '5';
@@ -71,6 +72,7 @@ test('copySummary builds data object and copies formatted text', async () => {
       infusion: null,
     },
     decision: 'Taikoma IVT, indikacijų MTE nenustatyta',
+    department: 'Neurologijos skyrius',
     bpMeds: [
       {
         time: '10:00',

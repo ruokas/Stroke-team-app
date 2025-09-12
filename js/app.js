@@ -4,6 +4,7 @@ import { updateDrugDefaults } from './drugs.js';
 import { updateAge } from './age.js';
 import { initArrival } from './arrival.js';
 import { initActivation } from './activation.js';
+import { initImaging } from './imaging.js';
 import { setupNavigation } from './navigation.js';
 import { setupAutosave } from './autosave.js';
 import { savePatient } from './storage.js';
@@ -92,6 +93,7 @@ function bind() {
   updateAge();
   initActivation();
   initArrival();
+  initImaging();
   updateSaveStatus();
   activateFromHash();
 }

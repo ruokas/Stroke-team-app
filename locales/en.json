@@ -1,5 +1,5 @@
 {
-  "LKW": "Last known well – the time when the patient was last known without stroke symptoms. The app uses this to compute intervals like LKW to thrombolysis for treatment decisions.",
+  "LKW": "Last known well – the time when the patient was last known without stroke symptoms.\nThe app uses this to compute intervals like LKW to thrombolysis for treatment decisions.",
   "settings": "Settings",
   "copy": "Copy",
   "export_pdf": "PDF",

@@ -10,15 +10,74 @@ global.fetch = async (url) => {
 };
 
 const { initI18n } = await import('../js/i18n.js');
-await initI18n();
+
+test('summaryTemplate updates complication translations after reinit', async () => {
+  const origFetch = global.fetch;
+  global.fetch = async (url) => {
+    if (url.toString().includes('locales/lt.json')) {
+      return new Response(
+        JSON.stringify({
+          comp_bleeding: 'Bleeding1',
+          comp_allergy: 'Allergy1',
+          comp_other: 'Other1',
+        }),
+      );
+    }
+    return origFetch(url);
+  };
+  await initI18n();
+  const { summaryTemplate } = await import('../js/summary.js');
+  const data = {
+    patient: {
+      personal: null,
+      name: null,
+      dob: null,
+      age: null,
+      weight: null,
+      bp: null,
+      inr: null,
+      nih0: null,
+      independent: null,
+    },
+    times: { lkw: null, door: null, decision: null, thrombolysis: null, gmp: null },
+    drugs: { type: '', totalDose: null, totalVol: null, bolus: null, infusion: null },
+    decision: null,
+    department: null,
+    bpMeds: [],
+    activation: { lkw: null, drugs: [], params: {}, symptoms: [] },
+    arrivalSymptoms: null,
+    arrivalContra: null,
+    arrivalMtContra: null,
+    complications: 'bleeding; allergy',
+    compTime: null,
+  };
+  let summary = summaryTemplate(data);
+  assert.ok(summary.includes('Bleeding1; Allergy1'));
+
+  global.fetch = async (url) => {
+    if (url.toString().includes('locales/lt.json')) {
+      return new Response(
+        JSON.stringify({
+          comp_bleeding: 'Bleeding2',
+          comp_allergy: 'Allergy2',
+          comp_other: 'Other2',
+        }),
+      );
+    }
+    return origFetch(url);
+  };
+  await initI18n();
+  summary = summaryTemplate(data);
+  assert.ok(summary.includes('Bleeding2; Allergy2'));
+  global.fetch = origFetch;
+});
 
 test('copySummary builds data object and copies formatted text', async () => {
+  await initI18n();
   const { getInputs } = await import('../js/state.js');
   const inputs = getInputs();
   const { getPayload } = await import('../js/storage.js');
-  const { collectSummaryData, summaryTemplate, copySummary } = await import(
-    '../js/summary.js'
-  );
+  const { collectSummaryData, summaryTemplate, copySummary } = await import('../js/summary.js');
 
   document.querySelector(
     'input[name="d_decision"][value="Taikoma IVT, indikacijų MTE nenustatyta"]',
@@ -118,48 +177,4 @@ test('copySummary builds data object and copies formatted text', async () => {
   assert.equal(global.__copied, expected);
   assert.equal(inputs.summary.value, expected);
   assert.equal(copied, expected);
-});
-
-test('summaryTemplate maps complications to LT labels', async () => {
-  const { summaryTemplate } = await import('../js/summary.js');
-  const data = {
-    patient: {
-      personal: null,
-      name: null,
-      dob: null,
-      age: null,
-      weight: null,
-      bp: null,
-      inr: null,
-      nih0: null,
-      independent: null,
-    },
-    times: {
-      lkw: null,
-      door: null,
-      decision: null,
-      thrombolysis: null,
-      gmp: null,
-    },
-    drugs: {
-      type: '',
-      totalDose: null,
-      totalVol: null,
-      bolus: null,
-      infusion: null,
-    },
-    decision: null,
-    department: null,
-    bpMeds: [],
-    activation: { lkw: null, drugs: [], params: {}, symptoms: [] },
-    arrivalSymptoms: null,
-    arrivalContra: null,
-    arrivalMtContra: null,
-    complications: 'bleeding; allergy',
-    compTime: null,
-  };
-  const summary = summaryTemplate(data);
-  assert.ok(summary.includes('Kraujavimas; Alergija'));
-  assert.ok(!summary.includes('bleeding'));
-  assert.ok(!summary.includes('allergy'));
 });

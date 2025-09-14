@@ -1,5 +1,5 @@
 {
-  "LKW": "Paskutinį kartą matytas sveikas – laikas, kai pacientas paskutinį kartą buvo be insulto simptomų. Programėlė šį laiką naudoja apskaičiuodama intervalus, tokius kaip nuo LKW iki trombolizės, sprendimams dėl gydymo.",
+  "LKW": "Paskutinį kartą matytas sveikas – laikas, kai pacientas paskutinį kartą buvo be insulto simptomų. Programėlė šį laiką\nnaudoja apskaičiuodama intervalus, tokius kaip nuo LKW iki trombolizės, sprendimams dėl gydymo.",
   "settings": "Nustatymai",
   "copy": "Kopijuoti",
   "export_pdf": "PDF",

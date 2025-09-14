@@ -1,6 +1,16 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
 import './jsdomSetup.js';
+
+global.fetch = async (url) => {
+  const filePath = new URL('../' + url, import.meta.url);
+  const data = await fs.readFile(filePath);
+  return new Response(data);
+};
+
+const { initI18n } = await import('../js/i18n.js');
+await initI18n();
 
 test('copySummary builds data object and copies formatted text', async () => {
   const { getInputs } = await import('../js/state.js');
@@ -108,4 +118,48 @@ test('copySummary builds data object and copies formatted text', async () => {
   assert.equal(global.__copied, expected);
   assert.equal(inputs.summary.value, expected);
   assert.equal(copied, expected);
+});
+
+test('summaryTemplate maps complications to LT labels', async () => {
+  const { summaryTemplate } = await import('../js/summary.js');
+  const data = {
+    patient: {
+      personal: null,
+      name: null,
+      dob: null,
+      age: null,
+      weight: null,
+      bp: null,
+      inr: null,
+      nih0: null,
+      independent: null,
+    },
+    times: {
+      lkw: null,
+      door: null,
+      decision: null,
+      thrombolysis: null,
+      gmp: null,
+    },
+    drugs: {
+      type: '',
+      totalDose: null,
+      totalVol: null,
+      bolus: null,
+      infusion: null,
+    },
+    decision: null,
+    department: null,
+    bpMeds: [],
+    activation: { lkw: null, drugs: [], params: {}, symptoms: [] },
+    arrivalSymptoms: null,
+    arrivalContra: null,
+    arrivalMtContra: null,
+    complications: 'bleeding; allergy',
+    compTime: null,
+  };
+  const summary = summaryTemplate(data);
+  assert.ok(summary.includes('Kraujavimas; Alergija'));
+  assert.ok(!summary.includes('bleeding'));
+  assert.ok(!summary.includes('allergy'));
 });

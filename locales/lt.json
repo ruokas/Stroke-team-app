@@ -38,5 +38,8 @@
   "local_storage_disabled": "Vietinė saugykla išjungta; serverio sinchronizavimas įjungtas.",
   "toggle_theme": "Perjungti temą",
   "stroke_not_determined": "Insultas nenustatytas",
-  "start_thrombolysis": "Trombolizės pradžia"
+  "start_thrombolysis": "Trombolizės pradžia",
+  "comp_bleeding": "Kraujavimas",
+  "comp_allergy": "Alergija",
+  "comp_other": "Kita"
 }

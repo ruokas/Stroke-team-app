@@ -38,5 +38,8 @@
   "local_storage_disabled": "Local storage disabled; server sync enabled.",
   "toggle_theme": "Toggle theme",
   "stroke_not_determined": "Stroke undetermined",
-  "start_thrombolysis": "Thrombolysis start"
+  "start_thrombolysis": "Thrombolysis start",
+  "comp_bleeding": "Bleeding",
+  "comp_allergy": "Allergy",
+  "comp_other": "Other"
 }

@@ -14,6 +14,17 @@ export function parseValidDate(value) {
   return isNaN(date.getTime()) ? null : date;
 }
 
+export function normalizePair(start, end) {
+  if (!start || !end) return null;
+  const s = parseValidDate(start);
+  let e = parseValidDate(end);
+  if (!s || !e) return null;
+  if (e < s) {
+    e = new Date(e.getTime() + 864e5);
+  }
+  return { s, e };
+}
+
 export function setNow(id) {
   const el = document.getElementById(id);
   if (!el) return;
@@ -27,20 +38,16 @@ export function setNow(id) {
 }
 
 export function sleepMidpoint(start, end) {
-  if (!start || !end) return '';
-  const s = parseValidDate(start);
-  let e = parseValidDate(end);
-  if (!s || !e) return '';
-  if (e < s) e = new Date(e.getTime() + 864e5);
+  const pair = normalizePair(start, end);
+  if (!pair) return '';
+  const { s, e } = pair;
   const mid = new Date((s.getTime() + e.getTime()) / 2);
   return toLocalInputValue(mid);
 }
 
 export function diffMinutes(start, end) {
-  if (!start || !end) return NaN;
-  const s = parseValidDate(start);
-  let e = parseValidDate(end);
-  if (!s || !e) return NaN;
-  if (e < s) e = new Date(e.getTime() + 864e5);
+  const pair = normalizePair(start, end);
+  if (!pair) return NaN;
+  const { s, e } = pair;
   return Math.round((e.getTime() - s.getTime()) / 60000);
 }

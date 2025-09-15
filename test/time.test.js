@@ -33,6 +33,21 @@ test('setNow sets local HH:MM and triggers change', async () => {
   global.Date = RealDate;
 });
 
+test('normalizePair normalizes overnight ranges', async () => {
+  const { normalizePair } = await import('../js/time.js');
+  const pair = normalizePair('2024-01-01T22:00', '2024-01-01T06:00');
+  assert.ok(pair);
+  assert.equal(pair.s.getTime(), new Date('2024-01-01T22:00').getTime());
+  assert.equal(pair.e.getTime(), new Date('2024-01-02T06:00').getTime());
+});
+
+test('normalizePair returns null for missing or invalid input', async () => {
+  const { normalizePair } = await import('../js/time.js');
+  assert.equal(normalizePair('', '2024-01-01T06:00'), null);
+  assert.equal(normalizePair('bad', '2024-01-01T06:00'), null);
+  assert.equal(normalizePair('2024-01-01T22:00', 'bad'), null);
+});
+
 test('sleepMidpoint computes midpoint across midnight', async () => {
   const { sleepMidpoint } = await import('../js/time.js');
   const start = '2024-01-01T22:00';

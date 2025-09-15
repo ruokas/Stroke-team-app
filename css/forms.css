@@ -16,7 +16,7 @@ section.card .grid {
 }
 label {
   display: block;
-  color: var(--muted);
+  color: #dfdfdf;
   font-size: 0.8125rem;
   margin-bottom: 4px;
 }
@@ -28,11 +28,11 @@ input[type='datetime-local'],
 textarea,
 select:not(.btn) {
   width: 100%;
-  padding: 9px 10px;
+  padding: 10px 10px;
   border: 1px solid var(--line);
   border-radius: 0.625rem;
-  background: var(--card);
-  background: color-mix(in srgb, var(--card), #fff 20%);
+  background: #414e60;
+  background: color-mix(in srgb, #414e60, #fff 20%);
   color: var(--ink);
   font-size: 0.875rem;
   line-height: 1.2;
@@ -102,11 +102,11 @@ input[type='datetime-local']::-webkit-calendar-picker-indicator {
 }
 
 .time-input {
-  padding: 9px 10px;
+  padding: 10px 10px;
   border: 1px solid var(--line);
   border-radius: 0.625rem;
-  background: var(--card);
-  background: color-mix(in srgb, var(--card), #fff 20%);
+  background: #414e60;
+  background: color-mix(in srgb, #414e60, #fff 20%);
   color: var(--ink);
   font-size: 0.875rem;
 }

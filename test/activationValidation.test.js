@@ -49,7 +49,7 @@ test('validateAksDia checks 10-200', async () => {
   assert(!el.classList.contains('invalid'));
 });
 
-test('validateHr checks 30-250 bpm', async () => {
+test('validateHr checks 30-250 k/min', async () => {
   const { validateHr } = await loadModule();
   const el = document.createElement('input');
   el.value = '10';
@@ -112,7 +112,7 @@ test('activation parameter inputs have numeric attributes', async () => {
   assert.match(input, /step="1"/);
   assert.match(input, /min="30"/);
   assert.match(input, /max="250"/);
-  assert.match(input, /placeholder="bpm"/);
+  assert.match(input, /placeholder="k\/min"/);
 
   input = getInput('a_spo2');
   assert.match(input, /type="number"/);
@@ -133,22 +133,12 @@ test('activation parameter inputs have numeric attributes', async () => {
   assert.match(input, /step="1"/);
   assert.match(input, /min="30"/);
   assert.match(input, /max="300"/);
-  assert.match(
-    html,
-    new RegExp(
-      `<input[^>]*id="a_aks_sys"[\\s\\S]*?<span class="unit">mmHg<\\/span>`,
-    ),
-  );
+  assert.match(input, /placeholder="mmHg"/);
 
   input = getInput('a_aks_dia');
   assert.match(input, /type="number"/);
   assert.match(input, /step="1"/);
   assert.match(input, /min="10"/);
   assert.match(input, /max="200"/);
-  assert.match(
-    html,
-    new RegExp(
-      `<input[^>]*id="a_aks_dia"[\\s\\S]*?<span class="unit">mmHg<\\/span>`,
-    ),
-  );
+  assert.match(input, /placeholder="mmHg"/);
 });

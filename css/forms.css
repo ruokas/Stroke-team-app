@@ -14,6 +14,10 @@ section.card .grid {
   display: grid;
   gap: 10px;
 }
+
+fieldset {
+  border: 1px solid var(--line);
+}
 label {
   display: block;
   color: #dfdfdf;
@@ -22,7 +26,7 @@ label {
 }
 
 .light label {
-  color: #666;
+  color: #222;
 }
 input[type='text'],
 input[type='number'],

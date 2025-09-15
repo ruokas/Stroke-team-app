@@ -15,29 +15,19 @@ window.addEventListener('unload', flush);
 if (typeof navigator !== 'undefined' && navigator.onLine && !window.disableSync)
   restorePatients();
 
-export function migratePatientRecord(id, p) {
-  let changed = false;
-  if (!p.patientId) {
-    p.patientId = id;
-    changed = true;
-  }
-  if (!p.created) {
-    p.created = new Date().toISOString();
-    changed = true;
-  }
-  if (!p.lastUpdated) {
-    p.lastUpdated = p.created;
-    changed = true;
-  }
+export function migratePatientRecord(id, record) {
+  const p = record && typeof record === 'object' ? record : {};
+  const before = JSON.stringify(p);
+  p.patientId ??= id;
+  p.created ??= new Date().toISOString();
+  p.lastUpdated ??= p.created;
   if (!p.data || typeof p.data !== 'object' || p.data.version === undefined) {
     p.data = { version: 0, data: p.data };
-    changed = true;
   }
   if (p.data.version !== SCHEMA_VERSION) {
     try {
       p.data = migrateSchema(p.data);
       if (p.data.version !== SCHEMA_VERSION) throw new Error('');
-      changed = true;
     } catch {
       console.warn(
         `Discarding patient ${id} due to incompatible schema version ${p.data.version}`,
@@ -45,7 +35,7 @@ export function migratePatientRecord(id, p) {
       return { record: null, changed: true };
     }
   }
-  return { record: p, changed };
+  return { record: p, changed: before !== JSON.stringify(p) };
 }
 
 export function getPatients() {

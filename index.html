@@ -147,18 +147,6 @@
 </span><span class="tab-label">Paciento atvykimas</span></a
   >
   <a
-    id="imaging-tab"
-    href="#imaging"
-    data-section="imaging"
-    class="tab btn"
-    role="tab"
-    ><span class="tab-icon" aria-hidden="true">
-
-<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><circle cx="12" cy="10" r="3"/><path d="M22 21H2"/><path d="M16 21v-4"/><path d="M8 21v-4"/></svg>
-
-</span><span class="tab-label">KT</span></a
-  >
-  <a
     id="nihss-tab"
     href="#nihss"
     data-section="nihss"
@@ -1115,50 +1103,6 @@ Kontraindikacijos trombektomijai</summary>
         </section>
 
 
-                <!-- KT -->
-        <section
-          id="imaging"
-          class="card hidden"
-          role="tabpanel"
-          aria-labelledby="imaging-tab"
-        >
-          <h2>KT</h2>
-          <form>
-            <fieldset>
-              <legend>KT rezultatas</legend>
-              <label class="pill"
-                ><input type="radio" name="ct_result" value="clear" /> Be kraujavimo</label
-              >
-              <label class="pill"
-                ><input type="radio" name="ct_result" value="bleed" /> Kraujavimas</label
-              >
-            </fieldset>
-            <fieldset>
-              <legend>KTA rezultatas</legend>
-              <label class="pill"
-                ><input type="radio" name="kta_result" value="none" /> Be okliuzijos</label
-              >
-              <label class="pill"
-                ><input type="radio" name="kta_result" value="lvo" /> Didelės arterijos okliuzija</label
-              >
-            </fieldset>
-            <fieldset>
-              <legend>Perfuzijos duomenys</legend>
-              <div class="grid-2">
-                <div>
-                  <label for="perf_core">Infarkto branduolys (ml)</label>
-                  <input id="perf_core" type="number" min="0" inputmode="numeric" />
-                </div>
-                <div>
-                  <label for="perf_penumbra">Penumbra (ml)</label>
-                  <input id="perf_penumbra" type="number" min="0" inputmode="numeric" />
-                </div>
-              </div>
-              <div id="perfusion_warning" class="info-box mt-4"></div>
-            </fieldset>
-          </form>
-        </section>
-
                 <!-- NIHSS -->
         <section
           id="nihss"
@@ -1441,6 +1385,38 @@ Kontraindikacijos trombektomijai</summary>
                   <span data-i18n="no">Ne</span></label
                 >
               </div>
+            </fieldset>
+            <fieldset class="mt-10">
+              <legend>KT rezultatas</legend>
+              <label class="pill"
+                ><input type="radio" name="ct_result" value="clear" /> Be kraujavimo</label
+              >
+              <label class="pill"
+                ><input type="radio" name="ct_result" value="bleed" /> Kraujavimas</label
+              >
+            </fieldset>
+            <fieldset>
+              <legend>KTA rezultatas</legend>
+              <label class="pill"
+                ><input type="radio" name="kta_result" value="none" /> Be okliuzijos</label
+              >
+              <label class="pill"
+                ><input type="radio" name="kta_result" value="lvo" /> Didelės arterijos okliuzija</label
+              >
+            </fieldset>
+            <fieldset>
+              <legend>Perfuzijos duomenys</legend>
+              <div class="grid-2">
+                <div>
+                  <label for="perf_core">Infarkto branduolys (ml)</label>
+                  <input id="perf_core" type="number" min="0" inputmode="numeric" />
+                </div>
+                <div>
+                  <label for="perf_penumbra">Penumbra (ml)</label>
+                  <input id="perf_penumbra" type="number" min="0" inputmode="numeric" />
+                </div>
+              </div>
+              <div id="perfusion_warning" class="info-box mt-4"></div>
             </fieldset>
             <fieldset class="mt-10">
               <legend>AKS korekcija</legend>

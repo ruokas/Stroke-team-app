@@ -86,6 +86,38 @@
               </div>
             </fieldset>
             <fieldset class="mt-10">
+              <legend>KT rezultatas</legend>
+              <label class="pill"
+                ><input type="radio" name="ct_result" value="clear" /> Be kraujavimo</label
+              >
+              <label class="pill"
+                ><input type="radio" name="ct_result" value="bleed" /> Kraujavimas</label
+              >
+            </fieldset>
+            <fieldset>
+              <legend>KTA rezultatas</legend>
+              <label class="pill"
+                ><input type="radio" name="kta_result" value="none" /> Be okliuzijos</label
+              >
+              <label class="pill"
+                ><input type="radio" name="kta_result" value="lvo" /> Didelės arterijos okliuzija</label
+              >
+            </fieldset>
+            <fieldset>
+              <legend>Perfuzijos duomenys</legend>
+              <div class="grid-2">
+                <div>
+                  <label for="perf_core">Infarkto branduolys (ml)</label>
+                  <input id="perf_core" type="number" min="0" inputmode="numeric" />
+                </div>
+                <div>
+                  <label for="perf_penumbra">Penumbra (ml)</label>
+                  <input id="perf_penumbra" type="number" min="0" inputmode="numeric" />
+                </div>
+              </div>
+              <div id="perfusion_warning" class="info-box mt-4"></div>
+            </fieldset>
+            <fieldset class="mt-10">
               <legend>AKS korekcija</legend>
               <ul id="bpMedList" role="list">
                 {% for med in bpMeds %}

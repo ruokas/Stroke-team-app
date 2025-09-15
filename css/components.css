@@ -194,11 +194,18 @@
   gap: 8px;
   margin-bottom: 8px;
   padding: 6px 10px;
-  border: 1px solid color-mix(in srgb, var(--line), var(--ink) 30%);
+  border: 1px solid;
+    border-color: var(--pill-border);
   border-radius: 999px;
-  background: color-mix(in srgb, var(--card), var(--ink) 10%);
+  background: var(--pill-bg);
   color: var(--ink);
   font-weight: 700;
+}
+
+.pill:hover,
+.pill:focus,
+.pill:focus-within {
+  filter: brightness(1.1);
 }
 .pill:focus-within {
   outline: 2px solid var(--accent);

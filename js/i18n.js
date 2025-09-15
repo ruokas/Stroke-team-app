@@ -30,7 +30,7 @@ function applyTranslations() {
   });
 }
 
-async function setLanguage(lang) {
+export async function setLanguage(lang) {
   await loadLang(lang);
   applyTranslations();
 }

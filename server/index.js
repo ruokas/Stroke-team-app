@@ -79,6 +79,18 @@ if (process.env.NODE_ENV === 'test') {
   });
 }
 
+async function withClient(handler) {
+  let client;
+  try {
+    client = await pool.connect();
+    return await handler(client);
+  } finally {
+    if (client) {
+      client.release();
+    }
+  }
+}
+
 const app = express();
 
 app.use(express.json());
@@ -90,22 +102,14 @@ app.use('/patients', (req, res) => {
 
 // GET /api/patients → return all patient records
 app.get('/api/patients', async (_req, res) => {
-  let client;
   try {
-    client = await pool.connect();
-  } catch (err) {
-    console.error('Error connecting to database for GET /api/patients', err);
-    return res.status(500).json({ error: 'Internal server error' });
-  }
-
-  try {
-    const { rows } = await client.query('SELECT * FROM patients');
-    res.status(200).json(rows);
+    await withClient(async (client) => {
+      const { rows } = await client.query('SELECT * FROM patients');
+      res.status(200).json(rows);
+    });
   } catch (err) {
     console.error('Error fetching patients', err);
     res.status(500).json({ error: 'Internal server error' });
-  } finally {
-    client.release();
   }
 });
 
@@ -116,25 +120,17 @@ app.post('/api/patients', async (req, res) => {
     return res.status(400).json({ error: 'Invalid patient name' });
   }
 
-  let client;
   try {
-    client = await pool.connect();
-  } catch (err) {
-    console.error('Error connecting to database for POST /api/patients', err);
-    return res.status(500).json({ error: 'Internal server error' });
-  }
-
-  try {
-    const query =
-      'INSERT INTO patients (patient_id, name, payload, last_updated) VALUES ($1, $2, $3, NOW()) ON CONFLICT (patient_id) DO UPDATE SET name = EXCLUDED.name, payload = EXCLUDED.payload, last_updated = NOW() RETURNING *';
-    const values = [patient_id || null, name, payload || null];
-    const { rows } = await client.query(query, values);
-    res.status(201).json(rows[0]);
+    await withClient(async (client) => {
+      const query =
+        'INSERT INTO patients (patient_id, name, payload, last_updated) VALUES ($1, $2, $3, NOW()) ON CONFLICT (patient_id) DO UPDATE SET name = EXCLUDED.name, payload = EXCLUDED.payload, last_updated = NOW() RETURNING *';
+      const values = [patient_id || null, name, payload || null];
+      const { rows } = await client.query(query, values);
+      res.status(201).json(rows[0]);
+    });
   } catch (err) {
     console.error('Error upserting patient', err);
     res.status(500).json({ error: 'Internal server error' });
-  } finally {
-    client.release();
   }
 });
 
@@ -149,26 +145,18 @@ app.post('/api/events', async (req, res) => {
     return res.status(400).json({ error: 'Invalid events payload' });
   }
 
-  let client;
   try {
-    client = await pool.connect();
-  } catch (err) {
-    console.error('Error connecting to database for POST /api/events', err);
-    return res.status(500).json({ error: 'Internal server error' });
-  }
-
-  try {
-    const query =
-      'INSERT INTO events (event, payload) VALUES ' +
-      events.map((_, i) => `($${i * 2 + 1}, $${i * 2 + 2})`).join(', ');
-    const values = events.flatMap((e) => [e.event, e.payload || null]);
-    await client.query(query, values);
-    res.status(201).json({ inserted: events.length });
+    await withClient(async (client) => {
+      const query =
+        'INSERT INTO events (event, payload) VALUES ' +
+        events.map((_, i) => `($${i * 2 + 1}, $${i * 2 + 2})`).join(', ');
+      const values = events.flatMap((e) => [e.event, e.payload || null]);
+      await client.query(query, values);
+      res.status(201).json({ inserted: events.length });
+    });
   } catch (err) {
     console.error('Error inserting events', err);
     res.status(500).json({ error: 'Internal server error' });
-  } finally {
-    client.release();
   }
 });
 

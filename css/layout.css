@@ -23,6 +23,8 @@
   --btn-active-bg: color-mix(in srgb, var(--card), var(--ink) 20%);
   --ghost-hover-bg: color-mix(in srgb, var(--card), var(--bg) 10%);
   --ghost-active-bg: color-mix(in srgb, var(--card), var(--ink) 20%);
+  --pill-bg: #1e3a5f;
+  --pill-border: #4ea0f5;
 }
 
 :root.light {
@@ -46,6 +48,8 @@
   --btn-active-bg: color-mix(in srgb, var(--card), var(--ink) 20%);
   --ghost-hover-bg: color-mix(in srgb, var(--card), var(--bg) 10%);
   --ghost-active-bg: color-mix(in srgb, var(--card), var(--ink) 20%);
+  --pill-bg: #e0f2ff;
+  --pill-border: #2d74b8;
 }
 *,
 *::before,

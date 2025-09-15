@@ -13,6 +13,20 @@ const DISABLE_ANALYTICS =
   typeof window !== 'undefined' && window.DISABLE_ANALYTICS === true;
 
 let apiWritable = null;
+let lastSendBlockReason = null;
+
+function shouldSend() {
+  if (DISABLE_ANALYTICS) {
+    lastSendBlockReason = 'disabled';
+    return false;
+  }
+  if (typeof navigator === 'undefined' || !navigator.onLine) {
+    lastSendBlockReason = 'offline';
+    return false;
+  }
+  lastSendBlockReason = null;
+  return true;
+}
 
 async function canPost() {
   if (apiWritable !== null) return apiWritable;
@@ -51,7 +65,7 @@ function saveEvents(events) {
 }
 
 export function track(eventName, payload = {}) {
-  if (DISABLE_ANALYTICS) return;
+  if (!shouldSend()) return;
   buffer.push({
     event: eventName,
     payload,
@@ -60,8 +74,7 @@ export function track(eventName, payload = {}) {
 }
 
 export async function sync() {
-  if (DISABLE_ANALYTICS) return;
-  if (typeof navigator === 'undefined' || !navigator.onLine) return;
+  if (!shouldSend()) return;
   if (!(await canPost())) return;
   const events = loadEvents();
   if (!events.length) return;
@@ -83,8 +96,16 @@ export async function sync() {
 }
 
 export function flush() {
-  if (DISABLE_ANALYTICS) {
-    buffer = [];
+  if (!shouldSend()) {
+    if (lastSendBlockReason === 'disabled') {
+      buffer = [];
+      return Promise.resolve();
+    }
+    const stored = loadEvents();
+    if (buffer.length) {
+      saveEvents(stored.concat(buffer));
+      buffer = [];
+    }
     return Promise.resolve();
   }
   const stored = loadEvents();

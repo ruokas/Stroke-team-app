@@ -20,6 +20,10 @@ label {
   font-size: 0.8125rem;
   margin-bottom: 4px;
 }
+
+.light label {
+  color: #666;
+}
 input[type='text'],
 input[type='number'],
 input[type='time'],
@@ -36,6 +40,16 @@ select:not(.btn) {
   color: var(--ink);
   font-size: 0.875rem;
   line-height: 1.2;
+}
+
+.light input[type='text'],
+.light input[type='number'],
+.light input[type='time'],
+.light input[type='date'],
+.light input[type='datetime-local'],
+.light textarea,
+.light select:not(.btn) {
+  background: color-mix(in srgb, #b2b6bb, #fff 20%);
 }
 
 input[type='date'],

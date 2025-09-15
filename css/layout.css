@@ -46,9 +46,9 @@
   --yellow-border: #bf7d19;
   --btn-hover-bg: color-mix(in srgb, var(--card), var(--bg) 10%);
   --btn-active-bg: color-mix(in srgb, var(--card), var(--ink) 20%);
-  --ghost-hover-bg: color-mix(in srgb, #434b55, var(--bg) 10%);
+  --ghost-hover-bg: color-mix(in srgb, #c1c1c1, var(--bg) 10%);
   --ghost-active-bg: color-mix(in srgb, var(--card), var(--ink) 20%);
-  --pill-bg: #3c4859;
+  --pill-bg: #d5d5d5;
   --pill-border: #9daab7;
 }
 *,
@@ -213,10 +213,7 @@ header {
   }
 }
 #saveStatus {
-  width: 100%;
-  color: var(--muted);
-  font-size: 0.8125rem;
-  margin-top: 4px;
+  display: none;
 }
 h1 {
   font-size: clamp(1.25rem, 5vw, 2rem);
@@ -244,7 +241,7 @@ h1 {
 }
 main {
   width: 100%;
-  margin: 12px 0;
+  margin: 0;
   padding: 0 16px;
 }
 

@@ -2,12 +2,6 @@ import { getInputs } from './state.js';
 import { showToast } from './toast.js';
 import { t } from './i18n.js';
 
-const compMap = {
-  bleeding: t('comp_bleeding'),
-  allergy: t('comp_allergy'),
-  other: t('comp_other'),
-};
-
 export function collectSummaryData(payload) {
   const get = (v) => (v !== undefined && v !== null && v !== '' ? v : null);
   const formatBp = (sys, dia) => {
@@ -203,7 +197,11 @@ export function summaryTemplate({
     if (complications) {
       const compList = complications
         .split('; ')
-        .map((c) => compMap[c] || c)
+        .map((code) => {
+          const key = 'comp_' + code;
+          const translated = t(key);
+          return translated === key ? code : translated;
+        })
         .join('; ');
       lines.push(`- ${compList}`);
     }

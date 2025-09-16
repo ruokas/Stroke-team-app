@@ -32,7 +32,7 @@
   "lint-staged": {
     "{js,test}/**/*.js": [
       "prettier --write",
-      "ESLINT_USE_FLAT_CONFIG=false eslint"
+      "env ESLINT_USE_FLAT_CONFIG=false eslint"
     ]
   },
   "dependencies": {

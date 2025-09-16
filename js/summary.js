@@ -69,6 +69,12 @@ export function collectSummaryData(payload) {
   const compTime = get(payload.t_complication);
   const decision = payload.d_decision || null;
   const department = payload.d_department || null;
+  const imaging = {
+    ct: get(payload.ct_result),
+    kta: get(payload.kta_result),
+    perfCore: get(payload.perf_core),
+    perfPenumbra: get(payload.perf_penumbra),
+  };
   return {
     patient,
     times,
@@ -82,6 +88,7 @@ export function collectSummaryData(payload) {
     arrivalMtContra,
     complications,
     compTime,
+    imaging,
   };
 }
 
@@ -98,6 +105,7 @@ export function summaryTemplate({
   arrivalMtContra,
   complications,
   compTime,
+  imaging = {},
 }) {
   const lines = [];
   lines.push('PACIENTAS:');
@@ -141,6 +149,26 @@ export function summaryTemplate({
       paramParts.push(`Temp: ${activation.params.temp}`);
     if (paramParts.length)
       lines.push(`- GMP parametrai: ${paramParts.join(', ')}`);
+  }
+
+  const ctMap = {
+    clear: 'Be kraujavimo',
+    bleed: 'Kraujavimas',
+  };
+  const ktaMap = {
+    none: 'Be okliuzijos',
+    lvo: 'Didelės arterijos okliuzija',
+  };
+  const perfParts = [];
+  if (imaging.perfCore)
+    perfParts.push(`Infarkto branduolys ${imaging.perfCore} ml`);
+  if (imaging.perfPenumbra)
+    perfParts.push(`Penumbra ${imaging.perfPenumbra} ml`);
+  if (imaging.ct || imaging.kta || perfParts.length) {
+    lines.push('VAIZDINIAI TYRIMAI:');
+    if (imaging.ct) lines.push(`- KT: ${ctMap[imaging.ct] || imaging.ct}`);
+    if (imaging.kta) lines.push(`- KTA: ${ktaMap[imaging.kta] || imaging.kta}`);
+    if (perfParts.length) lines.push(`- Perfuzija: ${perfParts.join(', ')}`);
   }
 
   lines.push('LAIKAI:');

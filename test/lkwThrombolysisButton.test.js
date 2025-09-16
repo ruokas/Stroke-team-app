@@ -58,3 +58,32 @@ test('startThrombolysis button disables on CT bleed', () => {
   assert.equal(startBtn.disabled, true);
   assert.equal(startBtn.hasAttribute('disabled'), true);
 });
+
+test('startThrombolysis button disables when patient not independent', () => {
+  const inputs = getInputs();
+  setupDrugControls(inputs);
+
+  inputs.weight.value = '75';
+  inputs.weight.dispatchEvent(new Event('input', { bubbles: true }));
+  inputs.drugType.value = 'tnk';
+  inputs.drugType.dispatchEvent(new Event('change', { bubbles: true }));
+
+  const startBtn = document.getElementById('startThrombolysis');
+
+  const independentYes = inputs.p_independent.find((o) => o.value === 'yes');
+  independentYes.checked = true;
+  independentYes.dispatchEvent(new Event('change', { bubbles: true }));
+  assert.equal(startBtn.disabled, false);
+  assert.equal(startBtn.hasAttribute('disabled'), false);
+
+  const independentNo = inputs.p_independent.find((o) => o.value === 'no');
+  independentNo.checked = true;
+  independentNo.dispatchEvent(new Event('change', { bubbles: true }));
+  assert.equal(startBtn.disabled, true);
+  assert.equal(startBtn.hasAttribute('disabled'), true);
+
+  independentYes.checked = true;
+  independentYes.dispatchEvent(new Event('change', { bubbles: true }));
+  assert.equal(startBtn.disabled, false);
+  assert.equal(startBtn.hasAttribute('disabled'), false);
+});

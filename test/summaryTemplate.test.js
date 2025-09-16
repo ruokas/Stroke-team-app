@@ -16,6 +16,16 @@ test('summaryTemplate generates summary text correctly', async () => {
   document.querySelector('input[name="a_lkw"][value="<4.5"]').checked = true;
   document.querySelector('input[name="a_face"]').checked = true;
   document.querySelector('input[name="a_speech"]').checked = true;
+  const ctClear = document.querySelector(
+    'input[name="ct_result"][value="clear"]',
+  );
+  ctClear.checked = true;
+  ctClear.dispatchEvent(new Event('change', { bubbles: true }));
+  const ktaLvo = document.querySelector(
+    'input[name="kta_result"][value="lvo"]',
+  );
+  ktaLvo.checked = true;
+  ktaLvo.dispatchEvent(new Event('change', { bubbles: true }));
 
   const bpEntries = document.getElementById('bpEntries');
   bpEntries.innerHTML = `<div class="bp-entry"><strong>Nifedipinas</strong><input value="10:00" /><div class="input-group flex-nowrap"><input value="25" data-unit="mg" placeholder="mg" /><span class="unit">mg</span></div><div class="input-group flex-nowrap bp-after"><input name="bp_sys_after" value="150" /><input name="bp_dia_after" value="90" /></div><input value="požymai" /></div>`;
@@ -42,6 +52,8 @@ test('summaryTemplate generates summary text correctly', async () => {
   inputs.drugType.value = 'tnk';
   inputs.doseTotal.value = '20';
   inputs.doseVol.value = '4';
+  inputs.perf_core.value = '12';
+  inputs.perf_penumbra.value = '80';
 
   const data = collectSummaryData(getPayload());
   const summary = summaryTemplate(data);
@@ -70,6 +82,11 @@ test('summaryTemplate generates summary text correctly', async () => {
   );
   assert(summary.includes('SIMPTOMAI:\n- Dešinės rankos silpnumas'));
   assert(!summary.includes('Veido paralyžius'));
+  assert(
+    summary.includes(
+      'VAIZDINIAI TYRIMAI:\n- KT: Be kraujavimo\n- KTA: Didelės arterijos okliuzija\n- Perfuzija: Infarkto branduolys 12 ml, Penumbra 80 ml',
+    ),
+  );
   assert(
     summary.includes('SPRENDIMAS:\n- Taikoma IVT, indikacijų MTE nenustatyta'),
   );

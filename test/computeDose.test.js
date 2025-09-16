@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { computeDose } from '../js/computeDose.js';
+import { computeDose } from '../js/drugs.js';
 
 test('computeDose returns null on invalid inputs', () => {
   assert.strictEqual(computeDose(0, 5, 'tnk'), null);

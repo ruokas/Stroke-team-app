@@ -11,7 +11,7 @@ import { savePatient } from './storage.js';
 import { setupIntervals } from './intervals.js';
 import { setupHeaderHeight } from './header.js';
 import { setupToolbarNavigation } from './toolbar.js';
-import { setupTimeButtons } from './timeButtons.js';
+import { setupTimeButtons } from './timeControls.js';
 import { setupDrugControls } from './drugControls.js';
 import { setupSummaryHandlers } from './summaryHandlers.js';
 import { setupPersonalCodeCopy } from './personalCode.js';

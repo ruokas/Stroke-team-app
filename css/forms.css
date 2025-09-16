@@ -38,7 +38,7 @@ select:not(.btn) {
   width: 100%;
   padding: 10px 10px;
   border: 1px solid var(--line);
-  border-radius: 0.625rem;
+  border-radius: 1.5rem;
   background: #414e60;
   background: color-mix(in srgb, #414e60, #fff 20%);
   color: var(--ink);
@@ -122,7 +122,7 @@ input[type='datetime-local']::-webkit-calendar-picker-indicator {
 .time-input {
   padding: 10px 10px;
   border: 1px solid var(--line);
-  border-radius: 0.625rem;
+  border-radius: 1.5rem;
   background: #414e60;
   background: color-mix(in srgb, #414e60, #fff 20%);
   color: var(--ink);

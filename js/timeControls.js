@@ -1,5 +1,13 @@
 import { setNow, triggerChange } from './time.js';
 
+export function setupTimeButtons() {
+  document.addEventListener('click', (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) return;
+    handleTimeButton(target);
+  });
+}
+
 export function handleTimeButton(target) {
   if (!(target instanceof HTMLElement)) return false;
   const button = target.closest('button');

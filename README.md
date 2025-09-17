@@ -29,6 +29,10 @@ Requires Node.js 20 or later and access to a PostgreSQL database.
    npm run migrate
    ```
 
+   The migration command reuses the server's TLS auto-detection, so it works
+   with a local PostgreSQL instance and Supabase-hosted databases without extra
+   flags. Set `DATABASE_SSL=true` only when you need to force TLS manually.
+
 3. **Run the test suite** _(optional but recommended)_
 
    ```sh

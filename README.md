@@ -21,6 +21,8 @@ Requires Node.js 20 or later and access to a PostgreSQL database.
    - `DATABASE_URL` – PostgreSQL connection string
    - `DATABASE_SSL` – set to `true` to force TLS (defaults to automatic Supabase detection)
    - `PORT` – optional HTTP port (defaults to `3000`)
+   - `SUPABASE_PROJECT_URL` – optional, expose your Supabase project URL to the client
+   - `SUPABASE_ANONPUBLIC` – optional, Supabase anon (public) key for client SDKs
 
 2. **Install dependencies and run migrations**
 

@@ -18,6 +18,84 @@ if (typeof window !== 'undefined') {
   window.disableSync = saved !== 'false';
 }
 
+function buildServerPayload(id, record) {
+  if (!record || typeof record !== 'object') return null;
+  const computedId =
+    record.patientId ?? record.patient_id ?? (id !== undefined ? id : null);
+  const patientId =
+    computedId !== undefined &&
+    computedId !== null &&
+    `${computedId}`.trim() !== ''
+      ? computedId
+      : null;
+  const payload = record.data ?? record.payload ?? null;
+  const lastUpdated = record.last_updated ?? record.lastUpdated ?? null;
+  const created = record.created ?? record.created_at ?? null;
+  const nameValue =
+    typeof record.name === 'string' && record.name.trim() !== ''
+      ? record.name
+      : patientId
+        ? `Pacientas ${patientId}`
+        : 'Pacientas';
+
+  const body = {
+    patient_id: patientId,
+    name: nameValue,
+    payload,
+  };
+
+  if (!body.patient_id && id !== undefined && id !== null) {
+    body.patient_id = id;
+  }
+
+  if (lastUpdated) body.last_updated = lastUpdated;
+  if (created) body.created = created;
+
+  return body;
+}
+
+function normalizeRemotePatient(remote) {
+  if (!remote || typeof remote !== 'object') return null;
+  const rawId =
+    remote.patientId ??
+    remote.patient_id ??
+    remote.id ??
+    remote.patientID ??
+    null;
+  if (rawId === undefined || rawId === null || `${rawId}`.trim() === '')
+    return null;
+  const patientId = `${rawId}`;
+  const payload = remote.payload ?? remote.data ?? null;
+  const created =
+    remote.created ?? remote.created_at ?? remote.createdAt ?? null;
+  const lastUpdated =
+    remote.lastUpdated ??
+    remote.last_updated ??
+    remote.updated_at ??
+    remote.updatedAt ??
+    created ??
+    null;
+
+  const normalized = {
+    patientId,
+    name:
+      typeof remote.name === 'string' && remote.name.trim() !== ''
+        ? remote.name
+        : `Pacientas ${patientId}`,
+    created: created ?? new Date().toISOString(),
+    lastUpdated: lastUpdated ?? new Date().toISOString(),
+    data: payload ?? null,
+    needsSync: false,
+  };
+
+  if (remote.last_updated) normalized.last_updated = remote.last_updated;
+  if (remote.payload !== undefined && normalized.data === remote.payload) {
+    normalized.payload = remote.payload;
+  }
+
+  return normalized;
+}
+
 function loadLocalPatients() {
   try {
     return JSON.parse(localStorage.getItem(LS_KEY) || '{}');
@@ -39,10 +117,12 @@ export async function syncPatients() {
   for (const [id, p] of Object.entries(patients)) {
     if (!p?.needsSync) continue;
     try {
+      const bodyPayload = buildServerPayload(id, p);
+      if (!bodyPayload) continue;
       const res = await fetch(`${API_BASE}/patients`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(p),
+        body: JSON.stringify(bodyPayload),
       });
       if (res.status === 404) continue;
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -98,17 +178,20 @@ export async function restorePatients() {
           patient_id: id,
         }));
     for (const remote of remotes) {
-      const id = remote?.patient_id;
-      if (!id) continue;
+      const normalized = normalizeRemotePatient(remote);
+      if (!normalized) continue;
+      const id = normalized.patientId;
       const local = merged[id];
       if (!local) {
-        merged[id] = { ...remote, needsSync: false };
+        merged[id] = { ...normalized };
         changed = true;
       } else {
-        const lt = new Date(local.lastUpdated || 0).getTime();
-        const rt = new Date(remote.lastUpdated || 0).getTime();
+        const lt = new Date(
+          local.lastUpdated || local.last_updated || 0,
+        ).getTime();
+        const rt = new Date(normalized.lastUpdated || 0).getTime();
         if (rt > lt) {
-          merged[id] = { ...remote, needsSync: false };
+          merged[id] = { ...normalized };
           changed = true;
         }
       }

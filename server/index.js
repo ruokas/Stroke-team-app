@@ -34,20 +34,31 @@ if (process.env.NODE_ENV === 'test') {
     async _execute(text, params = []) {
       text = text.trim();
       if (text.startsWith('INSERT INTO patients')) {
-        let [id, name, payload] = params;
+        let [id, name, payload, lastUpdated] = params;
         if (id == null) {
           id = this.nextPatientId++;
-        } else if (id >= this.nextPatientId) {
-          this.nextPatientId = id + 1;
+        } else {
+          const numericId = Number(id);
+          if (!Number.isNaN(numericId) && numericId >= this.nextPatientId) {
+            this.nextPatientId = numericId + 1;
+          }
         }
+        let updated = lastUpdated ? new Date(lastUpdated) : new Date();
+        if (Number.isNaN(updated.getTime())) updated = new Date();
+        const idx = this.patients.findIndex(
+          (p) => `${p.patient_id}` === `${id}`,
+        );
+        const created =
+          idx >= 0 && this.patients[idx]?.created
+            ? this.patients[idx].created
+            : new Date();
         const record = {
           patient_id: id,
           name,
           payload,
-          created: new Date(),
-          last_updated: new Date(),
+          created,
+          last_updated: updated,
         };
-        const idx = this.patients.findIndex((p) => p.patient_id === id);
         if (idx >= 0) this.patients[idx] = record;
         else this.patients.push(record);
         return { rows: [record] };
@@ -116,16 +127,40 @@ app.get('/api/patients', async (_req, res) => {
 
 // POST /api/patients → upsert incoming patient data
 app.post('/api/patients', async (req, res) => {
-  const { patient_id, name, payload } = req.body || {};
+  const {
+    patient_id: snakeId,
+    patientId: camelId,
+    name,
+    payload,
+    data,
+    last_updated: snakeLastUpdated,
+    lastUpdated: camelLastUpdated,
+  } = req.body || {};
   if (typeof name !== 'string' || name.trim() === '') {
     return res.status(400).json({ error: 'Invalid patient name' });
   }
 
+  const resolvedPatientId = snakeId ?? camelId ?? null;
+  const normalizedPatientId =
+    resolvedPatientId !== undefined &&
+    resolvedPatientId !== null &&
+    `${resolvedPatientId}`.trim() !== ''
+      ? resolvedPatientId
+      : null;
+  const resolvedPayload = payload ?? data ?? null;
+  const resolvedLastUpdated = snakeLastUpdated ?? camelLastUpdated ?? null;
+
   try {
     await withClient(async (client) => {
       const query =
-        'INSERT INTO patients (patient_id, name, payload, last_updated) VALUES ($1, $2, $3, NOW()) ON CONFLICT (patient_id) DO UPDATE SET name = EXCLUDED.name, payload = EXCLUDED.payload, last_updated = NOW() RETURNING *';
-      const values = [patient_id || null, name, payload || null];
+        'INSERT INTO patients (patient_id, name, payload, last_updated) VALUES ($1, $2, $3, COALESCE($4::timestamptz, NOW())) ' +
+        'ON CONFLICT (patient_id) DO UPDATE SET name = EXCLUDED.name, payload = EXCLUDED.payload, last_updated = COALESCE(EXCLUDED.last_updated, NOW()) RETURNING *';
+      const values = [
+        normalizedPatientId,
+        name,
+        resolvedPayload ?? null,
+        resolvedLastUpdated,
+      ];
       const { rows } = await client.query(query, values);
       res.status(201).json(rows[0]);
     });

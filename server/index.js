@@ -74,9 +74,24 @@ if (process.env.NODE_ENV === 'test') {
 
   pool = new FakePool();
 } else {
-  pool = new pg.Pool({
-    connectionString: process.env.DATABASE_URL,
-  });
+  const connectionString = process.env.DATABASE_URL;
+  const sslFlag = process.env.DATABASE_SSL;
+  const isSupabase =
+    typeof connectionString === 'string' && connectionString.includes('supabase.co');
+
+  let enableSsl;
+  if (typeof sslFlag === 'string' && sslFlag.trim() !== '') {
+    enableSsl = ['1', 'true', 'yes', 'on'].includes(sslFlag.trim().toLowerCase());
+  } else {
+    enableSsl = isSupabase;
+  }
+
+  const poolConfig = {
+    connectionString,
+    ...(enableSsl ? { ssl: { rejectUnauthorized: false } } : {}),
+  };
+
+  pool = new pg.Pool(poolConfig);
 }
 
 async function withClient(handler) {

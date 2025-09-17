@@ -56,7 +56,7 @@ To build optimized assets run:
 npm run build
 ```
 
-For additional database setup details and using Docker Compose for a local PostgreSQL instance, see [docs/postgres.md](docs/postgres.md).
+For additional database setup details and Docker Compose instructions, see [docs/postgres.md](docs/postgres.md), including the [Using Supabase](docs/postgres.md#using-supabase) section for managed databases.
 
 ## Database setup
 

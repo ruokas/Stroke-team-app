@@ -49,3 +49,25 @@ When finished, stop the container with:
 ```sh
 docker compose down
 ```
+
+## Using Supabase
+
+Supabase offers managed PostgreSQL instances that work with the same
+connection string format:
+
+1. In the Supabase dashboard, open **Project Settings → Database** and copy
+   the **Connection string** in `URI` format. It will look similar to
+   `postgresql://USER:PASSWORD@db.<project>.supabase.co:5432/postgres?sslmode=require`.
+2. Update your `.env` file so `DATABASE_URL` matches the Supabase string. Keep
+   `sslmode=require` on the URL or set `DATABASE_SSL=true` to force TLS when
+   the URL omits explicit parameters.
+3. Install dependencies if you have not already and run the migrations against
+   the Supabase database:
+
+   ```sh
+   npm install
+   npm run migrate
+   ```
+
+The migration script auto-detects the TLS settings, so no additional flags are
+required beyond the connection string.

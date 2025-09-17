@@ -35,6 +35,7 @@ Configure `.env` to point at the running container:
 
 ```
 DATABASE_URL=postgres://postgres:postgres@localhost:5432/stroke
+DATABASE_SSL=false
 ```
 
 Run migrations to create the required tables:

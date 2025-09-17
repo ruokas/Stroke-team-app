@@ -19,6 +19,7 @@ Requires Node.js 20 or later and access to a PostgreSQL database.
    ```
 
    - `DATABASE_URL` – PostgreSQL connection string
+   - `DATABASE_SSL` – set to `true` to force TLS (defaults to automatic Supabase detection)
    - `PORT` – optional HTTP port (defaults to `3000`)
 
 2. **Install dependencies and run migrations**
@@ -59,10 +60,22 @@ Create a `.env` file in the project root with your database connection string:
 
 ```sh
 DATABASE_URL=postgres://user:password@host:5432/dbname
+DATABASE_SSL=false
 ```
 
-Replace `user`, `password`, `host`, and `dbname` with your own PostgreSQL credentials.  
+Replace `user`, `password`, `host`, and `dbname` with your own PostgreSQL credentials.
 You may also set `PORT` to choose the server's HTTP port (default: `3000`).
+
+### Supabase smoke test
+
+Use this quick checklist to verify connectivity against a Supabase-hosted database:
+
+1. In Supabase, create a new project and copy the **connection string** from the **Project Settings → Database** page.
+2. In `.env`, set `DATABASE_URL` to that string and add `DATABASE_SSL=true` (or leave it unset; Supabase URLs are auto-detected).
+3. Run `npm install` (first time) and `npm run migrate` to create the required tables.
+4. Start the API with `npm start` and confirm `Server listening on port …` appears without SSL errors.
+5. Trigger a round-trip by sending a test request, e.g. `curl http://localhost:3000/api/patients` and expect an empty JSON array (`[]`).
+6. Stop the server with `Ctrl+C` once verification is complete.
 
 ## Client synchronization
 

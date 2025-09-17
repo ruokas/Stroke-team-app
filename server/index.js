@@ -2,6 +2,8 @@ import express from 'express';
 import pg from 'pg';
 import dotenv from 'dotenv';
 
+import { buildPgConfig } from './dbConfig.js';
+
 dotenv.config();
 
 let pool;
@@ -74,23 +76,7 @@ if (process.env.NODE_ENV === 'test') {
 
   pool = new FakePool();
 } else {
-  const connectionString = process.env.DATABASE_URL;
-  const sslFlag = process.env.DATABASE_SSL;
-  const isSupabase =
-    typeof connectionString === 'string' && connectionString.includes('supabase.co');
-
-  let enableSsl;
-  if (typeof sslFlag === 'string' && sslFlag.trim() !== '') {
-    enableSsl = ['1', 'true', 'yes', 'on'].includes(sslFlag.trim().toLowerCase());
-  } else {
-    enableSsl = isSupabase;
-  }
-
-  const poolConfig = {
-    connectionString,
-    ...(enableSsl ? { ssl: { rejectUnauthorized: false } } : {}),
-  };
-
+  const poolConfig = buildPgConfig();
   pool = new pg.Pool(poolConfig);
 }
 

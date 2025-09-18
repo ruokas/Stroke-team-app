@@ -107,6 +107,16 @@ const app = express();
 
 app.use(express.json());
 
+const eventCorsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'OPTIONS, POST',
+  'Access-Control-Allow-Headers': 'Content-Type',
+};
+
+function applyEventCors(res) {
+  res.set(eventCorsHeaders);
+}
+
 // Redirect legacy /patients path to the new /api/patients endpoint
 app.use('/patients', (req, res) => {
   res.redirect(307, '/api/patients');
@@ -171,7 +181,13 @@ app.post('/api/patients', async (req, res) => {
 });
 
 // POST /api/events → batch insert analytics events
+app.options('/api/events', (_req, res) => {
+  applyEventCors(res);
+  res.status(204).send();
+});
+
 app.post('/api/events', async (req, res) => {
+  applyEventCors(res);
   const events = req.body;
   if (
     !Array.isArray(events) ||

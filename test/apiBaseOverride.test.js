@@ -60,3 +60,35 @@ test(
     global.fetch = origFetch;
   },
 );
+
+test(
+  'analytics sync still posts when OPTIONS returns 404',
+  { concurrency: false },
+  async () => {
+    window.API_BASE = 'https://example.com/api';
+    navigator.onLine = true;
+    localStorage.setItem(
+      'analytics_events',
+      JSON.stringify([{ event: 'load' }]),
+    );
+    const calls = [];
+    const origFetch = global.fetch;
+    global.fetch = async (url, opts = {}) => {
+      calls.push({ url, method: opts.method });
+      if (opts.method === 'POST') {
+        return { ok: true, status: 201 };
+      }
+      return { ok: false, status: 404 };
+    };
+
+    const { sync } = await import('../js/analytics.js?opts404');
+    await sync();
+
+    assert.deepEqual(calls, [
+      { url: 'https://example.com/api/events', method: 'OPTIONS' },
+      { url: 'https://example.com/api/events', method: 'POST' },
+    ]);
+    assert.equal(localStorage.getItem('analytics_events'), null);
+    global.fetch = origFetch;
+  },
+);

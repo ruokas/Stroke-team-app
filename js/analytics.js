@@ -32,7 +32,14 @@ async function canPost() {
   if (apiWritable !== null) return apiWritable;
   try {
     const res = await fetch(`${API_BASE}/events`, { method: 'OPTIONS' });
-    apiWritable = res.ok;
+    if (res.ok) {
+      apiWritable = true;
+    } else if (res.status === 404) {
+      // Some backends may not expose OPTIONS but still accept POST
+      apiWritable = true;
+    } else {
+      apiWritable = false;
+    }
   } catch {
     apiWritable = false;
   }

@@ -18,6 +18,7 @@ test('restorePatients merges array responses using patient_id', async () => {
   localStorage.clear();
   setLocal({ local1: { name: 'Local', lastUpdated: '2020-01-01' } });
   navigator.onLine = true;
+  window.disableSync = false;
 
   const remotePatients = [
     {
@@ -27,6 +28,7 @@ test('restorePatients merges array responses using patient_id', async () => {
     },
   ];
 
+  const origFetch = global.fetch;
   global.fetch = async () => ({
     status: 200,
     ok: true,
@@ -34,10 +36,13 @@ test('restorePatients merges array responses using patient_id', async () => {
   });
 
   await restorePatients();
+  global.fetch = origFetch;
 
   const stored = getLocal();
   assert.ok(stored.local1);
   assert.ok(stored.remote1);
   assert.equal(stored.remote1.name, 'Remote');
   assert.equal(stored.remote1.needsSync, false);
+  assert.equal(stored.remote1.patientId, 'remote1');
+  assert.equal(stored.remote1.lastUpdated, '2024-01-01');
 });

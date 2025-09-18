@@ -11,6 +11,26 @@ import { syncPatients, restorePatients } from './sync.js';
 
 const LS_KEY = 'insultoKomandaPatients_v1';
 
+function generatePatientId() {
+  const globalCrypto =
+    typeof globalThis !== 'undefined' ? globalThis.crypto : undefined;
+  if (globalCrypto && typeof globalCrypto.randomUUID === 'function') {
+    try {
+      return globalCrypto.randomUUID();
+    } catch {
+      // Some polyfills may expose randomUUID but throw; fall back gracefully.
+    }
+  }
+  if (globalCrypto && typeof globalCrypto.getRandomValues === 'function') {
+    const buf = new Uint32Array(4);
+    globalCrypto.getRandomValues(buf);
+    return Array.from(buf)
+      .map((n) => n.toString(16).padStart(8, '0'))
+      .join('');
+  }
+  return `${Date.now()}-${Math.random().toString(16).slice(2, 10)}`;
+}
+
 window.addEventListener('unload', flush);
 if (typeof navigator !== 'undefined' && navigator.onLine && !window.disableSync)
   restorePatients();
@@ -157,7 +177,7 @@ export function setPayload(p) {
 export function savePatient(id, name) {
   const inputs = getInputs();
   const patients = getPatients();
-  const patientId = id || Date.now().toString();
+  const patientId = `${id || generatePatientId()}`;
   const now = new Date().toISOString();
   const patientName =
     name ||

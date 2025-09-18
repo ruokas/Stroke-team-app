@@ -203,6 +203,10 @@ export async function syncPatients() {
       consecutiveSyncFails >= MAX_CONSECUTIVE_SYNC_FAILS
     ) {
       window.disableSync = true;
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem('disableSync', 'true');
+      }
+      syncEnableLocalBtnState();
       showToast(t('local_storage_enabled'), { type: 'info' });
     }
   } else {
@@ -263,6 +267,15 @@ export async function restorePatients() {
   }
 }
 
+function syncEnableLocalBtnState() {
+  if (typeof document === 'undefined') return;
+  const enableLocalBtn = document.getElementById('enableLocalBtn');
+  if (!enableLocalBtn) return;
+  const disabled = Boolean(window.disableSync);
+  enableLocalBtn.checked = disabled;
+  enableLocalBtn.setAttribute('aria-checked', String(disabled));
+}
+
 if (typeof window !== 'undefined') {
   window.addEventListener('online', () => {
     syncPatients();
@@ -276,13 +289,12 @@ if (typeof document !== 'undefined') {
   });
   const enableLocalBtn = document.getElementById('enableLocalBtn');
   if (enableLocalBtn) {
-    enableLocalBtn.checked = window.disableSync;
-    enableLocalBtn.setAttribute('aria-checked', window.disableSync);
+    syncEnableLocalBtnState();
     enableLocalBtn.addEventListener('change', () => {
       const enabled = enableLocalBtn.checked;
-      enableLocalBtn.setAttribute('aria-checked', enabled);
       window.disableSync = enabled;
       localStorage.setItem('disableSync', String(enabled));
+      syncEnableLocalBtnState();
       if (enabled) {
         showToast(t('local_storage_enabled'), { type: 'info' });
       } else {

@@ -16,7 +16,7 @@ let consecutiveSyncFails = 0;
 
 if (typeof window !== 'undefined') {
   const saved = localStorage.getItem('disableSync');
-  window.disableSync = saved !== 'false';
+  window.disableSync = saved === 'true';
 }
 
 function buildServerPayload(id, record) {

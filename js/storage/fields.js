@@ -212,14 +212,26 @@ if (typeof document !== 'undefined') {
     document.querySelectorAll('input[name="p_independent"]'),
   );
   function mirror(src, target) {
-    src.forEach((el) => {
-      el.addEventListener('change', () => {
-        if (!el.checked) return;
+    let isSyncing = false;
+
+    function sync(el) {
+      if (!el.checked || isSyncing) return;
+      isSyncing = true;
+      try {
         target.forEach((t) => {
-          t.checked = t.value === el.value;
-          t.dispatchEvent(new Event('change', { bubbles: true }));
+          const shouldCheck = t.value === el.value;
+          if (t.checked !== shouldCheck) {
+            t.checked = shouldCheck;
+            t.dispatchEvent(new Event('change', { bubbles: true }));
+          }
         });
-      });
+      } finally {
+        isSyncing = false;
+      }
+    }
+
+    src.forEach((el) => {
+      el.addEventListener('change', () => sync(el));
     });
   }
   mirror(aNodes, pNodes);

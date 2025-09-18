@@ -93,7 +93,14 @@ export function setupAutosave(
       saveStatus.textContent = '';
       return;
     }
-    const diff = Date.now() - new Date(rec.lastUpdated).getTime();
+    const lastUpdated =
+      rec.lastUpdated ?? rec.last_updated ?? rec.created ?? null;
+    if (!lastUpdated) {
+      const name = rec.name || 'Pacientas';
+      saveStatus.textContent = `${name} ${SAVE_STATUS_TEXT.saved()}`;
+      return;
+    }
+    const diff = Date.now() - new Date(lastUpdated).getTime();
     const mins = Math.floor(diff / 60000);
     const ago =
       mins < 1 ? SAVE_STATUS_TEXT.justNow() : SAVE_STATUS_TEXT.minutesAgo(mins);

@@ -1,6 +1,7 @@
 import { showToast } from './toast.js';
 import { t } from './i18n.js';
 import { track } from './analytics.js';
+import { SCHEMA_VERSION } from './storage/migrations.js';
 
 const LS_KEY = 'insultoKomandaPatients_v1';
 const API_BASE =
@@ -54,6 +55,56 @@ function buildServerPayload(id, record) {
   return body;
 }
 
+function toVersionedData(payload) {
+  if (
+    payload &&
+    typeof payload === 'object' &&
+    'version' in payload &&
+    'data' in payload
+  ) {
+    return {
+      version: payload.version,
+      data: payload.data,
+    };
+  }
+  return {
+    version: SCHEMA_VERSION,
+    data: payload ?? {},
+  };
+}
+
+function mapRemotePatient(remote) {
+  if (!remote || typeof remote !== 'object') return null;
+  const rawId =
+    remote.patientId ??
+    remote.patient_id ??
+    remote.id ??
+    remote.patientID ??
+    null;
+  const lastUpdated =
+    remote.lastUpdated ??
+    remote.last_updated ??
+    remote.updated_at ??
+    remote.updatedAt ??
+    null;
+  const payload = remote.payload ?? remote.data ?? null;
+  const mapped = { ...remote };
+  if (rawId !== undefined && rawId !== null && `${rawId}`.trim() !== '') {
+    mapped.patientId = `${rawId}`;
+  }
+  if (lastUpdated) {
+    mapped.lastUpdated = lastUpdated;
+  }
+  const basePayload =
+    payload !== undefined
+      ? payload
+      : mapped.data !== undefined
+        ? mapped.data
+        : null;
+  mapped.data = toVersionedData(basePayload);
+  return mapped;
+}
+
 function normalizeRemotePatient(remote) {
   if (!remote || typeof remote !== 'object') return null;
   const rawId =
@@ -65,7 +116,7 @@ function normalizeRemotePatient(remote) {
   if (rawId === undefined || rawId === null || `${rawId}`.trim() === '')
     return null;
   const patientId = `${rawId}`;
-  const payload = remote.payload ?? remote.data ?? null;
+  const payload = remote.data ?? remote.payload ?? null;
   const created =
     remote.created ?? remote.created_at ?? remote.createdAt ?? null;
   const lastUpdated =
@@ -171,12 +222,16 @@ export async function restorePatients() {
     const localData = loadLocalPatients();
     let changed = false;
     const merged = { ...localData };
-    const remotes = Array.isArray(serverData)
-      ? serverData
-      : Object.entries(serverData).map(([id, data]) => ({
-          ...data,
-          patient_id: id,
-        }));
+    const remotes = (
+      Array.isArray(serverData)
+        ? serverData
+        : Object.entries(serverData).map(([id, data]) => ({
+            ...data,
+            patient_id: id,
+          }))
+    )
+      .map(mapRemotePatient)
+      .filter(Boolean);
     for (const remote of remotes) {
       const normalized = normalizeRemotePatient(remote);
       if (!normalized) continue;

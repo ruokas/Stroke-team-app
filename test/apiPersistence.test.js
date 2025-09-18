@@ -99,3 +99,30 @@ test(
     );
   },
 );
+
+test(
+  'OPTIONS /api/events responds with CORS headers and allows POST',
+  { concurrency: false },
+  async () => {
+    const optionsRes = await fetch(`${baseUrl}/api/events`, {
+      method: 'OPTIONS',
+    });
+    assert.equal(optionsRes.status, 204);
+    assert.equal(
+      optionsRes.headers.get('access-control-allow-methods'),
+      'OPTIONS, POST',
+    );
+    assert.equal(optionsRes.headers.get('access-control-allow-origin'), '*');
+    assert.equal(
+      optionsRes.headers.get('access-control-allow-headers'),
+      'Content-Type',
+    );
+
+    const postRes = await fetch(`${baseUrl}/api/events`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify([{ event: 'after-options' }]),
+    });
+    assert.equal(postRes.status, 201);
+  },
+);

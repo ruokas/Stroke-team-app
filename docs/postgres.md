@@ -71,3 +71,59 @@ connection string format:
 
 The migration script auto-detects the TLS settings, so no additional flags are
 required beyond the connection string.
+
+## Supabase SQL editor: patients & events tables
+
+Run the following statements in the Supabase SQL editor to create the
+`patients` and `events` tables together with Row Level Security policies that
+restrict direct access to trusted service tokens (for example, Edge functions
+using the `service_role` key or a function-scoped JWT). The policies grant full
+read/write access only when the caller is authenticated with the `service_role`
+role, so regular client-side `supabase-js` instances will not see these rows by
+default.
+
+```sql
+-- Table definitions
+create table if not exists public.patients (
+  patient_id text primary key,
+  name text,
+  payload jsonb,
+  created timestamptz default now(),
+  last_updated timestamptz default now()
+);
+
+create table if not exists public.events (
+  id bigint generated always as identity primary key,
+  event text,
+  payload jsonb,
+  ts timestamptz default now()
+);
+
+-- Ensure RLS is on before adding policies
+alter table public.patients enable row level security;
+alter table public.events enable row level security;
+
+-- Allow only trusted service tokens (Edge functions, background jobs)
+create policy "Patients managed by service role" on public.patients
+  for all using (auth.role() = 'service_role')
+  with check (auth.role() = 'service_role');
+
+create policy "Events managed by service role" on public.events
+  for all using (auth.role() = 'service_role')
+  with check (auth.role() = 'service_role');
+```
+
+### Planning for browser access later
+
+If you later introduce `supabase-js` in the browser, create separate policies
+that scope rows to individual users. A common pattern is to add an owner column
+(`created_by uuid default auth.uid()`) and then create per-table policies such
+as:
+
+```sql
+create policy "Patients accessible to their owner" on public.patients
+  for select using (created_by = auth.uid());
+```
+
+Keep the service-role policies in place for Edge functions or other privileged
+workflows, and avoid exposing the service-role key to the browser.

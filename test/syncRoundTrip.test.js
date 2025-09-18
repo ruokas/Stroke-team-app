@@ -1,5 +1,6 @@
 import { test, before, after } from 'node:test';
 import assert from 'node:assert/strict';
+import { randomUUID } from 'node:crypto';
 import './jsdomSetup.js';
 
 process.env.NODE_ENV = 'test';
@@ -31,7 +32,7 @@ test(
       pool.nextPatientId = 1;
     }
 
-    const patientId = '123';
+    const patientId = randomUUID();
     const localPatient = {
       patientId,
       name: 'Test Pacientas',

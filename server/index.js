@@ -1,6 +1,7 @@
 import express from 'express';
 import pg from 'pg';
 import dotenv from 'dotenv';
+import { randomUUID } from 'node:crypto';
 
 import { buildPgConfig } from './dbConfig.js';
 
@@ -35,25 +36,25 @@ if (process.env.NODE_ENV === 'test') {
       text = text.trim();
       if (text.startsWith('INSERT INTO patients')) {
         let [id, name, payload, lastUpdated] = params;
-        if (id == null) {
-          id = this.nextPatientId++;
-        } else {
-          const numericId = Number(id);
-          if (!Number.isNaN(numericId) && numericId >= this.nextPatientId) {
-            this.nextPatientId = numericId + 1;
-          }
+        if (id == null || `${id}`.trim() === '') {
+          id = randomUUID();
+        }
+        const idStr = `${id}`;
+        const numericId = Number(idStr);
+        if (!Number.isNaN(numericId) && numericId >= this.nextPatientId) {
+          this.nextPatientId = numericId + 1;
         }
         let updated = lastUpdated ? new Date(lastUpdated) : new Date();
         if (Number.isNaN(updated.getTime())) updated = new Date();
         const idx = this.patients.findIndex(
-          (p) => `${p.patient_id}` === `${id}`,
+          (p) => `${p.patient_id}` === idStr,
         );
         const created =
           idx >= 0 && this.patients[idx]?.created
             ? this.patients[idx].created
             : new Date();
         const record = {
-          patient_id: id,
+          patient_id: idStr,
           name,
           payload,
           created,
@@ -155,8 +156,8 @@ app.post('/api/patients', async (req, res) => {
     resolvedPatientId !== undefined &&
     resolvedPatientId !== null &&
     `${resolvedPatientId}`.trim() !== ''
-      ? resolvedPatientId
-      : null;
+      ? `${resolvedPatientId}`.trim()
+      : randomUUID();
   const resolvedPayload = payload ?? data ?? null;
   const resolvedLastUpdated = snakeLastUpdated ?? camelLastUpdated ?? null;
 

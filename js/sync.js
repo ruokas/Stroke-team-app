@@ -14,6 +14,29 @@ const MAX_CONSECUTIVE_SYNC_FAILS = 3;
 let lastSyncFailToast = 0;
 let consecutiveSyncFails = 0;
 
+function isMissingEndpoint(status) {
+  const code = Number(status);
+  return code === 404 || code === 405 || code === 410 || code === 466;
+}
+
+function switchToLocalOnlyMode({ status, context }) {
+  if (typeof window === 'undefined') return;
+  const alreadyDisabled = Boolean(window.disableSync);
+  window.disableSync = true;
+  if (typeof localStorage !== 'undefined') {
+    localStorage.setItem('disableSync', 'true');
+  }
+  syncEnableLocalBtnState();
+  track('sync_missing_endpoint', {
+    status,
+    context,
+    source: 'sync.js',
+  });
+  if (!alreadyDisabled) {
+    showToast(t('local_storage_enabled'), { type: 'info' });
+  }
+}
+
 if (typeof window !== 'undefined') {
   const saved = localStorage.getItem('disableSync');
   window.disableSync = saved === 'true';
@@ -165,6 +188,7 @@ export async function syncPatients() {
   const patients = loadLocalPatients();
   let changed = false;
   let failed = false;
+  let missingEndpointDetected = false;
   for (const [id, p] of Object.entries(patients)) {
     if (!p?.needsSync) continue;
     try {
@@ -175,7 +199,11 @@ export async function syncPatients() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(bodyPayload),
       });
-      if (res.status === 404) continue;
+      if (isMissingEndpoint(res.status)) {
+        missingEndpointDetected = true;
+        switchToLocalOnlyMode({ status: res.status, context: 'syncPatients' });
+        break;
+      }
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       p.needsSync = false;
       changed = true;
@@ -191,6 +219,10 @@ export async function syncPatients() {
     }
   }
   if (changed) saveLocalPatients(patients);
+  if (missingEndpointDetected) {
+    consecutiveSyncFails = 0;
+    return;
+  }
   if (failed) {
     consecutiveSyncFails += 1;
     const now = Date.now();
@@ -219,7 +251,10 @@ export async function restorePatients() {
   if (typeof navigator !== 'undefined' && !navigator.onLine) return;
   try {
     const res = await fetch(`${API_BASE}/patients`);
-    if (res.status === 404) return;
+    if (isMissingEndpoint(res.status)) {
+      switchToLocalOnlyMode({ status: res.status, context: 'restorePatients' });
+      return;
+    }
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const serverData = await res.json();
     if (!serverData || typeof serverData !== 'object') return;

@@ -80,3 +80,40 @@ test(
     }
   },
 );
+
+test('syncPatients switches to local mode when API returns 466', async () => {
+  localStorage.clear();
+  navigator.onLine = true;
+  window.disableSync = false;
+  seedPatient();
+
+  const { toast } = await import('../js/toast.js');
+  const messages = [];
+  const originalToast = toast.showToast;
+  toast.showToast = (msg, opts) => {
+    messages.push(msg);
+    return originalToast(msg, opts);
+  };
+
+  const originalFetch = global.fetch;
+  global.fetch = async () => ({ status: 466, ok: false });
+
+  try {
+    const { syncPatients } = await import('../js/sync.js?missing466');
+    await syncPatients();
+  } finally {
+    global.fetch = originalFetch;
+    toast.showToast = originalToast;
+  }
+
+  const stored = JSON.parse(localStorage.getItem(LS_KEY) || '{}');
+  assert.ok(stored.demo);
+  assert.equal(stored.demo.needsSync, true);
+  assert.deepEqual(stored.demo.data, { version: 1, data: { foo: 'bar' } });
+  assert.equal(window.disableSync, true);
+  assert.equal(localStorage.getItem('disableSync'), 'true');
+
+  const { t } = await import('../js/i18n.js');
+  assert.equal(messages.includes(t('sync_failed')), false);
+  assert.equal(messages.includes(t('local_storage_enabled')), true);
+});

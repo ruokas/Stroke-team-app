@@ -16,3 +16,42 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run lint
+      - run: npm run build
+
+  deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      - run: npm ci
+      - name: Build with production env
+        run: |
+          set -a
+          source .env.production
+          set +a
+          npm run build
+      - name: Paruošti GitHub Pages paketą
+        run: |
+          rm -rf dist
+          mkdir -p dist
+          cp index.html dist/
+          cp manifest.json dist/
+          cp sw.js dist/
+          mkdir -p dist/css
+          cp css/style.css dist/css/
+          cp -R js dist/
+          cp -R icons dist/
+          cp -R locales dist/
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: dist

@@ -161,6 +161,19 @@ loading the scripts:
 </script>
 ```
 
+### GitHub Pages deployment
+
+- Pushes to `main` trigger the CI workflow, which now runs `npm run build` and
+  publishes the contents of `dist/` to the `gh-pages` branch. Configure GitHub
+  Pages to serve from that branch (root folder).
+- The deploy job sources values from `.env.production` before building. Update
+  `API_BASE` inside that file—or define it in your repository/Pages environment
+  variables—to match your Supabase Functions project URL
+  (`https://<project-ref>.functions.supabase.co`).
+- `index.html` defines `window.API_BASE` and `window.DISABLE_ANALYTICS = true`
+  before the application loads. Adjust those assignments if you need analytics
+  or a different API endpoint at runtime.
+
 ## Google Drive export
 
 Enable the **Upload to Drive** button to save summaries directly to Google Drive:

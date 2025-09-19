@@ -60,6 +60,41 @@ npm run build
 
 For additional database setup details and Docker Compose instructions, see [docs/postgres.md](docs/postgres.md), including the [Using Supabase](docs/postgres.md#using-supabase) section for managed databases.
 
+## Supabase Edge Functions
+
+Mirror the Express patient and analytics endpoints with Supabase Edge Functions when you want a fully serverless deployment.
+
+1. Install the [Supabase CLI](https://supabase.com/docs/guides/cli) and authenticate against your project.
+2. Configure the secrets required by both functions (replace the placeholders with your values):
+
+   ```sh
+   supabase secrets set \
+     SUPABASE_URL="https://<project-ref>.supabase.co" \
+     SUPABASE_SERVICE_ROLE_KEY="<service-role-key>"
+   ```
+
+3. Deploy both functions:
+
+   ```sh
+   supabase functions deploy patients events
+   ```
+
+4. After deployment the functions are available at:
+
+   - `https://<project-ref>.functions.supabase.co/patients`
+   - `https://<project-ref>.functions.supabase.co/events`
+
+   Replace `<project-ref>` with your Supabase project reference (see **Project Settings → General**).
+
+5. Test them with curl:
+
+   ```sh
+   curl https://<project-ref>.functions.supabase.co/patients
+   curl -X POST https://<project-ref>.functions.supabase.co/events \
+     -H 'Content-Type: application/json' \
+     -d '[{"event":"demo","payload":{"ok":true}}]'
+   ```
+
 ## Database setup
 
 Create a `.env` file in the project root with your database connection string:

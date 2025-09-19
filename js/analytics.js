@@ -1,6 +1,7 @@
 import * as state from './state.js';
 import { diffMinutes } from './time.js';
 import { t } from './i18n.js';
+import { withSupabaseHeaders } from './supabase.js';
 
 const LS_KEY = 'analytics_events';
 let buffer = [];
@@ -31,7 +32,11 @@ function shouldSend() {
 async function canPost() {
   if (apiWritable !== null) return apiWritable;
   try {
-    const res = await fetch(`${API_BASE}/events`, { method: 'OPTIONS' });
+    const headers = withSupabaseHeaders(API_BASE);
+    const options = Object.keys(headers).length
+      ? { method: 'OPTIONS', headers }
+      : { method: 'OPTIONS' };
+    const res = await fetch(`${API_BASE}/events`, options);
     if (res.ok) {
       apiWritable = true;
     } else if (res.status === 404) {
@@ -88,7 +93,9 @@ export async function sync() {
   try {
     const res = await fetch(`${API_BASE}/events`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: withSupabaseHeaders(API_BASE, {
+        'Content-Type': 'application/json',
+      }),
       body: JSON.stringify(events),
     });
     if (res.ok) localStorage.removeItem(LS_KEY);

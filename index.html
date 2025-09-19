@@ -1799,9 +1799,35 @@ Kontraindikacijos trombektomijai</summary>
   </div>
 
     <script>
-      // Supabase Functions API numatytasis URL (gpyqtvisuddacmojuzxd projektas).
-      window.API_BASE =
-        window.API_BASE || 'https://gpyqtvisuddacmojuzxd.functions.supabase.co';
+      (() => {
+        const cfg = {"apiBase":"https://<project-ref>.functions.supabase.co","supabaseAnonKey":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdweXF0dmlzdWRkYWNtb2p1enhkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgxMzEyNDIsImV4cCI6MjA3MzcwNzI0Mn0.-6mP_-WBaCIa5zJQltrAgujQKqozJQLir2P7nYfo4_4","supabaseProjectUrl":"https://gpyqtvisuddacmojuzxd.supabase.co"};
+        const defaultApiBase =
+          'https://gpyqtvisuddacmojuzxd.functions.supabase.co';
+        const envApiBase =
+          typeof cfg.apiBase === 'string' ? cfg.apiBase.trim() : '';
+        if (!window.API_BASE) {
+          window.API_BASE = envApiBase || defaultApiBase;
+        }
+        const anonKey =
+          typeof cfg.supabaseAnonKey === 'string'
+            ? cfg.supabaseAnonKey.trim()
+            : '';
+        if (anonKey) {
+          if (!window.SUPABASE_ANON_KEY) {
+            window.SUPABASE_ANON_KEY = anonKey;
+          }
+          if (!window.SUPABASE_ANONPUBLIC) {
+            window.SUPABASE_ANONPUBLIC = anonKey;
+          }
+        }
+        const projectUrl =
+          typeof cfg.supabaseProjectUrl === 'string'
+            ? cfg.supabaseProjectUrl.trim()
+            : '';
+        if (projectUrl && !window.SUPABASE_PROJECT_URL) {
+          window.SUPABASE_PROJECT_URL = projectUrl;
+        }
+      })();
       window.DISABLE_ANALYTICS = true;
     </script>
     <script>

@@ -159,6 +159,30 @@ loading the scripts:
 </script>
 ```
 
+### Supabase authentication headers
+
+When deploying against Supabase Functions or the REST API, expose your anon
+key through the `SUPABASE_ANONPUBLIC` environment variable (and optionally the
+project URL via `SUPABASE_PROJECT_URL`). The build step writes these values to
+`window.SUPABASE_ANON_KEY`/`window.SUPABASE_PROJECT_URL`, and the frontend will
+automatically include the required `Authorization` and `apikey` headers for
+requests to Supabase hosts. Local `/api` calls continue to work without these
+headers.
+
+Example `.env.production` values:
+
+```env
+API_BASE=https://<project-ref>.functions.supabase.co
+SUPABASE_PROJECT_URL=https://<project-ref>.supabase.co
+SUPABASE_ANONPUBLIC=<anon-public-key>
+```
+
+Rebuild the static assets after updating the variables:
+
+```sh
+npm run build
+```
+
 ### GitHub Pages deployment
 
 - Pushes to `main` trigger the CI workflow, which now runs `npm run build` and

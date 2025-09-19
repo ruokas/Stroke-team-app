@@ -2,6 +2,7 @@ import { showToast } from './toast.js';
 import { t } from './i18n.js';
 import { track } from './analytics.js';
 import { SCHEMA_VERSION } from './storage/migrations.js';
+import { withSupabaseHeaders } from './supabase.js';
 
 const LS_KEY = 'insultoKomandaPatients_v1';
 const API_BASE =
@@ -196,7 +197,9 @@ export async function syncPatients() {
       if (!bodyPayload) continue;
       const res = await fetch(`${API_BASE}/patients`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: withSupabaseHeaders(API_BASE, {
+          'Content-Type': 'application/json',
+        }),
         body: JSON.stringify(bodyPayload),
       });
       if (isMissingEndpoint(res.status)) {
@@ -250,7 +253,9 @@ export async function restorePatients() {
   if (typeof window !== 'undefined' && window.disableSync) return;
   if (typeof navigator !== 'undefined' && !navigator.onLine) return;
   try {
-    const res = await fetch(`${API_BASE}/patients`);
+    const headers = withSupabaseHeaders(API_BASE);
+    const fetchOptions = Object.keys(headers).length ? { headers } : {};
+    const res = await fetch(`${API_BASE}/patients`, fetchOptions);
     if (isMissingEndpoint(res.status)) {
       switchToLocalOnlyMode({ status: res.status, context: 'restorePatients' });
       return;

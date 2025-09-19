@@ -65,11 +65,11 @@ For additional database setup details and Docker Compose instructions, see [docs
 Mirror the Express patient and analytics endpoints with Supabase Edge Functions when you want a fully serverless deployment.
 
 1. Install the [Supabase CLI](https://supabase.com/docs/guides/cli) and authenticate against your project.
-2. Configure the secrets required by both functions (replace the placeholders with your values):
+2. Configure the secrets required by both functions (update the service role key and adjust the URL only if you deploy to a different Supabase project):
 
    ```sh
    supabase secrets set \
-     SUPABASE_URL="https://<project-ref>.supabase.co" \
+     SUPABASE_URL="https://gpyqtvisuddacmojuzxd.supabase.co" \
      SUPABASE_SERVICE_ROLE_KEY="<service-role-key>"
    ```
 
@@ -81,16 +81,14 @@ Mirror the Express patient and analytics endpoints with Supabase Edge Functions 
 
 4. After deployment the functions are available at:
 
-   - `https://<project-ref>.functions.supabase.co/patients`
-   - `https://<project-ref>.functions.supabase.co/events`
-
-   Replace `<project-ref>` with your Supabase project reference (see **Project Settings → General**).
+   - `https://gpyqtvisuddacmojuzxd.functions.supabase.co/patients`
+   - `https://gpyqtvisuddacmojuzxd.functions.supabase.co/events`
 
 5. Test them with curl:
 
    ```sh
-   curl https://<project-ref>.functions.supabase.co/patients
-   curl -X POST https://<project-ref>.functions.supabase.co/events \
+   curl https://gpyqtvisuddacmojuzxd.functions.supabase.co/patients
+   curl -X POST https://gpyqtvisuddacmojuzxd.functions.supabase.co/events \
      -H 'Content-Type: application/json' \
      -d '[{"event":"demo","payload":{"ok":true}}]'
    ```
@@ -169,7 +167,7 @@ loading the scripts:
 - The deploy job sources values from `.env.production` before building. Update
   `API_BASE` inside that file—or define it in your repository/Pages environment
   variables—to match your Supabase Functions project URL
-  (`https://<project-ref>.functions.supabase.co`).
+  (`https://gpyqtvisuddacmojuzxd.functions.supabase.co`).
 - `index.html` defines `window.API_BASE` and `window.DISABLE_ANALYTICS = true`
   before the application loads. Adjust those assignments if you need analytics
   or a different API endpoint at runtime.

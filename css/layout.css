@@ -301,6 +301,42 @@ nav .tab.active {
   height: auto;
 }
 
+/* Sub-tab navigation styles */
+.sub-nav {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
+}
+
+.sub-tab {
+  padding: 8px 16px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.sub-tab:hover {
+  background: var(--btn-hover-bg);
+}
+
+.sub-tab.active {
+  background: var(--btn-active-bg);
+  border-color: var(--accent);
+  font-weight: 600;
+}
+
+.sub-section {
+  margin-top: 20px;
+}
+
+.sub-section.hidden {
+  display: none;
+}
+
 @media (max-width: 1024px) {
   body.nav-collapsed:not(.nav-open) .layout-main {
     grid-template-columns: 80px 1fr;

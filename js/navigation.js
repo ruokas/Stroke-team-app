@@ -34,6 +34,10 @@ export function setupNavigation(inputs) {
       inputs.summary.value = text;
       if (patient) patient.summary = text;
     }
+    // Initialize sub-tabs when neurologo section is shown
+    if (id === 'neurologo') {
+      setupSubTabs();
+    }
     // Removed automatic setting of decision time; now handled via buttons with data-now="d_time"
     if (id === 'analytics') renderAnalytics();
     track('section_view', { id });
@@ -103,6 +107,45 @@ export function setupNavigation(inputs) {
       }
     });
   });
+
+  // Setup sub-tab navigation for Neurologo dalis
+  const setupSubTabs = () => {
+    const subNav = $('#neurologoSubNav');
+    if (!subNav) return;
+
+    const subTabs = $$('#neurologoSubNav .sub-tab');
+    const subSections = $$('#neurologo .sub-section');
+
+    const showSubSection = (subsectionId) => {
+      subSections.forEach((s) => {
+        const active = s.id === subsectionId;
+        s.classList.toggle('hidden', !active);
+        s.setAttribute('aria-hidden', active ? 'false' : 'true');
+      });
+      subTabs.forEach((t) => {
+        const selected = t.dataset.subsection === subsectionId;
+        t.classList.toggle('active', selected);
+        t.setAttribute('aria-selected', selected ? 'true' : 'false');
+      });
+    };
+
+    subTabs.forEach((tab) => {
+      tab.addEventListener('click', (e) => {
+        e.preventDefault();
+        const subsectionId = tab.dataset.subsection;
+        showSubSection(subsectionId);
+        track('subsection_view', {
+          section: 'neurologo',
+          subsection: subsectionId,
+        });
+      });
+    });
+
+    // Show first sub-section by default
+    if (subSections.length > 0) {
+      showSubSection(subSections[0].id);
+    }
+  };
 
   window.addEventListener('hashchange', activateFromHash);
   window.addEventListener('popstate', activateFromHash);

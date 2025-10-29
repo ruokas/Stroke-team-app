@@ -3,8 +3,8 @@ import { t } from './i18n.js';
 import { track } from './analytics.js';
 import { SCHEMA_VERSION } from './storage/migrations.js';
 import { withSupabaseHeaders } from './supabase.js';
+import { getPatients, writePatients } from './storage.js';
 
-const LS_KEY = 'insultoKomandaPatients_v1';
 const API_BASE =
   (typeof window !== 'undefined' && window.API_BASE) ||
   (typeof process !== 'undefined' && process.env.API_BASE) ||
@@ -25,7 +25,12 @@ function switchToLocalOnlyMode({ status, context }) {
   const alreadyDisabled = Boolean(window.disableSync);
   window.disableSync = true;
   if (typeof localStorage !== 'undefined') {
-    localStorage.setItem('disableSync', 'true');
+    try {
+      localStorage.setItem('disableSync', 'true');
+    } catch (e) {
+      console.error('Failed to persist disableSync flag', e);
+      showToast(t('storage_full'), { type: 'error' });
+    }
   }
   syncEnableLocalBtnState();
   track('sync_missing_endpoint', {
@@ -39,7 +44,14 @@ function switchToLocalOnlyMode({ status, context }) {
 }
 
 if (typeof window !== 'undefined') {
-  const saved = localStorage.getItem('disableSync');
+  let saved = null;
+  if (typeof localStorage !== 'undefined') {
+    try {
+      saved = localStorage.getItem('disableSync');
+    } catch (e) {
+      console.error('Failed to read disableSync flag', e);
+    }
+  }
   window.disableSync = saved === 'true';
 }
 
@@ -171,22 +183,10 @@ function normalizeRemotePatient(remote) {
   return normalized;
 }
 
-function loadLocalPatients() {
-  try {
-    return JSON.parse(localStorage.getItem(LS_KEY) || '{}');
-  } catch {
-    return {};
-  }
-}
-
-function saveLocalPatients(patients) {
-  localStorage.setItem(LS_KEY, JSON.stringify(patients));
-}
-
 export async function syncPatients() {
   if (typeof window !== 'undefined' && window.disableSync) return;
   if (typeof navigator !== 'undefined' && !navigator.onLine) return;
-  const patients = loadLocalPatients();
+  const patients = getPatients();
   let changed = false;
   let failed = false;
   let missingEndpointDetected = false;
@@ -221,7 +221,7 @@ export async function syncPatients() {
       });
     }
   }
-  if (changed) saveLocalPatients(patients);
+  if (changed) writePatients(patients);
   if (missingEndpointDetected) {
     consecutiveSyncFails = 0;
     return;
@@ -239,7 +239,12 @@ export async function syncPatients() {
     ) {
       window.disableSync = true;
       if (typeof localStorage !== 'undefined') {
-        localStorage.setItem('disableSync', 'true');
+        try {
+          localStorage.setItem('disableSync', 'true');
+        } catch (e) {
+          console.error('Failed to persist disableSync flag', e);
+          showToast(t('storage_full'), { type: 'error' });
+        }
       }
       syncEnableLocalBtnState();
       showToast(t('local_storage_enabled'), { type: 'info' });
@@ -263,7 +268,7 @@ export async function restorePatients() {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const serverData = await res.json();
     if (!serverData || typeof serverData !== 'object') return;
-    const localData = loadLocalPatients();
+    const localData = getPatients();
     let changed = false;
     const merged = { ...localData };
     const remotes = (
@@ -295,7 +300,7 @@ export async function restorePatients() {
         }
       }
     }
-    if (changed) saveLocalPatients(merged);
+    if (changed) writePatients(merged);
   } catch (e) {
     console.error('Failed to restore patients', e);
     track('error', {
@@ -333,8 +338,18 @@ if (typeof document !== 'undefined') {
     enableLocalBtn.addEventListener('change', () => {
       const enabled = enableLocalBtn.checked;
       window.disableSync = enabled;
-      localStorage.setItem('disableSync', String(enabled));
-      syncEnableLocalBtnState();
+      if (typeof localStorage !== 'undefined') {
+        try {
+          localStorage.setItem('disableSync', String(enabled));
+        } catch (e) {
+          console.error('Failed to persist disableSync flag', e);
+          showToast(t('storage_full'), { type: 'error' });
+        } finally {
+          syncEnableLocalBtnState();
+        }
+      } else {
+        syncEnableLocalBtnState();
+      }
       if (enabled) {
         showToast(t('local_storage_enabled'), { type: 'info' });
       } else {

@@ -28,6 +28,24 @@ import { setupNotificationToggle } from './notifications.js';
 initTheme();
 initErrorLogger();
 
+import('./sync.js')
+  .then(({ restorePatients }) => {
+    if (
+      typeof navigator !== 'undefined' &&
+      navigator.onLine &&
+      !window.disableSync &&
+      typeof restorePatients === 'function'
+    ) {
+      return restorePatients().catch((e) => {
+        console.error('Failed to restore patients during init', e);
+      });
+    }
+    return null;
+  })
+  .catch((e) => {
+    console.error('Failed to initialize sync module', e);
+  });
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker

@@ -7,7 +7,6 @@ import { migrateSchema, SCHEMA_VERSION } from './storage/migrations.js';
 import { showToast } from './toast.js';
 import { t } from './i18n.js';
 import { track, flush } from './analytics.js';
-import { syncPatients, restorePatients } from './sync.js';
 
 const LS_KEY = 'insultoKomandaPatients_v1';
 
@@ -32,8 +31,6 @@ function generatePatientId() {
 }
 
 window.addEventListener('unload', flush);
-if (typeof navigator !== 'undefined' && navigator.onLine && !window.disableSync)
-  restorePatients();
 
 export function migratePatientRecord(id, record) {
   const p = record && typeof record === 'object' ? record : {};
@@ -70,7 +67,7 @@ export function getPatients() {
       else delete patients[id];
       if (changed) migrated = true;
     });
-    if (migrated) setPatients(patients);
+    if (migrated) writePatients(patients);
     return patients;
   } catch (e) {
     console.error(e);
@@ -84,7 +81,7 @@ export function getPatients() {
   }
 }
 
-function setPatients(patients) {
+export function writePatients(patients) {
   const keys = Object.keys(patients);
   try {
     if (keys.length) localStorage.setItem(LS_KEY, JSON.stringify(patients));
@@ -198,14 +195,19 @@ export function savePatient(id, name) {
       data: getPayload(),
     },
   };
-  setPatients(patients);
+  writePatients(patients);
   track('patient_save', { patientId, name: patientName });
   if (
     !window.disableSync &&
     typeof navigator !== 'undefined' &&
     navigator.onLine
-  )
-    syncPatients();
+  ) {
+    import('./sync.js')
+      .then(({ syncPatients }) => syncPatients())
+      .catch((e) => {
+        console.error('Failed to queue sync after save', e);
+      });
+  }
   return patientId;
 }
 
@@ -221,7 +223,7 @@ export function deletePatient(id) {
   const patients = getPatients();
   if (patients[id]) {
     delete patients[id];
-    setPatients(patients);
+    writePatients(patients);
     track('patient_delete', { patientId: id });
   }
 }
@@ -230,7 +232,7 @@ export function renamePatient(id, newName) {
   const patients = getPatients();
   if (patients[id]) {
     patients[id].name = newName;
-    setPatients(patients);
+    writePatients(patients);
     track('patient_rename', { patientId: id, newName });
   }
 }

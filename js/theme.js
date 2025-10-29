@@ -16,7 +16,19 @@ export function initTheme() {
   } catch {
     /* ignore */
   }
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  let prefersDark = false;
+  try {
+    if (
+      typeof window !== 'undefined' &&
+      typeof window.matchMedia === 'function'
+    ) {
+      prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    } else if (root?.dataset?.theme) {
+      prefersDark = root.dataset.theme === 'dark';
+    }
+  } catch {
+    prefersDark = root?.dataset?.theme === 'dark';
+  }
   const preferred = saved || (prefersDark ? 'dark' : 'light');
   root.classList.add(preferred);
 }

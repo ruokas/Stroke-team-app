@@ -304,6 +304,7 @@ nav .tab.active {
 /* Sub-tab navigation styles */
 .sub-nav {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 20px;
   border-bottom: 1px solid var(--border);
@@ -317,6 +318,8 @@ nav .tab.active {
   font-size: 0.9rem;
   transition: background-color 0.2s ease, color 0.2s ease;
   border: 1px solid transparent;
+  justify-content: center;
+  flex: 1 1 160px;
 }
 
 .sub-tab:hover {
@@ -335,6 +338,17 @@ nav .tab.active {
 
 .sub-section.hidden {
   display: none;
+}
+
+@media (max-width: 640px) {
+  .sub-nav {
+    gap: 6px;
+  }
+
+  .sub-tab {
+    flex: 1 1 100%;
+    text-align: center;
+  }
 }
 
 @media (max-width: 1024px) {
@@ -358,6 +372,20 @@ nav .tab.active {
 
   body.nav-collapsed:not(.nav-open) nav .tab-label {
     display: none;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 1024px) {
+  nav .tab {
+    padding: 6px 8px;
+    min-height: 32px;
+    font-size: 0.92rem;
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+  .tab-icon {
+    width: 1.1rem;
+    min-width: 1.1rem;
   }
 }
 

@@ -1,4 +1,4 @@
-<nav id="mainNav" role="tablist">
+﻿<nav id="mainNav" role="tablist">
   <a
     id="activation-tab"
     href="#activation"
@@ -6,6 +6,14 @@
     class="tab btn active"
     role="tab"
     ><span class="tab-icon" aria-hidden="true">{{ icon('activation') | safe }}</span><span class="tab-label">Aktyvacija</span></a
+  >
+  <a
+    id="arrival-tab"
+    href="#arrival"
+    data-section="arrival"
+    class="tab btn"
+    role="tab"
+    ><span class="tab-icon" aria-hidden="true">{{ icon('arrival') | safe }}</span><span class="tab-label">Paciento atvykimas</span></a
   >
   <a
     id="neurologo-tab"
@@ -16,12 +24,12 @@
     ><span class="tab-icon" aria-hidden="true">{{ icon('nihss') | safe }}</span><span class="tab-label">Neurologo dalis</span></a
   >
   <a
-    id="arrival-tab"
-    href="#arrival"
-    data-section="arrival"
+    id="monitoring-tab"
+    href="#monitoring"
+    data-section="monitoring"
     class="tab btn"
     role="tab"
-    ><span class="tab-icon" aria-hidden="true">{{ icon('arrival') | safe }}</span><span class="tab-label">Paciento atvykimas</span></a
+    ><span class="tab-icon" aria-hidden="true">{{ icon('monitoring') | safe }}</span><span class="tab-label">Stebėjimas (NEWS2)</span></a
   >
   <a
     id="thrombolysis-tab"
@@ -56,3 +64,5 @@
     ><span class="tab-icon" aria-hidden="true">{{ icon('summary') | safe }}</span><span class="tab-label">Santrauka</span></a
   >
 </nav>
+
+

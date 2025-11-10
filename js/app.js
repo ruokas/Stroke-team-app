@@ -1,4 +1,4 @@
-import { initErrorLogger } from './errorLogger.js';
+﻿import { initErrorLogger } from './errorLogger.js';
 import { getInputs, state } from './state.js';
 import { updateDrugDefaults } from './drugs.js';
 import { updateAge } from './age.js';
@@ -13,6 +13,7 @@ import { setupHeaderHeight } from './header.js';
 import { setupToolbarNavigation } from './toolbar.js';
 import { setupTimeButtons } from './timeControls.js';
 import { setupDrugControls } from './drugControls.js';
+import { setupNewsMonitoring } from './newsMonitoring.js';
 import { setupSummaryHandlers } from './summaryHandlers.js';
 import { setupPersonalCodeCopy } from './personalCode.js';
 import { setupAgeListener } from './ageSetup.js';
@@ -20,10 +21,12 @@ import { setupBpHandlers } from './bpEntries.js';
 import { setupPillState } from './pill.js';
 import { setupLkw } from './lkw.js';
 import { initNIHSS } from './nihss.js';
+import { initNeurologoArrival } from './neurologoArrival.js';
 import { initI18n } from './i18n.js';
 import { initAnalytics, track } from './analytics.js';
 import { initTheme, setupThemeToggle } from './theme.js';
 import { setupNotificationToggle } from './notifications.js';
+import { force24HourFormat } from './time.js';
 
 initTheme();
 initErrorLogger();
@@ -107,6 +110,7 @@ function bind() {
   setupToolbarNavigation();
   setupTimeButtons();
   setupDrugControls(inputs);
+  setupNewsMonitoring();
   setupSummaryHandlers(inputs);
   setupPersonalCodeCopy(inputs);
   setupAgeListener(inputs);
@@ -130,6 +134,7 @@ function bind() {
   });
 
   initNIHSS();
+  initNeurologoArrival();
   updateDrugDefaults();
   updateAge();
   initActivation();
@@ -137,6 +142,7 @@ function bind() {
   initImaging();
   updateSaveStatus();
   activateFromHash();
+  force24HourFormat();
 }
 
 async function init() {
@@ -162,3 +168,8 @@ if (
 } else {
   document.addEventListener('DOMContentLoaded', init);
 }
+
+
+
+
+

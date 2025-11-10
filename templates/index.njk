@@ -1,4 +1,4 @@
-{% extends "layout.njk" %}
+﻿{% extends "layout.njk" %}
 {% from "macros.njk" import actionButton, timeInput, icon %}
 
 {% block content %}
@@ -9,8 +9,9 @@
     <div id="appForm">
       <main class="px-0">
         {% include "sections/activation.njk" %}
-        {% include "sections/neurologo.njk" %}
         {% include "sections/arrival.njk" %}
+        {% include "sections/neurologo.njk" %}
+        {% include "sections/monitoring.njk" %}
         {% include "sections/thrombolysis.njk" %}
         {% include "sections/decision.njk" %}
         {% include "sections/complications.njk" %}
@@ -21,3 +22,4 @@
     </div>
   </div>
 {% endblock %}
+

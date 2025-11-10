@@ -128,3 +128,65 @@ test('collapses and expands nav on small screens', () => {
   );
   assert.ok(document.body.classList.contains('nav-collapsed'));
 });
+
+test('mobile: closes menu and updates aria after tab selection', () => {
+  window.innerWidth = 375;
+  document.body.innerHTML = `
+    <button id="navToggle" class="btn" aria-expanded="true"></button>
+    <nav id="mainNav" role="tablist">
+      <a href="#s1" class="tab" data-section="s1">One</a>
+    </nav>
+    <main>
+      <section id="s1"></section>
+    </main>
+  `;
+
+  const inputs = { summary: { value: '' }, d_time: { value: '' } };
+  const { activateFromHash } = setupNavigation(inputs);
+  activateFromHash();
+
+  document.body.classList.add('nav-open');
+  const tab = document.querySelector('nav .tab');
+  tab.dispatchEvent(new window.MouseEvent('click', { bubbles: true, cancelable: true }));
+
+  // menu closed
+  assert.ok(!document.body.classList.contains('nav-open'));
+  // aria reflects closure
+  const toggle = document.getElementById('navToggle');
+  assert.strictEqual(toggle.getAttribute('aria-expanded'), 'false');
+  // section activated
+  assert.strictEqual(window.location.hash, '#s1');
+});
+
+test('tablet: single tap on tab expands and activates', () => {
+  window.innerWidth = 1024;
+  window.history.replaceState(null, '', 'http://localhost/');
+  document.body.innerHTML = `
+    <button id="navToggle" class="btn" aria-expanded="false"></button>
+    <nav id="mainNav" role="tablist">
+      <a href="#s1" class="tab" data-section="s1">One</a>
+      <a href="#s2" class="tab" data-section="s2">Two</a>
+    </nav>
+    <main>
+      <section id="s1"></section>
+      <section id="s2" class="hidden"></section>
+    </main>
+  `;
+
+  const inputs = { summary: { value: '' }, d_time: { value: '' } };
+  setupNavigation(inputs);
+
+  // Initially collapsed by setup
+  assert.ok(document.body.classList.contains('nav-collapsed'));
+
+  const tab2 = document.querySelectorAll('nav .tab')[1];
+  const evt = new window.MouseEvent('click', { bubbles: true, cancelable: true });
+  const result = tab2.dispatchEvent(evt);
+
+  // Default prevented due to our handler
+  assert.ok(!result);
+  // Expanded
+  assert.ok(!document.body.classList.contains('nav-collapsed'));
+  // Activated to s2
+  assert.strictEqual(window.location.hash, '#s2');
+});

@@ -1,0 +1,75 @@
+﻿        <!-- Stebėjimas (NEWS2) -->
+        <section
+          id="monitoring"
+          class="card hidden"
+          role="tabpanel"
+          aria-labelledby="monitoring-tab"
+        >
+          <h2>Stebėjimas (NEWS2)</h2>
+          <p class="mini">
+            Registruokite NEWS2 rodiklius kiekvieną kartą, kai matuojami gyvybiniai
+            parametrai. Naudokite „Įrašyti matavimą“ kas 10 min.
+          </p>
+          <form id="newsForm">
+            <fieldset>
+              <legend>Naujas matavimas</legend>
+              {{ timeInput('news_time', 'newsTimeWrapper', 'row') }}
+              <div class="grid-3 mt-10">
+                <div>
+                  <label for="news_resp">Kvėpavimo dažnis (įkv./min)</label>
+                  <input id="news_resp" type="number" min="0" max="60" step="1" inputmode="numeric" />
+                </div>
+                <div>
+                  <label for="news_spo2">SpO₂ (%)</label>
+                  <input id="news_spo2" type="number" min="50" max="100" step="1" inputmode="numeric" />
+                </div>
+                <div>
+                  <label class="pill">
+                    <input id="news_oxygen" type="checkbox" />
+                    Papildomas deguonis
+                  </label>
+                </div>
+                <div>
+                  <label for="news_temp">Temperatūra (°C)</label>
+                  <input id="news_temp" type="number" min="30" max="45" step="0.1" inputmode="decimal" />
+                </div>
+                <div>
+                  <label for="news_bp_sys">Sistolinis AKS (mmHg)</label>
+                  <input id="news_bp_sys" type="number" min="50" max="260" step="1" inputmode="numeric" />
+                </div>
+                <div>
+                  <label for="news_hr">Pulsas (dūž./min)</label>
+                  <input id="news_hr" type="number" min="20" max="220" step="1" inputmode="numeric" />
+                </div>
+                <div>
+                  <label for="news_consciousness">Sąmonės lygis (AVPU)</label>
+                  <select id="news_consciousness">
+                    <option value="">Pasirinkite</option>
+                    <option value="alert">A – budrus</option>
+                    <option value="voice">V – reaguoja į balsą</option>
+                    <option value="pain">P – reaguoja į skausmą</option>
+                    <option value="unresponsive">U – nereaguoja</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="news_notes">Pastabos</label>
+                  <input id="news_notes" type="text" placeholder="Papildoma informacija" />
+                </div>
+              </div>
+              <div class="info-box mt-10" id="newsWarnings" role="status"></div>
+              <div class="grid-2 mt-10">
+                <div>
+                  <span class="h3-muted">Einamasis NEWS2</span>
+                  <p class="m0"><strong id="news_total">0</strong> taškai</p>
+                </div>
+                <div class="actions" style="text-align: right">
+                  <button id="news_add" type="button" class="btn primary">
+                    Įrašyti matavimą
+                  </button>
+                </div>
+              </div>
+            </fieldset>
+          </form>
+          <div id="newsReminder" class="info-box warning mt-10" role="alert"></div>
+          <div id="newsEntries" class="mt-10" role="list"></div>
+        </section>

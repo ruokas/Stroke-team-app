@@ -107,6 +107,7 @@ async function withClient(handler) {
 const app = express();
 
 app.use(express.json());
+app.use(express.static('.'));
 
 const eventCorsHeaders = {
   'Access-Control-Allow-Origin': '*',

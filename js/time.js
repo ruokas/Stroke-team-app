@@ -37,6 +37,37 @@ export function setNow(id) {
   triggerChange(el);
 }
 
+// Privers naršyklę rodyti laiką 24 valandų formatu
+export function force24HourFormat() {
+  const timeInputs = document.querySelectorAll('input[type="time"]');
+  timeInputs.forEach(input => {
+    // Nustatome step atributą, kad būtų tiksliau valandos ir minutės
+    input.step = '60';
+    
+    // Pridedame event listener, kad užtikrintume 24 valandų formatą
+    input.addEventListener('change', function() {
+      if (this.value) {
+        const [hours, minutes] = this.value.split(':');
+        const hour24 = parseInt(hours, 10);
+        if (hour24 >= 0 && hour24 <= 23) {
+          this.value = `${pad(hour24)}:${minutes}`;
+        }
+      }
+    });
+    
+    // Pridedame event listener input įvykiui
+    input.addEventListener('input', function() {
+      if (this.value) {
+        const [hours, minutes] = this.value.split(':');
+        const hour24 = parseInt(hours, 10);
+        if (hour24 >= 0 && hour24 <= 23) {
+          this.value = `${pad(hour24)}:${minutes}`;
+        }
+      }
+    });
+  });
+}
+
 export function sleepMidpoint(start, end) {
   const pair = normalizePair(start, end);
   if (!pair) return '';

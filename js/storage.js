@@ -1,4 +1,4 @@
-import { getInputs } from './state.js';
+﻿import { getInputs } from './state.js';
 import { updateDrugDefaults, calcDrugs } from './drugs.js';
 import { updateAge } from './age.js';
 import { createBpEntry } from './bpEntry.js';
@@ -8,6 +8,7 @@ import { showToast } from './toast.js';
 import { t } from './i18n.js';
 import { track, flush } from './analytics.js';
 import { syncPatients, restorePatients } from './sync.js';
+import { addStoredNewsEntry, clearNewsEntries, getNewsEntriesPayload } from './newsMonitoring.js';
 
 const LS_KEY = 'insultoKomandaPatients_v1';
 
@@ -126,6 +127,7 @@ export function getPayload() {
       notes: notesEl?.value || '',
     };
   });
+  payload.news_entries = getNewsEntriesPayload();
   return payload;
 }
 
@@ -169,6 +171,35 @@ export function setPayload(p) {
       bpContainer.appendChild(entry);
     });
   }
+  clearNewsEntries();
+  const newsEntries = Array.isArray(payload.news_entries)
+    ? payload.news_entries
+    : [];
+  const toNum = (val) => {
+    if (val === null || val === undefined || val === '') return null;
+    const num = Number(val);
+    return Number.isFinite(num) ? num : null;
+  };
+  newsEntries.forEach((entry) => {
+    addStoredNewsEntry({
+      time: entry?.time || '',
+      resp: toNum(entry?.resp),
+      spo2: toNum(entry?.spo2),
+      oxygen: entry?.oxygen === true || entry?.oxygen === 'true',
+      temp: toNum(entry?.temp),
+      systolic: toNum(entry?.systolic),
+      heartRate: toNum(entry?.heartRate),
+      consciousness:
+        typeof entry?.consciousness === 'string' ? entry.consciousness : '',
+      notes: entry?.notes || '',
+      score: Number(entry?.score || 0) || 0,
+      flags: Array.isArray(entry?.flags)
+        ? entry.flags
+        : typeof entry?.flags === 'string'
+          ? entry.flags.split('|').filter(Boolean)
+          : [],
+    });
+  });
   updateAge();
   updateDrugDefaults();
   calcDrugs();
@@ -234,3 +265,9 @@ export function renamePatient(id, newName) {
     track('patient_rename', { patientId: id, newName });
   }
 }
+
+
+
+
+
+

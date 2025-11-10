@@ -71,10 +71,25 @@ export function setupNavigation(inputs) {
     document.body.classList.add('nav-collapsed');
     if (mainNav) {
       mainNav.addEventListener('click', (e) => {
-        if (document.body.classList.contains('nav-collapsed')) {
+        if (!document.body.classList.contains('nav-collapsed')) return;
+        const clickedTab = e.target && e.target.closest
+          ? e.target.closest('.tab')
+          : null;
+        // Always expand on first interaction when collapsed
+        document.body.classList.remove('nav-collapsed');
+        // If a tab was clicked, activate it immediately (single tap)
+        if (clickedTab) {
           e.preventDefault();
-          document.body.classList.remove('nav-collapsed');
+          const id = clickedTab.dataset.section;
+          if (id) {
+            track('section_tab_click', { id });
+            showSection(id);
+            history.pushState(null, '', `#${id}`);
+          }
+          return;
         }
+        // Non-tab click: just expand and prevent navigation
+        e.preventDefault();
       });
 
       document.addEventListener('click', (e) => {

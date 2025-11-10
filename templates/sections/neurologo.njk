@@ -46,7 +46,75 @@
           <!-- Sub-tab content sections -->
           <div id="neurologo-arrival" class="sub-section">
             <h3>Paciento atvykimas</h3>
-            <p>Šis skyrius bus papildytas turiniu.</p>
+            <div class="arrival-timer">
+              Nuo atvykimo: <span id="neurologo_door_timer"></span>
+            </div>
+            <div class="arrival-timer">
+              Nuo simptomų pradžios: <span id="neurologo_onset_timer"></span>
+            </div>
+            <div class="arrival-timer">
+              Likęs trombolizės langas: <span id="neurologo_thrombolysis_timer"></span>
+            </div>
+
+            <form>
+              <fieldset>
+                <legend>Atvykimo laikas</legend>
+                {{ timeInput('neurologo_t_door') }}
+              </fieldset>
+
+              <fieldset>
+                <legend>Paskutinį kartą matytas sveikas</legend>
+                <div class="grid-3">
+                  <label class="pill"
+                    ><input type="radio" name="neurologo_lkw_type" value="known" />
+                    Paskutinį kartą matytas sveikas</label
+                  >
+                  <label class="pill"
+                    ><input type="radio" name="neurologo_lkw_type" value="unknown" />
+                    Nežinoma</label
+                  >
+                  <label class="pill"
+                    ><input type="radio" name="neurologo_lkw_type" value="sleep" /> Miego
+                    vidurio laikas</label
+                  >
+                </div>
+                {{ timeInput('neurologo_t_lkw', 'neurologoLkwTimeRow', 'row mt-4', false) }}
+                <div id="neurologoSleepTimeRow" class="grid-2 mt-4 hidden">
+                  <div>
+                    <label for="neurologo_t_sleep_start">Miego pradžia</label>
+                    {{ timeInput('neurologo_t_sleep_start', '', '', false) }}
+                  </div>
+                  <div>
+                    <label for="neurologo_t_sleep_end">Miego pabaiga</label>
+                    {{ timeInput('neurologo_t_sleep_end', '', '', false) }}
+                  </div>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend>Simptomai</legend>
+                <textarea
+                  id="neurologo_arrival_symptoms"
+                  rows="3"
+                  aria-label="Simptomai"
+                ></textarea>
+              </fieldset>
+
+              <div class="grid-2 mt-10">
+                <details>
+                  <summary class="btn toggle">
+                    {{ icon('chevron') | safe }}Kontraindikacijos trombolizei
+                  </summary>
+                  <ul class="contra-list" id="neurologo_tpa_contra_list"></ul>
+                </details>
+                <details>
+                  <summary class="btn toggle">
+                    {{ icon('chevron') | safe }}Kontraindikacijos trombektomijai
+                  </summary>
+                  <ul class="contra-list" id="neurologo_mt_contra_list"></ul>
+                </details>
+              </div>
+            </form>
           </div>
 
           <div id="neurologo-nihss" class="sub-section hidden">
@@ -248,3 +316,5 @@
             <p>Šis skyrius bus papildytas turiniu.</p>
           </div>
         </section>
+
+

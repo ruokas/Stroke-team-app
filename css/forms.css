@@ -119,6 +119,39 @@ input[type='datetime-local']::-webkit-calendar-picker-indicator {
   display: none;
 }
 
+/* Privers naršyklę rodyti laiką 24 valandų formatu */
+input[type='time'] {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+input[type='time']::-webkit-datetime-edit-text {
+  color: var(--ink);
+}
+
+input[type='time']::-webkit-datetime-edit-hour-field,
+input[type='time']::-webkit-datetime-edit-minute-field {
+  color: var(--ink);
+}
+
+input[type='time']::-webkit-datetime-edit-ampm-field {
+  display: none;
+}
+
+/* Firefox palaikymas */
+input[type='time']::-moz-datetime-edit-text {
+  color: var(--ink);
+}
+
+input[type='time']::-moz-datetime-edit-hour-field,
+input[type='time']::-moz-datetime-edit-minute-field {
+  color: var(--ink);
+}
+
+input[type='time']::-moz-datetime-edit-ampm-field {
+  display: none;
+}
+
 .time-input {
   padding: 10px 10px;
   border: 1px solid var(--line);

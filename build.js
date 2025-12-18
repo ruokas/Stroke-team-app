@@ -81,6 +81,7 @@ async function emitOutputDirectory() {
   await copyFileIfExists('index.html', `${OUTPUT_DIR}/index.html`);
   await copyFileIfExists('sw.js', `${OUTPUT_DIR}/sw.js`);
   await copyFileIfExists('manifest.json', `${OUTPUT_DIR}/manifest.json`);
+  await copyDirIfExists('js', `${OUTPUT_DIR}/js`);
   await copyDirIfExists('css', `${OUTPUT_DIR}/css`);
   await copyDirIfExists('icons', `${OUTPUT_DIR}/icons`);
   await copyDirIfExists('locales', `${OUTPUT_DIR}/locales`);

@@ -16,6 +16,7 @@ const envConfig = {
 };
 
 const envConfigJson = JSON.stringify(envConfig);
+const OUTPUT_DIR = 'public';
 
 nunjucks.configure('templates', { autoescape: false });
 
@@ -53,8 +54,42 @@ async function copyManifest() {
   }
 }
 
+async function copyFileIfExists(from, to) {
+  try {
+    await fs.copyFile(from, to);
+  } catch (error) {
+    if (error.code !== 'ENOENT') {
+      console.error(`Failed to copy ${from} to ${to}:`, error);
+      throw error;
+    }
+  }
+}
+
+async function copyDirIfExists(from, to) {
+  try {
+    await fs.cp(from, to, { recursive: true });
+  } catch (error) {
+    if (error.code !== 'ENOENT') {
+      console.error(`Failed to copy ${from} to ${to}:`, error);
+      throw error;
+    }
+  }
+}
+
+async function emitOutputDirectory() {
+  await fs.mkdir(OUTPUT_DIR, { recursive: true });
+  await copyFileIfExists('index.html', `${OUTPUT_DIR}/index.html`);
+  await copyFileIfExists('sw.js', `${OUTPUT_DIR}/sw.js`);
+  await copyFileIfExists('manifest.json', `${OUTPUT_DIR}/manifest.json`);
+  await copyDirIfExists('js', `${OUTPUT_DIR}/js`);
+  await copyDirIfExists('css', `${OUTPUT_DIR}/css`);
+  await copyDirIfExists('icons', `${OUTPUT_DIR}/icons`);
+  await copyDirIfExists('locales', `${OUTPUT_DIR}/locales`);
+}
+
 try {
   await Promise.all([buildHtml(), buildCss(), copySw(), copyManifest()]);
+  await emitOutputDirectory();
 } catch (error) {
   console.error('Build failed:', error);
   process.exit(1);

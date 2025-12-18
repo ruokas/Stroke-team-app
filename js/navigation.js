@@ -49,11 +49,11 @@ export function setupNavigation(inputs) {
   };
 
   const activateFromHash = () => {
-    const hash = location.hash.slice(1);
+    const hash = window.location.hash.slice(1);
     const first = tabs[0]?.dataset.section;
     const id = tabs.some((t) => t.dataset.section === hash) ? hash : first;
     if (id) {
-      if (hash !== id) history.replaceState(null, '', `#${id}`);
+      if (hash !== id) window.history.replaceState(null, '', `#${id}`);
       showSection(id);
     }
   };
@@ -72,9 +72,8 @@ export function setupNavigation(inputs) {
     if (mainNav) {
       mainNav.addEventListener('click', (e) => {
         if (!document.body.classList.contains('nav-collapsed')) return;
-        const clickedTab = e.target && e.target.closest
-          ? e.target.closest('.tab')
-          : null;
+        const clickedTab =
+          e.target && e.target.closest ? e.target.closest('.tab') : null;
         // Always expand on first interaction when collapsed
         document.body.classList.remove('nav-collapsed');
         // If a tab was clicked, activate it immediately (single tap)
@@ -84,7 +83,7 @@ export function setupNavigation(inputs) {
           if (id) {
             track('section_tab_click', { id });
             showSection(id);
-            history.pushState(null, '', `#${id}`);
+            window.history.pushState(null, '', `#${id}`);
           }
           return;
         }
@@ -106,7 +105,7 @@ export function setupNavigation(inputs) {
       const id = tab.dataset.section;
       track('section_tab_click', { id });
       showSection(id);
-      if (id) history.pushState(null, '', `#${id}`);
+      if (id) window.history.pushState(null, '', `#${id}`);
     });
     tab.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
@@ -118,7 +117,7 @@ export function setupNavigation(inputs) {
         track('section_tab_click', { id });
         nextTab.focus();
         showSection(id);
-        if (id) history.pushState(null, '', `#${id}`);
+        if (id) window.history.pushState(null, '', `#${id}`);
       }
     });
   });

@@ -218,7 +218,8 @@ function createEntryElement(entry) {
   el.dataset.oxygen = entry.oxygen ? 'true' : 'false';
   el.dataset.temp = entry.temp !== null ? String(entry.temp) : '';
   el.dataset.systolic = entry.systolic !== null ? String(entry.systolic) : '';
-  el.dataset.heartRate = entry.heartRate !== null ? String(entry.heartRate) : '';
+  el.dataset.heartRate =
+    entry.heartRate !== null ? String(entry.heartRate) : '';
   el.dataset.consciousness = entry.consciousness || '';
   el.dataset.notes = entry.notes || '';
   el.dataset.score = String(entry.score);
@@ -236,7 +237,9 @@ function createEntryElement(entry) {
   list.style.margin = '8px 0';
   list.innerHTML = [
     `Kvėpavimo dažnis: ${
-      entry.resp !== null && entry.resp !== '' ? `${entry.resp}/min` : 'nenurodyta'
+      entry.resp !== null && entry.resp !== ''
+        ? `${entry.resp}/min`
+        : 'nenurodyta'
     }`,
     `SpO₂: ${
       entry.spo2 !== null && entry.spo2 !== ''
@@ -246,7 +249,9 @@ function createEntryElement(entry) {
           : 'nenurodyta'
     }`,
     `Temperatūra: ${
-      entry.temp !== null && entry.temp !== '' ? `${entry.temp} °C` : 'nenurodyta'
+      entry.temp !== null && entry.temp !== ''
+        ? `${entry.temp} °C`
+        : 'nenurodyta'
     }`,
     `Sistolinis AKS: ${
       entry.systolic !== null && entry.systolic !== ''
@@ -381,8 +386,15 @@ function handleEntryClick(event) {
 }
 
 function startReminderTimer() {
-  if (reminderTimer) clearInterval(reminderTimer);
-  reminderTimer = setInterval(refreshReminder, REMINDER_INTERVAL_MS);
+  if (reminderTimer) window.clearInterval(reminderTimer);
+  reminderTimer = window.setInterval(refreshReminder, REMINDER_INTERVAL_MS);
+}
+
+export function stopNewsMonitoring() {
+  if (reminderTimer) {
+    window.clearInterval(reminderTimer);
+    reminderTimer = null;
+  }
 }
 
 export function setupNewsMonitoring() {
@@ -449,7 +461,3 @@ export function getNewsEntriesPayload() {
     flags: (el.dataset.flags || '').split('|').filter(Boolean),
   }));
 }
-
-
-
-

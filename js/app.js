@@ -1,56 +1,9 @@
-﻿import { initErrorLogger } from './errorLogger.js';
-import { getInputs, state } from './state.js';
-import { updateDrugDefaults } from './drugs.js';
-import { updateAge } from './age.js';
-import { initArrival } from './arrival.js';
-import { initActivation } from './activation.js';
-import { initImaging } from './imaging.js';
-import { setupNavigation } from './navigation.js';
-import { setupAutosave } from './autosave.js';
+﻿import { getInputs, state } from './state.js';
 import { savePatient } from './storage.js';
-import { setupIntervals } from './intervals.js';
-import { setupHeaderHeight } from './header.js';
-import { setupToolbarNavigation } from './toolbar.js';
-import { setupTimeButtons } from './timeControls.js';
-import { setupDrugControls } from './drugControls.js';
-import { setupNewsMonitoring } from './newsMonitoring.js';
-import { setupSummaryHandlers } from './summaryHandlers.js';
-import { setupPersonalCodeCopy } from './personalCode.js';
-import { setupAgeListener } from './ageSetup.js';
-import { setupBpHandlers } from './bpEntries.js';
-import { setupPillState } from './pill.js';
-import { setupLkw } from './lkw.js';
-import { initNIHSS } from './nihss.js';
-import { initNeurologoArrival } from './neurologoArrival.js';
 import { initI18n } from './i18n.js';
-import { initAnalytics, track } from './analytics.js';
-import { initTheme, setupThemeToggle } from './theme.js';
-import { setupNotificationToggle } from './notifications.js';
-import { force24HourFormat } from './time.js';
-
-initTheme();
-initErrorLogger();
-
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker
-      .register(new URL('sw.js', window.location))
-      .then((reg) => {
-        track('sw_register_success');
-        navigator.serviceWorker.ready.then(() => track('sw_active'));
-        reg.addEventListener('updatefound', () => track('sw_update_found'));
-      })
-      .catch((err) => {
-        console.error('Service worker registration failed', err);
-        track('sw_register_error', { message: err.message });
-        track('error', {
-          message: 'Service worker registration failed',
-          stack: err?.stack,
-          source: 'serviceWorker',
-        });
-      });
-  });
-}
+import { track } from './analytics.js';
+import { runAll } from './bootstrap/featureRegistry.js';
+import './bootstrap/features/index.js';
 
 const SAVE_DEBOUNCE_MS = 500;
 let saveTimer;
@@ -101,51 +54,17 @@ function saveSettings(inputs) {
   }
 }
 
-function bind() {
+async function init() {
   const inputs = getInputs();
   loadSettings(inputs);
-  initAnalytics();
-  setupIntervals(inputs);
-  setupHeaderHeight();
-  setupToolbarNavigation();
-  setupTimeButtons();
-  setupDrugControls(inputs);
-  setupNewsMonitoring();
-  setupSummaryHandlers(inputs);
-  setupPersonalCodeCopy(inputs);
-  setupAgeListener(inputs);
-  setupBpHandlers();
-  setupPillState();
-  setupLkw(inputs);
-  setupThemeToggle();
-  setupNotificationToggle();
 
-  const { updateSaveStatus } = setupAutosave(inputs, {
+  const featuresContext = {
+    inputs,
     scheduleSave,
     flushSave,
-  });
-  const { activateFromHash } = setupNavigation(inputs);
+    saveSettings: () => saveSettings(inputs),
+  };
 
-  const settingsForm = document.getElementById('settingsForm');
-  settingsForm?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    saveSettings(inputs);
-    updateDrugDefaults();
-  });
-
-  initNIHSS();
-  initNeurologoArrival();
-  updateDrugDefaults();
-  updateAge();
-  initActivation();
-  initArrival();
-  initImaging();
-  updateSaveStatus();
-  activateFromHash();
-  force24HourFormat();
-}
-
-async function init() {
   try {
     await initI18n();
   } catch (err) {
@@ -156,7 +75,7 @@ async function init() {
       source: 'i18n',
     });
   } finally {
-    bind();
+    await runAll(featuresContext);
   }
 }
 
@@ -168,8 +87,3 @@ if (
 } else {
   document.addEventListener('DOMContentLoaded', init);
 }
-
-
-
-
-

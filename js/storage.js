@@ -3,59 +3,18 @@ import { updateDrugDefaults, calcDrugs } from './drugs.js';
 import { updateAge } from './age.js';
 import { createBpEntry } from './bpEntry.js';
 import { FIELD_DEFS } from './storage/fields.js';
-import { migrateSchema, SCHEMA_VERSION } from './storage/migrations.js';
+import { SCHEMA_VERSION } from './storage/migrations.js';
 import { showToast } from './toast.js';
 import { t } from './i18n.js';
 import { track, flush } from './analytics.js';
 import { syncPatients, restorePatients } from './sync.js';
+import { generatePatientId, migratePatientRecord } from './domain/patient.js';
 
 const LS_KEY = 'insultoKomandaPatients_v1';
 
-function generatePatientId() {
-  const globalCrypto =
-    typeof globalThis !== 'undefined' ? globalThis.crypto : undefined;
-  if (globalCrypto && typeof globalCrypto.randomUUID === 'function') {
-    try {
-      return globalCrypto.randomUUID();
-    } catch {
-      // Some polyfills may expose randomUUID but throw; fall back gracefully.
-    }
-  }
-  if (globalCrypto && typeof globalCrypto.getRandomValues === 'function') {
-    const buf = new Uint32Array(4);
-    globalCrypto.getRandomValues(buf);
-    return Array.from(buf)
-      .map((n) => n.toString(16).padStart(8, '0'))
-      .join('');
-  }
-  return `${Date.now()}-${Math.random().toString(16).slice(2, 10)}`;
-}
-
-window.addEventListener('unload', flush);
-if (typeof navigator !== 'undefined' && navigator.onLine && !window.disableSync)
-  restorePatients();
-
-export function migratePatientRecord(id, record) {
-  const p = record && typeof record === 'object' ? record : {};
-  const before = JSON.stringify(p);
-  p.patientId ??= id;
-  p.created ??= new Date().toISOString();
-  p.lastUpdated ??= p.created;
-  if (!p.data || typeof p.data !== 'object' || p.data.version === undefined) {
-    p.data = { version: 0, data: p.data };
-  }
-  if (p.data.version !== SCHEMA_VERSION) {
-    try {
-      p.data = migrateSchema(p.data);
-      if (p.data.version !== SCHEMA_VERSION) throw new Error('');
-    } catch {
-      console.warn(
-        `Discarding patient ${id} due to incompatible schema version ${p.data.version}`,
-      );
-      return { record: null, changed: true };
-    }
-  }
-  return { record: p, changed: before !== JSON.stringify(p) };
+if (typeof window !== 'undefined') {
+  window.addEventListener('unload', flush);
+  if (navigator.onLine && !window.disableSync) restorePatients();
 }
 
 export function getPatients() {

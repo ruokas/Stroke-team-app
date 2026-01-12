@@ -1,4 +1,4 @@
-import { state } from '../state.js';
+import { setState, state } from '../state.js';
 import { booleanField } from './helpers.js';
 
 export function getRadioValue(nodes) {
@@ -126,7 +126,7 @@ export const FIELD_DEFS = [
     set: (el, value) => {
       if (el) {
         el.value = value || 'on';
-        state.autosave = el.value || 'on';
+        setState({ autosave: el.value || 'on' });
       }
     },
     default: 'on',

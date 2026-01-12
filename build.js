@@ -3,18 +3,10 @@ import nunjucks from 'nunjucks';
 import postcss from 'postcss';
 import cssnano from 'cssnano';
 import autoprefixer from 'autoprefixer';
-import dotenv from 'dotenv';
 import { bpMeds } from './js/bpMeds.js';
+import { loadEnvConfig } from './build/envConfig.js';
 
-dotenv.config({ quiet: true });
-dotenv.config({ path: '.env.production', override: false, quiet: true });
-
-const envConfig = {
-  apiBase: process.env.API_BASE || '',
-  supabaseAnonKey: process.env.SUPABASE_ANONPUBLIC || '',
-  supabaseProjectUrl: process.env.SUPABASE_PROJECT_URL || '',
-};
-
+const envConfig = loadEnvConfig();
 const envConfigJson = JSON.stringify(envConfig);
 
 nunjucks.configure('templates', { autoescape: false });

@@ -1,7 +1,11 @@
 import { createClient } from 'npm:@supabase/supabase-js';
+import { parseEventsPayload } from '../_shared/validation.ts';
 
-const supabaseUrl = Deno.env.get('SUPABASE_URL');
-const serviceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+const supabaseUrl =
+  Deno.env.get('SUPABASE_URL') ?? Deno.env.get('PROJECT_URL');
+const serviceRoleKey =
+  Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ??
+  Deno.env.get('SERVICE_ROLE_KEY');
 
 if (!supabaseUrl || !serviceRoleKey) {
   console.error('Missing required SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY environment variables');
@@ -53,27 +57,11 @@ Deno.serve(async (req) => {
     return jsonResponse(400, { error: 'Invalid JSON body' });
   }
 
-  if (!Array.isArray(events) || events.length === 0) {
-    return jsonResponse(400, { error: 'Events payload must be a non-empty array' });
+  const parsed = parseEventsPayload(events);
+  if ('error' in parsed) {
+    return jsonResponse(400, { error: parsed.error });
   }
-
-  const normalizedEvents: { event: string; payload: unknown }[] = [];
-  for (let index = 0; index < events.length; index += 1) {
-    const entry = events[index];
-    if (typeof entry !== 'object' || entry === null) {
-      return jsonResponse(400, { error: `Invalid event at index ${index}` });
-    }
-
-    const { event, payload } = entry as { event?: unknown; payload?: unknown };
-    if (typeof event !== 'string' || event.trim() === '') {
-      return jsonResponse(400, { error: `Invalid event name at index ${index}` });
-    }
-
-    normalizedEvents.push({
-      event: event.trim(),
-      payload: payload ?? null,
-    });
-  }
+  const normalizedEvents = parsed.value;
 
   try {
     const { error } = await supabase.from('events').insert(normalizedEvents);

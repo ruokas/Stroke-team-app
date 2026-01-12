@@ -1,14 +1,14 @@
 import { showToast } from './toast.js';
 import { t } from './i18n.js';
 import { track } from './analytics.js';
-import { SCHEMA_VERSION } from './storage/migrations.js';
-import { withSupabaseHeaders } from './supabase.js';
+import {
+  buildServerPayload,
+  mapRemotePatient,
+  normalizeRemotePatient,
+} from './domain/patient.js';
+import { fetchPatients, postPatient } from './services/patientApi.js';
 
 const LS_KEY = 'insultoKomandaPatients_v1';
-const API_BASE =
-  (typeof window !== 'undefined' && window.API_BASE) ||
-  (typeof process !== 'undefined' && process.env.API_BASE) ||
-  '/api';
 
 const SYNC_FAIL_TOAST_INTERVAL = 60_000; // 1 minute
 const MAX_CONSECUTIVE_SYNC_FAILS = 3;
@@ -43,134 +43,6 @@ if (typeof window !== 'undefined') {
   window.disableSync = saved === 'true';
 }
 
-function buildServerPayload(id, record) {
-  if (!record || typeof record !== 'object') return null;
-  const computedId =
-    record.patientId ?? record.patient_id ?? (id !== undefined ? id : null);
-  const patientId =
-    computedId !== undefined &&
-    computedId !== null &&
-    `${computedId}`.trim() !== ''
-      ? computedId
-      : null;
-  const payload = record.data ?? record.payload ?? null;
-  const lastUpdated = record.last_updated ?? record.lastUpdated ?? null;
-  const created = record.created ?? record.created_at ?? null;
-  const nameValue =
-    typeof record.name === 'string' && record.name.trim() !== ''
-      ? record.name
-      : patientId
-        ? `Pacientas ${patientId}`
-        : 'Pacientas';
-
-  const body = {
-    patient_id: patientId,
-    name: nameValue,
-    payload,
-  };
-
-  if (!body.patient_id && id !== undefined && id !== null) {
-    body.patient_id = id;
-  }
-
-  if (lastUpdated) body.last_updated = lastUpdated;
-  if (created) body.created = created;
-
-  return body;
-}
-
-function toVersionedData(payload) {
-  if (
-    payload &&
-    typeof payload === 'object' &&
-    'version' in payload &&
-    'data' in payload
-  ) {
-    return {
-      version: payload.version,
-      data: payload.data,
-    };
-  }
-  return {
-    version: SCHEMA_VERSION,
-    data: payload ?? {},
-  };
-}
-
-function mapRemotePatient(remote) {
-  if (!remote || typeof remote !== 'object') return null;
-  const rawId =
-    remote.patientId ??
-    remote.patient_id ??
-    remote.id ??
-    remote.patientID ??
-    null;
-  const lastUpdated =
-    remote.lastUpdated ??
-    remote.last_updated ??
-    remote.updated_at ??
-    remote.updatedAt ??
-    null;
-  const payload = remote.payload ?? remote.data ?? null;
-  const mapped = { ...remote };
-  if (rawId !== undefined && rawId !== null && `${rawId}`.trim() !== '') {
-    mapped.patientId = `${rawId}`;
-  }
-  if (lastUpdated) {
-    mapped.lastUpdated = lastUpdated;
-  }
-  const basePayload =
-    payload !== undefined
-      ? payload
-      : mapped.data !== undefined
-        ? mapped.data
-        : null;
-  mapped.data = toVersionedData(basePayload);
-  return mapped;
-}
-
-function normalizeRemotePatient(remote) {
-  if (!remote || typeof remote !== 'object') return null;
-  const rawId =
-    remote.patientId ??
-    remote.patient_id ??
-    remote.id ??
-    remote.patientID ??
-    null;
-  if (rawId === undefined || rawId === null || `${rawId}`.trim() === '')
-    return null;
-  const patientId = `${rawId}`;
-  const payload = remote.data ?? remote.payload ?? null;
-  const created =
-    remote.created ?? remote.created_at ?? remote.createdAt ?? null;
-  const lastUpdated =
-    remote.lastUpdated ??
-    remote.last_updated ??
-    remote.updated_at ??
-    remote.updatedAt ??
-    created ??
-    null;
-
-  const normalized = {
-    patientId,
-    name:
-      typeof remote.name === 'string' && remote.name.trim() !== ''
-        ? remote.name
-        : `Pacientas ${patientId}`,
-    created: created ?? new Date().toISOString(),
-    lastUpdated: lastUpdated ?? new Date().toISOString(),
-    data: payload ?? null,
-    needsSync: false,
-  };
-
-  if (remote.last_updated) normalized.last_updated = remote.last_updated;
-  if (remote.payload !== undefined && normalized.data === remote.payload) {
-    normalized.payload = remote.payload;
-  }
-
-  return normalized;
-}
-
 function loadLocalPatients() {
   try {
     return JSON.parse(localStorage.getItem(LS_KEY) || '{}');
@@ -195,13 +67,7 @@ export async function syncPatients() {
     try {
       const bodyPayload = buildServerPayload(id, p);
       if (!bodyPayload) continue;
-      const res = await fetch(`${API_BASE}/patients`, {
-        method: 'POST',
-        headers: withSupabaseHeaders(API_BASE, {
-          'Content-Type': 'application/json',
-        }),
-        body: JSON.stringify(bodyPayload),
-      });
+      const res = await postPatient(bodyPayload);
       if (isMissingEndpoint(res.status)) {
         missingEndpointDetected = true;
         switchToLocalOnlyMode({ status: res.status, context: 'syncPatients' });
@@ -253,9 +119,7 @@ export async function restorePatients() {
   if (typeof window !== 'undefined' && window.disableSync) return;
   if (typeof navigator !== 'undefined' && !navigator.onLine) return;
   try {
-    const headers = withSupabaseHeaders(API_BASE);
-    const fetchOptions = Object.keys(headers).length ? { headers } : {};
-    const res = await fetch(`${API_BASE}/patients`, fetchOptions);
+    const res = await fetchPatients();
     if (isMissingEndpoint(res.status)) {
       switchToLocalOnlyMode({ status: res.status, context: 'restorePatients' });
       return;

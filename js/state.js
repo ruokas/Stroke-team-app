@@ -1,11 +1,10 @@
+import { state, setState } from './store.js';
+export { state, setState };
+
 // Shared state and DOM helpers
 
 export const $ = (sel) => document.querySelector(sel);
 export const $$ = (sel) => Array.from(document.querySelectorAll(sel));
-
-export const state = {
-  autosave: 'on',
-};
 
 /**
  * @typedef {HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement} InputEl
@@ -113,5 +112,5 @@ export function getInputs() {
 }
 
 if (typeof document !== 'undefined') {
-  state.autosave = dom.getAutosaveInput()?.value || 'on';
+  setState({ autosave: dom.getAutosaveInput()?.value || 'on' });
 }

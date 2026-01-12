@@ -45,7 +45,11 @@ export function parsePatientPayload(body) {
   if (resolvedLastUpdated !== null) {
     const parsedLastUpdated =
       typeof resolvedLastUpdated === 'number'
-        ? new Date(resolvedLastUpdated)
+        ? new Date(
+            resolvedLastUpdated < 1e12
+              ? resolvedLastUpdated * 1000
+              : resolvedLastUpdated,
+          )
         : new Date(String(resolvedLastUpdated));
     if (Number.isNaN(parsedLastUpdated.getTime())) {
       return { error: 'Invalid last_updated value' };

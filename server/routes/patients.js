@@ -27,6 +27,9 @@ router.post('/', async (req, res) => {
     const record = await withClient((client) =>
       upsertPatient(client, parsed.value),
     );
+    if (!record) {
+      return res.status(409).json({ error: 'Patient update is stale' });
+    }
     res.status(201).json(record);
   } catch (err) {
     console.error('Error upserting patient', err);

@@ -8,7 +8,7 @@ import { bpMeds } from './js/bpMeds.js';
 import { loadEnvConfig } from './build/envConfig.js';
 
 const envConfig = loadEnvConfig();
-const envConfigJson = JSON.stringify(envConfig);
+const envConfigJson = JSON.stringify(envConfig).replace(/</g, '\\u003c');
 const outDir = 'public';
 
 nunjucks.configure('templates', { autoescape: false });
@@ -50,7 +50,6 @@ async function copyManifest() {
 
 async function copyStaticDirs() {
   await Promise.all([
-    fs.cp('css', path.join(outDir, 'css'), { recursive: true }),
     fs.cp('js', path.join(outDir, 'js'), { recursive: true }),
     fs.cp('icons', path.join(outDir, 'icons'), { recursive: true }),
     fs.cp('locales', path.join(outDir, 'locales'), { recursive: true }),

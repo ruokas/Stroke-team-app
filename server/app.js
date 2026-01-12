@@ -7,7 +7,8 @@ import eventsRouter from './routes/events.js';
 
 const app = express();
 
-app.use(express.json());
+app.disable('x-powered-by');
+app.use(express.json({ limit: '1mb' }));
 
 const EVENT_CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -48,6 +49,15 @@ function registerStaticAssets(appInstance, staticRoot) {
 }
 
 registerStaticAssets(app, resolveStaticRoot());
+
+app.use('/api/events', (req, res, next) => {
+  res.set(EVENT_CORS_HEADERS);
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(204);
+    return;
+  }
+  next();
+});
 
 // Redirect legacy /patients path to the new /api/patients endpoint
 app.use('/patients', (_req, res) => {

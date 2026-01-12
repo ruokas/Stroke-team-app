@@ -12,6 +12,8 @@ import { generatePatientId, migratePatientRecord } from './domain/patient.js';
 
 const LS_KEY = 'insultoKomandaPatients_v1';
 
+export { migratePatientRecord };
+
 if (typeof window !== 'undefined') {
   window.addEventListener('unload', flush);
   if (navigator.onLine && !window.disableSync) restorePatients();

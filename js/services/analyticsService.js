@@ -25,7 +25,6 @@ function shouldSend() {
 }
 
 async function canPost() {
-  if (apiWritable !== null) return apiWritable;
   const apiBase = getApiBase();
   try {
     const headers = withSupabaseHeaders(apiBase);
@@ -84,6 +83,7 @@ export function setAnalyticsStorageErrorHandler(handler) {
 
 export async function sync() {
   if (!shouldSend()) return;
+  apiWritable = null;
   if (!(await canPost())) return;
   if (typeof localStorage === 'undefined') return;
   const apiBase = getApiBase();

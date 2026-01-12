@@ -9,25 +9,45 @@ const app = express();
 
 app.use(express.json());
 
-const projectRoot = path.resolve(
-  path.dirname(fileURLToPath(import.meta.url)),
-  '..',
-);
-const publicDir = path.join(projectRoot, 'public');
-const staticRoot = fs.existsSync(publicDir) ? publicDir : projectRoot;
+const EVENT_CORS_HEADERS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'OPTIONS, POST',
+  'Access-Control-Allow-Headers': 'Content-Type',
+};
 
-app.get('/', (_req, res) => {
-  res.sendFile(path.join(staticRoot, 'index.html'));
-});
-app.use('/css', express.static(path.join(staticRoot, 'css')));
-app.use('/js', express.static(path.join(staticRoot, 'js')));
-app.use('/icons', express.static(path.join(staticRoot, 'icons')));
-app.use('/locales', express.static(path.join(staticRoot, 'locales')));
-app.use(
-  '/manifest.json',
-  express.static(path.join(staticRoot, 'manifest.json')),
-);
-app.use('/sw.js', express.static(path.join(staticRoot, 'sw.js')));
+const STATIC_ROUTES = [
+  ['/', 'index.html'],
+  ['/css', 'css'],
+  ['/js', 'js'],
+  ['/icons', 'icons'],
+  ['/locales', 'locales'],
+  ['/manifest.json', 'manifest.json'],
+  ['/sw.js', 'sw.js'],
+];
+
+function resolveStaticRoot() {
+  const projectRoot = path.resolve(
+    path.dirname(fileURLToPath(import.meta.url)),
+    '..',
+  );
+  const publicDir = path.join(projectRoot, 'public');
+  return fs.existsSync(publicDir) ? publicDir : projectRoot;
+}
+
+function registerStaticAssets(appInstance, staticRoot) {
+  for (const [route, relativePath] of STATIC_ROUTES) {
+    const absolutePath = path.join(staticRoot, relativePath);
+    if (route === '/') {
+      appInstance.get('/', (_req, res) => {
+        res.sendFile(absolutePath);
+      });
+      continue;
+    }
+    appInstance.use(route, express.static(absolutePath));
+  }
+}
+
+registerStaticAssets(app, resolveStaticRoot());
 
 // Redirect legacy /patients path to the new /api/patients endpoint
 app.use('/patients', (_req, res) => {
@@ -42,11 +62,7 @@ app.use((err, req, res, _next) => {
     return;
   }
   if (req.path.startsWith('/api/events')) {
-    res.set({
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'OPTIONS, POST',
-      'Access-Control-Allow-Headers': 'Content-Type',
-    });
+    res.set(EVENT_CORS_HEADERS);
   }
   if (err?.type === 'entity.parse.failed') {
     res.status(400).json({ error: 'Invalid JSON body' });

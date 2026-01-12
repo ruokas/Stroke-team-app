@@ -29,10 +29,8 @@ router.post('/', async (req, res) => {
   }
 
   try {
-    await withClient(async (client) => {
-      await insertEvents(client, parsed.value);
-      res.status(201).json({ inserted: parsed.value.length });
-    });
+    await withClient((client) => insertEvents(client, parsed.value));
+    res.status(201).json({ inserted: parsed.value.length });
   } catch (err) {
     console.error('Error inserting events', err);
     res.status(500).json({ error: 'Internal server error' });

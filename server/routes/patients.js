@@ -8,10 +8,8 @@ const router = express.Router();
 // GET /api/patients - return all patient records
 router.get('/', async (_req, res) => {
   try {
-    await withClient(async (client) => {
-      const rows = await fetchPatients(client);
-      res.status(200).json(rows);
-    });
+    const rows = await withClient((client) => fetchPatients(client));
+    res.status(200).json(rows);
   } catch (err) {
     console.error('Error fetching patients', err);
     res.status(500).json({ error: 'Internal server error' });
@@ -26,10 +24,10 @@ router.post('/', async (req, res) => {
   }
 
   try {
-    await withClient(async (client) => {
-      const record = await upsertPatient(client, parsed.value);
-      res.status(201).json(record);
-    });
+    const record = await withClient((client) =>
+      upsertPatient(client, parsed.value),
+    );
+    res.status(201).json(record);
   } catch (err) {
     console.error('Error upserting patient', err);
     res.status(500).json({ error: 'Internal server error' });

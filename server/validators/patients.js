@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 
 export function parsePatientPayload(body) {
-  if (!body || typeof body !== 'object') {
+  if (!body || typeof body !== 'object' || Array.isArray(body)) {
     return { error: 'Invalid request body' };
   }
 
@@ -30,10 +30,23 @@ export function parsePatientPayload(body) {
   if (resolvedPayload !== null && typeof resolvedPayload !== 'object') {
     return { error: 'Invalid payload' };
   }
+  if (resolvedPayload !== null) {
+    const payloadType = typeof resolvedPayload;
+    if (
+      payloadType === 'function' ||
+      payloadType === 'symbol' ||
+      payloadType === 'bigint'
+    ) {
+      return { error: 'Invalid payload' };
+    }
+  }
   const resolvedLastUpdated = snakeLastUpdated ?? camelLastUpdated ?? null;
   let normalizedLastUpdated = null;
   if (resolvedLastUpdated !== null) {
-    const parsedLastUpdated = new Date(String(resolvedLastUpdated));
+    const parsedLastUpdated =
+      typeof resolvedLastUpdated === 'number'
+        ? new Date(resolvedLastUpdated)
+        : new Date(String(resolvedLastUpdated));
     if (Number.isNaN(parsedLastUpdated.getTime())) {
       return { error: 'Invalid last_updated value' };
     }

@@ -74,6 +74,8 @@ export function collectSummaryData(payload) {
   const imaging = {
     ct: get(payload.ct_result),
     kta: get(payload.kta_result),
+    ktaSide: get(payload.kta_side),
+    ktaVessels: get(payload.kta_vessels),
     perfCore: get(payload.perf_core),
     perfPenumbra: get(payload.perf_penumbra),
   };
@@ -165,6 +167,10 @@ export function summaryTemplate({
     none: 'Be okliuzijos',
     lvo: 'Didelės arterijos okliuzija',
   };
+  const ktaSideMap = {
+    left: 'Kairė',
+    right: 'Dešinė',
+  };
   const perfParts = [];
   if (imaging.perfCore)
     perfParts.push(`Infarkto branduolys ${imaging.perfCore} ml`);
@@ -173,7 +179,17 @@ export function summaryTemplate({
   if (imaging.ct || imaging.kta || perfParts.length) {
     lines.push('VAIZDINIAI TYRIMAI:');
     if (imaging.ct) lines.push(`- KT: ${ctMap[imaging.ct] || imaging.ct}`);
-    if (imaging.kta) lines.push(`- KTA: ${ktaMap[imaging.kta] || imaging.kta}`);
+    if (imaging.kta) {
+      let ktaLabel = ktaMap[imaging.kta] || imaging.kta;
+      if (imaging.kta === 'lvo') {
+        const details = [];
+        const sideLabel = ktaSideMap[imaging.ktaSide];
+        if (sideLabel) details.push(sideLabel);
+        if (imaging.ktaVessels) details.push(imaging.ktaVessels);
+        if (details.length) ktaLabel += ` (${details.join('; ')})`;
+      }
+      lines.push(`- KTA: ${ktaLabel}`);
+    }
     if (perfParts.length) lines.push(`- Perfuzija: ${perfParts.join(', ')}`);
   }
 

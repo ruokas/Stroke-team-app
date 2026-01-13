@@ -99,6 +99,18 @@ export const FIELD_DEFS = [
     get: getRadioValue,
     set: (nodes, value) => setRadioValue(nodes, value || ''),
   },
+  {
+    key: 'kta_side',
+    selector: 'kta_side',
+    get: getRadioValue,
+    set: (nodes, value) => setRadioValue(nodes, value || ''),
+  },
+  {
+    key: 'kta_vessels',
+    selector: 'kta_vessels',
+    get: getCheckboxList,
+    set: setCheckboxList,
+  },
   { key: 'perf_core', selector: 'perf_core' },
   { key: 'perf_penumbra', selector: 'perf_penumbra' },
   {

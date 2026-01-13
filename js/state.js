@@ -39,6 +39,8 @@ const selectorMap = {
   arrival_mt_contra: ['input[name="arrival_mt_contra"]', true],
   ct_result: ['input[name="ct_result"]', true],
   kta_result: ['input[name="kta_result"]', true],
+  kta_side: ['input[name="kta_side"]', true],
+  kta_vessels: ['input[name="kta_vessels"]', true],
   perf_core: ['#perf_core'],
   perf_penumbra: ['#perf_penumbra'],
   drugType: ['#drug_type'],

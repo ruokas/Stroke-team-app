@@ -25,6 +25,9 @@
   --ghost-active-bg: color-mix(in srgb, var(--card), var(--ink) 20%);
   --pill-bg: #3c4859;
   --pill-border: #9daab7;
+  --field-bg: color-mix(in srgb, var(--card), var(--bg) 35%);
+  --field-bg-hover: color-mix(in srgb, var(--card), var(--bg) 20%);
+  --field-bg-disabled: color-mix(in srgb, var(--card), var(--bg) 55%);
 }
 
 :root.light {
@@ -50,6 +53,9 @@
   --ghost-active-bg: color-mix(in srgb, var(--card), var(--ink) 20%);
   --pill-bg: #d5d5d5;
   --pill-border: #9daab7;
+  --field-bg: color-mix(in srgb, var(--card), var(--bg) 45%);
+  --field-bg-hover: color-mix(in srgb, var(--card), var(--bg) 30%);
+  --field-bg-disabled: color-mix(in srgb, var(--card), var(--bg) 60%);
 }
 *,
 *::before,
@@ -276,6 +282,7 @@ nav .tab {
   display: flex;
   align-items: center;
   gap: 8px;
+  position: relative;
   width: 100%;
   white-space: normal;
   overflow-wrap: anywhere;
@@ -286,11 +293,43 @@ nav .tab {
   text-decoration: none;
   transition: background-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
 }
+nav .tab:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
 nav .tab.active {
   background: var(--btn-active-bg);
   border-color: var(--accent);
   box-shadow: inset 4px 0 0 var(--accent);
   font-weight: 700;
+}
+nav .tab.disabled,
+nav .tab[disabled] {
+  opacity: 0.55;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.tab-label {
+  flex: 1;
+}
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--line), var(--bg) 40%);
+  flex: 0 0 auto;
+}
+nav .tab[data-status='complete'] .status-dot {
+  background: var(--green);
+}
+nav .tab[data-status='error'] .status-dot {
+  background: var(--red);
+}
+nav .tab[data-status='incomplete'] .status-dot {
+  background: color-mix(in srgb, var(--line), var(--bg) 40%);
+}
+nav .tab[data-status='disabled'] .status-dot {
+  background: color-mix(in srgb, var(--line), var(--bg) 60%);
 }
 .tab-icon {
   width: 1.5rem;

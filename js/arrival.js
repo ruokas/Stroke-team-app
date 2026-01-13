@@ -158,6 +158,59 @@ export function initSymptomButtons() {
   updateFromText();
 }
 
+function initEmsPrenotify() {
+  const emsCheckbox = $('#arrival_ems_prenotify');
+  if (!emsCheckbox) return;
+
+  const activationSelectors = [
+    '#a_gmp_time',
+    '#a_personal',
+    '#a_name',
+    '#a_dob',
+    '#a_age',
+    'input[name="a_independent"]',
+    '#a_drugs input[type="checkbox"]',
+    'input[name="a_lkw"]',
+    '#a_glucose',
+    '#a_aks_sys',
+    '#a_aks_dia',
+    '#a_hr',
+    '#a_spo2',
+    '#a_temp',
+    '#a_face',
+    '#a_speech',
+    '#a_commands',
+    '#a_arm',
+    '#a_leg',
+    '#a_gaze',
+  ];
+
+  const hasActivationData = () =>
+    activationSelectors.some((sel) =>
+      $$(sel).some((el) => {
+        if (el.type === 'checkbox' || el.type === 'radio') {
+          return el.checked;
+        }
+        return String(el.value || '').trim().length > 0;
+      }),
+    );
+
+  const update = () => {
+    if (hasActivationData()) {
+      emsCheckbox.checked = true;
+    }
+  };
+
+  activationSelectors.forEach((sel) => {
+    $$(sel).forEach((el) => {
+      const event =
+        el.type === 'checkbox' || el.type === 'radio' ? 'change' : 'input';
+      el.addEventListener(event, update);
+    });
+  });
+  update();
+}
+
 export function initArrival() {
   const updateAll = () => {
     updateArrivalInfo();
@@ -170,6 +223,7 @@ export function initArrival() {
     r.addEventListener('change', updateAll),
   );
   initSymptomButtons();
+  initEmsPrenotify();
   updateAll();
   clearInterval(timerId);
   timerId = setInterval(updateTimers, 1000);

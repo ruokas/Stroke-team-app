@@ -55,15 +55,57 @@
                 </div>
               </fieldset>
             <fieldset class="mt-10">
-              <legend>Stacionarizacijos skyrius</legend>
-              <label for="d_department">Stacionarizacijos skyrius</label>
-              <select id="d_department" name="d_department">
-                <option value="">Pasirinkite skyrių</option>
-                <option value="Neurologijos skyrius">Neurologijos skyrius</option>
-                <option value="Reanimacija">Reanimacija</option>
-                <option value="Kitas">Kitas</option>
-              </select>
+              <legend>Tolimesnis gydymas</legend>
+              <div class="grid-2">
+                <label class="pill"
+                  ><input
+                    type="radio"
+                    name="d_next_care"
+                    value="stationary"
+                  />
+                  Stacionarizacija</label
+                >
+                <label class="pill"
+                  ><input
+                    type="radio"
+                    name="d_next_care"
+                    value="transfer"
+                  />
+                  Perve&#382;imas</label
+                >
+              </div>
+              <div id="d_stationary_options" class="grid-3 mt-6 hidden">
+                <label class="pill"
+                  ><input
+                    type="radio"
+                    name="d_department"
+                    value="Neurologijos skyrius"
+                  />
+                  Neurologijos skyrius</label
+                >
+                <label class="pill"
+                  ><input
+                    type="radio"
+                    name="d_department"
+                    value="KRITS"
+                  />
+                  KRITS</label
+                >
+                <label class="pill"
+                  ><input
+                    type="radio"
+                    name="d_department"
+                    value="Kita"
+                  />
+                  Kita</label
+                >
+              </div>
+              <div id="d_transfer_info_row" class="mt-6 hidden">
+                <label for="d_transfer_info">Kur perve&#382;ta</label>
+                <textarea id="d_transfer_info" rows="3"></textarea>
+              </div>
             </fieldset>
             </form>
           </section>
+
 

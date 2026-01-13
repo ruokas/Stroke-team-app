@@ -57,7 +57,7 @@ connection string format:
 
 1. In the Supabase dashboard, open **Project Settings → Database** and copy
    the **Connection string** in `URI` format. It will look similar to
-   `postgresql://USER:PASSWORD@db.<project>.supabase.co:5432/postgres?sslmode=require`.
+   `postgresql://USER:PASSWORD@db.<project>.supabase.co:5432/postgressslmode=require`.
 2. Update your `.env` file so `DATABASE_URL` matches the Supabase string. Keep
    `sslmode=require` on the URL or set `DATABASE_SSL=true` to force TLS when
    the URL omits explicit parameters.

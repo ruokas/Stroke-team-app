@@ -39,5 +39,22 @@
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
     "nunjucks": "^3.2.4"
-  }
+  },
+  "description": "A lightweight web application for stroke teams to quickly record and\r track critical information during patient treatment. The interface is\r optimized for rapid data entry, offers built‑in calculators and summaries,\r and stores drafts locally so it can be used offline.",
+  "main": "build.js",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ruokas/Stroke-team-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ruokas/Stroke-team-app/issues"
+  },
+  "homepage": "https://github.com/ruokas/Stroke-team-app#readme"
 }

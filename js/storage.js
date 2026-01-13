@@ -3,59 +3,21 @@ import { updateDrugDefaults, calcDrugs } from './drugs.js';
 import { updateAge } from './age.js';
 import { createBpEntry } from './bpEntry.js';
 import { FIELD_DEFS } from './storage/fields.js';
-import { migrateSchema, SCHEMA_VERSION } from './storage/migrations.js';
+import { SCHEMA_VERSION } from './storage/migrations.js';
 import { showToast } from './toast.js';
 import { t } from './i18n.js';
 import { track, flush } from './analytics.js';
 import { syncPatients, restorePatients } from './sync.js';
+import { deletePatientById } from './services/patientApi.js';
+import { generatePatientId, migratePatientRecord } from './domain/patient.js';
 
 const LS_KEY = 'insultoKomandaPatients_v1';
 
-function generatePatientId() {
-  const globalCrypto =
-    typeof globalThis !== 'undefined' ? globalThis.crypto : undefined;
-  if (globalCrypto && typeof globalCrypto.randomUUID === 'function') {
-    try {
-      return globalCrypto.randomUUID();
-    } catch {
-      // Some polyfills may expose randomUUID but throw; fall back gracefully.
-    }
-  }
-  if (globalCrypto && typeof globalCrypto.getRandomValues === 'function') {
-    const buf = new Uint32Array(4);
-    globalCrypto.getRandomValues(buf);
-    return Array.from(buf)
-      .map((n) => n.toString(16).padStart(8, '0'))
-      .join('');
-  }
-  return `${Date.now()}-${Math.random().toString(16).slice(2, 10)}`;
-}
+export { migratePatientRecord };
 
-window.addEventListener('unload', flush);
-if (typeof navigator !== 'undefined' && navigator.onLine && !window.disableSync)
-  restorePatients();
-
-export function migratePatientRecord(id, record) {
-  const p = record && typeof record === 'object' ? record : {};
-  const before = JSON.stringify(p);
-  p.patientId ??= id;
-  p.created ??= new Date().toISOString();
-  p.lastUpdated ??= p.created;
-  if (!p.data || typeof p.data !== 'object' || p.data.version === undefined) {
-    p.data = { version: 0, data: p.data };
-  }
-  if (p.data.version !== SCHEMA_VERSION) {
-    try {
-      p.data = migrateSchema(p.data);
-      if (p.data.version !== SCHEMA_VERSION) throw new Error('');
-    } catch {
-      console.warn(
-        `Discarding patient ${id} due to incompatible schema version ${p.data.version}`,
-      );
-      return { record: null, changed: true };
-    }
-  }
-  return { record: p, changed: before !== JSON.stringify(p) };
+if (typeof window !== 'undefined') {
+  window.addEventListener('unload', flush);
+  if (navigator.onLine && !window.disableSync) restorePatients();
 }
 
 export function getPatients() {
@@ -65,18 +27,26 @@ export function getPatients() {
     const patients = JSON.parse(raw);
     let migrated = false;
     Object.entries(patients).forEach(([id, p]) => {
-      const { record, changed } = migratePatientRecord(id, p);
+      const { record, changed, error } = migratePatientRecord(id, p);
       if (record) patients[id] = record;
       else delete patients[id];
       if (changed) migrated = true;
+      if (error) {
+        track('error', {
+          message: 'Discarded patient record during migration',
+          patientId: id,
+          code: error.code,
+          source: 'storage.js',
+        });
+      }
     });
     if (migrated) setPatients(patients);
     return patients;
   } catch (e) {
     console.error(e);
     track('error', {
-      message: e?.message || 'Failed to load patients',
-      stack: e?.stack,
+      message: e.message || 'Failed to load patients',
+      stack: e.stack,
       source: 'storage.js',
     });
     localStorage.removeItem(LS_KEY);
@@ -92,8 +62,8 @@ function setPatients(patients) {
   } catch (e) {
     console.error(e);
     track('error', {
-      message: e?.message || 'Failed to save patients',
-      stack: e?.stack,
+      message: e.message || 'Failed to save patients',
+      stack: e.stack,
       source: 'storage.js',
     });
     showToast(t('storage_full'), { type: 'error' });
@@ -104,23 +74,35 @@ export function getPayload() {
   const inputs = getInputs();
   /** @type {Record<string, unknown>} */
   const payload = {};
-  FIELD_DEFS.forEach(({ key, alias, selector, get }) => {
+  FIELD_DEFS.forEach(({ key, alias, selector, get, default: def }) => {
     const input = selector ? inputs[selector] : undefined;
-    const val = get ? get(input) : input?.value || '';
+    let val;
+    if (get) {
+      if (input === undefined || input === null) {
+        val = def !== undefined ? def : get([]);
+      } else {
+        val = get(input);
+      }
+    } else if (input && 'value' in input) {
+      val = input.value || '';
+    } else {
+      val = def !== undefined ? def : '';
+    }
     payload[key] = val;
     if (alias) alias.forEach((a) => (payload[a] = val));
   });
   payload.bp_meds = Array.from(
     document.querySelectorAll('#bpEntries .bp-entry'),
   ).map((entry) => {
-    const med = entry.querySelector('strong')?.textContent || '';
+    const medEl = entry.querySelector('strong');
+    const med = medEl ? medEl.textContent || '' : '';
     const [timeEl, doseEl, sysAfterEl, diaAfterEl, notesEl] =
       entry.querySelectorAll('input');
     return {
       time: timeEl?.value || '',
       med,
       dose: doseEl?.value || '',
-      unit: doseEl?.dataset.unit || doseEl?.placeholder || '',
+      unit: doseEl?.dataset?.unit || doseEl?.placeholder || '',
       bp_sys_after: sysAfterEl?.value || '',
       bp_dia_after: diaAfterEl?.value || '',
       notes: notesEl?.value || '',
@@ -146,7 +128,13 @@ export function setPayload(p) {
     }
     if (value === undefined) value = def;
     if (set) {
-      set(input, value, payload);
+      if (
+        input !== undefined &&
+        input !== null &&
+        (!Array.isArray(input) || input.length)
+      ) {
+        set(input, value, payload);
+      }
     } else if (input) {
       if (Array.isArray(input)) return;
       if ('value' in input) input.value = value ?? '';
@@ -178,23 +166,28 @@ export function savePatient(id, name) {
   const inputs = getInputs();
   const patients = getPatients();
   const patientId = `${id || generatePatientId()}`;
+  const existing = patients[patientId] || {};
+  const existingData =
+    existing.data && typeof existing.data === 'object' ? existing.data : {};
   const now = new Date().toISOString();
+  const formName = inputs.a_name?.value?.trim?.() || '';
   const patientName =
     name ||
-    patients[patientId]?.name ||
+    (formName ? formName : '') ||
+    existing.name ||
     inputs.nih0?.value ||
     `Pacientas ${patientId}`;
+  const storedVersion = Number.isFinite(existingData.version)
+    ? existingData.version
+    : SCHEMA_VERSION;
   patients[patientId] = {
     patientId,
     name: patientName,
-    created: patients[patientId]?.created || now,
+    created: existing.created || now,
     lastUpdated: now,
     needsSync: true,
     data: {
-      version:
-        (patients[patientId]?.data?.version || 0) < SCHEMA_VERSION
-          ? SCHEMA_VERSION
-          : patients[patientId]?.data?.version || SCHEMA_VERSION,
+      version: storedVersion < SCHEMA_VERSION ? SCHEMA_VERSION : storedVersion,
       data: getPayload(),
     },
   };
@@ -223,6 +216,21 @@ export function deletePatient(id) {
     delete patients[id];
     setPatients(patients);
     track('patient_delete', { patientId: id });
+    if (
+      !window.disableSync &&
+      typeof navigator !== 'undefined' &&
+      navigator.onLine
+    ) {
+      deletePatientById(id).catch((error) => {
+        console.error('Failed to delete patient on server', error);
+        track('error', {
+          message: 'Failed to delete patient on server',
+          patientId: id,
+          stack: error.stack,
+          source: 'storage.js',
+        });
+      });
+    }
   }
 }
 

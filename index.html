@@ -17,6 +17,7 @@
     </script>
     <link rel="stylesheet" href="css/style.css" />
     <link rel="manifest" href="manifest.json" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   </head>
   <body>
     
@@ -85,22 +86,7 @@
 
         </div>
       </details>
-      <label
-        class="switch"
-        title="Enable local storage"
-        data-i18n-title="enable_local_storage"
-      >
-        <input
-          type="checkbox"
-          id="enableLocalBtn"
-          role="switch"
-          aria-label="Enable local storage"
-          data-i18n-aria-label="enable_local_storage"
-          checked
-        />
-        <span class="slider"></span>
-        <span class="switch-label" data-i18n="local_storage">Local storage</span>
-      </label>
+
       
 <button id="themeToggle" title="Perjungti temą" aria-label="Perjungti temą" class="btn" data-i18n-title="toggle_theme" data-i18n-aria-label="toggle_theme"><span id="themeToggleIcon" aria-hidden="true">
 
@@ -521,6 +507,41 @@
 
             </fieldset>
 
+      <fieldset>
+        <legend>Kaip atvyko pacientas</legend>
+        <div class="grid-3">
+          <label class="pill"
+            ><input
+              type="radio"
+              name="arrival_source"
+              value="EMS"
+            />
+            Greitoji medicinos pagalba (GMP)</label
+          >
+          <label class="pill"
+            ><input
+              type="radio"
+              name="arrival_source"
+              value="Private"
+            />
+            Privatus transportas</label
+          >
+          <label class="pill"
+            ><input
+              type="radio"
+              name="arrival_source"
+              value="OtherHospital"
+            />
+            Kitas ligoninės skyrius / centras</label
+          >
+        </div>
+        <label class="pill mt-6">
+          <input id="arrival_ems_prenotify" type="checkbox" />
+          GMP iš anksto pranešė
+        </label>
+      </fieldset>
+
+
             <fieldset>
               <legend>Paskutinį kartą matytas sveikas</legend>
               <div class="grid-3">
@@ -787,9 +808,9 @@ Kontraindikacijos trombolizei</summary>
                     <input
                       type="checkbox"
                       name="arrival_contra"
-                      value="Ītariama subarachnoidinė hemoragija"
+                      value="Įtariama subarachnoidinė hemoragija"
                     />
-                    Ītariama subarachnoidinė hemoragija
+                    Įtariama subarachnoidinė hemoragija
                   </label>
                 </li>
                 <li>
@@ -1641,15 +1662,56 @@ Kontraindikacijos trombektomijai</summary>
                   >
                 </div>
               </fieldset>
-            <fieldset class="mt-10">
-              <legend>Stacionarizacijos skyrius</legend>
-              <label for="d_department">Stacionarizacijos skyrius</label>
-              <select id="d_department" name="d_department">
-                <option value="">Pasirinkite skyrių</option>
-                <option value="Neurologijos skyrius">Neurologijos skyrius</option>
-                <option value="Reanimacija">Reanimacija</option>
-                <option value="Kitas">Kitas</option>
-              </select>
+                        <fieldset class="mt-10">
+              <legend>Tolimesnis gydymas</legend>
+              <div class="grid-2">
+                <label class="pill"
+                  ><input
+                    type="radio"
+                    name="d_next_care"
+                    value="stationary"
+                  />
+                  Stacionarizacija</label
+                >
+                <label class="pill"
+                  ><input
+                    type="radio"
+                    name="d_next_care"
+                    value="transfer"
+                  />
+                  Pervežimas</label
+                >
+              </div>
+              <div id="d_stationary_options" class="grid-3 mt-6 hidden">
+                <label class="pill"
+                  ><input
+                    type="radio"
+                    name="d_department"
+                    value="Neurologijos skyrius"
+                  />
+                  Neurologijos skyrius</label
+                >
+                <label class="pill"
+                  ><input
+                    type="radio"
+                    name="d_department"
+                    value="KRITS"
+                  />
+                  KRITS</label
+                >
+                <label class="pill"
+                  ><input
+                    type="radio"
+                    name="d_department"
+                    value="Kita"
+                  />
+                  Kita</label
+                >
+              </div>
+              <div id="d_transfer_info_row" class="mt-6 hidden">
+                <label for="d_transfer_info">Kur pervežta</label>
+                <textarea id="d_transfer_info" rows="3"></textarea>
+              </div>
             </fieldset>
             </form>
           </section>
@@ -1778,6 +1840,16 @@ Kontraindikacijos trombektomijai</summary>
                         <option value="off">Išjungtas</option>
                       </select>
                     </div>
+                    <div>
+                      <label data-i18n="enable_local_storage">Enable local storage</label>
+                      <input
+                        id="enableLocalBtn"
+                        type="checkbox"
+                        role="switch"
+                        aria-checked="false"
+                        data-i18n-aria-label="enable_local_storage"
+                      />
+                    </div>
                   </div>
                 </fieldset>
                 <button type="submit" class="btn">Išsaugoti</button>
@@ -1800,7 +1872,7 @@ Kontraindikacijos trombektomijai</summary>
 
     <script>
       (() => {
-        const cfg = {"apiBase":"https://<project-ref>.functions.supabase.co","supabaseAnonKey":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdweXF0dmlzdWRkYWNtb2p1enhkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgxMzEyNDIsImV4cCI6MjA3MzcwNzI0Mn0.-6mP_-WBaCIa5zJQltrAgujQKqozJQLir2P7nYfo4_4","supabaseProjectUrl":"https://gpyqtvisuddacmojuzxd.supabase.co"};
+        const cfg = {"apiBase":"https://gpyqtvisuddacmojuzxd.functions.supabase.co","supabaseAnonKey":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdweXF0dmlzdWRkYWNtb2p1enhkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgxMzEyNDIsImV4cCI6MjA3MzcwNzI0Mn0.-6mP_-WBaCIa5zJQltrAgujQKqozJQLir2P7nYfo4_4","supabaseProjectUrl":"https://gpyqtvisuddacmojuzxd.supabase.co"};
         const defaultApiBase =
           'https://gpyqtvisuddacmojuzxd.functions.supabase.co';
         const envApiBase =
@@ -1838,3 +1910,6 @@ Kontraindikacijos trombektomijai</summary>
     <script type="module" src="js/app.js"></script>
   </body>
 </html>
+
+
+

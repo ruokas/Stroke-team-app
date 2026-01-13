@@ -68,7 +68,9 @@ export function collectSummaryData(payload) {
   const complications = get(payload.complications);
   const compTime = get(payload.t_complication);
   const decision = payload.d_decision || null;
+  const nextCare = payload.d_next_care || null;
   const department = payload.d_department || null;
+  const transferInfo = get(payload.d_transfer_info);
   const imaging = {
     ct: get(payload.ct_result),
     kta: get(payload.kta_result),
@@ -80,7 +82,9 @@ export function collectSummaryData(payload) {
     times,
     drugs,
     decision,
+    nextCare,
     department,
+    transferInfo,
     bpMeds,
     activation,
     arrivalSymptoms,
@@ -97,7 +101,9 @@ export function summaryTemplate({
   times,
   drugs,
   decision,
+  nextCare,
   department,
+  transferInfo,
   bpMeds,
   activation,
   arrivalSymptoms,
@@ -237,8 +243,14 @@ export function summaryTemplate({
   }
 
   lines.push('SPRENDIMAS:');
-  lines.push(`- ${decision ?? '—'}`);
-  lines.push(`- Stacionarizacija: ${department ?? '—'}`);
+  lines.push(`- ${decision ?? '�?"'}`);
+  if (nextCare) {
+    const nextCareLabel =
+      nextCare === 'stationary' ? 'Stacionarizacija' : 'Perve�imas';
+    lines.push(`- Tolimesnis gydymas: ${nextCareLabel}`);
+  }
+  if (department) lines.push(`- Stacionarizacija: ${department}`);
+  if (transferInfo) lines.push(`- Perve�imas: ${transferInfo}`);
   return lines.join('\n');
 }
 

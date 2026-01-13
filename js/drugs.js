@@ -73,9 +73,7 @@ export function calcDrugs() {
   const type = typeEl.value;
   const w = Number((weightEl.value || '').replace(/,/g, '.'));
   const conc =
-    type === 'tnk'
-      ? Number(defTnkEl?.value) || 5
-      : Number(defTpaEl?.value) || 1;
+    type === 'tnk' ? Number(defTnkEl.value) || 5 : Number(defTpaEl.value) || 1;
   const wValid = Number.isFinite(w) && w > 0;
 
   weightEl.classList.remove('invalid');

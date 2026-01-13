@@ -32,12 +32,13 @@ test(
 
     opt = Array.from(select.options).find((o) => o.value === id);
     assert.ok(opt.textContent.startsWith('Test'));
-    assert.ok(opt.textContent.endsWith(' •'));
+    assert.ok(opt.textContent.endsWith(' *'));
     const label = document.getElementById('patientMenuLabel');
-    assert.strictEqual(label.textContent, 'Test');
+    assert.strictEqual(label.textContent, 'Test *');
 
-    saveCb?.();
+    saveCb();
     opt = Array.from(select.options).find((o) => o.value === id);
     assert.strictEqual(opt.textContent, 'Test');
+    assert.strictEqual(label.textContent, 'Test');
   },
 );

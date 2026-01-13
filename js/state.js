@@ -1,11 +1,10 @@
+import { state, setState } from './store.js';
+export { state, setState };
+
 // Shared state and DOM helpers
 
 export const $ = (sel) => document.querySelector(sel);
 export const $$ = (sel) => Array.from(document.querySelectorAll(sel));
-
-export const state = {
-  autosave: 'on',
-};
 
 /**
  * @typedef {HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement} InputEl
@@ -14,7 +13,7 @@ export const state = {
 
 /**
  * Map of known input selectors. `true` means all matching elements are returned.
- * @type {Record<string, [string, boolean?]>}
+ * @type {Record<string, [string, boolean]>}
  */
 const selectorMap = {
   weight: ['#p_weight'],
@@ -27,10 +26,14 @@ const selectorMap = {
   door: ['#t_door'],
   d_time: ['#d_time'],
   d_decision: ['input[name="d_decision"]', true],
-  d_department: ['#d_department'],
+  d_next_care: ['input[name="d_next_care"]', true],
+  d_department: ['input[name="d_department"]', true],
+  d_transfer_info: ['#d_transfer_info'],
   lkw_type: ['input[name="lkw_type"]', true],
   sleep_start: ['#t_sleep_start'],
   sleep_end: ['#t_sleep_end'],
+  arrival_source: ['input[name="arrival_source"]', true],
+  arrival_ems_prenotify: ['#arrival_ems_prenotify'],
   arrival_symptoms: ['#arrival_symptoms'],
   arrival_contra: ['input[name="arrival_contra"]', true],
   arrival_mt_contra: ['input[name="arrival_mt_contra"]', true],
@@ -113,5 +116,6 @@ export function getInputs() {
 }
 
 if (typeof document !== 'undefined') {
-  state.autosave = dom.getAutosaveInput()?.value || 'on';
+  const autosaveEl = dom.getAutosaveInput();
+  setState({ autosave: autosaveEl ? autosaveEl.value || 'on' : 'on' });
 }

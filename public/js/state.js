@@ -116,5 +116,6 @@ export function getInputs() {
 }
 
 if (typeof document !== 'undefined') {
-  setState({ autosave: dom.getAutosaveInput().value || 'on' });
+  const autosaveEl = dom.getAutosaveInput();
+  setState({ autosave: autosaveEl ? autosaveEl.value || 'on' : 'on' });
 }

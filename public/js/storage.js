@@ -74,26 +74,38 @@ export function getPayload() {
   const inputs = getInputs();
   /** @type {Record<string, unknown>} */
   const payload = {};
-  FIELD_DEFS.forEach(({ key, alias, selector, get }) => {
+  FIELD_DEFS.forEach(({ key, alias, selector, get, default: def }) => {
     const input = selector ? inputs[selector] : undefined;
-    const val = get ? get(input) : input.value || '';
+    let val;
+    if (get) {
+      if (input === undefined || input === null) {
+        val = def !== undefined ? def : get([]);
+      } else {
+        val = get(input);
+      }
+    } else if (input && 'value' in input) {
+      val = input.value || '';
+    } else {
+      val = def !== undefined ? def : '';
+    }
     payload[key] = val;
     if (alias) alias.forEach((a) => (payload[a] = val));
   });
   payload.bp_meds = Array.from(
     document.querySelectorAll('#bpEntries .bp-entry'),
   ).map((entry) => {
-    const med = entry.querySelector('strong').textContent || '';
+    const medEl = entry.querySelector('strong');
+    const med = medEl ? medEl.textContent || '' : '';
     const [timeEl, doseEl, sysAfterEl, diaAfterEl, notesEl] =
       entry.querySelectorAll('input');
     return {
-      time: timeEl.value || '',
+      time: timeEl?.value || '',
       med,
-      dose: doseEl.value || '',
-      unit: doseEl.dataset.unit || doseEl.placeholder || '',
-      bp_sys_after: sysAfterEl.value || '',
-      bp_dia_after: diaAfterEl.value || '',
-      notes: notesEl.value || '',
+      dose: doseEl?.value || '',
+      unit: doseEl?.dataset?.unit || doseEl?.placeholder || '',
+      bp_sys_after: sysAfterEl?.value || '',
+      bp_dia_after: diaAfterEl?.value || '',
+      notes: notesEl?.value || '',
     };
   });
   return payload;
@@ -116,7 +128,13 @@ export function setPayload(p) {
     }
     if (value === undefined) value = def;
     if (set) {
-      set(input, value, payload);
+      if (
+        input !== undefined &&
+        input !== null &&
+        (!Array.isArray(input) || input.length)
+      ) {
+        set(input, value, payload);
+      }
     } else if (input) {
       if (Array.isArray(input)) return;
       if ('value' in input) input.value = value ?? '';
@@ -148,25 +166,28 @@ export function savePatient(id, name) {
   const inputs = getInputs();
   const patients = getPatients();
   const patientId = `${id || generatePatientId()}`;
+  const existing = patients[patientId] || {};
+  const existingData =
+    existing.data && typeof existing.data === 'object' ? existing.data : {};
   const now = new Date().toISOString();
-  const formName = inputs.a_name.value.trim();
+  const formName = inputs.a_name?.value?.trim?.() || '';
   const patientName =
     name ||
     (formName ? formName : '') ||
-    patients[patientId].name ||
-    inputs.nih0.value ||
+    existing.name ||
+    inputs.nih0?.value ||
     `Pacientas ${patientId}`;
+  const storedVersion = Number.isFinite(existingData.version)
+    ? existingData.version
+    : SCHEMA_VERSION;
   patients[patientId] = {
     patientId,
     name: patientName,
-    created: patients[patientId].created || now,
+    created: existing.created || now,
     lastUpdated: now,
     needsSync: true,
     data: {
-      version:
-        (patients[patientId].data.version || 0) < SCHEMA_VERSION
-          ? SCHEMA_VERSION
-          : patients[patientId].data.version || SCHEMA_VERSION,
+      version: storedVersion < SCHEMA_VERSION ? SCHEMA_VERSION : storedVersion,
       data: getPayload(),
     },
   };

@@ -32,7 +32,9 @@ export function createBpEntry(
   timeInput.className = 'time-input';
   timeInput.step = '60';
   const now = new Date();
-  timeInput.value = time ? `${pad(now.getHours())}:${pad(now.getMinutes())}` : '';
+  timeInput.value = time
+    ? `${pad(now.getHours())}:${pad(now.getMinutes())}`
+    : '';
   group.appendChild(timeInput);
 
   const nowBtn = document.createElement('button');
@@ -51,7 +53,7 @@ export function createBpEntry(
   let doseValue = dose;
   let unitValue = unit;
   if (dose && typeof dose === 'string' && !unit) {
-    const match = dose.trim().match(/^(\d+(:[.,]\d+))(.*)$/);
+    const match = dose.trim().match(/^(\d+(?:[.,]\d+)?)(.*)$/);
     if (match) {
       doseValue = match[1].replace(',', '.');
       unitValue = match[2].trim();

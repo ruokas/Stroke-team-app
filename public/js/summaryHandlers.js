@@ -8,10 +8,7 @@ import { getActivePatient } from './patients.js';
 import { getPayload } from './storage.js';
 import { showToast } from './toast.js';
 import { t } from './i18n.js';
-import {
-  withButtonLoading,
-  flashButtonLoading,
-} from './uiFeedback.js';
+import { withButtonLoading, flashButtonLoading } from './uiFeedback.js';
 
 /**
  * Atnaujina santraukos lauką pagal aktyvų pacientą arba paskutinį įrašą.

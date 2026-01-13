@@ -15,6 +15,41 @@
             </fieldset>
 
             <fieldset>
+              <legend>Kaip atvyko pacientas</legend>
+              <div class="grid-3">
+                <label class="pill"
+                  ><input
+                    type="radio"
+                    name="arrival_source"
+                    value="EMS"
+                  />
+                  Greitoji medicinos pagalba (GMP)</label
+                >
+                <label class="pill"
+                  ><input
+                    type="radio"
+                    name="arrival_source"
+                    value="Private"
+                  />
+                  Privatus transportas</label
+                >
+                <label class="pill"
+                  ><input
+                    type="radio"
+                    name="arrival_source"
+                    value="OtherHospital"
+                  />
+                  Kitas ligoninės skyrius / centras</label
+                >
+              </div>
+              <label class="pill mt-6">
+                <input id="arrival_ems_prenotify" type="checkbox" />
+                GMP iš anksto pranešė
+              </label>
+            </fieldset>
+
+
+            <fieldset>
               <legend>Paskutinį kartą matytas sveikas</legend>
               <div class="grid-3">
                 <label class="pill"
@@ -189,9 +224,9 @@
                     <input
                       type="checkbox"
                       name="arrival_contra"
-                      value="Ītariama subarachnoidinė hemoragija"
+                      value="Įtariama subarachnoidinė hemoragija"
                     />
-                    Ītariama subarachnoidinė hemoragija
+                    Įtariama subarachnoidinė hemoragija
                   </label>
                 </li>
                 <li>
@@ -499,4 +534,3 @@
             </div>
           </form>
         </section>
-

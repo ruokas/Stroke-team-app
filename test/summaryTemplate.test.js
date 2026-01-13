@@ -48,7 +48,10 @@ test('summaryTemplate generates summary text correctly', async () => {
   inputs.lkw.value = '2024-01-01T07:00';
   inputs.door.value = '2024-01-01T08:00';
   inputs.d_time.value = '2024-01-01T08:40';
-  inputs.d_department.value = 'Neurologijos skyrius';
+  const dept = document.querySelector(
+    'input[name="d_department"][value="Neurologijos skyrius"]',
+  );
+  dept.checked = true;
   inputs.drugType.value = 'tnk';
   inputs.doseTotal.value = '20';
   inputs.doseVol.value = '4';

@@ -12,7 +12,7 @@ function readWindowValue(name) {
 }
 
 function readEnvValue(name) {
-  if (typeof process === 'undefined' || !process?.env) return undefined;
+  if (typeof process === 'undefined' || !process.env) return undefined;
   const value = process.env[name];
   if (typeof value !== 'string') return undefined;
   const trimmed = value.trim();
@@ -21,6 +21,6 @@ function readEnvValue(name) {
 
 export function getApiBase() {
   return (
-    readWindowValue('API_BASE') ?? readEnvValue('API_BASE') ?? DEFAULT_API_BASE
+    readWindowValue('API_BASE') || readEnvValue('API_BASE') || DEFAULT_API_BASE
   );
 }

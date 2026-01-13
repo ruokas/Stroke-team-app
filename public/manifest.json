@@ -1,0 +1,14 @@
+{
+  "name": "Insulto komandos forma",
+  "short_name": "Stroke Team",
+  "start_url": "/",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "/icons/activation.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
+

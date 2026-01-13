@@ -40,7 +40,10 @@ test('copySummary builds data object and copies formatted text', async () => {
   inputs.lkw.value = '2024-01-01T07:00';
   inputs.door.value = '2024-01-01T08:00';
   inputs.d_time.value = '2024-01-01T08:40';
-  inputs.d_department.value = 'Neurologijos skyrius';
+  const dept = document.querySelector(
+    'input[name="d_department"][value="Neurologijos skyrius"]',
+  );
+  dept.checked = true;
   inputs.t_thrombolysis.value = '2024-01-01T09:00';
   inputs.a_warfarin.checked = true;
   inputs.a_glucose.value = '5';
@@ -82,7 +85,9 @@ test('copySummary builds data object and copies formatted text', async () => {
       infusion: null,
     },
     decision: 'Taikoma IVT, indikacijų MTE nenustatyta',
+    nextCare: null,
     department: 'Neurologijos skyrius',
+    transferInfo: null,
     bpMeds: [
       {
         time: '10:00',
@@ -155,7 +160,9 @@ test('summaryTemplate maps complications to LT labels', async () => {
       infusion: null,
     },
     decision: null,
+    nextCare: null,
     department: null,
+    transferInfo: null,
     bpMeds: [],
     activation: { lkw: null, drugs: [], params: {}, symptoms: [] },
     arrivalSymptoms: null,

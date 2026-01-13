@@ -25,7 +25,7 @@ test(
     const inputs = getInputs();
     setupAutosave(inputs, {
       scheduleSave(id, name, cb) {
-        cb?.();
+        cb();
       },
       flushSave() {},
     });

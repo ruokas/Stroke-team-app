@@ -11,7 +11,7 @@ test('autosave triggers on form input', { concurrency: false }, async () => {
   setupAutosave(inputs, {
     scheduleSave(id, data, cb) {
       called = true;
-      cb?.();
+      cb();
     },
     flushSave() {},
   });

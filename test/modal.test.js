@@ -62,7 +62,7 @@ test(
     document.body.appendChild(outside);
     outside.focus();
 
-    const promise = confirmModal('Confirm?');
+    const promise = confirmModal('Confirm');
     await tick();
     const overlay = document.querySelector('.modal-overlay');
     const [okBtn, cancelBtn] = overlay.querySelectorAll('button');

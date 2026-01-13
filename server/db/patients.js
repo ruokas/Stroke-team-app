@@ -12,11 +12,11 @@ export async function upsertPatient(client, payload) {
   const values = [
     payload.patientId,
     payload.name,
-    payload.payload ?? null,
-    payload.lastUpdated ?? null,
+    payload.payload || null,
+    payload.lastUpdated || null,
   ];
   const { rows } = await client.query(query, values);
-  return rows[0] ?? null;
+  return rows[0] || null;
 }
 
 export async function deletePatient(client, patientId) {
@@ -24,5 +24,5 @@ export async function deletePatient(client, patientId) {
     'DELETE FROM patients WHERE patient_id = $1 RETURNING *',
     [patientId],
   );
-  return rows[0] ?? null;
+  return rows[0] || null;
 }

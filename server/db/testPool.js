@@ -39,7 +39,7 @@ export class FakePool {
       if (Number.isNaN(updated.getTime())) updated = new Date();
       const idx = this.patients.findIndex((p) => `${p.patient_id}` === idStr);
       const created =
-        idx >= 0 && this.patients[idx]?.created
+        idx >= 0 && this.patients[idx].created
           ? this.patients[idx].created
           : new Date();
       const record = {

@@ -14,7 +14,8 @@ export function calcAge(dob) {
 export function updateAge() {
   const dobEl = dom.getADobInput();
   const ageEl = dom.getAAgeInput();
-  const age = calcAge(dobEl?.value);
+  if (!dobEl) return;
+  const age = calcAge(dobEl.value);
   if (ageEl) ageEl.value = age;
   const disp = document.getElementById('a_age_display');
   if (disp) disp.textContent = age ? `${age} m.` : '';

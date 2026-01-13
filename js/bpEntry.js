@@ -32,7 +32,9 @@ export function createBpEntry(
   timeInput.className = 'time-input';
   timeInput.step = '60';
   const now = new Date();
-  timeInput.value = time ?? `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+  timeInput.value = time
+    ? `${pad(now.getHours())}:${pad(now.getMinutes())}`
+    : '';
   group.appendChild(timeInput);
 
   const nowBtn = document.createElement('button');
@@ -65,16 +67,16 @@ export function createBpEntry(
     const value = doseInput.value.trim();
     if (!value) {
       doseInput.classList.remove('invalid');
-      doseInput.setCustomValidity?.('');
+      doseInput.setCustomValidity('');
       return;
     }
     const num = Number.parseFloat(value);
     if (!Number.isFinite(num)) {
       doseInput.classList.add('invalid');
-      doseInput.setCustomValidity?.('Enter a valid dose');
+      doseInput.setCustomValidity('Enter a valid dose');
     } else {
       doseInput.classList.remove('invalid');
-      doseInput.setCustomValidity?.('');
+      doseInput.setCustomValidity('');
     }
   };
   doseInput.addEventListener('input', validateDose);
@@ -113,13 +115,13 @@ export function createBpEntry(
   const validate = () => {
     [sysAfterInput, diaAfterInput].forEach((i) => {
       i.classList.remove('invalid');
-      i.setCustomValidity?.('');
+      i.setCustomValidity('');
     });
     if (!sysAfterInput.value || !diaAfterInput.value) return;
     if (!validateBp(Number(sysAfterInput.value), Number(diaAfterInput.value))) {
       [sysAfterInput, diaAfterInput].forEach((i) => {
         i.classList.add('invalid');
-        i.setCustomValidity?.('Įveskite teisingą AKS (pvz. 120/80).');
+        i.setCustomValidity('Įveskite teisingą AKS (pvz. 120/80).');
       });
     }
   };

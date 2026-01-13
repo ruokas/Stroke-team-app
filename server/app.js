@@ -74,7 +74,7 @@ app.use((err, req, res, _next) => {
   if (req.path.startsWith('/api/events')) {
     res.set(EVENT_CORS_HEADERS);
   }
-  if (err?.type === 'entity.parse.failed') {
+  if (err.type === 'entity.parse.failed') {
     res.status(400).json({ error: 'Invalid JSON body' });
     return;
   }

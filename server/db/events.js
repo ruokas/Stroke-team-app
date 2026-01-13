@@ -8,7 +8,7 @@ export async function insertEvents(client, events) {
     const query =
       'INSERT INTO events (event, payload) VALUES ' +
       batch.map((_, idx) => `($${idx * 2 + 1}, $${idx * 2 + 2})`).join(', ');
-    const values = batch.flatMap((e) => [e.event, e.payload ?? null]);
+    const values = batch.flatMap((e) => [e.event, e.payload || null]);
     await client.query(query, values);
   }
 }

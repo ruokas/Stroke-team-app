@@ -18,3 +18,11 @@ export async function upsertPatient(client, payload) {
   const { rows } = await client.query(query, values);
   return rows[0] ?? null;
 }
+
+export async function deletePatient(client, patientId) {
+  const { rows } = await client.query(
+    'DELETE FROM patients WHERE patient_id = $1 RETURNING *',
+    [patientId],
+  );
+  return rows[0] ?? null;
+}

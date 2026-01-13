@@ -8,6 +8,7 @@ import { showToast } from './toast.js';
 import { t } from './i18n.js';
 import { track, flush } from './analytics.js';
 import { syncPatients, restorePatients } from './sync.js';
+import { deletePatientById } from './services/patientApi.js';
 import { generatePatientId, migratePatientRecord } from './domain/patient.js';
 
 const LS_KEY = 'insultoKomandaPatients_v1';
@@ -140,8 +141,10 @@ export function savePatient(id, name) {
   const patients = getPatients();
   const patientId = `${id || generatePatientId()}`;
   const now = new Date().toISOString();
+  const formName = inputs.a_name?.value?.trim();
   const patientName =
     name ||
+    (formName ? formName : '') ||
     patients[patientId]?.name ||
     inputs.nih0?.value ||
     `Pacientas ${patientId}`;
@@ -184,6 +187,21 @@ export function deletePatient(id) {
     delete patients[id];
     setPatients(patients);
     track('patient_delete', { patientId: id });
+    if (
+      !window.disableSync &&
+      typeof navigator !== 'undefined' &&
+      navigator.onLine
+    ) {
+      deletePatientById(id).catch((error) => {
+        console.error('Failed to delete patient on server', error);
+        track('error', {
+          message: 'Failed to delete patient on server',
+          patientId: id,
+          stack: error?.stack,
+          source: 'storage.js',
+        });
+      });
+    }
   }
 }
 

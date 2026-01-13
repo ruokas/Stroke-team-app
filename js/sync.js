@@ -159,7 +159,14 @@ export async function restorePatients() {
         }
       }
     }
-    if (changed) saveLocalPatients(merged);
+    if (changed) {
+      saveLocalPatients(merged);
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(
+          new CustomEvent('patients-restored', { detail: { changed: true } }),
+        );
+      }
+    }
   } catch (e) {
     console.error('Failed to restore patients', e);
     track('error', {

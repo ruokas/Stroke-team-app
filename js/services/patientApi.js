@@ -18,3 +18,15 @@ export async function fetchPatients() {
   const fetchOptions = Object.keys(headers).length ? { headers } : {};
   return fetch(`${apiBase}/patients`, fetchOptions);
 }
+
+export async function deletePatientById(patientId) {
+  const apiBase = getApiBase();
+  const headers = withSupabaseHeaders(apiBase);
+  const fetchOptions = Object.keys(headers).length
+    ? { method: 'DELETE', headers }
+    : { method: 'DELETE' };
+  return fetch(
+    `${apiBase}/patients?patientId=${encodeURIComponent(patientId)}`,
+    fetchOptions,
+  );
+}

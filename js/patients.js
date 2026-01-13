@@ -84,6 +84,36 @@ export function getActivePatient() {
   return patients[activeId];
 }
 
+export function hydratePatients(storedRecords = {}) {
+  Object.keys(patients).forEach((id) => delete patients[id]);
+  activeId = null;
+  if (!storedRecords || typeof storedRecords !== 'object') return null;
+  const entries = Object.entries(storedRecords);
+  if (!entries.length) return null;
+  let pickedId = null;
+  let pickedTime = -1;
+  let index = 0;
+  for (const [id, rec] of entries) {
+    const data = rec?.data;
+    const payload =
+      data && data.version !== undefined ? data.data : rec?.data || rec;
+    if (!payload || typeof payload !== 'object') continue;
+    const name =
+      rec?.name || payload?.a_name || payload?.name || `Pacientas ${index + 1}`;
+    const summary = payload?.summary || rec?.summary || '';
+    patients[id] = { ...payload, summary, name };
+    const updatedAt = new Date(
+      rec?.lastUpdated ?? rec?.last_updated ?? rec?.created ?? 0,
+    ).getTime();
+    if (updatedAt >= pickedTime) {
+      pickedTime = updatedAt;
+      pickedId = id;
+    }
+    index += 1;
+  }
+  return pickedId || Object.keys(patients)[0] || null;
+}
+
 export default {
   addPatient,
   switchPatient,

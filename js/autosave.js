@@ -12,6 +12,7 @@ import {
   getActivePatientId,
   updateActivePatient,
   getPatients,
+  hydratePatients,
 } from './patients.js';
 import { getPatients as getSavedPatients } from './storage.js';
 
@@ -31,6 +32,7 @@ export function setupAutosave(
   const patientMenuLabel = $('#patientMenuLabel');
   const patientSearch = $('#patientSearch');
   const patientSearchToggle = $('#patientSearchToggle');
+  const saveBtn = $('#saveBtn');
 
   const isDesktop = () =>
     typeof window.matchMedia === 'function'
@@ -46,7 +48,11 @@ export function setupAutosave(
 
   const closePatientMenu = () => {
     if (!isDesktop()) patientMenu?.removeAttribute('open');
-    patientSearch?.classList.add('hidden');
+    if (patientSearch) {
+      patientSearch.value = '';
+      patientSearch.classList.add('hidden');
+      refreshPatientSelect(getActivePatientId());
+    }
   };
 
   const onDocumentClick = (e) => {
@@ -69,7 +75,7 @@ export function setupAutosave(
       if (!query || name.toLowerCase().includes(query)) {
         const opt = document.createElement('option');
         opt.value = id;
-        opt.textContent = dirtyPatients.has(id) ? `${name} •` : name;
+        opt.textContent = dirtyPatients.has(id) ? `${name} *` : name;
         patientSelect.appendChild(opt);
       }
     });
@@ -78,16 +84,36 @@ export function setupAutosave(
       Array.from(patientSelect.options).some((opt) => opt.value === selectedId)
     )
       patientSelect.value = selectedId;
-    const current = pats[selectedId || patientSelect.value];
+    const currentId = selectedId || patientSelect.value;
+    const current = pats[currentId];
     if (patientMenuLabel)
-      patientMenuLabel.textContent = current?.name || 'Pacientas';
+      patientMenuLabel.textContent = dirtyPatients.has(currentId)
+        ? `${current?.name || 'Pacientas'} *`
+        : current?.name || 'Pacientas';
   };
 
   const saveStatus = document.getElementById('saveStatus');
+  if (saveStatus) {
+    saveStatus.style.display = 'block';
+    saveStatus.classList.add('subtle');
+  }
+  const updateSaveButtonState = () => {
+    if (!saveBtn) return;
+    const id = getActivePatientId();
+    const isDirty = Boolean(id && dirtyPatients.has(id));
+    saveBtn.disabled = !isDirty;
+    saveBtn.setAttribute('aria-disabled', (!isDirty).toString());
+  };
   const appForm = document.getElementById('appForm');
   const updateSaveStatus = () => {
     if (!saveStatus) return;
     const id = getActivePatientId();
+    updateSaveButtonState();
+    if (id && dirtyPatients.has(id)) {
+      const name = getActivePatient()?.name || 'Pacientas';
+      saveStatus.textContent = `${name} ${t('unsaved')}`;
+      return;
+    }
     const rec = getSavedPatients()[id];
     if (!rec) {
       saveStatus.textContent = '';
@@ -114,8 +140,28 @@ export function setupAutosave(
     closePatientMenu();
   });
 
-  const firstId = addPatient();
-  refreshPatientSelect(firstId);
+  const storedPatients = getSavedPatients();
+  const hydratedId = hydratePatients(storedPatients);
+  if (hydratedId) {
+    switchPatient(hydratedId);
+    refreshPatientSelect(hydratedId);
+  } else {
+    const firstId = addPatient();
+    refreshPatientSelect(firstId);
+  }
+  updateSaveStatus();
+  const onPatientsRestored = () => {
+    if (dirtyPatients.size) return;
+    const refreshed = getSavedPatients();
+    const currentId = getActivePatientId();
+    const restoredId = hydratePatients(refreshed);
+    const targetId = currentId && refreshed[currentId] ? currentId : restoredId;
+    if (!targetId) return;
+    switchPatient(targetId);
+    refreshPatientSelect(targetId);
+    updateSaveStatus();
+  };
+  window.addEventListener('patients-restored', onPatientsRestored);
   patientSearch?.addEventListener('input', () =>
     refreshPatientSelect(getActivePatientId()),
   );
@@ -127,6 +173,26 @@ export function setupAutosave(
     } else {
       patientSearch.value = '';
       refreshPatientSelect(getActivePatientId());
+      patientSelect?.focus();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.defaultPrevented) return;
+    const target = /** @type {HTMLElement} */ (e.target);
+    const tag = target?.tagName?.toLowerCase();
+    const isTyping =
+      target?.isContentEditable || tag === 'input' || tag === 'textarea';
+    if (isTyping) return;
+    if (e.key === '/') {
+      e.preventDefault();
+      if (!isDesktop()) patientMenu?.setAttribute('open', '');
+      patientSearch?.classList.remove('hidden');
+      patientSearch?.focus();
+      return;
+    }
+    if (e.key === 'Escape' && patientMenu?.hasAttribute('open')) {
+      closePatientMenu();
     }
   });
 
@@ -166,7 +232,9 @@ export function setupAutosave(
     if (await confirmModal(t('delete_patient_confirm'))) {
       removePatient(id);
       dirtyPatients.delete(id);
-      refreshPatientSelect(getActivePatientId());
+      let nextId = getActivePatientId();
+      if (!nextId) nextId = addPatient();
+      refreshPatientSelect(nextId);
       updateSaveStatus();
       showToast(t('patient_deleted'), { type: 'warning' });
     }
@@ -184,6 +252,7 @@ export function setupAutosave(
   const handleChange = (e) => {
     const id = getActivePatientId();
     if (id) dirtyPatients.add(id);
+    updateSaveStatus();
     if (e.target?.id === 'a_name' && id) {
       renamePatient(id, e.target.value);
     }
@@ -219,6 +288,9 @@ export function setupAutosave(
 
   return {
     updateSaveStatus,
-    cleanup: () => document.removeEventListener('click', onDocumentClick),
+    cleanup: () => {
+      document.removeEventListener('click', onDocumentClick);
+      window.removeEventListener('patients-restored', onPatientsRestored);
+    },
   };
 }

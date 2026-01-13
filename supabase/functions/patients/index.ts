@@ -36,12 +36,20 @@ function jsonResponse(status: number, body: unknown, extraHeaders: HeadersInit =
 }
 
 Deno.serve(async (req) => {
+  const url = new URL(req.url);
+  const pathParts = url.pathname.split('/').filter(Boolean);
+  const lastPart = pathParts[pathParts.length - 1];
+  const pathId =
+    lastPart && lastPart !== 'patients' ? decodeURIComponent(lastPart) : null;
+  const queryId = url.searchParams.get('patientId') ?? url.searchParams.get('id');
+  const patientId = queryId || pathId || null;
+
   if (req.method === 'OPTIONS') {
     return new Response(null, {
       status: 204,
       headers: {
         ...corsHeaders,
-        'Access-Control-Allow-Methods': 'OPTIONS, GET, POST',
+        'Access-Control-Allow-Methods': 'OPTIONS, GET, POST, DELETE',
       },
     });
   }
@@ -96,8 +104,35 @@ Deno.serve(async (req) => {
     return jsonResponse(201, upserted);
   }
 
+  if (req.method === 'DELETE') {
+    if (!patientId) {
+      return jsonResponse(400, { error: 'Missing patient id' });
+    }
+
+    const { data, error } = await supabase
+      .from('patients')
+      .delete()
+      .eq('patient_id', patientId)
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Error deleting patient', error);
+      return jsonResponse(500, { error: 'Internal server error' });
+    }
+
+    if (!data) {
+      return jsonResponse(404, { error: 'Patient not found' });
+    }
+
+    return new Response(null, {
+      status: 204,
+      headers: corsHeaders,
+    });
+  }
+
   return jsonResponse(405, { error: 'Method not allowed' }, {
-    Allow: 'OPTIONS, GET, POST',
-    'Access-Control-Allow-Methods': 'OPTIONS, GET, POST',
+    Allow: 'OPTIONS, GET, POST, DELETE',
+    'Access-Control-Allow-Methods': 'OPTIONS, GET, POST, DELETE',
   });
 });

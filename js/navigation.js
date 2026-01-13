@@ -7,8 +7,55 @@ import { renderAnalytics, track, flush } from './analytics.js';
 export function setupNavigation(inputs) {
   const tabs = $$('nav .tab');
   const sections = $$('main > section');
+  const main = document.querySelector('main');
   const navToggle = $('#navToggle');
   const mainNav = $('#mainNav');
+
+  const ensureStatusDots = () => {
+    tabs.forEach((tab) => {
+      if (!tab.querySelector('.status-dot')) {
+        const dot = document.createElement('span');
+        dot.className = 'status-dot';
+        dot.setAttribute('aria-hidden', 'true');
+        tab.appendChild(dot);
+      }
+    });
+  };
+
+  const computeSectionStatus = (section) => {
+    const inputs = Array.from(
+      section.querySelectorAll('input, select, textarea'),
+    ).filter((el) => el.type !== 'hidden' && !el.disabled);
+    let hasValue = false;
+    let hasInvalid = false;
+    inputs.forEach((el) => {
+      if (el.classList.contains('invalid')) hasInvalid = true;
+      if (el.type === 'checkbox' || el.type === 'radio') {
+        if (el.checked) hasValue = true;
+        return;
+      }
+      if (el.tagName === 'SELECT') {
+        if (el.value !== '') hasValue = true;
+        return;
+      }
+      if (el.value !== '') hasValue = true;
+    });
+    if (hasInvalid) return 'error';
+    if (hasValue) return 'complete';
+    return 'incomplete';
+  };
+
+  const updateTabStatus = (section) => {
+    const tab = tabs.find((t) => t.dataset.section === section.id);
+    if (!tab) return;
+    const disabled =
+      tab.classList.contains('disabled') || tab.hasAttribute('disabled');
+    tab.dataset.status = disabled ? 'disabled' : computeSectionStatus(section);
+  };
+
+  const updateAllTabStatuses = () => {
+    sections.forEach((section) => updateTabStatus(section));
+  };
 
   const showSection = (id) => {
     sections.forEach((s) => {
@@ -46,7 +93,7 @@ export function setupNavigation(inputs) {
 
   const activateFromHash = () => {
     const hash = location.hash.slice(1);
-    const first = tabs[0]?.dataset.section;
+    const first = tabs[0].dataset.section;
     const id = tabs.some((t) => t.dataset.section === hash) ? hash : first;
     if (id) {
       if (hash !== id) history.replaceState(null, '', `#${id}`);
@@ -104,8 +151,21 @@ export function setupNavigation(inputs) {
     });
   });
 
+  ensureStatusDots();
+  updateAllTabStatuses();
+
+  main.addEventListener('input', (e) => {
+    const section = e.target.closest('section');
+    if (section) updateTabStatus(section);
+  });
+  main.addEventListener('change', (e) => {
+    const section = e.target.closest('section');
+    if (section) updateTabStatus(section);
+  });
+  document.addEventListener('tab-status-update', updateAllTabStatuses);
+
   window.addEventListener('hashchange', activateFromHash);
   window.addEventListener('popstate', activateFromHash);
 
-  return { activateFromHash };
+  return { activateFromHash, updateAllTabStatuses };
 }

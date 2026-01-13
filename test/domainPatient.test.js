@@ -6,6 +6,7 @@ import {
   migratePatientRecord,
   normalizeRemotePatient,
 } from '../js/domain/patient.js';
+import { SCHEMA_VERSION } from '../js/storage/migrations.js';
 import { basePatientPayload } from './fixtures/patientPayload.js';
 
 test('buildServerPayload uses a fallback patient name', () => {
@@ -23,6 +24,7 @@ test('normalizeRemotePatient fills defaults for missing fields', () => {
   assert.equal(normalized.needsSync, false);
   assert.ok(normalized.created);
   assert.ok(normalized.lastUpdated);
+  assert.equal(normalized.data.version, SCHEMA_VERSION);
 });
 
 test('migratePatientRecord upgrades payload schema', () => {
@@ -30,4 +32,13 @@ test('migratePatientRecord upgrades payload schema', () => {
   const result = migratePatientRecord('99', record);
   assert.equal(result.record.data.version, 1);
   assert.deepEqual(result.record.data.data, { ok: true });
+});
+
+test('normalizeRemotePatient returns errors when requested', () => {
+  const result = normalizeRemotePatient(
+    { patient_id: '' },
+    { withError: true },
+  );
+  assert.equal(result.record, null);
+  assert.equal(result.error.code, 'invalid_id');
 });

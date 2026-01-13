@@ -196,27 +196,6 @@ npm run build
   before the application loads. Adjust those assignments if you need analytics
   or a different API endpoint at runtime.
 
-## Google Drive export
-
-Enable the **Upload to Drive** button to save summaries directly to Google Drive:
-
-1. In [Google Cloud Console](https://console.cloud.google.com/) create an OAuth 2.0
-   Client ID of type **Web application**.
-2. Enable the Google Drive API and grant the scope
-   `https://www.googleapis.com/auth/drive.file`.
-3. Add your application's URL and `http://localhost` to the list of authorized
-   origins.
-4. Expose the client ID before loading the app:
-
-   ```html
-   <script>
-     window.GOOGLE_CLIENT_ID = 'YOUR_CLIENT_ID';
-   </script>
-   ```
-
-When the user clicks **Upload to Drive** the app requests authorization and
-uploads the summary as a text file to their Drive account.
-
 ## Offline support
 
 The app registers a Service Worker that caches the core HTML, CSS, JavaScript

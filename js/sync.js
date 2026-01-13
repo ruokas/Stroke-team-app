@@ -3,7 +3,6 @@ import { t } from './i18n.js';
 import { track } from './analytics.js';
 import {
   buildServerPayload,
-  mapRemotePatient,
   normalizeRemotePatient,
 } from './domain/patient.js';
 import { fetchPatients, postPatient } from './services/patientApi.js';
@@ -63,7 +62,7 @@ export async function syncPatients() {
   let failed = false;
   let missingEndpointDetected = false;
   for (const [id, p] of Object.entries(patients)) {
-    if (!p?.needsSync) continue;
+    if (!p.needsSync) continue;
     try {
       const bodyPayload = buildServerPayload(id, p);
       if (!bodyPayload) continue;
@@ -82,7 +81,7 @@ export async function syncPatients() {
       track('error', {
         message: 'Failed to sync patient',
         patientId: id,
-        stack: e?.stack,
+        stack: e.stack,
         source: 'sync.js',
       });
     }
@@ -138,11 +137,18 @@ export async function restorePatients() {
             patient_id: id,
           }))
     )
-      .map(mapRemotePatient)
+      .map((remote) => {
+        const normalized = normalizeRemotePatient(remote);
+        if (!normalized) {
+          track('error', {
+            message: 'Invalid remote patient payload',
+            source: 'sync.js',
+          });
+        }
+        return normalized;
+      })
       .filter(Boolean);
-    for (const remote of remotes) {
-      const normalized = normalizeRemotePatient(remote);
-      if (!normalized) continue;
+    for (const normalized of remotes) {
       const id = normalized.patientId;
       const local = merged[id];
       if (!local) {
@@ -171,7 +177,7 @@ export async function restorePatients() {
     console.error('Failed to restore patients', e);
     track('error', {
       message: 'Failed to restore patients',
-      stack: e?.stack,
+      stack: e.stack,
       source: 'sync.js',
     });
     showToast(t('restore_failed'), { type: 'error' });
@@ -195,9 +201,12 @@ if (typeof window !== 'undefined') {
 }
 
 if (typeof document !== 'undefined') {
-  document.getElementById('syncBtn')?.addEventListener('click', () => {
-    syncPatients().then(restorePatients);
-  });
+  const syncBtn = document.getElementById('syncBtn');
+  if (syncBtn) {
+    syncBtn.addEventListener('click', () => {
+      syncPatients().then(restorePatients);
+    });
+  }
   const enableLocalBtn = document.getElementById('enableLocalBtn');
   if (enableLocalBtn) {
     syncEnableLocalBtnState();

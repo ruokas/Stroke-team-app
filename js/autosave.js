@@ -3,6 +3,7 @@ import { collectSummaryData, summaryTemplate } from './summary.js';
 import { showToast } from './toast.js';
 import { confirmModal, promptModal } from './modal.js';
 import { t } from './i18n.js';
+import { setButtonLoading } from './uiFeedback.js';
 import {
   addPatient,
   switchPatient,
@@ -40,14 +41,14 @@ export function setupAutosave(
       : true;
 
   const updatePatientMenu = () => {
-    if (isDesktop()) patientMenu?.setAttribute('open', '');
-    else patientMenu?.removeAttribute('open');
+    if (isDesktop()) patientMenu.setAttribute('open', '');
+    else patientMenu.removeAttribute('open');
   };
   updatePatientMenu();
   window.addEventListener('resize', updatePatientMenu);
 
   const closePatientMenu = () => {
-    if (!isDesktop()) patientMenu?.removeAttribute('open');
+    if (!isDesktop()) patientMenu.removeAttribute('open');
     if (patientSearch) {
       patientSearch.value = '';
       patientSearch.classList.add('hidden');
@@ -57,7 +58,7 @@ export function setupAutosave(
 
   const onDocumentClick = (e) => {
     if (
-      patientMenu?.hasAttribute('open') &&
+      patientMenu.hasAttribute('open') &&
       !patientMenu.contains(/** @type {Node} */ (e.target))
     ) {
       closePatientMenu();
@@ -69,7 +70,7 @@ export function setupAutosave(
     if (!patientSelect) return;
     patientSelect.innerHTML = '';
     const pats = getPatients();
-    const query = patientSearch?.value?.toLowerCase() || '';
+    const query = patientSearch.value.toLowerCase() || '';
     Object.entries(pats).forEach(([id, p], idx) => {
       const name = p.name || `Pacientas ${idx + 1}`;
       if (!query || name.toLowerCase().includes(query)) {
@@ -88,8 +89,8 @@ export function setupAutosave(
     const current = pats[currentId];
     if (patientMenuLabel)
       patientMenuLabel.textContent = dirtyPatients.has(currentId)
-        ? `${current?.name || 'Pacientas'} *`
-        : current?.name || 'Pacientas';
+        ? `${current.name || 'Pacientas'} *`
+        : current.name || 'Pacientas';
   };
 
   const saveStatus = document.getElementById('saveStatus');
@@ -110,7 +111,7 @@ export function setupAutosave(
     const id = getActivePatientId();
     updateSaveButtonState();
     if (id && dirtyPatients.has(id)) {
-      const name = getActivePatient()?.name || 'Pacientas';
+      const name = getActivePatient().name || 'Pacientas';
       saveStatus.textContent = `${name} ${t('unsaved')}`;
       return;
     }
@@ -133,7 +134,7 @@ export function setupAutosave(
     saveStatus.textContent = `${rec.name} ${SAVE_STATUS_TEXT.saved()} ${ago}`;
   };
 
-  patientSelect?.addEventListener('change', () => {
+  patientSelect.addEventListener('change', () => {
     switchPatient(patientSelect.value);
     refreshPatientSelect(patientSelect.value);
     updateSaveStatus();
@@ -162,57 +163,59 @@ export function setupAutosave(
     updateSaveStatus();
   };
   window.addEventListener('patients-restored', onPatientsRestored);
-  patientSearch?.addEventListener('input', () =>
+  patientSearch.addEventListener('input', () =>
     refreshPatientSelect(getActivePatientId()),
   );
 
-  patientSearchToggle?.addEventListener('click', () => {
-    patientSearch?.classList.toggle('hidden');
-    if (!patientSearch?.classList.contains('hidden')) {
-      patientSearch?.focus();
+  patientSearchToggle.addEventListener('click', () => {
+    patientSearch.classList.toggle('hidden');
+    if (!patientSearch.classList.contains('hidden')) {
+      patientSearch.focus();
     } else {
       patientSearch.value = '';
       refreshPatientSelect(getActivePatientId());
-      patientSelect?.focus();
+      patientSelect.focus();
     }
   });
 
   document.addEventListener('keydown', (e) => {
     if (e.defaultPrevented) return;
     const target = /** @type {HTMLElement} */ (e.target);
-    const tag = target?.tagName?.toLowerCase();
+    const tag = target.tagName.toLowerCase();
     const isTyping =
-      target?.isContentEditable || tag === 'input' || tag === 'textarea';
+      target.isContentEditable || tag === 'input' || tag === 'textarea';
     if (isTyping) return;
     if (e.key === '/') {
       e.preventDefault();
-      if (!isDesktop()) patientMenu?.setAttribute('open', '');
-      patientSearch?.classList.remove('hidden');
-      patientSearch?.focus();
+      if (!isDesktop()) patientMenu.setAttribute('open', '');
+      patientSearch.classList.remove('hidden');
+      patientSearch.focus();
       return;
     }
-    if (e.key === 'Escape' && patientMenu?.hasAttribute('open')) {
+    if (e.key === 'Escape' && patientMenu.hasAttribute('open')) {
       closePatientMenu();
     }
   });
 
-  $('#saveBtn')?.addEventListener('click', () => {
+  $('#saveBtn').addEventListener('click', () => {
     const id = getActivePatientId();
     if (!id) return;
+    setButtonLoading(saveBtn, true);
     flush(id, undefined, () => {
       showToast(t('saved_locally'), { type: 'success' });
       updateSaveStatus();
       dirtyPatients.delete(id);
       refreshPatientSelect(getActivePatientId());
+      setButtonLoading(saveBtn, false);
     });
     closePatientMenu();
   });
 
-  $('#renamePatientBtn')?.addEventListener('click', async () => {
+  $('#renamePatientBtn').addEventListener('click', async () => {
     const id = getActivePatientId();
     if (!id) return;
     const pats = getPatients();
-    const newName = await promptModal(t('rename_prompt'), pats[id]?.name || '');
+    const newName = await promptModal(t('rename_prompt'), pats[id].name || '');
     if (newName) {
       renamePatient(id, newName);
       refreshPatientSelect(id);
@@ -226,7 +229,7 @@ export function setupAutosave(
     closePatientMenu();
   });
 
-  $('#deletePatientBtn')?.addEventListener('click', async () => {
+  $('#deletePatientBtn').addEventListener('click', async () => {
     const id = getActivePatientId();
     if (!id) return;
     if (await confirmModal(t('delete_patient_confirm'))) {
@@ -241,7 +244,7 @@ export function setupAutosave(
     closePatientMenu();
   });
 
-  $('#newPatientBtn')?.addEventListener('click', () => {
+  $('#newPatientBtn').addEventListener('click', () => {
     const id = addPatient();
     refreshPatientSelect(id);
     showToast(t('patient_created'), { type: 'success' });
@@ -253,7 +256,7 @@ export function setupAutosave(
     const id = getActivePatientId();
     if (id) dirtyPatients.add(id);
     updateSaveStatus();
-    if (e.target?.id === 'a_name' && id) {
+    if (e.target.id === 'a_name' && id) {
       renamePatient(id, e.target.value);
     }
     updateActivePatient();
@@ -275,8 +278,8 @@ export function setupAutosave(
       });
     }
   };
-  appForm?.addEventListener('input', handleChange);
-  appForm?.addEventListener('change', handleChange);
+  appForm.addEventListener('input', handleChange);
+  appForm.addEventListener('change', handleChange);
 
   window.addEventListener('beforeunload', (e) => {
     if (dirtyPatients.size) {

@@ -135,15 +135,8 @@ test('getPatients discards unknown schema versions', () => {
       future: { name: 'Future', data: { version: 999, data: {} } },
     }),
   );
-  let warned = false;
-  const origWarn = console.warn;
-  console.warn = () => {
-    warned = true;
-  };
   const patients = getPatients();
-  console.warn = origWarn;
   assert.ok(!('future' in patients));
-  assert.ok(warned);
 });
 
 test('migratePatientRecord migrates unversioned data', () => {
@@ -152,9 +145,9 @@ test('migratePatientRecord migrates unversioned data', () => {
     data: { p_nihss0: '1' },
   });
   assert.ok(changed);
-  assert.strictEqual(record?.patientId, 'old');
-  assert.strictEqual(record?.data.version, SCHEMA_VERSION);
-  assert.strictEqual(record?.data.data.p_nihss0, '1');
+  assert.strictEqual(record.patientId, 'old');
+  assert.strictEqual(record.data.version, SCHEMA_VERSION);
+  assert.strictEqual(record.data.data.p_nihss0, '1');
 });
 
 test('migratePatientRecord discards unknown schema versions', () => {

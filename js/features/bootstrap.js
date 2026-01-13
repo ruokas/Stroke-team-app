@@ -19,11 +19,13 @@ import { setupAgeListener } from '../ageSetup.js';
 import { setupBpHandlers } from '../bpEntries.js';
 import { setupPillState } from '../pill.js';
 import { setupLkw } from '../lkw.js';
+import { setupDecision } from '../decision.js';
 import { initNIHSS } from '../nihss.js';
 import { initI18n } from '../i18n.js';
 import { initAnalytics, track } from '../analytics.js';
 import { initTheme, setupThemeToggle } from '../theme.js';
 import { setupNotificationToggle } from '../notifications.js';
+import { setupFieldHints } from '../fieldHints.js';
 import { applySettings, persistSettings } from './settings.js';
 import { registerServiceWorker } from './serviceWorker.js';
 
@@ -34,14 +36,14 @@ function scheduleSave(id, name, cb) {
   clearTimeout(saveTimer);
   saveTimer = setTimeout(() => {
     savePatient(id, name);
-    cb?.();
+    cb();
   }, SAVE_DEBOUNCE_MS);
 }
 
 function flushSave(id, name, cb) {
   clearTimeout(saveTimer);
   savePatient(id, name);
-  cb?.();
+  cb();
 }
 
 function bind() {
@@ -59,8 +61,10 @@ function bind() {
   setupBpHandlers();
   setupPillState();
   setupLkw(inputs);
+  setupDecision(inputs);
   setupThemeToggle();
   setupNotificationToggle();
+  setupFieldHints();
 
   const { updateSaveStatus } = setupAutosave(inputs, {
     scheduleSave,
@@ -69,7 +73,7 @@ function bind() {
   const { activateFromHash } = setupNavigation(inputs);
 
   const settingsForm = document.getElementById('settingsForm');
-  settingsForm?.addEventListener('submit', (e) => {
+  settingsForm.addEventListener('submit', (e) => {
     e.preventDefault();
     persistSettings(inputs);
     updateDrugDefaults();
@@ -92,7 +96,7 @@ async function init() {
     console.error('Failed to initialize i18n', err);
     track('error', {
       message: 'Failed to initialize i18n',
-      stack: err?.stack,
+      stack: err.stack,
       source: 'i18n',
     });
   } finally {

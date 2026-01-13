@@ -27,18 +27,26 @@ export function getPatients() {
     const patients = JSON.parse(raw);
     let migrated = false;
     Object.entries(patients).forEach(([id, p]) => {
-      const { record, changed } = migratePatientRecord(id, p);
+      const { record, changed, error } = migratePatientRecord(id, p);
       if (record) patients[id] = record;
       else delete patients[id];
       if (changed) migrated = true;
+      if (error) {
+        track('error', {
+          message: 'Discarded patient record during migration',
+          patientId: id,
+          code: error.code,
+          source: 'storage.js',
+        });
+      }
     });
     if (migrated) setPatients(patients);
     return patients;
   } catch (e) {
     console.error(e);
     track('error', {
-      message: e?.message || 'Failed to load patients',
-      stack: e?.stack,
+      message: e.message || 'Failed to load patients',
+      stack: e.stack,
       source: 'storage.js',
     });
     localStorage.removeItem(LS_KEY);
@@ -54,8 +62,8 @@ function setPatients(patients) {
   } catch (e) {
     console.error(e);
     track('error', {
-      message: e?.message || 'Failed to save patients',
-      stack: e?.stack,
+      message: e.message || 'Failed to save patients',
+      stack: e.stack,
       source: 'storage.js',
     });
     showToast(t('storage_full'), { type: 'error' });
@@ -68,24 +76,24 @@ export function getPayload() {
   const payload = {};
   FIELD_DEFS.forEach(({ key, alias, selector, get }) => {
     const input = selector ? inputs[selector] : undefined;
-    const val = get ? get(input) : input?.value || '';
+    const val = get ? get(input) : input.value || '';
     payload[key] = val;
     if (alias) alias.forEach((a) => (payload[a] = val));
   });
   payload.bp_meds = Array.from(
     document.querySelectorAll('#bpEntries .bp-entry'),
   ).map((entry) => {
-    const med = entry.querySelector('strong')?.textContent || '';
+    const med = entry.querySelector('strong').textContent || '';
     const [timeEl, doseEl, sysAfterEl, diaAfterEl, notesEl] =
       entry.querySelectorAll('input');
     return {
-      time: timeEl?.value || '',
+      time: timeEl.value || '',
       med,
-      dose: doseEl?.value || '',
-      unit: doseEl?.dataset.unit || doseEl?.placeholder || '',
-      bp_sys_after: sysAfterEl?.value || '',
-      bp_dia_after: diaAfterEl?.value || '',
-      notes: notesEl?.value || '',
+      dose: doseEl.value || '',
+      unit: doseEl.dataset.unit || doseEl.placeholder || '',
+      bp_sys_after: sysAfterEl.value || '',
+      bp_dia_after: diaAfterEl.value || '',
+      notes: notesEl.value || '',
     };
   });
   return payload;
@@ -141,24 +149,24 @@ export function savePatient(id, name) {
   const patients = getPatients();
   const patientId = `${id || generatePatientId()}`;
   const now = new Date().toISOString();
-  const formName = inputs.a_name?.value?.trim();
+  const formName = inputs.a_name.value.trim();
   const patientName =
     name ||
     (formName ? formName : '') ||
-    patients[patientId]?.name ||
-    inputs.nih0?.value ||
+    patients[patientId].name ||
+    inputs.nih0.value ||
     `Pacientas ${patientId}`;
   patients[patientId] = {
     patientId,
     name: patientName,
-    created: patients[patientId]?.created || now,
+    created: patients[patientId].created || now,
     lastUpdated: now,
     needsSync: true,
     data: {
       version:
-        (patients[patientId]?.data?.version || 0) < SCHEMA_VERSION
+        (patients[patientId].data.version || 0) < SCHEMA_VERSION
           ? SCHEMA_VERSION
-          : patients[patientId]?.data?.version || SCHEMA_VERSION,
+          : patients[patientId].data.version || SCHEMA_VERSION,
       data: getPayload(),
     },
   };
@@ -197,7 +205,7 @@ export function deletePatient(id) {
         track('error', {
           message: 'Failed to delete patient on server',
           patientId: id,
-          stack: error?.stack,
+          stack: error.stack,
           source: 'storage.js',
         });
       });

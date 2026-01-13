@@ -11,7 +11,7 @@
           saved = localStorage.getItem('theme');
         } catch {}
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const preferred = saved || (prefersDark ? 'dark' : 'light');
+        const preferred = saved || (prefersDark  'dark' : 'light');
         document.documentElement.classList.add(preferred);
       })();
     </script>
@@ -26,13 +26,13 @@
         const defaultApiBase =
           'https://gpyqtvisuddacmojuzxd.functions.supabase.co';
         const envApiBase =
-          typeof cfg.apiBase === 'string' ? cfg.apiBase.trim() : '';
+          typeof cfg.apiBase === 'string'  cfg.apiBase.trim() : '';
         if (!window.API_BASE) {
           window.API_BASE = envApiBase || defaultApiBase;
         }
         const anonKey =
           typeof cfg.supabaseAnonKey === 'string'
-            ? cfg.supabaseAnonKey.trim()
+             cfg.supabaseAnonKey.trim()
             : '';
         if (anonKey) {
           if (!window.SUPABASE_ANON_KEY) {
@@ -44,18 +44,13 @@
         }
         const projectUrl =
           typeof cfg.supabaseProjectUrl === 'string'
-            ? cfg.supabaseProjectUrl.trim()
+             cfg.supabaseProjectUrl.trim()
             : '';
         if (projectUrl && !window.SUPABASE_PROJECT_URL) {
           window.SUPABASE_PROJECT_URL = projectUrl;
         }
       })();
       window.DISABLE_ANALYTICS = true;
-    </script>
-    <script>
-      // OAuth nustatymas: pakeiskite į savo Google Cloud kliento ID, jei naudojate kitą aplinką.
-      window.GOOGLE_CLIENT_ID =
-        '881217612703-61htpop9nkimqftl50920vfbmou4nq5i.apps.googleusercontent.com';
     </script>
     <script type="module" src="js/app.js"></script>
   </body>

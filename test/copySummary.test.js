@@ -119,6 +119,8 @@ test('copySummary builds data object and copies formatted text', async () => {
     imaging: {
       ct: null,
       kta: null,
+      ktaSide: null,
+      ktaVessels: null,
       perfCore: null,
       perfPenumbra: null,
     },

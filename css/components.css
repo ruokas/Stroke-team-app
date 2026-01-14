@@ -333,10 +333,40 @@ section[data-tab='B – Kvėpavimas'] h3:first-of-type {
   padding: 6px 10px;
   font-size: 0.75rem;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+  max-width: 360px;
+  white-space: pre-wrap;
   pointer-events: none;
 }
 .field-hint.hidden {
   display: none;
+}
+.label-row {
+  align-items: center;
+  display: flex;
+  gap: 6px;
+}
+.info-btn {
+  align-items: center;
+  background: var(--field-bg);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 0.6875rem;
+  height: 20px;
+  justify-content: center;
+  line-height: 1;
+  min-width: 20px;
+  padding: 0;
+}
+.info-btn:hover {
+  background: var(--field-bg-hover);
+  color: var(--ink);
+}
+.info-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 .error-msg {
   color: var(--red);

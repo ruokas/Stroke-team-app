@@ -1133,7 +1133,7 @@ Kontraindikacijos trombektomijai</summary>
           </form>
         </section>
 
-                <!-- NIHSS -->
+                                <!-- NIHSS -->
         <section
           id="nihss"
           class="card hidden"
@@ -1155,166 +1155,366 @@ Kontraindikacijos trombektomijai</summary>
                       >1a. Sąmonės lygis
                       <select data-score>
                         <option value=""></option>
-                        <option value="0">0 – Budrus</option>
+                        <option value="0">0 – Budrus, normaliai bendraujantis</option>
                         <option value="1">
-                          1 – Nevisiškai budrus, reaguoja į menką stimulaciją
+                          1 – Nebudrus, tačiau prižadinamas minimaliais dirgikliais ir
+                          gali vykdyti paliepimus, atsakinėti
                         </option>
                         <option value="2">
-                          2 – Reaguoja tik į stiprią/pakartotinę stimulaciją
+                          2 – Nebudrus, kontaktui išlaikyti reikalingi pakartotiniai
+                          dirgikliai, arba atlieka judesius tik veikiamas stipriais
+                          arba skausminiais dirgikliais
                         </option>
-                        <option value="3">3 – Nereaguoja</option>
+                        <option value="3">
+                          3 – Reaguoja tik refleksiniais motoriniais arba autonominiais
+                          atsakais, arba visiškai nereaguoja, neišgaunami refleksai
+                        </option>
                       </select>
                     </label>
                     <label
-                      >1b. Klausimai
+                      ><span class="label-row"
+                        >1b. Klausimai<button
+                          type="button"
+                          class="info-btn"
+                          aria-label="Informacija"
+                          data-hint="Paklauskite paciento, koks dabar mėnuo ir kiek jam metų. Jei yra afazija ar stuporas, vertinimas – 2; jei negali kalbėti dėl intubacijos, orotrachėjinės traumos, sunkios dizartrijos (išskyrus priežastis, susijusias su afazija), vertinimas – 1."
+                        >
+                          i
+                        </button></span
+                      >
                       <select data-score>
                         <option value=""></option>
-                        <option value="0">0 – Atsako abu</option>
-                        <option value="1">1 – Atsako vieną</option>
-                        <option value="2">2 – Neatsako</option>
+                        <option value="0">0 – Teisingi abu atsakymai</option>
+                        <option value="1">1 – Teisingas vienas atsakymas</option>
+                        <option value="2">2 – Neteisingi abu atsakymai</option>
                       </select>
                     </label>
                     <label
-                      >1c. Komandos
+                      ><span class="label-row"
+                        >1c. Paliepimai<button
+                          type="button"
+                          class="info-btn"
+                          aria-label="Informacija"
+                          data-hint="Paprašykite atsimerkti ir užsimerkti, tuomet sugniaužti ir atgniaužti kumštį neparalyžiuota ranka."
+                        >
+                          i
+                        </button></span
+                      >
                       <select data-score>
                         <option value=""></option>
-                        <option value="0">0 – Atlieka abi</option>
-                        <option value="1">1 – Atlieka vieną</option>
-                        <option value="2">2 – Neatlieka</option>
+                        <option value="0">0 – Vykdo teisingai abu paliepimus</option>
+                        <option value="1">1 – Vykdo teisingai tik vieną paliepimą</option>
+                        <option value="2">2 – Vykdo neteisingai abu paliepimus</option>
                       </select>
                     </label>
                   </div>
                   <div class="nihss-group">
                     <h3>Žvilgsnis ir regėjimas</h3>
                     <label
-                      >2. Žvilgsnis
+                      ><span class="label-row"
+                        >2. Žvilgsnis<button
+                          type="button"
+                          class="info-btn"
+                          aria-label="Informacija"
+                          data-hint="Tiriami tik horizontalūs judesiai. Vertinami valingi arba refleksiniai (okulocefaliniai) akių judesiai, kalorinis mėginys neatliekamas. Jei pacientui yra konjuguotas akių nuokrypis, kuris gali būti įveikiamas valingais arba refleksiniais akių judesiais, vertinimas – 1. Jei pacientui yra izoliuota periferinė galvinio nervo (III, IV ar VI) parezė, vertinimas – 1."
+                        >
+                          i
+                        </button></span
+                      >
                       <select data-score>
                         <option value=""></option>
                         <option value="0">0 – Normalus</option>
-                        <option value="1">1 – Dalinis paralyžius</option>
-                        <option value="2">2 – Priverstinis nukrypimas</option>
+                        <option value="1">
+                          1 – Žvilgsnio parezė, vienos arba abiejų akių žvilgsnis yra
+                          nenormalus, bet forsuoto akių nukrypimo arba žvilgsnio pilno
+                          paralyžiaus nėra
+                        </option>
+                        <option value="2">
+                          2 – Visiškas žvilgsnio paralyžius arba forsuotas akių
+                          nukrypis, nesisekiantis atliekant okulocėfalinius mėginius
+                        </option>
                       </select>
                     </label>
                     <label
-                      >3. Regėjimas
+                      ><span class="label-row"
+                        >3. Akiplotis<button
+                          type="button"
+                          class="info-btn"
+                          aria-label="Informacija"
+                          data-hint="Regos laukai (viršutiniai ir apatiniai kvadrantai) tikrinami konfrontacijos būdu, naudojant pasirinktinai pirštų pastebėjimą arba regimąją grėsmę. Jei pacientas žiūri į judančio piršto pusę teisingai, tai gali būti vertinama kaip norma. Jei yra vienpusis aklumas arba enukleacija, vertinamas išlikusios akies akiplotis. Kai yra aiški asimetrija, įskaitant kvadrantanopsiją, vertinimas – 1. Jei yra bet kokios kilmės aklumas, vertinimas – 3."
+                        >
+                          i
+                        </button></span
+                      >
                       <select data-score>
                         <option value=""></option>
-                        <option value="0">0 – Nėra deficito</option>
+                        <option value="0">0 – Normalus</option>
                         <option value="1">1 – Dalinė hemianopsija</option>
                         <option value="2">2 – Pilna hemianopsija</option>
-                        <option value="3">3 – Dvišalė hemianopsija / aklumas</option>
+                        <option value="3">
+                          3 – Abipusė hemianopsija (aklumas, įskaitant žievinį aklumą)
+                        </option>
                       </select>
                     </label>
                   </div>
                   <div class="nihss-group">
                     <h3>Veidas</h3>
                     <label
-                      >4. Veido judesiai
+                      ><span class="label-row"
+                        >4. Veido raumenų funkcija<button
+                          type="button"
+                          class="info-btn"
+                          aria-label="Informacija"
+                          data-hint="Paprašykite parodyti dantis arba pakelti antakius ir užsimerkti. Vangiai reaguojantiems arba nesuprantantiems pacientams vertinamas mimikos simetriškumas, reaguojant į skausminius dirgiklius."
+                        >
+                          i
+                        </button></span
+                      >
                       <select data-score>
                         <option value=""></option>
-                        <option value="0">0 – Simetriški</option>
-                        <option value="1">1 – Lengvas paralyžius</option>
-                        <option value="2">2 – Dalinis paralyžius</option>
-                        <option value="3">3 – Visiškas paralyžius</option>
+                        <option value="0">0 – Normalūs simetriški judesiai</option>
+                        <option value="1">
+                          1 – Lengva parezė (nosies–lūpų raukšlės išlyginimas, šypsenos
+                          asimetrija)
+                        </option>
+                        <option value="2">
+                          2 – Dalinis paralyžius (visiškas arba dalinis apatinės veido
+                          dalies paralyžius)
+                        </option>
+                        <option value="3">
+                          3 – Visiškas vienpusis arba abipusis paralyžius (ir
+                          viršutinės, ir apatinės veido dalies judesių nebuvimas)
+                        </option>
                       </select>
                     </label>
                   </div>
                   <div class="nihss-group">
                     <h3>Rankos</h3>
                     <label
-                      >5a. Rankos (K)
+                      ><span class="label-row"
+                        >5a. Rankos motorinė funkcija (K)<button
+                          type="button"
+                          class="info-btn"
+                          aria-label="Informacija"
+                          data-hint="Paprašykite palaikyti paeiliui ištiestas rankas (delnais žemyn), pakeltas 90 laipsnių kampu (sėdint) arba 45 laipsnių kampu (gulint) 10 sek. Pradedama nuo neparalyžiuotos rankos."
+                        >
+                          i
+                        </button></span
+                      >
                       <select data-score>
                         <option value=""></option>
-                        <option value="0">0 – Nedreifuoja</option>
-                        <option value="1">1 – Dreifuoja</option>
-                        <option value="2">2 – Nedidelis judėjimas prieš gravitaciją</option>
-                        <option value="3">3 – Neįveikia gravitacijos</option>
-                        <option value="4">4 – Judesių nėra</option>
+                        <option value="0">0 – Normali, nesvyra laikant 10 sek.</option>
+                        <option value="1">
+                          1 – Ištiesta ranka palaiko, tačiau ranka svyra nesilaikius
+                          10 sek.
+                        </option>
+                        <option value="2">
+                          2 – Atlieka mažus judesius, įveikdamas sunkio jėgą, tačiau
+                          reikiamoje padėtyje rankos stabiliai palaikyti negali
+                        </option>
+                        <option value="3">
+                          3 – Atlieka tik horizontalius judesius, neįveikdamas sunkio
+                          jėgos, ranka krenta
+                        </option>
+                        <option value="4">4 – Jokių judesių nėra</option>
                       </select>
                     </label>
                     <label
-                      >5b. Rankos (D)
+                      ><span class="label-row"
+                        >5b. Rankos motorinė funkcija (D)<button
+                          type="button"
+                          class="info-btn"
+                          aria-label="Informacija"
+                          data-hint="Paprašykite palaikyti paeiliui ištiestas rankas (delnais žemyn), pakeltas 90 laipsnių kampu (sėdint) arba 45 laipsnių kampu (gulint) 10 sek. Pradedama nuo neparalyžiuotos rankos."
+                        >
+                          i
+                        </button></span
+                      >
                       <select data-score>
                         <option value=""></option>
-                        <option value="0">0 – Nedreifuoja</option>
-                        <option value="1">1 – Dreifuoja</option>
-                        <option value="2">2 – Nedidelis judėjimas prieš gravitaciją</option>
-                        <option value="3">3 – Neįveikia gravitacijos</option>
-                        <option value="4">4 – Judesių nėra</option>
+                        <option value="0">0 – Normali, nesvyra laikant 10 sek.</option>
+                        <option value="1">
+                          1 – Ištiesta ranka palaiko, tačiau ranka svyra nesilaikius
+                          10 sek.
+                        </option>
+                        <option value="2">
+                          2 – Atlieka mažus judesius, įveikdamas sunkio jėgą, tačiau
+                          reikiamoje padėtyje rankos stabiliai palaikyti negali
+                        </option>
+                        <option value="3">
+                          3 – Atlieka tik horizontalius judesius, neįveikdamas sunkio
+                          jėgos, ranka krenta
+                        </option>
+                        <option value="4">4 – Jokių judesių nėra</option>
                       </select>
                     </label>
                   </div>
                   <div class="nihss-group">
                     <h3>Kojos</h3>
                     <label
-                      >6a. Kojos (K)
+                      ><span class="label-row"
+                        >6a. Kojos motorinė funkcija (K)<button
+                          type="button"
+                          class="info-btn"
+                          aria-label="Informacija"
+                          data-hint="Atliekama tik gulint. Paprašykite palaikyti paeiliui kojas, pakeltas 30 laipsnių kampu nuo horizontalios plokštumos 5 sek. Pradedama nuo neparalyžiuotos kojos."
+                        >
+                          i
+                        </button></span
+                      >
                       <select data-score>
                         <option value=""></option>
-                        <option value="0">0 – Nedreifuoja</option>
-                        <option value="1">1 – Dreifuoja</option>
-                        <option value="2">2 – Nedidelis judėjimas prieš gravitaciją</option>
-                        <option value="3">3 – Neįveikia gravitacijos</option>
-                        <option value="4">4 – Judesių nėra</option>
+                        <option value="0">0 – Normali, nesvyra laikant 5 sek.</option>
+                        <option value="1">
+                          1 – Koja palaiko, tačiau koja svyra nesilaikius 5 sek.
+                        </option>
+                        <option value="2">
+                          2 – Atlieka mažus judesius, įveikdamas sunkio jėgą, tačiau
+                          stabiliai palaikyti koją neįmanoma, koja nukrenta per 5 sek.
+                        </option>
+                        <option value="3">
+                          3 – Atlieka tik horizontalius judesius, neįveikdamas sunkio
+                          jėgos, koja tuoj pat krenta
+                        </option>
+                        <option value="4">4 – Jokių judesių nėra</option>
                       </select>
                     </label>
                     <label
-                      >6b. Kojos (D)
+                      ><span class="label-row"
+                        >6b. Kojos motorinė funkcija (D)<button
+                          type="button"
+                          class="info-btn"
+                          aria-label="Informacija"
+                          data-hint="Atliekama tik gulint. Paprašykite palaikyti paeiliui kojas, pakeltas 30 laipsnių kampu nuo horizontalios plokštumos 5 sek. Pradedama nuo neparalyžiuotos kojos."
+                        >
+                          i
+                        </button></span
+                      >
                       <select data-score>
                         <option value=""></option>
-                        <option value="0">0 – Nedreifuoja</option>
-                        <option value="1">1 – Dreifuoja</option>
-                        <option value="2">2 – Nedidelis judėjimas prieš gravitaciją</option>
-                        <option value="3">3 – Neįveikia gravitacijos</option>
-                        <option value="4">4 – Judesių nėra</option>
+                        <option value="0">0 – Normali, nesvyra laikant 5 sek.</option>
+                        <option value="1">
+                          1 – Koja palaiko, tačiau koja svyra nesilaikius 5 sek.
+                        </option>
+                        <option value="2">
+                          2 – Atlieka mažus judesius, įveikdamas sunkio jėgą, tačiau
+                          stabiliai palaikyti koją neįmanoma, koja nukrenta per 5 sek.
+                        </option>
+                        <option value="3">
+                          3 – Atlieka tik horizontalius judesius, neįveikdamas sunkio
+                          jėgos, koja tuoj pat krenta
+                        </option>
+                        <option value="4">4 – Jokių judesių nėra</option>
                       </select>
                     </label>
                   </div>
                   <div class="nihss-group">
                     <h3>Kiti</h3>
                     <label
-                      >7. Ataksija
+                      ><span class="label-row"
+                        >7. Galūnių ataksija<button
+                          type="button"
+                          class="info-btn"
+                          aria-label="Informacija"
+                          data-hint="Tiriama atsimerkus. Atliekami piršto-nosies ir kelio-kulno mėginiai abiejose pusėse. Jei galūnė paralyžuota, nusilpusi arba pacientas nesupranta paliepimų, laikoma, kad ataksijos nėra (vertinimas – 0)."
+                        >
+                          i
+                        </button></span
+                      >
                       <select data-score>
                         <option value=""></option>
                         <option value="0">0 – Nėra</option>
-                        <option value="1">1 – Vienoje galūnėje</option>
-                        <option value="2">2 – Dviejose galūnėse</option>
+                        <option value="1">1 – Ataksija vienoje galūnėje</option>
+                        <option value="2">2 – Ataksija dviejose galūnėse</option>
                       </select>
                     </label>
                     <label
-                      >8. Jutimai
+                      ><span class="label-row"
+                        >8. Jutimai<button
+                          type="button"
+                          class="info-btn"
+                          aria-label="Informacija"
+                          data-hint="Patikrinkite rankų, kojų, liemens, veido jutimus smeigtuku. Prislopintiems pacientams arba esant afazijai, vertinama veido išraiška, reaguojant į dirgiklį, arba galūnės atitraukimas nuo skausmingo dirgiklio. Jei yra koma ar kvadriplegija, vertinimas – 2."
+                        >
+                          i
+                        </button></span
+                      >
                       <select data-score>
                         <option value=""></option>
                         <option value="0">0 – Normalūs</option>
-                        <option value="1">1 – Lengvas ar vidutinis sutrikimas</option>
-                        <option value="2">2 – Sunkus ar visiškas sutrikimas</option>
+                        <option value="1">1 – Lengva arba vidutinė hipestezija</option>
+                        <option value="2">2 – Sunki hipestezija arba anestezija</option>
                       </select>
                     </label>
                     <label
-                      >9. Kalba
+                      ><span class="label-row"
+                        >9. Kalba<button
+                          type="button"
+                          class="info-btn"
+                          aria-label="Informacija"
+                          data-hint="Paprašykite apibūdinti piešinį, įvardyti daiktus. Tiriant intubuotus pacientus, paprašykite parašyti. Jei yra koma, vertinimas – 3."
+                        >
+                          i
+                        </button></span
+                      >
                       <select data-score>
                         <option value=""></option>
-                        <option value="0">0 – Nėra afazijos</option>
-                        <option value="1">1 – Lengva ar vidutinė afazija</option>
+                        <option value="0">0 – Normali – afazijos nėra</option>
+                        <option value="1">1 – Lengva arba vidutinė afazija</option>
                         <option value="2">2 – Sunki afazija</option>
-                        <option value="3">3 – Globali afazija / nekalba</option>
+                        <option value="3">3 – Nebylus arba globalinė afazija</option>
                       </select>
                     </label>
                     <label
-                      >10. Artikuliacija
+                      ><span class="label-row"
+                        >10. Dizartrija<button
+                          type="button"
+                          class="info-btn"
+                          aria-label="Informacija"
+                          data-hint="Jei manoma, kad dizartrijos nėra, pakanka išklausyti pakankamo paciento kalbos fragmento, prašant skaityti arba kartoti žodžius iš sąrašo. Jei yra sunki afazija, galima vertinti artikuliacijos aiškumą spontaninės kalbos metu."
+                        >
+                          i
+                        </button></span
+                      >
                       <select data-score>
                         <option value=""></option>
                         <option value="0">0 – Normali</option>
-                        <option value="1">1 – Lengva ar vidutinė dizartrija</option>
-                        <option value="2">2 – Sunki dizartrija</option>
+                        <option value="1">
+                          1 – Lengva arba vidutinė dizartrija; pacientas supranta
+                          mažiausiai keletą žodžių ir blogiausiu atveju jo kalba
+                          sunkiai suprantama
+                        </option>
+                        <option value="2">
+                          2 – Sunki dizartrija; paciento kalba tokia nesklandi, kad
+                          negalima suprasti, nors afazijos nėra arba ji neryški, arba
+                          pacientas nekalba
+                        </option>
                       </select>
                     </label>
                     <label
-                      >11. Neglect
+                      ><span class="label-row"
+                        >11. Neigimas (neglect)<button
+                          type="button"
+                          class="info-btn"
+                          aria-label="Informacija"
+                          data-hint="Naudokite abipusę regimąją arba sensorinę stimuliaciją. Neigimo fenomenų (neglect) atpažinimui pakankamos informacijos galima gauti atliekant skalės ankstesnius vertinimus. Jei pacientui yra sunkus regos sutrikimas, trukdantis abipusei regimajai vienalaikei (simultaninei) stimuliacijai, o odos liečiamoji stimuliacija yra normali, teigiama, kad sutrikimo nėra. Regimojo erdvinio neigimo arba anozognozijos buvimas gali būti laikomas sutrikimo įrodymu. Sutrikimu (1 arba 2) laikomi tik tyrimo metu patvirtinami nuokrypiai, kitais atvejais vertinimas – 0."
+                        >
+                          i
+                        </button></span
+                      >
                       <select data-score>
                         <option value=""></option>
                         <option value="0">0 – Nėra</option>
-                        <option value="1">1 – Vienos modalės neglektas</option>
-                        <option value="2">2 – Sunkus/daugiamodalis neglektas</option>
+                        <option value="1">
+                          1 – Regimosios, taktilinės, klausos, erdvinės arba
+                          personalinės (vienos rūšies iš išvardytų) abipusės
+                          vienalaikės stimulacijos įvertinimo sutrikimas
+                        </option>
+                        <option value="2">
+                          2 – Sunkus vienpusis arba daugiau kaip vienos rūšies abipusės
+                          stimulacijos sutrikimas; nepažįsta savo rankos arba
+                          orientuojasi tik vienoje erdvės pusėje
+                        </option>
                       </select>
                     </label>
                   </div>
@@ -1327,6 +1527,8 @@ Kontraindikacijos trombektomijai</summary>
             </fieldset>
           </form>
         </section>
+
+
 
 
                 <!-- mRS -->

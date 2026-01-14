@@ -5,6 +5,28 @@ const MS_PER_HOUR = 36e5;
 const IVT_WINDOW_HOURS = 4.5;
 const PERFUSION_WINDOW_HOURS = 9;
 const MTE_WINDOW_HOURS = 24;
+const EMS_SOURCES = new Set(['home_ems', 'gp_ems']);
+const TRANSFER_SOURCES = new Set(['stroke_center', 'other_hospital']);
+
+function setVisibility(el, show) {
+  if (!el) return;
+  el.classList.toggle('hidden', !show);
+}
+
+function clearRadioGroup(nodes) {
+  nodes.forEach((n) => {
+    if (n.checked) {
+      n.checked = false;
+      n.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+  });
+}
+
+function clearInputValue(el) {
+  if (!el || !el.value) return;
+  el.value = '';
+  el.dispatchEvent(new Event('input', { bubbles: true }));
+}
 
 export function timeSince(onset) {
   const start = new Date(onset).getTime();
@@ -159,8 +181,10 @@ export function initSymptomButtons() {
 }
 
 function initEmsPrenotify() {
-  const emsCheckbox = $('#arrival_ems_prenotify');
-  if (!emsCheckbox) return;
+  const emsYes = $('#arrival_ems_prenotify_yes');
+  const emsGroup = $('#arrival_ems_prenotify_group');
+  const emsRadios = $$('input[name="arrival_ems_prenotify"]');
+  if (!emsYes || !emsGroup) return;
 
   const activationSelectors = [
     '#a_gmp_time',
@@ -196,9 +220,11 @@ function initEmsPrenotify() {
     );
 
   const update = () => {
-    if (hasActivationData()) {
-      emsCheckbox.checked = true;
-    }
+    if (emsGroup.classList.contains('hidden')) return;
+    if (!hasActivationData()) return;
+    if (emsRadios.some((r) => r.checked)) return;
+    emsYes.checked = true;
+    emsYes.dispatchEvent(new Event('change', { bubbles: true }));
   };
 
   activationSelectors.forEach((sel) => {
@@ -208,6 +234,29 @@ function initEmsPrenotify() {
       el.addEventListener(event, update);
     });
   });
+  update();
+}
+
+function initArrivalSourceDetails() {
+  const sourceRadios = $$('input[name="arrival_source"]');
+  const emsGroup = $('#arrival_ems_prenotify_group');
+  const emsRadios = $$('input[name="arrival_ems_prenotify"]');
+  const firstHospitalGroup = $('#arrival_first_hospital_group');
+  const firstHospitalInput = $('#arrival_first_hospital');
+
+  const update = () => {
+    const source = sourceRadios.find((r) => r.checked)?.value;
+    const showEms = EMS_SOURCES.has(source);
+    const showTransfer = TRANSFER_SOURCES.has(source);
+
+    setVisibility(emsGroup, showEms);
+    if (!showEms) clearRadioGroup(emsRadios);
+
+    setVisibility(firstHospitalGroup, showTransfer);
+    if (!showTransfer) clearInputValue(firstHospitalInput);
+  };
+
+  sourceRadios.forEach((r) => r.addEventListener('change', update));
   update();
 }
 
@@ -222,6 +271,7 @@ export function initArrival() {
   $$('input[name="lkw_type"]').forEach((r) =>
     r.addEventListener('change', updateAll),
   );
+  initArrivalSourceDetails();
   initSymptomButtons();
   initEmsPrenotify();
   updateAll();

@@ -139,7 +139,13 @@ export const FIELD_DEFS = [
     get: getRadioValue,
     set: (nodes, value) => setRadioValue(nodes, value || ''),
   },
-  booleanField('arrival_ems_prenotify', 'arrival_ems_prenotify'),
+  {
+    key: 'arrival_ems_prenotify',
+    selector: 'arrival_ems_prenotify',
+    get: getRadioValue,
+    set: (nodes, value) => setRadioValue(nodes, value || ''),
+  },
+  { key: 'arrival_first_hospital', selector: 'arrival_first_hospital' },
   {
     key: 'arrival_symptoms',
     selector: 'arrival_symptoms',

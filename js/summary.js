@@ -206,7 +206,7 @@ export function summaryTemplate({
   lines.push(`- Trombolizė pradėta: ${times.thrombolysis ?? '—'}`);
 
   if (thrombolysisLocation)
-    lines.push(`- Trombolize atlikta: ${thrombolysisLocation}`);
+    lines.push(`- Trombolizė atlikta: ${thrombolysisLocation}`);
   lines.push('VAISTAI:');
   const drugType = drugs.type === 'tnk' ? 'Tenekteplazė' : 'Alteplazė';
   lines.push(`- Tipas: ${drugType}`);
@@ -266,14 +266,14 @@ export function summaryTemplate({
   }
 
   lines.push('SPRENDIMAS:');
-  lines.push(`- ${decision ?? '�?"'}`);
+  lines.push(`- ${decision ?? '—'}`);
   if (nextCare) {
     const nextCareLabel =
-      nextCare === 'stationary' ? 'Stacionarizacija' : 'Perve�imas';
+      nextCare === 'stationary' ? 'Stacionarizacija' : 'Pervežimas';
     lines.push(`- Tolimesnis gydymas: ${nextCareLabel}`);
   }
   if (department) lines.push(`- Stacionarizacija: ${department}`);
-  if (transferInfo) lines.push(`- Perve�imas: ${transferInfo}`);
+  if (transferInfo) lines.push(`- Pervežimas: ${transferInfo}`);
   return lines.join('\n');
 }
 

@@ -16,36 +16,87 @@
 
             <fieldset>
               <legend>Kaip atvyko pacientas</legend>
-              <div class="grid-3">
+              <div class="grid-2">
                 <label class="pill"
                   ><input
                     type="radio"
                     name="arrival_source"
-                    value="EMS"
+                    value="home_ems"
                   />
-                  Greitoji medicinos pagalba (GMP)</label
+                  Iš namų / įvykio vietos su GMP</label
                 >
                 <label class="pill"
                   ><input
                     type="radio"
                     name="arrival_source"
-                    value="Private"
+                    value="home_private"
                   />
-                  Privatus transportas</label
+                  Iš namų / įvykio vietos privačiu transportu</label
                 >
                 <label class="pill"
                   ><input
                     type="radio"
                     name="arrival_source"
-                    value="OtherHospital"
+                    value="stroke_center"
                   />
-                  Kitas ligoninės skyrius / centras</label
+                  Iš kito insultą gydančio centro</label
+                >
+                <label class="pill"
+                  ><input
+                    type="radio"
+                    name="arrival_source"
+                    value="gp_ems"
+                  />
+                  Iš šeimos gydytojo / ambulatorijos su GMP</label
+                >
+                <label class="pill"
+                  ><input
+                    type="radio"
+                    name="arrival_source"
+                    value="gp_private"
+                  />
+                  Iš šeimos gydytojo / ambulatorijos privačiu transportu</label
+                >
+                <label class="pill"
+                  ><input
+                    type="radio"
+                    name="arrival_source"
+                    value="other_hospital"
+                  />
+                  Iš kitos ligoninės</label
                 >
               </div>
-              <label class="pill mt-6">
-                <input id="arrival_ems_prenotify" type="checkbox" />
-                GMP iš anksto pranešė
-              </label>
+              <div id="arrival_ems_prenotify_group" class="mt-6 hidden">
+                <label>Ar ligoninei iš anksto pranešė GMP?</label>
+                <div class="grid-2">
+                  <label class="pill"
+                    ><input
+                      id="arrival_ems_prenotify_yes"
+                      type="radio"
+                      name="arrival_ems_prenotify"
+                      value="yes"
+                    />
+                    Taip</label
+                  >
+                  <label class="pill"
+                    ><input
+                      id="arrival_ems_prenotify_no"
+                      type="radio"
+                      name="arrival_ems_prenotify"
+                      value="no"
+                    />
+                    Ne</label
+                  >
+                </div>
+              </div>
+              <div id="arrival_first_hospital_group" class="mt-6 hidden">
+                <label for="arrival_first_hospital">Pirmosios hospitalizacijos ligoninė</label>
+                <input
+                  id="arrival_first_hospital"
+                  type="text"
+                  placeholder="Įveskite ligoninės pavadinimą"
+                />
+              </div>
             </fieldset>
 
 
@@ -534,3 +585,4 @@
             </div>
           </form>
         </section>
+

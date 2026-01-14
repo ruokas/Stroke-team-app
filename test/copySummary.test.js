@@ -125,6 +125,7 @@ test('copySummary builds data object and copies formatted text', async () => {
       perfCore: null,
       perfPenumbra: null,
     },
+    thrombolysisLocation: null,
   });
 
   const expected = summaryTemplate(data);

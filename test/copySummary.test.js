@@ -68,6 +68,7 @@ test('copySummary builds data object and copies formatted text', async () => {
       bp: '120/80',
       inr: null,
       nih0: '0',
+      mrs: null,
       independent: null,
     },
     times: {

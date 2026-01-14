@@ -554,36 +554,47 @@
                   Nežinoma</label
                 >
                 <label class="pill"
-                  ><input type="radio" name="lkw_type" value="sleep" /> Miego
-                  vidurio laikas</label
+                  ><input type="radio" name="lkw_type" value="sleep" /> Insultas
+                  prabudus (Wake up stroke)</label
                 >
               </div>
               
 <div class="row mt-4" id="lkwTimeRow">
   <div class="input-group">
+    <input id="t_lkw" type="hidden" />
     <input
-      id="t_lkw"
+      id="t_lkw_date"
       class="time-input"
-      type="datetime-local"
-      placeholder="YYYY-MM-DD HH:MM"
+      type="date"
+      placeholder="YYYY-MM-DD"
+      aria-label="Data"
+    />
+    <input
+      id="t_lkw_time"
+      class="time-input"
+      type="time"
+      placeholder="HH:MM"
       step="60"
+      aria-label="Laikas"
     />
       
     <button
       type="button"
       class="btn ghost"
-      data-stepdown="t_lkw"
-      aria-label="−5 min"
+      data-setdate="t_lkw_date"
+      data-day="today"
+      aria-label="Šiandien"
     >
-      −5
+      Šiandien
     </button>
     <button
       type="button"
       class="btn ghost"
-      data-stepup="t_lkw"
-      aria-label="+5 min"
+      data-setdate="t_lkw_date"
+      data-day="yesterday"
+      aria-label="Vakar"
     >
-      +5
+      Vakar
     </button>
   </div>
 </div>
@@ -594,29 +605,40 @@
                   
 <div class="">
   <div class="input-group">
+    <input id="t_sleep_start" type="hidden" />
     <input
-      id="t_sleep_start"
+      id="t_sleep_start_date"
       class="time-input"
-      type="datetime-local"
-      placeholder="YYYY-MM-DD HH:MM"
+      type="date"
+      placeholder="YYYY-MM-DD"
+      aria-label="Data"
+    />
+    <input
+      id="t_sleep_start_time"
+      class="time-input"
+      type="time"
+      placeholder="HH:MM"
       step="60"
+      aria-label="Laikas"
     />
       
     <button
       type="button"
       class="btn ghost"
-      data-stepdown="t_sleep_start"
-      aria-label="−5 min"
+      data-setdate="t_sleep_start_date"
+      data-day="today"
+      aria-label="Šiandien"
     >
-      −5
+      Šiandien
     </button>
     <button
       type="button"
       class="btn ghost"
-      data-stepup="t_sleep_start"
-      aria-label="+5 min"
+      data-setdate="t_sleep_start_date"
+      data-day="yesterday"
+      aria-label="Vakar"
     >
-      +5
+      Vakar
     </button>
   </div>
 </div>
@@ -627,29 +649,40 @@
                   
 <div class="">
   <div class="input-group">
+    <input id="t_sleep_end" type="hidden" />
     <input
-      id="t_sleep_end"
+      id="t_sleep_end_date"
       class="time-input"
-      type="datetime-local"
-      placeholder="YYYY-MM-DD HH:MM"
+      type="date"
+      placeholder="YYYY-MM-DD"
+      aria-label="Data"
+    />
+    <input
+      id="t_sleep_end_time"
+      class="time-input"
+      type="time"
+      placeholder="HH:MM"
       step="60"
+      aria-label="Laikas"
     />
       
     <button
       type="button"
       class="btn ghost"
-      data-stepdown="t_sleep_end"
-      aria-label="−5 min"
+      data-setdate="t_sleep_end_date"
+      data-day="today"
+      aria-label="Šiandien"
     >
-      −5
+      Šiandien
     </button>
     <button
       type="button"
       class="btn ghost"
-      data-stepup="t_sleep_end"
-      aria-label="+5 min"
+      data-setdate="t_sleep_end_date"
+      data-day="yesterday"
+      aria-label="Vakar"
     >
-      +5
+      Vakar
     </button>
   </div>
 </div>

@@ -37,6 +37,29 @@ export function setNow(id) {
   triggerChange(el);
 }
 
+export function setDateOffset(id, offsetDays) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const now = new Date();
+  const base = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  base.setDate(base.getDate() + offsetDays);
+
+  const y = base.getFullYear();
+  const m = pad(base.getMonth() + 1);
+  const d = pad(base.getDate());
+  const timePart = el.value.includes('T') ? el.value.split('T')[1] : '';
+  const timeValue = timePart ? timePart.slice(0, 5) : '';
+
+  if (el.type === 'date') {
+    el.value = `${y}-${m}-${d}`;
+  } else if (el.type === 'datetime-local') {
+    const time = timeValue || '00:00';
+    el.value = `${y}-${m}-${d}T${time}`;
+  }
+
+  triggerChange(el);
+}
+
 export function sleepMidpoint(start, end) {
   const pair = normalizePair(start, end);
   if (!pair) return '';

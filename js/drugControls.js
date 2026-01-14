@@ -4,6 +4,20 @@ import { setNow } from './time.js';
 export function setupDrugControls(inputs) {
   const startThrombolysisBtn = document.getElementById('startThrombolysis');
   const thrombolysisRow = document.getElementById('thrombolysisStartRow');
+  const thrombolysisLocationRow = document.getElementById(
+    'thrombolysisLocationRow',
+  );
+  if (
+    !startThrombolysisBtn ||
+    !inputs?.def_tnk ||
+    !inputs?.def_tpa ||
+    !inputs?.drugType ||
+    !inputs?.weight ||
+    !inputs?.ct_result ||
+    !inputs?.p_independent
+  ) {
+    return;
+  }
 
   const toggleStartBtn = () => {
     if (!startThrombolysisBtn) return;
@@ -57,7 +71,12 @@ export function setupDrugControls(inputs) {
 
   startThrombolysisBtn.addEventListener('click', () => {
     setNow('t_thrombolysis');
-    thrombolysisRow.classList.remove('hidden');
+    if (thrombolysisRow) {
+      thrombolysisRow.classList.remove('hidden');
+    }
+    if (thrombolysisLocationRow) {
+      thrombolysisLocationRow.classList.remove('hidden');
+    }
   });
 
   toggleStartBtn();

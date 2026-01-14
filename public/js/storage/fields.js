@@ -118,6 +118,12 @@ export const FIELD_DEFS = [
     get: getCheckboxList,
     set: setCheckboxList,
   },
+  {
+    key: 'thrombolysis_location',
+    selector: 'thrombolysis_location',
+    get: getRadioValue,
+    set: (nodes, value) => setRadioValue(nodes, value || ''),
+  },
   { key: 'perf_core', selector: 'perf_core' },
   { key: 'perf_penumbra', selector: 'perf_penumbra' },
   {
@@ -133,7 +139,13 @@ export const FIELD_DEFS = [
     get: getRadioValue,
     set: (nodes, value) => setRadioValue(nodes, value || ''),
   },
-  booleanField('arrival_ems_prenotify', 'arrival_ems_prenotify'),
+  {
+    key: 'arrival_ems_prenotify',
+    selector: 'arrival_ems_prenotify',
+    get: getRadioValue,
+    set: (nodes, value) => setRadioValue(nodes, value || ''),
+  },
+  { key: 'arrival_first_hospital', selector: 'arrival_first_hospital' },
   {
     key: 'arrival_symptoms',
     selector: 'arrival_symptoms',

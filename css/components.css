@@ -1067,6 +1067,13 @@ details .card {
 .section-actions > .btn {
   margin-left: auto;
 }
+.section-actions > .btn.full-width {
+  margin-left: 0;
+}
+.btn.full-width {
+  width: 100%;
+  justify-content: center;
+}
 .section-actions .mini {
   max-width: 52rem;
 }

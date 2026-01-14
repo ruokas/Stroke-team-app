@@ -18,5 +18,8 @@ export function setupBpHandlers() {
   setupBpEntry();
   setupBpInput();
   const bpEntries = document.getElementById('bpEntries');
+  if (!bpEntries) {
+    return;
+  }
   bpEntries.addEventListener('click', handleBpEntriesClick);
 }

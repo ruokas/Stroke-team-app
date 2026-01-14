@@ -72,6 +72,7 @@ export function collectSummaryData(payload) {
   const nextCare = payload.d_next_care || null;
   const department = payload.d_department || null;
   const transferInfo = get(payload.d_transfer_info);
+  const thrombolysisLocation = get(payload.thrombolysis_location);
   const imaging = {
     ct: get(payload.ct_result),
     kta: get(payload.kta_result),
@@ -96,6 +97,7 @@ export function collectSummaryData(payload) {
     complications,
     compTime,
     imaging,
+    thrombolysisLocation,
   };
 }
 
@@ -115,6 +117,7 @@ export function summaryTemplate({
   complications,
   compTime,
   imaging = {},
+  thrombolysisLocation,
 }) {
   const lines = [];
   lines.push('PACIENTAS:');
@@ -202,6 +205,8 @@ export function summaryTemplate({
   lines.push(`- Sprendimas: ${times.decision ?? '—'}`);
   lines.push(`- Trombolizė pradėta: ${times.thrombolysis ?? '—'}`);
 
+  if (thrombolysisLocation)
+    lines.push(`- Trombolize atlikta: ${thrombolysisLocation}`);
   lines.push('VAISTAI:');
   const drugType = drugs.type === 'tnk' ? 'Tenekteplazė' : 'Alteplazė';
   lines.push(`- Tipas: ${drugType}`);

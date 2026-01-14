@@ -50,6 +50,7 @@ export const FIELD_DEFS = [
     set: (nodes, value) => setRadioValue(nodes, value || ''),
   },
   { key: 'p_nihss0', selector: 'nih0', alias: ['nihs_initial'] },
+  { key: 'p_mrs', selector: 'mrs' },
   { key: 't_lkw', selector: 'lkw' },
   { key: 't_lkw_date', selector: 'lkw_date' },
   { key: 't_lkw_time', selector: 'lkw_time' },

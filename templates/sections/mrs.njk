@@ -1,0 +1,70 @@
+        <!-- mRS -->
+        <section
+          id="mrs"
+          class="card hidden"
+          role="tabpanel"
+          aria-labelledby="mrs-tab"
+        >
+          <h2>Modifikuota Rankino skale (mRS)</h2>
+          <form>
+            <fieldset class="mrs-layout">
+              <div class="mrs-score">
+                <label for="p_mrs">mRS</label>
+                <input id="p_mrs" type="number" min="0" max="6" />
+              </div>
+              <div class="card mrs-calc" data-target="p_mrs">
+                <div class="mrs-options">
+                  <label class="mrs-option">
+                    <input type="radio" name="mrs_score" value="0" />
+                    <span>0 Nėra simptomų</span>
+                  </label>
+                  <label class="mrs-option">
+                    <input type="radio" name="mrs_score" value="1" />
+                    <span
+                      >1 Nėra reikšmingų invalidumo požymių nepaisant
+                      simptomų; gali vykdyti visas ankstesnes gyvenimo ir darbo
+                      funkcijas</span
+                    >
+                  </label>
+                  <label class="mrs-option">
+                    <input type="radio" name="mrs_score" value="2" />
+                    <span
+                      >2 Lengvas neįgalumas; negali dirbti ankstesnio
+                      įprastinio darbo, bet gali apsitarnauti be kitų
+                      pagalbos</span
+                    >
+                  </label>
+                  <label class="mrs-option">
+                    <input type="radio" name="mrs_score" value="3" />
+                    <span
+                      >3 Vidutinis neįgalumas, reikalinga dalinė pagalba, bet
+                      gali eiti be kitų pagalbos</span
+                    >
+                  </label>
+                  <label class="mrs-option">
+                    <input type="radio" name="mrs_score" value="4" />
+                    <span
+                      >4 Vidutiniškai sunkus neįgalumas, negali eiti bei
+                      apsitarnauti be kitų pagalbos</span
+                    >
+                  </label>
+                  <label class="mrs-option">
+                    <input type="radio" name="mrs_score" value="5" />
+                    <span
+                      >5 Sunkus neįgalumas, prikaustytas prie lovos, sutrikusi
+                      dubens organų funkcija, reikalinga nuolatinė priežiūra ir
+                      slauga</span
+                    >
+                  </label>
+                  <label class="mrs-option">
+                    <input type="radio" name="mrs_score" value="6" />
+                    <span>6 Mirė</span>
+                  </label>
+                </div>
+                <div class="mrs-actions">
+                  <strong>Viso: <span class="mrs-total">0</span></strong>
+                </div>
+              </div>
+            </fieldset>
+          </form>
+        </section>

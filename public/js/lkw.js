@@ -1,9 +1,62 @@
 import { sleepMidpoint, triggerChange } from './time.js';
 
+function setupSplitDateTime({ dateId, timeId, hiddenId }) {
+  const dateEl = document.getElementById(dateId);
+  const timeEl = document.getElementById(timeId);
+  const hiddenEl = document.getElementById(hiddenId);
+  if (!dateEl || !timeEl || !hiddenEl) return;
+
+  const syncVisible = () => {
+    const value = hiddenEl.value || '';
+    if (!value) {
+      dateEl.value = '';
+      timeEl.value = '';
+      return;
+    }
+    const [datePart, timePart] = value.split('T');
+    if (datePart) dateEl.value = datePart;
+    if (timePart) timeEl.value = timePart.slice(0, 5);
+  };
+
+  const syncHidden = () => {
+    const dateVal = dateEl.value;
+    const timeVal = timeEl.value;
+    let next = '';
+    if (dateVal) {
+      next = timeVal ? `${dateVal}T${timeVal}` : dateVal;
+    }
+    if (hiddenEl.value !== next) {
+      hiddenEl.value = next;
+      triggerChange(hiddenEl);
+    }
+  };
+
+  dateEl.addEventListener('input', syncHidden);
+  timeEl.addEventListener('input', syncHidden);
+  hiddenEl.addEventListener('input', syncVisible);
+  hiddenEl.addEventListener('change', syncVisible);
+  syncVisible();
+}
+
 export function setupLkw(inputs) {
   if (!inputs) return;
   const lkwOptions = inputs.lkw_type || [];
   if (!Array.isArray(lkwOptions) || lkwOptions.length === 0) return;
+  setupSplitDateTime({
+    dateId: 't_lkw_date',
+    timeId: 't_lkw_time',
+    hiddenId: 't_lkw',
+  });
+  setupSplitDateTime({
+    dateId: 't_sleep_start_date',
+    timeId: 't_sleep_start_time',
+    hiddenId: 't_sleep_start',
+  });
+  setupSplitDateTime({
+    dateId: 't_sleep_end_date',
+    timeId: 't_sleep_end_time',
+    hiddenId: 't_sleep_end',
+  });
   const lkwRow = document.getElementById('lkwTimeRow');
   const sleepRow = document.getElementById('sleepTimeRow');
   const updateSleepMid = () => {

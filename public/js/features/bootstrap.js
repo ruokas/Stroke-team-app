@@ -21,6 +21,7 @@ import { setupPillState } from '../pill.js';
 import { setupLkw } from '../lkw.js';
 import { setupDecision } from '../decision.js';
 import { initNIHSS } from '../nihss.js';
+import { initMRS } from '../mrs.js';
 import { initI18n } from '../i18n.js';
 import { initAnalytics, track } from '../analytics.js';
 import { initTheme, setupThemeToggle } from '../theme.js';
@@ -80,6 +81,7 @@ function bind() {
   });
 
   initNIHSS();
+  initMRS();
   updateDrugDefaults();
   updateAge();
   initActivation();

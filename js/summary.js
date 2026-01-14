@@ -19,6 +19,7 @@ export function collectSummaryData(payload) {
     bp: formatBp(payload.p_bp_sys, payload.p_bp_dia),
     inr: get(payload.p_inr),
     nih0: get(payload.p_nihss0 ?? payload.nihs_initial),
+    mrs: get(payload.p_mrs),
     independent: get(independent),
   };
   const times = {
@@ -125,6 +126,7 @@ export function summaryTemplate({
   lines.push(`- AKS atvykus: ${patient.bp ?? '—'}`);
   if (patient.inr) lines.push(`- INR: ${patient.inr}`);
   lines.push(`- NIHSS pradinis: ${patient.nih0 ?? '—'}`);
+  if (patient.mrs) lines.push(`- mRS pradinis: ${patient.mrs}`);
   if (patient.independent)
     lines.push(
       `- Savarankiškas kasdienėje veikloje: ${

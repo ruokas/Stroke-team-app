@@ -22,6 +22,7 @@ const selectorMap = {
   inr: ['#p_inr'],
   p_independent: ['input[name="p_independent"]', true],
   nih0: ['#p_nihss0'],
+  mrs: ['#p_mrs'],
   lkw: ['#t_lkw'],
   lkw_date: ['#t_lkw_date'],
   lkw_time: ['#t_lkw_time'],

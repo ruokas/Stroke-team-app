@@ -979,6 +979,45 @@ details .card {
   align-items: center;
   margin-top: 8px;
 }
+.mrs-layout {
+  display: grid;
+  gap: 8px;
+}
+
+.mrs-score {
+  width: 150px;
+}
+
+.mrs-calc {
+  margin-top: 8px;
+}
+
+.mrs-options {
+  display: grid;
+  gap: 8px;
+}
+
+.mrs-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--card);
+  cursor: pointer;
+}
+
+.mrs-option input {
+  margin-top: 2px;
+}
+
+.mrs-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
 .split-grid {
   display: grid;
   gap: 16px;

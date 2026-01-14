@@ -21,8 +21,6 @@ function readEnvValue(name) {
 
 export function getApiBase() {
   return (
-    readWindowValue('API_BASE') ||
-    readEnvValue('API_BASE') ||
-    DEFAULT_API_BASE
+    readWindowValue('API_BASE') || readEnvValue('API_BASE') || DEFAULT_API_BASE
   );
 }

@@ -14,6 +14,10 @@ function buildHintText(el) {
   return hints.join(' • ');
 }
 
+function isFormField(el) {
+  return ['INPUT', 'SELECT', 'TEXTAREA'].includes(el.tagName);
+}
+
 function positionHint(el, hintEl) {
   const rect = el.getBoundingClientRect();
   const scrollX = window.scrollX || window.pageXOffset;
@@ -47,31 +51,50 @@ export function setupFieldHints() {
       return;
     }
     activeEl = el;
+    if (el.classList.contains('info-btn')) el.setAttribute('aria-expanded', 'true');
     hintEl.textContent = hint;
     hintEl.classList.remove('hidden');
     positionHint(el, hintEl);
   };
 
   const hide = () => {
+    if (activeEl && activeEl.classList && activeEl.classList.contains('info-btn')) {
+      activeEl.setAttribute('aria-expanded', 'false');
+    }
     activeEl = null;
     hintEl.classList.add('hidden');
   };
 
   const onFocusIn = (e) => {
     const el = e.target;
-    if (
-      !el ||
-      !['INPUT', 'SELECT', 'TEXTAREA'].includes(el.tagName) ||
-      el.type === 'hidden' ||
-      el.readOnly
-    ) {
+    if (!el || !isFormField(el) || el.type === 'hidden' || el.readOnly) {
       return;
     }
     show(el);
   };
 
   const onFocusOut = (e) => {
-    if (e.target === activeEl) hide();
+    if (e.target === activeEl && activeEl && isFormField(activeEl)) hide();
+  };
+
+  const onClick = (e) => {
+    if (hintEl.contains(e.target)) return;
+    const btn = e.target.closest('.info-btn');
+    if (!btn) {
+      if (activeEl && !hintEl.classList.contains('hidden')) hide();
+      return;
+    }
+    e.preventDefault();
+    e.stopPropagation();
+    if (activeEl === btn && !hintEl.classList.contains('hidden')) {
+      hide();
+      return;
+    }
+    show(btn);
+  };
+
+  const onKeyDown = (e) => {
+    if (e.key === 'Escape' && activeEl) hide();
   };
 
   const onReposition = () => {
@@ -82,6 +105,8 @@ export function setupFieldHints() {
 
   document.addEventListener('focusin', onFocusIn);
   document.addEventListener('focusout', onFocusOut);
+  document.addEventListener('click', onClick);
+  document.addEventListener('keydown', onKeyDown);
   window.addEventListener('resize', onReposition);
   window.addEventListener('scroll', onReposition, true);
 
@@ -89,6 +114,8 @@ export function setupFieldHints() {
     cleanup: () => {
       document.removeEventListener('focusin', onFocusIn);
       document.removeEventListener('focusout', onFocusOut);
+      document.removeEventListener('click', onClick);
+      document.removeEventListener('keydown', onKeyDown);
       window.removeEventListener('resize', onReposition);
       window.removeEventListener('scroll', onReposition, true);
       hintEl.remove();

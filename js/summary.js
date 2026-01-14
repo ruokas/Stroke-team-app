@@ -19,6 +19,7 @@ export function collectSummaryData(payload) {
     bp: formatBp(payload.p_bp_sys, payload.p_bp_dia),
     inr: get(payload.p_inr),
     nih0: get(payload.p_nihss0 ?? payload.nihs_initial),
+    mrs: get(payload.p_mrs),
     independent: get(independent),
   };
   const times = {
@@ -71,9 +72,12 @@ export function collectSummaryData(payload) {
   const nextCare = payload.d_next_care || null;
   const department = payload.d_department || null;
   const transferInfo = get(payload.d_transfer_info);
+  const thrombolysisLocation = get(payload.thrombolysis_location);
   const imaging = {
     ct: get(payload.ct_result),
     kta: get(payload.kta_result),
+    ktaSide: get(payload.kta_side),
+    ktaVessels: get(payload.kta_vessels),
     perfCore: get(payload.perf_core),
     perfPenumbra: get(payload.perf_penumbra),
   };
@@ -93,6 +97,7 @@ export function collectSummaryData(payload) {
     complications,
     compTime,
     imaging,
+    thrombolysisLocation,
   };
 }
 
@@ -112,6 +117,7 @@ export function summaryTemplate({
   complications,
   compTime,
   imaging = {},
+  thrombolysisLocation,
 }) {
   const lines = [];
   lines.push('PACIENTAS:');
@@ -123,6 +129,7 @@ export function summaryTemplate({
   lines.push(`- AKS atvykus: ${patient.bp ?? '—'}`);
   if (patient.inr) lines.push(`- INR: ${patient.inr}`);
   lines.push(`- NIHSS pradinis: ${patient.nih0 ?? '—'}`);
+  if (patient.mrs) lines.push(`- mRS pradinis: ${patient.mrs}`);
   if (patient.independent)
     lines.push(
       `- Savarankiškas kasdienėje veikloje: ${
@@ -165,6 +172,10 @@ export function summaryTemplate({
     none: 'Be okliuzijos',
     lvo: 'Didelės arterijos okliuzija',
   };
+  const ktaSideMap = {
+    left: 'Kairė',
+    right: 'Dešinė',
+  };
   const perfParts = [];
   if (imaging.perfCore)
     perfParts.push(`Infarkto branduolys ${imaging.perfCore} ml`);
@@ -173,7 +184,17 @@ export function summaryTemplate({
   if (imaging.ct || imaging.kta || perfParts.length) {
     lines.push('VAIZDINIAI TYRIMAI:');
     if (imaging.ct) lines.push(`- KT: ${ctMap[imaging.ct] || imaging.ct}`);
-    if (imaging.kta) lines.push(`- KTA: ${ktaMap[imaging.kta] || imaging.kta}`);
+    if (imaging.kta) {
+      let ktaLabel = ktaMap[imaging.kta] || imaging.kta;
+      if (imaging.kta === 'lvo') {
+        const details = [];
+        const sideLabel = ktaSideMap[imaging.ktaSide];
+        if (sideLabel) details.push(sideLabel);
+        if (imaging.ktaVessels) details.push(imaging.ktaVessels);
+        if (details.length) ktaLabel += ` (${details.join('; ')})`;
+      }
+      lines.push(`- KTA: ${ktaLabel}`);
+    }
     if (perfParts.length) lines.push(`- Perfuzija: ${perfParts.join(', ')}`);
   }
 
@@ -184,6 +205,8 @@ export function summaryTemplate({
   lines.push(`- Sprendimas: ${times.decision ?? '—'}`);
   lines.push(`- Trombolizė pradėta: ${times.thrombolysis ?? '—'}`);
 
+  if (thrombolysisLocation)
+    lines.push(`- Trombolize atlikta: ${thrombolysisLocation}`);
   lines.push('VAISTAI:');
   const drugType = drugs.type === 'tnk' ? 'Tenekteplazė' : 'Alteplazė';
   lines.push(`- Tipas: ${drugType}`);

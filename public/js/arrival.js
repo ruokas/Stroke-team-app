@@ -203,7 +203,8 @@ function initEmsPrenotify() {
 
   activationSelectors.forEach((sel) => {
     $$(sel).forEach((el) => {
-      const event = el.type === 'checkbox' || el.type === 'radio' ? 'change' : 'input';
+      const event =
+        el.type === 'checkbox' || el.type === 'radio' ? 'change' : 'input';
       el.addEventListener(event, update);
     });
   });

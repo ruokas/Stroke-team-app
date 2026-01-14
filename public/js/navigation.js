@@ -48,7 +48,8 @@ export function setupNavigation(inputs) {
   const updateTabStatus = (section) => {
     const tab = tabs.find((t) => t.dataset.section === section.id);
     if (!tab) return;
-    const disabled = tab.classList.contains('disabled') || tab.hasAttribute('disabled');
+    const disabled =
+      tab.classList.contains('disabled') || tab.hasAttribute('disabled');
     tab.dataset.status = disabled ? 'disabled' : computeSectionStatus(section);
   };
 

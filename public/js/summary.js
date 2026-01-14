@@ -19,6 +19,7 @@ export function collectSummaryData(payload) {
     bp: formatBp(payload.p_bp_sys, payload.p_bp_dia),
     inr: get(payload.p_inr),
     nih0: get(payload.p_nihss0 ?? payload.nihs_initial),
+    mrs: get(payload.p_mrs),
     independent: get(independent),
   };
   const times = {
@@ -74,6 +75,8 @@ export function collectSummaryData(payload) {
   const imaging = {
     ct: get(payload.ct_result),
     kta: get(payload.kta_result),
+    ktaSide: get(payload.kta_side),
+    ktaVessels: get(payload.kta_vessels),
     perfCore: get(payload.perf_core),
     perfPenumbra: get(payload.perf_penumbra),
   };
@@ -123,6 +126,7 @@ export function summaryTemplate({
   lines.push(`- AKS atvykus: ${patient.bp ?? '—'}`);
   if (patient.inr) lines.push(`- INR: ${patient.inr}`);
   lines.push(`- NIHSS pradinis: ${patient.nih0 ?? '—'}`);
+  if (patient.mrs) lines.push(`- mRS pradinis: ${patient.mrs}`);
   if (patient.independent)
     lines.push(
       `- Savarankiškas kasdienėje veikloje: ${
@@ -165,6 +169,10 @@ export function summaryTemplate({
     none: 'Be okliuzijos',
     lvo: 'Didelės arterijos okliuzija',
   };
+  const ktaSideMap = {
+    left: 'Kairė',
+    right: 'Dešinė',
+  };
   const perfParts = [];
   if (imaging.perfCore)
     perfParts.push(`Infarkto branduolys ${imaging.perfCore} ml`);
@@ -173,7 +181,17 @@ export function summaryTemplate({
   if (imaging.ct || imaging.kta || perfParts.length) {
     lines.push('VAIZDINIAI TYRIMAI:');
     if (imaging.ct) lines.push(`- KT: ${ctMap[imaging.ct] || imaging.ct}`);
-    if (imaging.kta) lines.push(`- KTA: ${ktaMap[imaging.kta] || imaging.kta}`);
+    if (imaging.kta) {
+      let ktaLabel = ktaMap[imaging.kta] || imaging.kta;
+      if (imaging.kta === 'lvo') {
+        const details = [];
+        const sideLabel = ktaSideMap[imaging.ktaSide];
+        if (sideLabel) details.push(sideLabel);
+        if (imaging.ktaVessels) details.push(imaging.ktaVessels);
+        if (details.length) ktaLabel += ` (${details.join('; ')})`;
+      }
+      lines.push(`- KTA: ${ktaLabel}`);
+    }
     if (perfParts.length) lines.push(`- Perfuzija: ${perfParts.join(', ')}`);
   }
 
@@ -243,14 +261,14 @@ export function summaryTemplate({
   }
 
   lines.push('SPRENDIMAS:');
-  lines.push(`- ${decision ?? '�?"'}`);
+  lines.push(`- ${decision ?? '�?"'}`);
   if (nextCare) {
     const nextCareLabel =
-      nextCare === 'stationary' ? 'Stacionarizacija' : 'Perve�imas';
+      nextCare === 'stationary' ? 'Stacionarizacija' : 'Perve�imas';
     lines.push(`- Tolimesnis gydymas: ${nextCareLabel}`);
   }
   if (department) lines.push(`- Stacionarizacija: ${department}`);
-  if (transferInfo) lines.push(`- Perve�imas: ${transferInfo}`);
+  if (transferInfo) lines.push(`- Perve�imas: ${transferInfo}`);
   return lines.join('\n');
 }
 
@@ -377,6 +395,3 @@ export async function exportSummaryToDrive(data) {
     showToast(t('summary_drive_fail'), { type: 'error' });
   }
 }
-
-
-

@@ -1,4 +1,4 @@
-import { setNow, triggerChange } from './time.js';
+import { setDateOffset, setNow, triggerChange } from './time.js';
 
 export function setupTimeButtons() {
   document.addEventListener('click', (event) => {
@@ -13,10 +13,16 @@ export function handleTimeButton(target) {
   const button = target.closest('button');
   if (!button) return false;
 
-  const { now, stepup, stepdown, set, val } = button.dataset;
+  const { now, stepup, stepdown, set, val, setdate, day } = button.dataset;
 
   if (now !== undefined) {
     setNow(now);
+    return true;
+  }
+
+  if (setdate !== undefined) {
+    const offset = day === 'yesterday' ? -1 : 0;
+    setDateOffset(setdate, offset);
     return true;
   }
 

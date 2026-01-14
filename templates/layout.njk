@@ -11,12 +11,12 @@
           saved = localStorage.getItem('theme');
         } catch {}
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const preferred = saved || (prefersDark  'dark' : 'light');
+        const preferred = saved || (prefersDark ? 'dark' : 'light');
         document.documentElement.classList.add(preferred);
       })();
     </script>
     <link rel="stylesheet" href="css/style.css" />
-    <link rel="manifest" href="manifest.json" />
+    <link rel="manifest" href="manifest.json" crossorigin="use-credentials" />
   </head>
   <body>
     {% block content %}{% endblock %}
@@ -26,13 +26,13 @@
         const defaultApiBase =
           'https://gpyqtvisuddacmojuzxd.functions.supabase.co';
         const envApiBase =
-          typeof cfg.apiBase === 'string'  cfg.apiBase.trim() : '';
+          typeof cfg.apiBase === 'string' ? cfg.apiBase.trim() : '';
         if (!window.API_BASE) {
           window.API_BASE = envApiBase || defaultApiBase;
         }
         const anonKey =
           typeof cfg.supabaseAnonKey === 'string'
-             cfg.supabaseAnonKey.trim()
+            ? cfg.supabaseAnonKey.trim()
             : '';
         if (anonKey) {
           if (!window.SUPABASE_ANON_KEY) {
@@ -44,7 +44,7 @@
         }
         const projectUrl =
           typeof cfg.supabaseProjectUrl === 'string'
-             cfg.supabaseProjectUrl.trim()
+            ? cfg.supabaseProjectUrl.trim()
             : '';
         if (projectUrl && !window.SUPABASE_PROJECT_URL) {
           window.SUPABASE_PROJECT_URL = projectUrl;

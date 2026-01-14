@@ -17,6 +17,15 @@ let inputs = getInputs();
 function resetInputs() {
   inputs = getInputs();
   Object.values(inputs).forEach((el) => {
+    if (!el) return;
+    if (Array.isArray(el)) {
+      el.forEach((item) => {
+        if (!item) return;
+        if ('value' in item) item.value = '';
+        if ('checked' in item) item.checked = false;
+      });
+      return;
+    }
     if ('value' in el) el.value = '';
     if ('checked' in el) el.checked = false;
   });

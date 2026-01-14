@@ -39,6 +39,24 @@ export function initImaging() {
   });
 
   const ktaRadios = document.querySelectorAll('input[name="kta_result"]');
+  const ktaSideRow = document.getElementById('ktaSideRow');
+  const ktaVesselRow = document.getElementById('ktaVesselRow');
+  const ktaSideRadios = document.querySelectorAll('input[name="kta_side"]');
+
+  const updateKtaDetailsVisibility = () => {
+    const selected = Array.from(ktaRadios).find((radio) => radio.checked);
+    const isLvo = selected && selected.value === 'lvo';
+    if (ktaSideRow) ktaSideRow.classList.toggle('hidden', !isLvo);
+    if (!isLvo) {
+      if (ktaVesselRow) ktaVesselRow.classList.add('hidden');
+      return;
+    }
+    const sideSelected = Array.from(ktaSideRadios).some(
+      (radio) => radio.checked,
+    );
+    if (ktaVesselRow) ktaVesselRow.classList.toggle('hidden', !sideSelected);
+  };
+
   ktaRadios.forEach((radio) => {
     radio.addEventListener('change', () => {
       if (radio.checked && radio.value === 'lvo') {
@@ -46,6 +64,15 @@ export function initImaging() {
           type: 'warning',
         });
       }
+      updateKtaDetailsVisibility();
     });
   });
+
+  ktaSideRadios.forEach((radio) => {
+    radio.addEventListener('change', () => {
+      updateKtaDetailsVisibility();
+    });
+  });
+
+  updateKtaDetailsVisibility();
 }

@@ -2,7 +2,8 @@ import { getInputs } from './state.js';
 import { showToast } from './toast.js';
 import { t } from './i18n.js';
 
-const hasValue = (value) => value !== undefined && value !== null && value !== '';
+const hasValue = (value) =>
+  value !== undefined && value !== null && value !== '';
 
 export function collectSummaryData(payload) {
   const get = (v) => (hasValue(v) ? v : null);
@@ -130,26 +131,29 @@ export function getSummaryFilterOptions() {
   return options;
 }
 
-export function summaryTemplate({
-  patient,
-  times,
-  drugs,
-  decision,
-  nextCare,
-  department,
-  transferInfo,
-  bpMeds,
-  activation,
-  arrivalSymptoms,
-  arrivalContra,
-  arrivalMtContra,
-  arrivalSource,
-  arrivalPrenotify,
-  complications,
-  compTime,
-  imaging = {},
-  thrombolysisLocation,
-} = {}, options = getSummaryFilterOptions()) {
+export function summaryTemplate(
+  {
+    patient,
+    times,
+    drugs,
+    decision,
+    nextCare,
+    department,
+    transferInfo,
+    bpMeds,
+    activation,
+    arrivalSymptoms,
+    arrivalContra,
+    arrivalMtContra,
+    arrivalSource,
+    arrivalPrenotify,
+    complications,
+    compTime,
+    imaging = {},
+    thrombolysisLocation,
+  } = {},
+  options = getSummaryFilterOptions(),
+) {
   const lines = [];
   const unknown = t('summary_unknown');
   const withUnknown = (value) => (hasValue(value) ? value : unknown);
@@ -168,9 +172,7 @@ export function summaryTemplate({
   line('summary_label_personal', patient.personal);
   line('summary_label_dob', patient.dob);
   if (hasValue(patient.age)) line('summary_label_age', patient.age);
-  const weightText = hasValue(patient.weight)
-    ? `${patient.weight} kg`
-    : null;
+  const weightText = hasValue(patient.weight) ? `${patient.weight} kg` : null;
   line('summary_label_weight', weightText);
   line('summary_label_bp', patient.bp);
   if (hasValue(patient.inr)) line('summary_label_inr', patient.inr);
@@ -296,7 +298,8 @@ export function summaryTemplate({
   if (thrombolysisLocation)
     line('summary_time_thrombolysis_location', thrombolysisLocation);
   lines.push(t('summary_section_drugs'));
-  const drugType = drugs.type === 'tnk' ? t('summary_drug_tnk') : t('summary_drug_tpa');
+  const drugType =
+    drugs.type === 'tnk' ? t('summary_drug_tnk') : t('summary_drug_tpa');
   lines.push(t('summary_drug_type', { value: drugType }));
   const concLine = drugs.type === 'tnk' ? '5 mg/ml' : '1 mg/ml';
   lines.push(t('summary_drug_concentration', { value: concLine }));
@@ -378,6 +381,15 @@ export function summaryTemplate({
   }
   if (department) line('summary_department', department);
   if (transferInfo) line('summary_transfer', transferInfo);
+  lines.push('SPRENDIMAS:');
+  lines.push(`- ${decision ?? '—'}`);
+  if (nextCare) {
+    const nextCareLabel =
+      nextCare === 'stationary' ? 'Stacionarizacija' : 'Pervežimas';
+    lines.push(`- Tolimesnis gydymas: ${nextCareLabel}`);
+  }
+  if (department) lines.push(`- Stacionarizacija: ${department}`);
+  if (transferInfo) lines.push(`- Pervežimas: ${transferInfo}`);
   return lines.join('\n');
 }
 

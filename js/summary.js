@@ -381,6 +381,15 @@ export function summaryTemplate(
   }
   if (department) line('summary_department', department);
   if (transferInfo) line('summary_transfer', transferInfo);
+  lines.push('SPRENDIMAS:');
+  lines.push(`- ${decision ?? '—'}`);
+  if (nextCare) {
+    const nextCareLabel =
+      nextCare === 'stationary' ? 'Stacionarizacija' : 'Pervežimas';
+    lines.push(`- Tolimesnis gydymas: ${nextCareLabel}`);
+  }
+  if (department) lines.push(`- Stacionarizacija: ${department}`);
+  if (transferInfo) lines.push(`- Pervežimas: ${transferInfo}`);
   return lines.join('\n');
 }
 

@@ -12,10 +12,12 @@ test('complications translate after language change', async () => {
       const lang = match[1];
       const translations = {
         lt: {
+          summary_section_complications: 'KOMPLIKACIJOS:',
           comp_bleeding: 'Kraujavimas',
           comp_allergy: 'Alergija',
         },
         en: {
+          summary_section_complications: 'COMPLICATIONS:',
           comp_bleeding: 'Bleeding',
           comp_allergy: 'Allergy',
         },

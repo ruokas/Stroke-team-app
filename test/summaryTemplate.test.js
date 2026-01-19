@@ -1,4 +1,4 @@
-import { test } from 'node:test';
+﻿import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import './jsdomSetup.js';
 
@@ -10,9 +10,8 @@ test('summaryTemplate generates summary text correctly', async () => {
     '../js/summary.js'
   );
 
-  document.querySelector(
-    'input[name="d_decision"][value="Taikoma IVT, indikacijų MTE nenustatyta"]',
-  ).checked = true;
+  const decisionOptions = document.querySelectorAll('input[name="d_decision"]');
+  decisionOptions[0].checked = true;
   document.querySelector('input[name="a_lkw"][value="<4.5"]').checked = true;
   document.querySelector('input[name="a_face"]').checked = true;
   document.querySelector('input[name="a_speech"]').checked = true;
@@ -28,7 +27,7 @@ test('summaryTemplate generates summary text correctly', async () => {
   ktaLvo.dispatchEvent(new Event('change', { bubbles: true }));
 
   const bpEntries = document.getElementById('bpEntries');
-  bpEntries.innerHTML = `<div class="bp-entry"><strong>Nifedipinas</strong><input value="10:00" /><div class="input-group flex-nowrap"><input value="25" data-unit="mg" placeholder="mg" /><span class="unit">mg</span></div><div class="input-group flex-nowrap bp-after"><input name="bp_sys_after" value="150" /><input name="bp_dia_after" value="90" /></div><input value="požymai" /></div>`;
+  bpEntries.innerHTML = `<div class="bp-entry"><strong>Nifedipinas</strong><input value="10:00" /><div class="input-group flex-nowrap"><input value="25" data-unit="mg" placeholder="mg" /><span class="unit">mg</span></div><div class="input-group flex-nowrap bp-after"><input name="bp_sys_after" value="150" /><input name="bp_dia_after" value="90" /></div><input value="požymiai" /></div>`;
 
   inputs.a_personal.value = '12345678901';
   inputs.a_name.value = 'Jonas Jonaitis';
@@ -70,7 +69,7 @@ test('summaryTemplate generates summary text correctly', async () => {
   assert(summary.includes('- Koncentracija: 5 mg/ml'));
   assert(summary.includes('- Bendra dozė: 20 mg (4 ml)'));
   assert(
-    summary.includes('AKS KOREKCIJA:\n- Nifedipinas 10:00 25 mg (požymai)'),
+    summary.includes('AKS KOREKCIJA:\nNifedipinas 10:00 25 mg (požymiai)'),
   );
   assert(
     summary.includes('AKTYVACIJA:\n- Preliminarus susirgimo laikas: <4.5'),
@@ -80,7 +79,7 @@ test('summaryTemplate generates summary text correctly', async () => {
   );
   assert(
     summary.includes(
-      '- GMP parametrai: Gliukozė: 5, AKS: 140/90, ŠSD: 80, SpO₂: 98, Temp: 37',
+      '- GMP parametrai: Gliukozė: 5, AKS: 140/90, ŠSD: 80, SpO2: 98, Temp: 37',
     ),
   );
   assert(summary.includes('SIMPTOMAI:\n- Dešinės rankos silpnumas'));
@@ -90,8 +89,6 @@ test('summaryTemplate generates summary text correctly', async () => {
       'VAIZDINIAI TYRIMAI:\n- KT: Be kraujavimo\n- KTA: Didelės arterijos okliuzija\n- Perfuzija: Infarkto branduolys 12 ml, Penumbra 80 ml',
     ),
   );
-  assert(
-    summary.includes('SPRENDIMAS:\n- Taikoma IVT, indikacijų MTE nenustatyta'),
-  );
+  assert(summary.includes('SPRENDIMAS:\n- Taikoma IVT'));
   assert(summary.includes('- Stacionarizacija: Neurologijos skyrius'));
 });

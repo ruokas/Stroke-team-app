@@ -1,4 +1,4 @@
-import { test } from 'node:test';
+﻿import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import './jsdomSetup.js';
 
@@ -8,6 +8,8 @@ test('independent fields sync and appear in summary', async () => {
   const { collectSummaryData, summaryTemplate } = await import(
     '../js/summary.js'
   );
+  const { initI18n } = await import('../js/i18n.js');
+  await initI18n();
 
   const aYes = document.querySelector(
     'input[name="a_independent"][value="yes"]',
@@ -26,5 +28,5 @@ test('independent fields sync and appear in summary', async () => {
 
   const data = collectSummaryData(payload);
   const summary = summaryTemplate(data);
-  assert(summary.includes('Savarankiškas kasdienėje veikloje: yes'));
+  assert(summary.includes('Savarankiškas kasdienėje veikloje: Taip'));
 });

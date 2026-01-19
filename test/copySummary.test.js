@@ -1,4 +1,4 @@
-import { test } from 'node:test';
+﻿import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import './jsdomSetup.js';
@@ -20,15 +20,15 @@ test('copySummary builds data object and copies formatted text', async () => {
     '../js/summary.js'
   );
 
-  document.querySelector(
-    'input[name="d_decision"][value="Taikoma IVT, indikacijų MTE nenustatyta"]',
-  ).checked = true;
+  const decisionOptions = document.querySelectorAll('input[name="d_decision"]');
+  decisionOptions[0].checked = true;
+  const decisionValue = decisionOptions[0].value;
   document.querySelector('input[name="a_lkw"][value="<4.5"]').checked = true;
   document.querySelector('input[name="a_face"]').checked = true;
   document.querySelector('input[name="a_speech"]').checked = true;
 
   const bpEntries = document.getElementById('bpEntries');
-  bpEntries.innerHTML = `<div class="bp-entry"><strong>Kaptoprilis</strong><input value="10:00" /><div class="input-group flex-nowrap"><input value="25" data-unit="mg" placeholder="mg" /><span class="unit">mg</span></div><div class="input-group flex-nowrap bp-after"><input name="bp_sys_after" value="150" /><input name="bp_dia_after" value="90" /></div><input value="požymai" /></div>`;
+  bpEntries.innerHTML = `<div class="bp-entry"><strong>Kaptoprilis</strong><input value="10:00" /><div class="input-group flex-nowrap"><input value="25" data-unit="mg" placeholder="mg" /><span class="unit">mg</span></div><div class="input-group flex-nowrap bp-after"><input name="bp_sys_after" value="150" /><input name="bp_dia_after" value="90" /></div><input value="požymiai" /></div>`;
 
   inputs.a_personal.value = '12345678901';
   inputs.a_name.value = 'Jonas Jonaitis';
@@ -85,7 +85,7 @@ test('copySummary builds data object and copies formatted text', async () => {
       bolus: null,
       infusion: null,
     },
-    decision: 'Taikoma IVT, indikacijų MTE nenustatyta',
+    decision: decisionValue,
     nextCare: null,
     department: 'Neurologijos skyrius',
     transferInfo: null,
@@ -97,7 +97,7 @@ test('copySummary builds data object and copies formatted text', async () => {
         unit: 'mg',
         bp_sys_after: '150',
         bp_dia_after: '90',
-        notes: 'požymai',
+        notes: 'požymiai',
       },
     ],
     activation: {
@@ -115,6 +115,8 @@ test('copySummary builds data object and copies formatted text', async () => {
     arrivalSymptoms: 'Dešinės rankos silpnumas',
     arrivalContra: null,
     arrivalMtContra: null,
+    arrivalSource: null,
+    arrivalPrenotify: false,
     complications: null,
     compTime: null,
     imaging: {

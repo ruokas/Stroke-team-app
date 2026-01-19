@@ -48,6 +48,7 @@ const selectorMap = {
   kta_result: ['input[name="kta_result"]', true],
   kta_side: ['input[name="kta_side"]', true],
   kta_vessels: ['input[name="kta_vessels"]', true],
+  thrombolysis_location: ['input[name="thrombolysis_location"]', true],
   perf_core: ['#perf_core'],
   perf_penumbra: ['#perf_penumbra'],
   drugType: ['#drug_type'],

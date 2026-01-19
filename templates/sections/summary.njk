@@ -5,33 +5,70 @@
           role="tabpanel"
           aria-labelledby="summarySec-tab"
         >
-          <h2>Santrauka (kopijavimui į HIS)</h2>
+          <h2 data-i18n="summary_title">Santrauka (kopijavimui į HIS)</h2>
+          <div
+            id="summaryIncompleteWarning"
+            class="info-box warning hidden"
+            role="status"
+            aria-live="polite"
+          >
+            <strong data-i18n="summary_missing_title">Trūksta kritinių duomenų</strong>
+            <ul id="summaryMissingList" class="summary-missing-list"></ul>
+          </div>
+          <fieldset class="mt-10">
+            <legend data-i18n="summary_filters_title">Santraukos filtrai</legend>
+            <div class="grid-2">
+              <label class="pill">
+                <input type="checkbox" data-summary-filter="imaging" checked />
+                <span data-i18n="summary_filter_imaging">Rodyti vaizdinius tyrimus</span>
+              </label>
+              <label class="pill">
+                <input
+                  type="checkbox"
+                  data-summary-filter="complications"
+                  checked
+                />
+                <span data-i18n="summary_filter_complications">Rodyti komplikacijas</span>
+              </label>
+              <label class="pill">
+                <input type="checkbox" data-summary-filter="contra" checked />
+                <span data-i18n="summary_filter_contra">Rodyti kontraindikacijas</span>
+              </label>
+              <label class="pill">
+                <input type="checkbox" data-summary-filter="bpMeds" checked />
+                <span data-i18n="summary_filter_bp_meds">Rodyti AKS korekciją</span>
+              </label>
+            </div>
+          </fieldset>
           <textarea
             id="summary"
             class="summary mono"
             placeholder="Santrauka generuojama automatiškai"
+            data-i18n-placeholder="summary_placeholder"
           ></textarea>
           <div class="sticky-actions">
             {{
               actionButton(
                 'copySummaryBtn',
-                'Kopijuoti santrauką',
+                'Kopijuoti santrauką.',
                 '📋',
                 'Kopijuoti',
                 '',
                 'data-i18n-title="copy_summary" data-i18n-aria-label="copy_summary"',
-                'copy'
+                'copy',
+                ' <span class="badge warn summary-badge hidden" data-summary-badge="copy" data-i18n="summary_incomplete_badge">Nepilna</span>'
               )
             }}
             {{
               actionButton(
                 'exportSummaryBtn',
-                'Eksportuoti santrauką',
+                'Eksportuoti santrauką.',
                 '⬇️',
-                'Eksportuoti santrauką',
+                'Eksportuoti santrauką.',
                 '',
                 'data-i18n-title="export_summary" data-i18n-aria-label="export_summary"',
-                'export_summary'
+                'export_summary',
+                ' <span class="badge warn summary-badge hidden" data-summary-badge="export" data-i18n="summary_incomplete_badge">Nepilna</span>'
               )
             }}
           </div>

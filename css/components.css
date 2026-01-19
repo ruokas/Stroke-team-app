@@ -384,6 +384,11 @@ select.invalid {
   background: var(--card);
   color: var(--muted);
 }
+.badge.warn {
+  background: var(--yellow);
+  color: var(--yellow-text);
+  border-color: var(--yellow-border);
+}
 .activation-dot {
   width: 12px;
   height: 12px;
@@ -921,6 +926,23 @@ section[data-tab='Intervencijos'] h3 {
 }
 .summary {
   min-height: 300px;
+}
+.summary-missing-list {
+  margin: 8px 0 0;
+  padding-left: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+.summary-missing-list li {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+}
+.summary-fix-link {
+  font-size: 0.75rem;
+  color: inherit;
 }
 .sticky-actions {
   position: sticky;

@@ -2,8 +2,10 @@ import { getInputs } from './state.js';
 import { showToast } from './toast.js';
 import { t } from './i18n.js';
 
+const hasValue = (value) => value !== undefined && value !== null && value !== '';
+
 export function collectSummaryData(payload) {
-  const get = (v) => (v !== undefined && v !== null && v !== '' ? v : null);
+  const get = (v) => (hasValue(v) ? v : null);
   const formatBp = (sys, dia) => {
     const s = get(sys);
     const d = get(dia);
@@ -40,12 +42,12 @@ export function collectSummaryData(payload) {
   const activation = {
     lkw: get(payload.a_lkw),
     drugs: [
-      payload.a_drug_warfarin && 'Varfarinas (Warfarin, Orfarin)',
-      payload.a_drug_apixaban && 'Apiksabanas (Eliquis)',
-      payload.a_drug_rivaroxaban && 'Rivaroksabanas (Xarelto)',
-      payload.a_drug_dabigatran && 'Dabigatranas (Pradaxa)',
-      payload.a_drug_edoxaban && 'Edoksabanas (Lixiana)',
-      payload.a_drug_unknown && 'Nežinoma',
+      payload.a_drug_warfarin && t('summary_drug_warfarin'),
+      payload.a_drug_apixaban && t('summary_drug_apixaban'),
+      payload.a_drug_rivaroxaban && t('summary_drug_rivaroxaban'),
+      payload.a_drug_dabigatran && t('summary_drug_dabigatran'),
+      payload.a_drug_edoxaban && t('summary_drug_edoxaban'),
+      payload.a_drug_unknown && t('summary_drug_unknown'),
     ].filter(Boolean),
     params: {
       glucose: get(payload.a_glucose),
@@ -55,23 +57,26 @@ export function collectSummaryData(payload) {
       temp: get(payload.a_temp),
     },
     symptoms: [
-      payload.a_sym_face && 'Veido paralyžius',
-      payload.a_sym_speech && 'Kalbos sutrikimas',
-      payload.a_sym_commands && 'Nevykdo paliepimų',
-      payload.a_sym_arm && 'Rankos silpnumas',
-      payload.a_sym_leg && 'Kojos silpnumas',
-      payload.a_sym_gaze && 'Žvilgsnis fiksuotas ar nukrypęs',
+      payload.a_sym_face && t('summary_symptom_face'),
+      payload.a_sym_speech && t('summary_symptom_speech'),
+      payload.a_sym_commands && t('summary_symptom_commands'),
+      payload.a_sym_arm && t('summary_symptom_arm'),
+      payload.a_sym_leg && t('summary_symptom_leg'),
+      payload.a_sym_gaze && t('summary_symptom_gaze'),
     ].filter(Boolean),
   };
   const arrivalSymptoms = get(payload.arrival_symptoms);
   const arrivalContra = get(payload.arrival_contra);
   const arrivalMtContra = get(payload.arrival_mt_contra);
+  const arrivalSource = get(payload.arrival_source);
+  const arrivalPrenotify = payload.arrival_ems_prenotify ?? null;
   const complications = get(payload.complications);
   const compTime = get(payload.t_complication);
   const decision = payload.d_decision || null;
   const nextCare = payload.d_next_care || null;
   const department = payload.d_department || null;
   const transferInfo = get(payload.d_transfer_info);
+  const thrombolysisLocation = get(payload.thrombolysis_location);
   const imaging = {
     ct: get(payload.ct_result),
     kta: get(payload.kta_result),
@@ -93,10 +98,36 @@ export function collectSummaryData(payload) {
     arrivalSymptoms,
     arrivalContra,
     arrivalMtContra,
+    arrivalSource,
+    arrivalPrenotify,
     complications,
     compTime,
     imaging,
+    thrombolysisLocation,
   };
+}
+
+export function getSummaryFilterOptions() {
+  const defaults = {
+    showImaging: true,
+    showComplications: true,
+    showContra: true,
+    showBpMeds: true,
+  };
+  if (typeof document === 'undefined') return defaults;
+  const map = {
+    imaging: 'showImaging',
+    complications: 'showComplications',
+    contra: 'showContra',
+    bpMeds: 'showBpMeds',
+  };
+  const options = { ...defaults };
+  document.querySelectorAll('[data-summary-filter]').forEach((el) => {
+    const key = map[el.dataset.summaryFilter];
+    if (!key) return;
+    options[key] = Boolean(el.checked);
+  });
+  return options;
 }
 
 export function summaryTemplate({
@@ -112,27 +143,45 @@ export function summaryTemplate({
   arrivalSymptoms,
   arrivalContra,
   arrivalMtContra,
+  arrivalSource,
+  arrivalPrenotify,
   complications,
   compTime,
   imaging = {},
-}) {
+  thrombolysisLocation,
+} = {}, options = getSummaryFilterOptions()) {
   const lines = [];
-  lines.push('PACIENTAS:');
-  lines.push(`- Vardas: ${patient.name ?? '—'}`);
-  lines.push(`- Asmens kodas: ${patient.personal ?? '—'}`);
-  lines.push(`- Gim. data: ${patient.dob ?? '—'}`);
-  if (patient.age) lines.push(`- Amžius: ${patient.age}`);
-  lines.push(`- Svoris: ${patient.weight ?? '—'} kg`);
-  lines.push(`- AKS atvykus: ${patient.bp ?? '—'}`);
-  if (patient.inr) lines.push(`- INR: ${patient.inr}`);
-  lines.push(`- NIHSS pradinis: ${patient.nih0 ?? '—'}`);
-  if (patient.mrs) lines.push(`- mRS pradinis: ${patient.mrs}`);
-  if (patient.independent)
-    lines.push(
-      `- Savarankiškas kasdienėje veikloje: ${
-        patient.independent === 'yes' ? t('yes') : t('no')
-      }`,
+  const unknown = t('summary_unknown');
+  const withUnknown = (value) => (hasValue(value) ? value : unknown);
+  const line = (key, value) => {
+    lines.push(t(key, { value: withUnknown(value) }));
+  };
+  const {
+    showImaging = true,
+    showComplications = true,
+    showContra = true,
+    showBpMeds = true,
+  } = options || {};
+
+  lines.push(t('summary_section_patient'));
+  line('summary_label_name', patient.name);
+  line('summary_label_personal', patient.personal);
+  line('summary_label_dob', patient.dob);
+  if (hasValue(patient.age)) line('summary_label_age', patient.age);
+  const weightText = hasValue(patient.weight)
+    ? `${patient.weight} kg`
+    : null;
+  line('summary_label_weight', weightText);
+  line('summary_label_bp', patient.bp);
+  if (hasValue(patient.inr)) line('summary_label_inr', patient.inr);
+  line('summary_label_nihss0', patient.nih0);
+  if (hasValue(patient.mrs)) line('summary_label_mrs0', patient.mrs);
+  if (hasValue(patient.independent)) {
+    line(
+      'summary_label_independent',
+      patient.independent === 'yes' ? t('yes') : t('no'),
     );
+  }
 
   if (
     activation.lkw ||
@@ -143,44 +192,62 @@ export function summaryTemplate({
     activation.params.spo2 ||
     activation.params.temp
   ) {
-    lines.push('AKTYVACIJA:');
-    if (activation.lkw)
-      lines.push(`- Preliminarus susirgimo laikas: ${activation.lkw}`);
+    lines.push(t('summary_section_activation'));
+    if (activation.lkw) line('summary_activation_lkw', activation.lkw);
     if (activation.drugs.length)
-      lines.push(`- Vartojami vaistai: ${activation.drugs.join(', ')}`);
+      lines.push(
+        t('summary_activation_drugs', {
+          value: activation.drugs.join(', '),
+        }),
+      );
     const paramParts = [];
     if (activation.params.glucose)
-      paramParts.push(`Gliukozė: ${activation.params.glucose}`);
-    if (activation.params.aks) paramParts.push(`AKS: ${activation.params.aks}`);
-    if (activation.params.hr) paramParts.push(`ŠSD: ${activation.params.hr}`);
+      paramParts.push(
+        t('summary_param_glucose', { value: activation.params.glucose }),
+      );
+    if (activation.params.aks)
+      paramParts.push(t('summary_param_aks', { value: activation.params.aks }));
+    if (activation.params.hr)
+      paramParts.push(t('summary_param_hr', { value: activation.params.hr }));
     if (activation.params.spo2)
-      paramParts.push(`SpO₂: ${activation.params.spo2}`);
+      paramParts.push(
+        t('summary_param_spo2', { value: activation.params.spo2 }),
+      );
     if (activation.params.temp)
-      paramParts.push(`Temp: ${activation.params.temp}`);
+      paramParts.push(
+        t('summary_param_temp', { value: activation.params.temp }),
+      );
     if (paramParts.length)
-      lines.push(`- GMP parametrai: ${paramParts.join(', ')}`);
+      lines.push(
+        t('summary_activation_params', {
+          value: paramParts.join(', '),
+        }),
+      );
   }
 
   const ctMap = {
-    clear: 'Be kraujavimo',
-    bleed: 'Kraujavimas',
+    clear: t('summary_ct_clear'),
+    bleed: t('summary_ct_bleed'),
   };
   const ktaMap = {
-    none: 'Be okliuzijos',
-    lvo: 'Didelės arterijos okliuzija',
+    none: t('summary_kta_none'),
+    lvo: t('summary_kta_lvo'),
   };
   const ktaSideMap = {
-    left: 'Kairė',
-    right: 'Dešinė',
+    left: t('summary_kta_left'),
+    right: t('summary_kta_right'),
   };
   const perfParts = [];
   if (imaging.perfCore)
-    perfParts.push(`Infarkto branduolys ${imaging.perfCore} ml`);
+    perfParts.push(t('summary_perf_core', { value: imaging.perfCore }));
   if (imaging.perfPenumbra)
-    perfParts.push(`Penumbra ${imaging.perfPenumbra} ml`);
-  if (imaging.ct || imaging.kta || perfParts.length) {
-    lines.push('VAIZDINIAI TYRIMAI:');
-    if (imaging.ct) lines.push(`- KT: ${ctMap[imaging.ct] || imaging.ct}`);
+    perfParts.push(t('summary_perf_penumbra', { value: imaging.perfPenumbra }));
+  if (showImaging && (imaging.ct || imaging.kta || perfParts.length)) {
+    lines.push(t('summary_section_imaging'));
+    if (imaging.ct)
+      lines.push(
+        t('summary_imaging_ct', { value: ctMap[imaging.ct] || imaging.ct }),
+      );
     if (imaging.kta) {
       let ktaLabel = ktaMap[imaging.kta] || imaging.kta;
       if (imaging.kta === 'lvo') {
@@ -190,44 +257,78 @@ export function summaryTemplate({
         if (imaging.ktaVessels) details.push(imaging.ktaVessels);
         if (details.length) ktaLabel += ` (${details.join('; ')})`;
       }
-      lines.push(`- KTA: ${ktaLabel}`);
+      lines.push(t('summary_imaging_kta', { value: ktaLabel }));
     }
-    if (perfParts.length) lines.push(`- Perfuzija: ${perfParts.join(', ')}`);
+    if (perfParts.length)
+      lines.push(t('summary_imaging_perf', { value: perfParts.join(', ') }));
   }
 
-  lines.push('LAIKAI:');
-  if (times.gmp) lines.push(`- GMP iškvietimas: ${times.gmp}`);
-  lines.push(`- Paskutinį kartą matytas sveikas: ${times.lkw ?? '—'}`);
-  lines.push(`- Atvykimas: ${times.door ?? '—'}`);
-  lines.push(`- Sprendimas: ${times.decision ?? '—'}`);
-  lines.push(`- Trombolizė pradėta: ${times.thrombolysis ?? '—'}`);
-
-  lines.push('VAISTAI:');
-  const drugType = drugs.type === 'tnk' ? 'Tenekteplazė' : 'Alteplazė';
-  lines.push(`- Tipas: ${drugType}`);
-  const concLine = drugs.type === 'tnk' ? '5 mg/ml' : '1 mg/ml';
-  lines.push(`- Koncentracija: ${concLine}`);
-  lines.push(
-    `- Bendra dozė: ${
-      drugs.totalDose ? `${drugs.totalDose} mg` : '—'
-    } (${drugs.totalVol ? `${drugs.totalVol} ml` : '—'})`,
-  );
-  if (drugs.bolus) lines.push(`- Bolius: ${drugs.bolus}`);
-  if (drugs.infusion) lines.push(`- Infuzija: ${drugs.infusion}`);
-
-  if (bpMeds.length) {
-    lines.push('AKS KOREKCIJA:');
-    bpMeds.forEach((m) =>
+  if (arrivalSource || arrivalPrenotify !== null) {
+    lines.push(t('summary_section_arrival'));
+    if (arrivalSource) {
+      const sourceLabels = {
+        EMS: t('summary_arrival_source_ems'),
+        Private: t('summary_arrival_source_private'),
+        OtherHospital: t('summary_arrival_source_other'),
+      };
       lines.push(
-        `- ${m.med} ${m.time || '—'} ${m.dose || ''}${
-          m.unit ? ` ${m.unit}` : ''
-        }${m.notes ? ` (${m.notes})` : ''}`.trim(),
-      ),
-    );
+        t('summary_arrival_source', {
+          value: sourceLabels[arrivalSource] || arrivalSource,
+        }),
+      );
+    }
+    if (arrivalPrenotify !== null) {
+      lines.push(
+        t('summary_arrival_prenotify', {
+          value: arrivalPrenotify ? t('yes') : t('no'),
+        }),
+      );
+    }
+  }
+
+  lines.push(t('summary_section_times'));
+  if (times.gmp) line('summary_time_gmp', times.gmp);
+  line('summary_time_lkw', times.lkw);
+  line('summary_time_door', times.door);
+  line('summary_time_decision', times.decision);
+  line('summary_time_thrombolysis', times.thrombolysis);
+
+  if (thrombolysisLocation)
+    line('summary_time_thrombolysis_location', thrombolysisLocation);
+  lines.push(t('summary_section_drugs'));
+  const drugType = drugs.type === 'tnk' ? t('summary_drug_tnk') : t('summary_drug_tpa');
+  lines.push(t('summary_drug_type', { value: drugType }));
+  const concLine = drugs.type === 'tnk' ? '5 mg/ml' : '1 mg/ml';
+  lines.push(t('summary_drug_concentration', { value: concLine }));
+  const doseText = hasValue(drugs.totalDose)
+    ? `${drugs.totalDose} mg`
+    : unknown;
+  const volumeText = hasValue(drugs.totalVol)
+    ? `${drugs.totalVol} ml`
+    : unknown;
+  lines.push(
+    t('summary_drug_total', {
+      dose: doseText,
+      volume: volumeText,
+    }),
+  );
+  if (drugs.bolus) line('summary_drug_bolus', drugs.bolus);
+  if (drugs.infusion) line('summary_drug_infusion', drugs.infusion);
+
+  if (showBpMeds && bpMeds.length) {
+    lines.push(t('summary_section_bp_meds'));
+    bpMeds.forEach((m) => {
+      const med = withUnknown(m.med);
+      const time = withUnknown(m.time);
+      const dose = hasValue(m.dose) ? `${m.dose}` : '';
+      const unit = hasValue(m.unit) ? ` ${m.unit}` : '';
+      const notes = hasValue(m.notes) ? ` (${m.notes})` : '';
+      lines.push(`${med} ${time} ${dose}${unit}${notes}`.trim());
+    });
   }
 
   if (activation.symptoms.length || arrivalSymptoms) {
-    lines.push('SIMPTOMAI:');
+    lines.push(t('summary_section_symptoms'));
     if (arrivalSymptoms) {
       lines.push(`- ${arrivalSymptoms}`);
     } else if (activation.symptoms.length) {
@@ -235,17 +336,19 @@ export function summaryTemplate({
     }
   }
 
-  if (arrivalContra) {
-    lines.push('KONTRAINDIKACIJOS IVT:');
-    lines.push(`- ${arrivalContra}`);
-  }
-  if (arrivalMtContra) {
-    lines.push('KONTRAINDIKACIJOS MTE:');
-    lines.push(`- ${arrivalMtContra}`);
+  if (showContra) {
+    if (arrivalContra) {
+      lines.push(t('summary_section_contra_ivt'));
+      lines.push(`- ${arrivalContra}`);
+    }
+    if (arrivalMtContra) {
+      lines.push(t('summary_section_contra_mte'));
+      lines.push(`- ${arrivalMtContra}`);
+    }
   }
 
-  if (complications || compTime) {
-    lines.push('KOMPLIKACIJOS:');
+  if (showComplications && (complications || compTime)) {
+    lines.push(t('summary_section_complications'));
     if (complications) {
       const compList = complications
         .split('; ')
@@ -257,19 +360,34 @@ export function summaryTemplate({
         .join('; ');
       lines.push(`- ${compList}`);
     }
-    if (compTime) lines.push(`- Laikas: ${compTime}`);
+    if (compTime) line('summary_complication_time', compTime);
   }
 
-  lines.push('SPRENDIMAS:');
-  lines.push(`- ${decision ?? '�?"'}`);
+  lines.push(t('summary_section_decision'));
+  lines.push(
+    t('summary_decision_value', {
+      value: withUnknown(decision),
+    }),
+  );
   if (nextCare) {
     const nextCareLabel =
-      nextCare === 'stationary' ? 'Stacionarizacija' : 'Perve�imas';
-    lines.push(`- Tolimesnis gydymas: ${nextCareLabel}`);
+      nextCare === 'stationary'
+        ? t('summary_next_care_stationary')
+        : t('summary_next_care_transfer');
+    lines.push(t('summary_next_care', { value: nextCareLabel }));
   }
-  if (department) lines.push(`- Stacionarizacija: ${department}`);
-  if (transferInfo) lines.push(`- Perve�imas: ${transferInfo}`);
+  if (department) line('summary_department', department);
+  if (transferInfo) line('summary_transfer', transferInfo);
   return lines.join('\n');
+}
+
+export function getSummaryMissingFields({ times, patient, decision, drugs }) {
+  const missing = [];
+  if (!hasValue(times?.lkw)) missing.push('summary_missing_lkw');
+  if (!hasValue(patient?.nih0)) missing.push('summary_missing_nihss');
+  if (!hasValue(decision)) missing.push('summary_missing_decision');
+  if (!hasValue(drugs?.totalDose)) missing.push('summary_missing_dose');
+  return missing;
 }
 
 export function copySummary(data) {

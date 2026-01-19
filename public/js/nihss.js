@@ -17,7 +17,8 @@ export function initNIHSS() {
     if (applyBtn)
       applyBtn.addEventListener('click', () => {
         target.value = totalEl.textContent;
-        target.dispatchEvent(new Event('input'));
+        target.dispatchEvent(new Event('input', { bubbles: true }));
+        target.dispatchEvent(new Event('change', { bubbles: true }));
       });
   });
 }

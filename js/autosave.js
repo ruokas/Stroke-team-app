@@ -1,5 +1,6 @@
 import { $ } from './state.js';
 import { collectSummaryData, summaryTemplate } from './summary.js';
+import { updateSummaryIndicators } from './summaryHandlers.js';
 import { showToast } from './toast.js';
 import { confirmModal, promptModal } from './modal.js';
 import { t } from './i18n.js';
@@ -260,13 +261,14 @@ export function setupAutosave(
       renamePatient(id, e.target.value);
     }
     updateActivePatient();
-    if (!$('#summarySec').classList.contains('hidden')) {
+    if (e.type === 'change' && !$('#summarySec').classList.contains('hidden')) {
       const patient = getActivePatient();
       if (patient) {
         const data = collectSummaryData(patient);
         const text = summaryTemplate(data);
         inputs.summary.value = text;
         patient.summary = text;
+        updateSummaryIndicators(data);
       }
     }
     if (id) {

@@ -15,7 +15,8 @@ export function initMRS() {
       if (!target || isSyncing) return;
       isSyncing = true;
       target.value = selected ? selected.value : '';
-      target.dispatchEvent(new Event('input'));
+      target.dispatchEvent(new Event('input', { bubbles: true }));
+      target.dispatchEvent(new Event('change', { bubbles: true }));
       isSyncing = false;
     };
 

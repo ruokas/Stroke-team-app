@@ -51,14 +51,19 @@ export function setupFieldHints() {
       return;
     }
     activeEl = el;
-    if (el.classList.contains('info-btn')) el.setAttribute('aria-expanded', 'true');
+    if (el.classList.contains('info-btn'))
+      el.setAttribute('aria-expanded', 'true');
     hintEl.textContent = hint;
     hintEl.classList.remove('hidden');
     positionHint(el, hintEl);
   };
 
   const hide = () => {
-    if (activeEl && activeEl.classList && activeEl.classList.contains('info-btn')) {
+    if (
+      activeEl &&
+      activeEl.classList &&
+      activeEl.classList.contains('info-btn')
+    ) {
       activeEl.setAttribute('aria-expanded', 'false');
     }
     activeEl = null;

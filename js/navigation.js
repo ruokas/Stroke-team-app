@@ -1,5 +1,6 @@
 import { $, $$ } from './state.js';
 import { collectSummaryData, summaryTemplate } from './summary.js';
+import { updateSummaryIndicators } from './summaryHandlers.js';
 import { getActivePatient, addPatient } from './patients.js';
 import { getPayload } from './storage.js';
 import { renderAnalytics, track, flush } from './analytics.js';
@@ -80,6 +81,7 @@ export function setupNavigation(inputs) {
       const text = summaryTemplate(data);
       inputs.summary.value = text;
       if (patient) patient.summary = text;
+      updateSummaryIndicators(data);
     }
     // Removed automatic setting of decision time; now handled via buttons with data-now="d_time"
     if (id === 'analytics') renderAnalytics();
